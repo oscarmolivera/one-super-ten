@@ -26,3 +26,5 @@ end
 group :development do
   gem "web-console"
 end
+
+gem "acts_as_tenant", "~> 1.0"
