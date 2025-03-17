@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  # ---------- GLOBAL AUTHENTICATION ROUTES ----------
+  devise_for :users, controllers: { sessions: 'users/sessions' }
+
   get "up" => "rails/health#show", as: :rails_health_check
   
   # ---------- MAIN COMPANY WEBSITE ROUTES (Root Domain) ----------
@@ -21,6 +24,8 @@ Rails.application.routes.draw do
   # ---------- CUSTOMER-SPECIFIC ROUTES (Subdomains) ----------
   constraints(SubdomainConstraint) do
     root 'tenants#landing', as: :tenant_root
+
+    devise_for :users, controllers: { sessions: 'users/sessions' }, skip: [:registrations]
 
     namespace :admin do
       root 'dashboard#index', as: :tenant_admin_root

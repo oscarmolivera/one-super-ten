@@ -28,3 +28,5 @@ group :development do
 end
 
 gem "acts_as_tenant", "~> 1.0"
+
+gem "devise", "~> 4.9"
