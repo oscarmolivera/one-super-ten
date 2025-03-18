@@ -23,6 +23,12 @@
   </head>
 
   <body>
+    <% if current_user&.admin? %>
+      <nav>
+        <%= link_to "Admin Dashboard", admin_users_path %>
+        <%= link_to "Manage Users", admin_users_path %>
+      </nav>
+    <% end %>
     <%= yield %>
   </body>
 </html>

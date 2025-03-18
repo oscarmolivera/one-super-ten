@@ -14,7 +14,7 @@ Rails.application.routes.draw do
     constraints subdomain: 'admin' do
       namespace :admin do
         root 'dashboard#index', as: :site_admin_root
-        resources :customers
+        resources :users
         resources :subscriptions
         resources :analytics
       end
@@ -25,12 +25,13 @@ Rails.application.routes.draw do
   constraints(SubdomainConstraint) do
     root 'tenants#landing', as: :tenant_root
 
-    devise_for :users, controllers: { sessions: 'users/sessions' }, skip: [:registrations]
+    devise_for :users, controllers: { sessions: 'users/sessions' }, skip: [:registrations], 
+              as: :tenant_user
 
     namespace :admin do
       root 'dashboard#index', as: :tenant_admin_root
+      resources :users
       resources :players
-      resources :coaches
       resources :matches
     end
   end
