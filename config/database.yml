@@ -3,10 +3,19 @@ default: &default
   encoding: unicode
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
 
+sqlite: &sqlite
+  adapter: sqlite3
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  timeout: 5000
 
 development:
-  <<: *default
-  database: one_super_ten_development
+  primary:
+    <<: *default
+    database: one_super_ten_development
+  cache:
+    <<: *sqlite
+    database: solid/one_super_ten_development_cache
+    migrations_paths: db/cache_migrate
 
 test:
   <<: *default

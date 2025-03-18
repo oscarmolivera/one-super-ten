@@ -32,3 +32,5 @@ gem "acts_as_tenant", "~> 1.0"
 gem "devise", "~> 4.9"
 
 gem "pundit", "~> 2.5"
+
+gem "sqlite3", "~> 2.6"

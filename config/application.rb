@@ -27,7 +27,7 @@ module OneSuperTen
 
     config.session_store :cache_store, key: "_one_super_ten_session", expire_after: 90.minutes
 
-    config.middleware.use ActionDispatch::Cookies
+    config.middleware.insert_before ActionDispatch::Session::CacheStore, ActionDispatch::Cookies
     config.middleware.use ActionDispatch::Session::CacheStore, key: "_one_super_ten_session", expire_after: 90.minutes
 
     config.api_only = false
