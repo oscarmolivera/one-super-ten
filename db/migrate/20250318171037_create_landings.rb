@@ -4,6 +4,7 @@ class CreateLandings < ActiveRecord::Migration[8.0]
       t.string :title
       t.text :description
       t.boolean :published
+      t.references :tenant, null: false, foreign_key: true
 
       t.timestamps
     end

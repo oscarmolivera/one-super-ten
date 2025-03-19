@@ -18,8 +18,10 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_18_171037) do
     t.string "title"
     t.text "description"
     t.boolean "published"
+    t.bigint "tenant_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["tenant_id"], name: "index_landings_on_tenant_id"
   end
 
   create_table "players", force: :cascade do |t|
@@ -57,6 +59,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_18_171037) do
     t.index ["tenant_id"], name: "index_users_on_tenant_id"
   end
 
+  add_foreign_key "landings", "tenants"
   add_foreign_key "players", "tenants"
   add_foreign_key "tenants", "tenants"
   add_foreign_key "users", "tenants"

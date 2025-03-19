@@ -23,10 +23,14 @@
   </head>
 
   <body>
-    <% if current_user&.admin? %>
+    <% if current_user %>
       <nav>
-        <%= link_to "Admin Dashboard", admin_users_path %>
-        <%= link_to "Manage Users", admin_users_path %>
+        <% if current_user.admin? %>
+          <%= link_to "Admin Dashboard", admin_users_path %>
+          <%= link_to "Manage Users", admin_users_path %>
+        <% end %>
+        
+        <%= link_to "Logout", destroy_user_session_path, method: :delete, data: { turbo_method: :delete } %>
       </nav>
     <% end %>
     <%= yield %>
