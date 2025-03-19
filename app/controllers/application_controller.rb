@@ -4,6 +4,9 @@ class ApplicationController < ActionController::Base
   before_action :switch_tenant
   before_action :authorize_super_admin, if: -> { request.subdomain == "admin" }
 
+  before_action :force_session_initialization
+  before_action :debug_session
+
   def switch_tenant
     return unless request.subdomain.present? && request.subdomain != 'www' && request.subdomain != 'admin'
 
@@ -23,5 +26,17 @@ class ApplicationController < ActionController::Base
 
   def authorize_super_admin
     redirect_to root_path, alert: "Access Denied" unless current_user&.super_admin?
+  end
+
+  def force_session_initialization
+    session[:init] ||= SecureRandom.hex(8)
+  end
+
+  private
+
+  def debug_session
+    session[:test] ||= "Hello, SolidCache!"
+    Rails.logger.debug "📌 Session ID: #{session.id.inspect}"
+    Rails.logger.debug "📌 Session Data: #{session.to_hash.inspect}"
   end
 end
