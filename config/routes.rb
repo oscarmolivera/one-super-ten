@@ -6,7 +6,8 @@ Rails.application.routes.draw do
   
   # ---------- MAIN COMPANY WEBSITE ROUTES (Root Domain) ----------
   constraints subdomain: '' do
-    root 'home#index', as: :public_root
+    root 'landings#index', as: :site_root
+    resources :landings
     get 'about', to: 'home#about'
     get 'contact', to: 'home#contact'
 
