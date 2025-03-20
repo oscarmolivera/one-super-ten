@@ -1,21 +1,25 @@
 class Admin::UsersController < ApplicationController
   before_action :authenticate_user!
-  before_action :authorize_admin
-
+  before_action :authorize_user
+  
   def index
-    @users = User.where(tenant_id: current_user.tenant_id) # Only users in this tenant
+    @users = policy_scope(User) # 🔹 Enforces tenant scoping via Pundit
   end
 
   def show
-    @user = current_tenant.users.find(params[:id])
+    @user = User.find(params[:id])
+    authorize @user
   end
 
   def edit
-    @user = current_tenant.users.find(params[:id])
+    @user = User.find(params[:id])
+    authorize @user
   end
 
   def update
-    @user = current_tenant.users.find(params[:id])
+    @user = User.find(params[:id])
+    authorize @user
+
     if @user.update(user_params)
       redirect_to admin_users_path, notice: "User updated successfully."
     else
@@ -24,22 +28,19 @@ class Admin::UsersController < ApplicationController
   end
 
   def destroy
-    @user = current_tenant.users.find(params[:id])
+    @user = User.find(params[:id])
+    authorize @user
     @user.destroy
     redirect_to admin_users_path, notice: "User deleted."
   end
 
   private
 
-  def authorize_admin
-    redirect_to root_path, alert: "Access denied." unless current_user.admin?
+  def authorize_user
+    authorize User
   end
 
   def user_params
     params.require(:user).permit(:first_name, :last_name, :email, :role)
-  end
-
-  def current_tenant
-    Tenant.find_by(subdomain: request.subdomain)
   end
 end

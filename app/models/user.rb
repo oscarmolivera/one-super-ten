@@ -26,4 +26,8 @@ class User < ApplicationRecord
   def player?
     role == "player"
   end
+
+  def self.find_for_database_authentication(warden_conditions)
+    where(email: warden_conditions[:email], tenant_id: ActsAsTenant.current_tenant&.id).first
+  end
 end

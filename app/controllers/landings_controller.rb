@@ -1,27 +1,28 @@
 class LandingsController < ApplicationController
-  before_action :set_landing, only: %i[ show edit update destroy ]
-
-  # GET /landings or /landings.json
+  before_action :set_landing, only: %i[show edit update destroy]
+  before_action :authenticate_user!, except: [:index]
+  
   def index
-    @landings = Landing.all
+    @landings = policy_scope(Landing)
   end
-
-  # GET /landings/1 or /landings/1.json
+  
   def show
+    authorize @landing
   end
 
-  # GET /landings/new
   def new
     @landing = Landing.new
+    authorize @landing
   end
 
-  # GET /landings/1/edit
   def edit
+    authorize @landing
   end
 
-  # POST /landings or /landings.json
   def create
     @landing = Landing.new(landing_params)
+    @landing.tenant_id = ActsAsTenant.current_tenant.id # 🔹 Ensure the landing belongs to the current tenant
+    authorize @landing
 
     respond_to do |format|
       if @landing.save
@@ -34,8 +35,9 @@ class LandingsController < ApplicationController
     end
   end
 
-  # PATCH/PUT /landings/1 or /landings/1.json
   def update
+    authorize @landing
+
     respond_to do |format|
       if @landing.update(landing_params)
         format.html { redirect_to @landing, notice: "Landing was successfully updated." }
@@ -47,8 +49,8 @@ class LandingsController < ApplicationController
     end
   end
 
-  # DELETE /landings/1 or /landings/1.json
   def destroy
+    authorize @landing
     @landing.destroy!
 
     respond_to do |format|
@@ -58,11 +60,12 @@ class LandingsController < ApplicationController
   end
 
   private
-    def set_landing
-      @landing = Landing.find(params.require(:id))
-    end
 
-    def landing_params
-      params.require(:landing).permit(:title, :description, :published)
-    end
+  def set_landing
+    @landing = Landing.find(params.require(:id))
+  end
+
+  def landing_params
+    params.require(:landing).permit(:title, :description, :published)
+  end
 end
