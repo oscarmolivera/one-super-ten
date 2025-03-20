@@ -8,8 +8,8 @@
   </div>
 <% end %>
 <div>
-  <%= current_user.inspect %>
+  <%= current_user&.email %>
 </div>
 <div>
-  <%#= current_user.tenant.name %>
+  <%= ActsAsTenant.current_tenant.name %>
 </div>
