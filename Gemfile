@@ -57,3 +57,6 @@ group :development do
   # Use console on exceptions pages [https://github.com/rails/web-console]
   gem "web-console"
 end
+group :production do
+  gem "rails_12factor", "~> 0.0.3"
+end
