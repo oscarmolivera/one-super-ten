@@ -52,9 +52,6 @@ group :development, :test do
 
   # Omakase Ruby styling [https://github.com/rails/rubocop-rails-omakase/]
   gem "rubocop-rails-omakase", require: false
-  # because of Heroku version failure
-  gem 'net-pop', '0.1.2'
-  gem 'net-protocol', '0.2.2'
 end
 
 group :development do
