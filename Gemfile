@@ -52,6 +52,7 @@ group :development, :test do
 
   # Omakase Ruby styling [https://github.com/rails/rubocop-rails-omakase/]
   gem "rubocop-rails-omakase", require: false
+  gem 'net-pop'
 end
 
 group :development do
@@ -60,5 +61,4 @@ group :development do
 end
 group :production do
   gem "rails_12factor", "~> 0.0.3"
-  gem 'net-pop'
 end
