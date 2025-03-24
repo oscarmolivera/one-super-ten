@@ -20,23 +20,20 @@ Bundler.require(*Rails.groups)
 
 module OneSuperTen
   class Application < Rails::Application
-    # Initialize configuration defaults for originally generated Rails version.
+    # Initialize configuration defaults for Rails 8
     config.load_defaults 8.0
 
-    # Please, add to the `ignore` list any other `lib` subdirectories that do
-    # not contain `.rb` files, or that should not be reloaded or eager loaded.
-    # Common ones are `templates`, `generators`, or `middleware`, for example.
+    config.cache_store = :solid_cache_store
+
+    config.middleware.insert_before ActionDispatch::Session::CacheStore, ActionDispatch::Cookies
+
+    config.api_only = false
+
     config.autoload_lib(ignore: %w[assets tasks])
 
-    # Configuration for the application, engines, and railties goes here.
-    #
-    # These settings can be overridden in specific environments using the files
-    # in config/environments, which are processed later.
-    #
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
 
-    # Don't generate system test files.
     config.generators.system_tests = nil
   end
 end

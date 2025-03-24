@@ -1,9 +1,22 @@
-# This file should ensure the existence of records required to run the application in every environment (production,
-# development, test). The code here should be idempotent so that it can be executed at any point in every environment.
-# The data can then be loaded with the bin/rails db:seed command (or created alongside the database with db:setup).
-#
-# Example:
-#
-#   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
-#     MovieGenre.find_or_create_by!(name: genre_name)
-#   end
+ActiveRecord::Base.connection.execute <<-SQL
+  INSERT INTO tenants (name, subdomain, created_at, updated_at)
+  VALUES ('Main Tenant', 'main', '#{Time.current}', '#{Time.current}');
+SQL
+
+root_tenant = Tenant.find_by(subdomain: "main")
+
+academia = Tenant.create!(name: "Academia Margarita", subdomain: "academia-margarita", tenant: root_tenant)
+deportivo = Tenant.create!(name: "Deportivo Margarita", subdomain: "deportivo-margarita", tenant: root_tenant)
+
+User.create!(email: "admin@academy1.com", password: "s3cret.", first_name: "Academy1", last_name: "Admin", role: :admin, tenant: academia)
+User.create!(email: "admin@academy2.com", password: "s3cret.", first_name: "Academy2", last_name: "Admin", role: :admin, tenant: deportivo)
+
+# academia = Tenant.find_by(subdomain: "academia-margarita")
+# ActsAsTenant.with_tenant(Tenant.find_by(subdomain: "academia-margarita")) do
+#   Player.create(email: "nachitoolivo@gmail.com", tenant: academia)
+# end
+
+# deportivo = Tenant.find_by(subdomain: "deportivo-margarita")
+# ActsAsTenant.with_tenant(Tenant.find_by(subdomain: "deportivo-margarita")) do
+#   Player.create(email: "nuevo-ingreso@gmail.com", tenant: deportivo)
+# end
