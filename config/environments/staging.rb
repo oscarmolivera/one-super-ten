@@ -36,8 +36,8 @@ Rails.application.configure do
   # }
 
   # Use Sidekiq or another queue adapter in staging
-  config.active_job.queue_adapter = :sidekiq
-  config.active_job.queue_name_prefix = "mykos_staging"
+  # config.active_job.queue_adapter = :sidekiq
+  # config.active_job.queue_name_prefix = "mykos_staging"
 
   # Logging
   config.log_level = :debug
