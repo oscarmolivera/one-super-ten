@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
   # ---------- GLOBAL AUTHENTICATION ROUTES ----------
   devise_for :users, controllers: { sessions: 'users/sessions' }
+  
+  resources :tenants, only: [:index]
 
   get "up" => "rails/health#show", as: :rails_health_check
   
