@@ -21,7 +21,7 @@ Rails.application.configure do
   # Mailer config
   config.action_mailer.raise_delivery_errors = true
   config.action_mailer.perform_caching = false
-  config.action_mailer.default_url_options = { host: "www.mykos.shop" }
+  config.action_mailer.default_url_options = { host: 'mykos.shop', protocol: 'https' }
 
   # Uncomment and configure this block if sending real emails in staging:
   # config.action_mailer.delivery_method = :smtp
@@ -62,4 +62,6 @@ Rails.application.configure do
 
   # Require master key for encrypted credentials
   config.require_master_key = true
+
+  config.hosts << /.*\.mykos\.shop/
 end
