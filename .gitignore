@@ -40,3 +40,5 @@
 
 # Ignore uploaded files in development.
 /vendor/bundle
+/solid/*
+!.keep
