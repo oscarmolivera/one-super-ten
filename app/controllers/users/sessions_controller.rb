@@ -35,15 +35,6 @@ class Users::SessionsController < Devise::SessionsController
     if tenant.present?
       ActsAsTenant.current_tenant = tenant
     else
-      p " ........................XXXXXXXXXXXXXXXXXXXXXXXX............................"
-      p " ........................XXXXXXXXXXXXXXXXXXXXXXXX............................"
-      p " ........................XXXXXXXXXXXXXXXXXXXXXXXX............................"
-      p " ........................XXXXXXXXXXXXXXXXXXXXXXXX............................"
-      p " ........................XXXXXXXXXXXXXXXXXXXXXXXX............................"
-      p " ........................XXXXXXXXXXXXXXXXXXXXXXXX............................"
-      p " ........................XXXXXXXXXXXXXXXXXXXXXXXX............................"
-      p " ........................XXXXXXXXXXXXXXXXXXXXXXXX............................"
-      p " ........................XXXXXXXXXXXXXXXXXXXXXXXX............................"
       Rails.logger.warn "Subdomain not found: #{request.subdomain}" if tenant.blank?
       unless request.path == new_user_session_path
         flash[:alert] = "Invalid subdomain."
