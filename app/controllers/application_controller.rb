@@ -5,7 +5,6 @@ class ApplicationController < ActionController::Base
   before_action :switch_tenant
   before_action :authorize_super_admin, if: -> { request.subdomain == "admin" }
   
-  before_action :force_session_initialization
   before_action :ensure_tenant_user, if: -> { current_user.present? }
   # before_action :debug_session
 
@@ -33,8 +32,14 @@ class ApplicationController < ActionController::Base
     redirect_to root_path, alert: "Access Denied" unless current_user&.super_admin?
   end
 
-  def force_session_initialization
-    session[:init] ||= SecureRandom.hex(8)
+  def after_sign_in_path_for(resource)
+    if resource.superadmin? && request.subdomain == 'admin'
+      superadmin_root_path
+    elsif request.subdomain.present?
+      dashboard_root_path
+    else
+      main_root_path
+    end
   end
 
   private
