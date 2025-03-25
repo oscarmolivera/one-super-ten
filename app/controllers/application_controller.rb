@@ -1,6 +1,7 @@
 class ApplicationController < ActionController::Base
   include Pundit::Authorization
   allow_browser versions: :modern
+  before_action :authenticate_user!
   before_action :switch_tenant
   before_action :authorize_super_admin, if: -> { request.subdomain == "admin" }
   
@@ -15,6 +16,10 @@ class ApplicationController < ActionController::Base
   
 
   def switch_tenant
+    subdomain = fetch_subdomain
+
+    return if subdomain.blank? || %w[www landing].include?(subdomain)
+    
     tenant = Tenant.find_by(subdomain: fetch_subdomain)
     
     if tenant
