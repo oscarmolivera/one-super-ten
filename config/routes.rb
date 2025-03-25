@@ -1,45 +1,44 @@
 Rails.application.routes.draw do
   # ---------- GLOBAL AUTHENTICATION ROUTES ----------
-  devise_for :users, controllers: { sessions: 'users/sessions' }
-  
-  root "home#index", as: :root
-  resources :tenants, only: [:index]
+  devise_for :users, controllers: { sessions: 'users/sessions' }, skip: [:registrations]
 
   get "up" => "rails/health#show", as: :rails_health_check
   
   # ---------- MAIN COMPANY WEBSITE ROUTES (Root Domain) ----------
-  constraints subdomain: '' do
-    root 'landings#index', as: :site_root
-    resources :landings
+  constraints(lambda { |req| req.subdomain.blank? || req.subdomain == "www" }) do
+    root to: "home#index", as: :main_root
+
     get 'about', to: 'home#about'
     get 'contact', to: 'home#contact'
-
-    # Company Admin Panel
-    constraints subdomain: 'admin' do
-      namespace :admin do
-        root 'dashboard#index', as: :site_admin_root
-        resources :users
-        resources :subscriptions
-        resources :analytics
-      end
-    end
   end
 
-  # ---------- CUSTOMER-SPECIFIC ROUTES (Subdomains) ----------
+# ---------- SUPERADMIN SECTION (Admin Panel via admin.mykos.shop) ----------
+constraints(lambda { |req| req.subdomain == 'admin' }) do
+  namespace :admin do
+    root to: "dashboard#index", as: :superadmin_root
+    resources :tenants
+    resources :users
+    resources :plans
+    # Add more as needed
+  end
+end
+
+  # ---------- TENANT LANDINGS ----------
   constraints(SubdomainConstraint) do
-    root 'tenants#landing', as: :tenant_root
+    root to: "landings#index", as: :tenant_root
 
-    devise_for :users, controllers: { sessions: 'users/sessions' }, skip: [:registrations], 
-              as: :tenant_user
+    resources :landings, only: [:index]
+    resources :tenants, only: [:index]
 
-    namespace :admin do
-      root 'dashboard#index', as: :tenant_admin_root
-      resources :users
-      resources :players
-      resources :matches
+    # Authenticated User Dashboard (all roles)
+    namespace :dashboard do
+      root to: "dashboard#index", as: :tenant_dashboard_root
+      resources :profile, only: [:index, :edit, :update]
     end
   end
 
   # ---------- DEFAULT ROUTE (Catch-All) ----------
+  root "home#index", as: :root
+  get '/favicon.ico', to: redirect(ActionController::Base.helpers.asset_path('favicon.png'))
   get '*path', to: 'errors#not_found', constraints: lambda { |req| req.subdomain.present? }
 end
