@@ -1,14 +1,45 @@
 Rails.application.routes.draw do
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
+  # ---------- GLOBAL AUTHENTICATION ROUTES ----------
+  devise_for :users, controllers: { sessions: 'users/sessions' }
+  
+  root "home#index", as: :root
+  resources :tenants, only: [:index]
 
-  # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
-  # Can be used by load balancers and uptime monitors to verify that the app is live.
   get "up" => "rails/health#show", as: :rails_health_check
+  
+  # ---------- MAIN COMPANY WEBSITE ROUTES (Root Domain) ----------
+  constraints subdomain: '' do
+    root 'landings#index', as: :site_root
+    resources :landings
+    get 'about', to: 'home#about'
+    get 'contact', to: 'home#contact'
 
-  # Render dynamic PWA files from app/views/pwa/* (remember to link manifest in application.html.erb)
-  # get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
-  # get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
+    # Company Admin Panel
+    constraints subdomain: 'admin' do
+      namespace :admin do
+        root 'dashboard#index', as: :site_admin_root
+        resources :users
+        resources :subscriptions
+        resources :analytics
+      end
+    end
+  end
 
-  # Defines the root path route ("/")
-  # root "posts#index"
+  # ---------- CUSTOMER-SPECIFIC ROUTES (Subdomains) ----------
+  constraints(SubdomainConstraint) do
+    root 'tenants#landing', as: :tenant_root
+
+    devise_for :users, controllers: { sessions: 'users/sessions' }, skip: [:registrations], 
+              as: :tenant_user
+
+    namespace :admin do
+      root 'dashboard#index', as: :tenant_admin_root
+      resources :users
+      resources :players
+      resources :matches
+    end
+  end
+
+  # ---------- DEFAULT ROUTE (Catch-All) ----------
+  get '*path', to: 'errors#not_found', constraints: lambda { |req| req.subdomain.present? }
 end

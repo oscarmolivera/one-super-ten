@@ -1,0 +1,15 @@
+<h1>Welcome to One Super Ten</h1>
+<p>This platform provides sports academies with personalized online services.</p>
+
+<% @landings.each do |landing| %>
+  <div>
+    <h2><%= landing.title %></h2>
+    <p><%= landing.description %></p>
+  </div>
+<% end %>
+<div>
+  <%= current_user&.email %>
+</div>
+<div>
+  <%= ActsAsTenant.current_tenant.name %>
+</div>

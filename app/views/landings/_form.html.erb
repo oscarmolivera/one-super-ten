@@ -1,0 +1,32 @@
+<%= form_with(model: landing) do |form| %>
+  <% if landing.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(landing.errors.count, "error") %> prohibited this landing from being saved:</h2>
+
+      <ul>
+        <% landing.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :title, style: "display: block" %>
+    <%= form.text_field :title %>
+  </div>
+
+  <div>
+    <%= form.label :description, style: "display: block" %>
+    <%= form.textarea :description %>
+  </div>
+
+  <div>
+    <%= form.label :published, style: "display: block" %>
+    <%= form.checkbox :published %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>
