@@ -62,6 +62,7 @@ Rails.application.configure do
 
   # Require master key for encrypted credentials
   config.require_master_key = true
+  config.force_ssl = true
 
   config.hosts << /.*\.mykos\.shop/
 end

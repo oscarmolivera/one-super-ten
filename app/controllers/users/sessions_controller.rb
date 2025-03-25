@@ -28,11 +28,24 @@ class Users::SessionsController < Devise::SessionsController
   private
 
   def set_tenant
-    if request.subdomain.present?
-      tenant = Tenant.find_by(subdomain: request.subdomain)
-      if tenant
-        ActsAsTenant.current_tenant = tenant
-      else
+    return if ActsAsTenant.current_tenant.present?
+
+    tenant = Tenant.find_by(subdomain: request.subdomain)
+
+    if tenant.present?
+      ActsAsTenant.current_tenant = tenant
+    else
+      p " ........................XXXXXXXXXXXXXXXXXXXXXXXX............................"
+      p " ........................XXXXXXXXXXXXXXXXXXXXXXXX............................"
+      p " ........................XXXXXXXXXXXXXXXXXXXXXXXX............................"
+      p " ........................XXXXXXXXXXXXXXXXXXXXXXXX............................"
+      p " ........................XXXXXXXXXXXXXXXXXXXXXXXX............................"
+      p " ........................XXXXXXXXXXXXXXXXXXXXXXXX............................"
+      p " ........................XXXXXXXXXXXXXXXXXXXXXXXX............................"
+      p " ........................XXXXXXXXXXXXXXXXXXXXXXXX............................"
+      p " ........................XXXXXXXXXXXXXXXXXXXXXXXX............................"
+      Rails.logger.warn "Subdomain not found: #{request.subdomain}" if tenant.blank?
+      unless request.path == new_user_session_path
         flash[:alert] = "Invalid subdomain."
         redirect_to new_user_session_path
       end
