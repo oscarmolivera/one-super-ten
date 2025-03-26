@@ -21,16 +21,30 @@
   </head>
 
   <body>
+    <%= render "shared/flash" %>
     <% if current_user %>
       <nav>
         <% if current_user.admin? %>
           <%= link_to "Admin Dashboard", admin_users_path %>
           <%= link_to "Manage Users", admin_users_path %>
         <% end %>
-        
-        <%= link_to "Logout", destroy_user_session_path, method: :delete, data: { turbo_method: :delete } %>
+        <div>
+          <%= link_to "Logout", destroy_user_session_path, method: :delete, data: { turbo_method: :delete } %>
+        </div>
       </nav>
     <% end %>
     <%= yield %>
   </body>
 </html>
+<!-- Add this right before closing </body> tag in your layout -->
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    setTimeout(() => {
+      const alerts = document.querySelectorAll(".alert");
+      alerts.forEach(alert => {
+        let bsAlert = bootstrap.Alert.getOrCreateInstance(alert);
+        bsAlert.close();
+      });
+    }, 3000); // 3 seconds
+  });
+</script>
