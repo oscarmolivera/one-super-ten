@@ -1,4 +1,6 @@
-<h1>Welcome to One Super Ten</h1>
+<h1>
+  <%= "Welcome to #{ActsAsTenant.current_tenant.name}" %>
+</h1>
 <p>This platform provides sports academies with personalized online services.</p>
 
 <% @landings.each do |landing| %>
@@ -11,5 +13,5 @@
   <%= current_user&.email %>
 </div>
 <div>
-  <%= ActsAsTenant.current_tenant.name %>
+  
 </div>

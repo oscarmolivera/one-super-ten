@@ -18,6 +18,7 @@ Rails.application.configure do
   # Enable Action Controller caching
   config.action_controller.perform_caching = true
   config.action_controller.enable_fragment_cache_logging = true
+  config.action_dispatch.tld_length = 1
 
   # ✅ Use Solid Cache for caching
   config.cache_store = :solid_cache_store

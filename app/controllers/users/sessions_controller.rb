@@ -20,10 +20,15 @@ class Users::SessionsController < Devise::SessionsController
     Rails.logger.info "Session after sign in: #{session.inspect}"
   end
 
-  def after_sign_in_path_for(user)
-    ActsAsTenant.current_tenant = user.tenant
-    stored_location_for(user) || tenant_root_path
-  end
+    def after_sign_in_path_for(user)
+      ActsAsTenant.current_tenant = user.tenant
+
+      if user.super_admin? && request.subdomain == 'admin'
+        superadmin_root_path
+      else
+        tenant_dashboard_path
+      end
+    end
 
   private
 
