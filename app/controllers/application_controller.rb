@@ -6,7 +6,6 @@ class ApplicationController < ActionController::Base
   before_action :authorize_super_admin, if: -> { request.subdomain == "admin" }
   
   before_action :ensure_tenant_user, if: -> { current_user.present? }
-  # before_action :debug_session
 
   after_action :verify_authorized, except: :index
   after_action :verify_policy_scoped, only: :index
@@ -32,23 +31,7 @@ class ApplicationController < ActionController::Base
     redirect_to root_path, alert: "Access Denied" unless current_user&.super_admin?
   end
 
-  def after_sign_in_path_for(resource)
-    if resource.superadmin? && request.subdomain == 'admin'
-      superadmin_root_path
-    elsif request.subdomain.present?
-      dashboard_root_path
-    else
-      main_root_path
-    end
-  end
-
   private
-
-  def debug_session
-    session[:test] ||= "Hello, SolidCache!"
-    Rails.logger.debug "📌 Session ID: #{session.id.inspect}"
-    Rails.logger.debug "📌 Session Data: #{session.to_hash.inspect}"
-  end
 
   def ensure_tenant_user
     if current_user && ActsAsTenant.current_tenant

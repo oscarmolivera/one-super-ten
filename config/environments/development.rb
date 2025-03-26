@@ -18,6 +18,7 @@ Rails.application.configure do
   # Enable Action Controller caching
   config.action_controller.perform_caching = true
   config.action_controller.enable_fragment_cache_logging = true
+  config.action_dispatch.tld_length = 1
 
   # ✅ Use Solid Cache for caching
   config.cache_store = :solid_cache_store
@@ -57,7 +58,7 @@ Rails.application.configure do
   # Highlight code that enqueued background job in logs.
   config.active_job.verbose_enqueue_logs = true
 
-  config.hosts << /.*\.localhost/
-  config.hosts << "localhost"
+  config.hosts << /.*\.localhost\.me/
+  config.hosts << "localhost.me"
 end
 
