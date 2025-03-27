@@ -1,0 +1,106 @@
+/*
+Template Name: EduAdmin - Responsive Admin Template 
+Author: Multipurpose Themes
+File: scss
+*/
+/*------------------------------------------------------------------
+[Table of contents]
+
+Body, layout, Basic
+Header
+Sidebar
+Form-element and progress bar
+tab
+google map
+wizard
+weather
+Advanced Medias
+avatar
+switch
+fullscreen
+data table
+direct-chat
+users-list
+widget
+mailbox
+Extra Pages
+invoice
+profile
+calendar
+icon & divider
+box group
+grid-stack
+date-paginator
+Nestable
+ribbon
+gallery
+subheader__daterange
+ecommerece pages
+web tickers
+form-element
+box
+badges
+modal
+mask Formatter
+flexbox
+dropdown
+Statistic widgets
+media
+blog and other widgets
+background and overlay
+blockquote
+nav-dot
+rating
+lookup
+price
+todo-list
+chat
+timeline
+Button
+social media background
+callout
+alert
+pagination
+Morris chart
+project table
+Waves
+
+-------------------------------------------------------------------*/
+/****************************/
+/** Imports **/
+/****************************/
+@use 'variable';
+@use 'mixin';
+@use 'responsive'; 
+
+@use 'reset_basic';
+@use 'padding_margin';
+@use 'width_height';
+@use 'layout';
+@use 'header';
+@use 'sidebar';
+@use 'app';
+@use 'pages';
+@use 'form_element';
+@use 'boxes';
+@use 'ui_element';
+@use 'charts';
+@use 'projects';
+@use 'waves';
+
+@import 'color_theme.css';
+@import 'style_rtl.css';
+
+@import '../../images/themeforest/icons/font-awesome/css/font-awesome.css';
+@import '../../images/themeforest/icons/font-awesome/css/font-awesome.css';
+@import '../../images/themeforest/icons/Ionicons/css/ionicons.css';
+@import '../../images/themeforest/icons/themify-icons/themify-icons.css';
+@import '../../images/themeforest/icons/linea-icons/linea.css';
+@import '../../images/themeforest/icons/glyphicons/glyphicon.css'; 
+@import '../../images/themeforest/icons/flag-icon-css/css/flag-icon.css';
+@import '../../images/themeforest/icons/material-design-iconic-font/css/materialdesignicons.css';
+@import '../../images/themeforest/icons/simple-line-icons/css/simple-line-icons.css';
+@import '../../images/themeforest/icons/cryptocoins-master/cryptocoins.css';
+@import '../../images/themeforest/icons/weather-icons/css/weather-icons.min.css';
+@import '../../images/themeforest/icons/iconsmind/style.css';
+@import '../../images/themeforest/icons/icomoon/style.css';
