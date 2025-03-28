@@ -1,4 +1,5 @@
 @use "sass:color";
+@use "sass:math";
 @use "mixin";
 @use "responsive";
 @use "variable";
@@ -227,7 +228,7 @@
     }
 }
 .right-block{
-    width: calc(100% - 280);
+    width: calc(100% - 280px);
     min-height: calc(100vh - 64px);
     overflow: auto;
     margin-left: variable.$inn-pg-sid-bar-w;
@@ -3958,7 +3959,7 @@ time {
     margin-bottom: 0;
 }
 .fc-toolbar {
-    margin: 0 (1.5rem / 2) !important;
+    margin: 0 math.div(1.5rem, 2) !important;
     padding: 1rem 0;
     h2 {
         font-size: variable.$fs-18;

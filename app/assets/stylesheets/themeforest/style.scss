@@ -88,19 +88,20 @@ Waves
 @use 'projects';
 @use 'waves';
 
-@import 'color_theme.css';
-@import 'style_rtl.css';
+@use './color_theme';
+@use './style_rtl';
 
-@import '../../images/themeforest/icons/font-awesome/css/font-awesome.css';
-@import '../../images/themeforest/icons/font-awesome/css/font-awesome.css';
-@import '../../images/themeforest/icons/Ionicons/css/ionicons.css';
-@import '../../images/themeforest/icons/themify-icons/themify-icons.css';
-@import '../../images/themeforest/icons/linea-icons/linea.css';
-@import '../../images/themeforest/icons/glyphicons/glyphicon.css'; 
-@import '../../images/themeforest/icons/flag-icon-css/css/flag-icon.css';
-@import '../../images/themeforest/icons/material-design-iconic-font/css/materialdesignicons.css';
-@import '../../images/themeforest/icons/simple-line-icons/css/simple-line-icons.css';
-@import '../../images/themeforest/icons/cryptocoins-master/cryptocoins.css';
-@import '../../images/themeforest/icons/weather-icons/css/weather-icons.min.css';
-@import '../../images/themeforest/icons/iconsmind/style.css';
-@import '../../images/themeforest/icons/icomoon/style.css';
+@use '../../images/themeforest/icons/font-awesome/scss/font-awesome';
+
+@use '../../images/themeforest/icons/font-awesome/css/font-awesome.css';
+@use '../../images/themeforest/icons/Ionicons/css/ionicons.css';
+@use '../../images/themeforest/icons/themify-icons/themify-icons.css';
+@use '../../images/themeforest/icons/linea-icons/linea.css';
+@use '../../images/themeforest/icons/glyphicons/glyphicon.css'; 
+@use '../../images/themeforest/icons/flag-icon-css/css/flag-icon.css';
+@use '../../images/themeforest/icons/material-design-iconic-font/css/materialdesignicons.css';
+@use '../../images/themeforest/icons/simple-line-icons/css/simple-line-icons.css';
+@use '../../images/themeforest/icons/cryptocoins-master/cryptocoins.css';
+@use '../../images/themeforest/icons/weather-icons/css/weather-icons.min.css';
+@use '../../images/themeforest/icons/iconsmind/style.css';
+@use '../../images/themeforest/icons/icomoon/style.css';

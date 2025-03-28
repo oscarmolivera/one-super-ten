@@ -1,4 +1,5 @@
 @use "sass:color";
+@use "sass:math";
 @use "mixin";
 @use "responsive";
 @use "variable";
@@ -111,7 +112,7 @@
 }
 .content {
     min-height: 250px;
-    padding: (variable.$default-gutter-width / 2) variable.$default-gutter-width 0px variable.$default-gutter-width;
+    padding: math.div(variable.$default-gutter-width, 2) variable.$default-gutter-width 0px variable.$default-gutter-width;
     margin-right: auto;
     margin-left: auto;
 }

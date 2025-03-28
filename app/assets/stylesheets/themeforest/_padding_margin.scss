@@ -12,7 +12,7 @@ $num: 0;
     .p-#{$num} {
         padding: $num +0px !important;
     }
-    $num: $num +5;
+    $num: ($num + 5);
 }
 
 $num: 0;
@@ -20,7 +20,7 @@ $num: 0;
     .pt-#{$num} {
         padding-top: $num +0px !important;
     }
-    $num: $num +5;
+    $num: ($num + 5);
 }
 
 $num: 0;
@@ -28,7 +28,7 @@ $num: 0;
     .pb-#{$num} {
         padding-bottom: $num +0px !important;
     }
-    $num: $num +5;
+    $num: ($num + 5);
 }
 
 $num: 0;
@@ -36,7 +36,7 @@ $num: 0;
     .ps-#{$num} {
         padding-left: $num +0px !important;
     }
-    $num: $num +5;
+    $num: ($num + 5);
 }
 
 $num: 0;
@@ -44,7 +44,7 @@ $num: 0;
     .pe-#{$num} {
         padding-right: $num +0px !important;
     }
-    $num: $num +5;
+    $num: ($num + 5);
 }
 
 $num: 0;
@@ -53,7 +53,7 @@ $num: 0;
         padding-left: $num +0px !important;
         padding-right: $num +0px !important;
     }
-    $num: $num +5;
+    $num: ($num + 5);
 }
 
 $num: 0;
@@ -62,7 +62,7 @@ $num: 0;
         padding-top: $num +0px !important;
         padding-bottom: $num +0px !important;
     }
-    $num: $num +5;
+    $num: ($num + 5);
 }
 
 @include responsive.screen-xs {
@@ -71,7 +71,7 @@ $num: 0;
 		.p-xs-#{$num} {
 			padding: $num +0px !important;
 		}
-		$num: $num +5;
+		$num: ($num + 5);
 	}
 
 	$num: 0;
@@ -79,7 +79,7 @@ $num: 0;
 		.pt-xs-#{$num} {
 			padding-top: $num +0px !important;
 		}
-		$num: $num +5;
+		$num: ($num + 5);
 	}
 
 	$num: 0;
@@ -87,7 +87,7 @@ $num: 0;
 		.pb-xs-#{$num} {
 			padding-bottom: $num +0px !important;
 		}
-		$num: $num +5;
+		$num: ($num + 5);
 	}
 
 	$num: 0;
@@ -95,7 +95,7 @@ $num: 0;
 		.ps-xs-#{$num} {
 			padding-left: $num +0px !important;
 		}
-		$num: $num +5;
+		$num: ($num + 5);
 	}
 
 	$num: 0;
@@ -103,7 +103,7 @@ $num: 0;
 		.pe-xs-#{$num} {
 			padding-right: $num +0px !important;
 		}
-		$num: $num +5;
+		$num: ($num + 5);
 	}
 
 	$num: 0;
@@ -112,7 +112,7 @@ $num: 0;
 			padding-left: $num +0px !important;
 			padding-right: $num +0px !important;
 		}
-		$num: $num +5;
+		$num: ($num + 5);
 	}
 
 	$num: 0;
@@ -121,7 +121,7 @@ $num: 0;
 			padding-top: $num +0px !important;
 			padding-bottom: $num +0px !important;
 		}
-		$num: $num +5;
+		$num: ($num + 5);
 	}
 }
 
@@ -131,7 +131,7 @@ $num: 0;
 		.p-sm-#{$num} {
 			padding: $num +0px !important;
 		}
-		$num: $num +5;
+		$num: ($num + 5);
 	}
 
 	$num: 0;
@@ -139,7 +139,7 @@ $num: 0;
 		.pt-sm-#{$num} {
 			padding-top: $num +0px !important;
 		}
-		$num: $num +5;
+		$num: ($num + 5);
 	}
 
 	$num: 0;
@@ -147,7 +147,7 @@ $num: 0;
 		.pb-sm-#{$num} {
 			padding-bottom: $num +0px !important;
 		}
-		$num: $num +5;
+		$num: ($num + 5);
 	}
 
 	$num: 0;
@@ -155,7 +155,7 @@ $num: 0;
 		.ps-sm-#{$num} {
 			padding-left: $num +0px !important;
 		}
-		$num: $num +5;
+		$num: ($num + 5);
 	}
 
 	$num: 0;
@@ -163,7 +163,7 @@ $num: 0;
 		.pe-sm-#{$num} {
 			padding-right: $num +0px !important;
 		}
-		$num: $num +5;
+		$num: ($num + 5);
 	}
 
 	$num: 0;
@@ -172,7 +172,7 @@ $num: 0;
 			padding-left: $num +0px !important;
 			padding-right: $num +0px !important;
 		}
-		$num: $num +5;
+		$num: ($num + 5);
 	}
 
 	$num: 0;
@@ -181,7 +181,7 @@ $num: 0;
 			padding-top: $num +0px !important;
 			padding-bottom: $num +0px !important;
 		}
-		$num: $num +5;
+		$num: ($num + 5);
 	}
 }
 
@@ -191,7 +191,7 @@ $num: 0;
 		.p-md-#{$num} {
 			padding: $num +0px !important;
 		}
-		$num: $num +5;
+		$num: ($num + 5);
 	}
 
 	$num: 0;
@@ -199,7 +199,7 @@ $num: 0;
 		.pt-md-#{$num} {
 			padding-top: $num +0px !important;
 		}
-		$num: $num +5;
+		$num: ($num + 5);
 	}
 
 	$num: 0;
@@ -207,7 +207,7 @@ $num: 0;
 		.pb-md-#{$num} {
 			padding-bottom: $num +0px !important;
 		}
-		$num: $num +5;
+		$num: ($num + 5);
 	}
 
 	$num: 0;
@@ -215,7 +215,7 @@ $num: 0;
 		.ps-md-#{$num} {
 			padding-left: $num +0px !important;
 		}
-		$num: $num +5;
+		$num: ($num + 5);
 	}
 
 	$num: 0;
@@ -223,7 +223,7 @@ $num: 0;
 		.pe-md-#{$num} {
 			padding-right: $num +0px !important;
 		}
-		$num: $num +5;
+		$num: ($num + 5);
 	}
 
 	$num: 0;
@@ -232,7 +232,7 @@ $num: 0;
 			padding-left: $num +0px !important;
 			padding-right: $num +0px !important;
 		}
-		$num: $num +5;
+		$num: ($num + 5);
 	}
 
 	$num: 0;
@@ -241,7 +241,7 @@ $num: 0;
 			padding-top: $num +0px !important;
 			padding-bottom: $num +0px !important;
 		}
-		$num: $num +5;
+		$num: ($num + 5);
 	}
 }
 
@@ -251,7 +251,7 @@ $num: 0;
 		.p-lg-#{$num} {
 			padding: $num +0px !important;
 		}
-		$num: $num +5;
+		$num: ($num + 5);
 	}
 
 	$num: 0;
@@ -259,7 +259,7 @@ $num: 0;
 		.pt-lg-#{$num} {
 			padding-top: $num +0px !important;
 		}
-		$num: $num +5;
+		$num: ($num + 5);
 	}
 
 	$num: 0;
@@ -267,7 +267,7 @@ $num: 0;
 		.pb-lg-#{$num} {
 			padding-bottom: $num +0px !important;
 		}
-		$num: $num +5;
+		$num: ($num + 5);
 	}
 
 	$num: 0;
@@ -275,7 +275,7 @@ $num: 0;
 		.ps-lg-#{$num} {
 			padding-left: $num +0px !important;
 		}
-		$num: $num +5;
+		$num: ($num + 5);
 	}
 
 	$num: 0;
@@ -283,7 +283,7 @@ $num: 0;
 		.pe-lg-#{$num} {
 			padding-right: $num +0px !important;
 		}
-		$num: $num +5;
+		$num: ($num + 5);
 	}
 
 	$num: 0;
@@ -292,7 +292,7 @@ $num: 0;
 			padding-left: $num +0px !important;
 			padding-right: $num +0px !important;
 		}
-		$num: $num +5;
+		$num: ($num + 5);
 	}
 
 	$num: 0;
@@ -301,7 +301,7 @@ $num: 0;
 			padding-top: $num +0px !important;
 			padding-bottom: $num +0px !important;
 		}
-		$num: $num +5;
+		$num: ($num + 5);
 	}
 }
 
@@ -311,7 +311,7 @@ $num: 0;
 		.p-xl-#{$num} {
 			padding: $num +0px !important;
 		}
-		$num: $num +5;
+		$num: ($num + 5);
 	}
 
 	$num: 0;
@@ -319,7 +319,7 @@ $num: 0;
 		.pt-xl-#{$num} {
 			padding-top: $num +0px !important;
 		}
-		$num: $num +5;
+		$num: ($num + 5);
 	}
 
 	$num: 0;
@@ -327,7 +327,7 @@ $num: 0;
 		.pb-xl-#{$num} {
 			padding-bottom: $num +0px !important;
 		}
-		$num: $num +5;
+		$num: ($num + 5);
 	}
 
 	$num: 0;
@@ -335,7 +335,7 @@ $num: 0;
 		.ps-xl-#{$num} {
 			padding-left: $num +0px !important;
 		}
-		$num: $num +5;
+		$num: ($num + 5);
 	}
 
 	$num: 0;
@@ -343,7 +343,7 @@ $num: 0;
 		.pe-xl-#{$num} {
 			padding-right: $num +0px !important;
 		}
-		$num: $num +5;
+		$num: ($num + 5);
 	}
 
 	$num: 0;
@@ -352,7 +352,7 @@ $num: 0;
 			padding-left: $num +0px !important;
 			padding-right: $num +0px !important;
 		}
-		$num: $num +5;
+		$num: ($num + 5);
 	}
 
 	$num: 0;
@@ -361,7 +361,7 @@ $num: 0;
 			padding-top: $num +0px !important;
 			padding-bottom: $num +0px !important;
 		}
-		$num: $num +5;
+		$num: ($num + 5);
 	}
 }
 
@@ -371,7 +371,7 @@ $num: 0;
 		.p-xxl-#{$num} {
 			padding: $num +0px !important;
 		}
-		$num: $num +5;
+		$num: ($num + 5);
 	}
 
 	$num: 0;
@@ -379,7 +379,7 @@ $num: 0;
 		.pt-xxl-#{$num} {
 			padding-top: $num +0px !important;
 		}
-		$num: $num +5;
+		$num: ($num + 5);
 	}
 
 	$num: 0;
@@ -387,7 +387,7 @@ $num: 0;
 		.pb-xxl-#{$num} {
 			padding-bottom: $num +0px !important;
 		}
-		$num: $num +5;
+		$num: ($num + 5);
 	}
 
 	$num: 0;
@@ -395,7 +395,7 @@ $num: 0;
 		.ps-xxl-#{$num} {
 			padding-left: $num +0px !important;
 		}
-		$num: $num +5;
+		$num: ($num + 5);
 	}
 
 	$num: 0;
@@ -403,7 +403,7 @@ $num: 0;
 		.pe-xxl-#{$num} {
 			padding-right: $num +0px !important;
 		}
-		$num: $num +5;
+		$num: ($num + 5);
 	}
 
 	$num: 0;
@@ -412,7 +412,7 @@ $num: 0;
 			padding-left: $num +0px !important;
 			padding-right: $num +0px !important;
 		}
-		$num: $num +5;
+		$num: ($num + 5);
 	}
 
 	$num: 0;
@@ -421,7 +421,7 @@ $num: 0;
 			padding-top: $num +0px !important;
 			padding-bottom: $num +0px !important;
 		}
-		$num: $num +5;
+		$num: ($num + 5);
 	}
 }
 
@@ -435,7 +435,7 @@ $num: 0;
     .m-#{$num} {
         margin: $num +0px !important;
     }
-    $num: $num +5;
+    $num: ($num + 5);
 }
 
 $num: 0;
@@ -443,7 +443,7 @@ $num: 0;
     .mt-#{$num} {
         margin-top: $num +0px !important;
     }
-    $num: $num +5;
+    $num: ($num + 5);
 }
 
 $num: 0;
@@ -451,7 +451,7 @@ $num: 0;
     .mb-#{$num} {
         margin-bottom: $num +0px !important;
     }
-    $num: $num +5;
+    $num: ($num + 5);
 }
 
 $num: 0;
@@ -459,7 +459,7 @@ $num: 0;
     .ms-#{$num} {
         margin-left: $num +0px !important;
     }
-    $num: $num +5;
+    $num: ($num + 5);
 }
 
 $num: 0;
@@ -467,7 +467,7 @@ $num: 0;
     .me-#{$num} {
         margin-right: $num +0px !important;
     }
-    $num: $num +5;
+    $num: ($num + 5);
 }
 
 $num: 0;
@@ -476,7 +476,7 @@ $num: 0;
         margin-left: $num +0px !important;
         margin-right: $num +0px !important;
     }
-    $num: $num +5;
+    $num: ($num + 5);
 }
 
 $num: 0;
@@ -485,7 +485,7 @@ $num: 0;
         margin-top: $num +0px !important;
         margin-bottom: $num +0px !important;
     }
-    $num: $num +5;
+    $num: ($num + 5);
 }
 
 @include responsive.screen-xs {
@@ -494,7 +494,7 @@ $num: 0;
 		.m-xs-#{$num} {
 			margin: $num +0px !important;
 		}
-		$num: $num +5;
+		$num: ($num + 5);
 	}
 
 	$num: 0;
@@ -502,7 +502,7 @@ $num: 0;
 		.mt-xs-#{$num} {
 			margin-top: $num +0px !important;
 		}
-		$num: $num +5;
+		$num: ($num + 5);
 	}
 
 	$num: 0;
@@ -510,7 +510,7 @@ $num: 0;
 		.mb-xs-#{$num} {
 			margin-bottom: $num +0px !important;
 		}
-		$num: $num +5;
+		$num: ($num + 5);
 	}
 
 	$num: 0;
@@ -518,7 +518,7 @@ $num: 0;
 		.ms-xs-#{$num} {
 			margin-left: $num +0px !important;
 		}
-		$num: $num +5;
+		$num: ($num + 5);
 	}
 
 	$num: 0;
@@ -526,7 +526,7 @@ $num: 0;
 		.me-xs-#{$num} {
 			margin-right: $num +0px !important;
 		}
-		$num: $num +5;
+		$num: ($num + 5);
 	}
 
 	$num: 0;
@@ -535,7 +535,7 @@ $num: 0;
 			margin-left: $num +0px !important;
 			margin-right: $num +0px !important;
 		}
-		$num: $num +5;
+		$num: ($num + 5);
 	}
 
 	$num: 0;
@@ -544,7 +544,7 @@ $num: 0;
 			margin-top: $num +0px !important;
 			margin-bottom: $num +0px !important;
 		}
-		$num: $num +5;
+		$num: ($num + 5);
 	}
 }
 
@@ -554,7 +554,7 @@ $num: 0;
 		.m-sm-#{$num} {
 			margin: $num +0px !important;
 		}
-		$num: $num +5;
+		$num: ($num + 5);
 	}
 
 	$num: 0;
@@ -562,7 +562,7 @@ $num: 0;
 		.mt-sm-#{$num} {
 			margin-top: $num +0px !important;
 		}
-		$num: $num +5;
+		$num: ($num + 5);
 	}
 
 	$num: 0;
@@ -570,7 +570,7 @@ $num: 0;
 		.mb-sm-#{$num} {
 			margin-bottom: $num +0px !important;
 		}
-		$num: $num +5;
+		$num: ($num + 5);
 	}
 
 	$num: 0;
@@ -578,7 +578,7 @@ $num: 0;
 		.ms-sm-#{$num} {
 			margin-left: $num +0px !important;
 		}
-		$num: $num +5;
+		$num: ($num + 5);
 	}
 
 	$num: 0;
@@ -586,7 +586,7 @@ $num: 0;
 		.me-sm-#{$num} {
 			margin-right: $num +0px !important;
 		}
-		$num: $num +5;
+		$num: ($num + 5);
 	}
 
 	$num: 0;
@@ -595,7 +595,7 @@ $num: 0;
 			margin-left: $num +0px !important;
 			margin-right: $num +0px !important;
 		}
-		$num: $num +5;
+		$num: ($num + 5);
 	}
 
 	$num: 0;
@@ -604,7 +604,7 @@ $num: 0;
 			margin-top: $num +0px !important;
 			margin-bottom: $num +0px !important;
 		}
-		$num: $num +5;
+		$num: ($num + 5);
 	}
 }
 
@@ -614,7 +614,7 @@ $num: 0;
 		.m-md-#{$num} {
 			margin: $num +0px !important;
 		}
-		$num: $num +5;
+		$num: ($num + 5);
 	}
 
 	$num: 0;
@@ -622,7 +622,7 @@ $num: 0;
 		.mt-md-#{$num} {
 			margin-top: $num +0px !important;
 		}
-		$num: $num +5;
+		$num: ($num + 5);
 	}
 
 	$num: 0;
@@ -630,7 +630,7 @@ $num: 0;
 		.mb-md-#{$num} {
 			margin-bottom: $num +0px !important;
 		}
-		$num: $num +5;
+		$num: ($num + 5);
 	}
 
 	$num: 0;
@@ -638,7 +638,7 @@ $num: 0;
 		.ms-md-#{$num} {
 			margin-left: $num +0px !important;
 		}
-		$num: $num +5;
+		$num: ($num + 5);
 	}
 
 	$num: 0;
@@ -646,7 +646,7 @@ $num: 0;
 		.me-md-#{$num} {
 			margin-right: $num +0px !important;
 		}
-		$num: $num +5;
+		$num: ($num + 5);
 	}
 
 	$num: 0;
@@ -655,7 +655,7 @@ $num: 0;
 			margin-left: $num +0px !important;
 			margin-right: $num +0px !important;
 		}
-		$num: $num +5;
+		$num: ($num + 5);
 	}
 
 	$num: 0;
@@ -664,7 +664,7 @@ $num: 0;
 			margin-top: $num +0px !important;
 			margin-bottom: $num +0px !important;
 		}
-		$num: $num +5;
+		$num: ($num + 5);
 	}
 }
 
@@ -674,7 +674,7 @@ $num: 0;
 		.m-lg-#{$num} {
 			margin: $num +0px !important;
 		}
-		$num: $num +5;
+		$num: ($num + 5);
 	}
 
 	$num: 0;
@@ -682,7 +682,7 @@ $num: 0;
 		.mt-lg-#{$num} {
 			margin-top: $num +0px !important;
 		}
-		$num: $num +5;
+		$num: ($num + 5);
 	}
 
 	$num: 0;
@@ -690,7 +690,7 @@ $num: 0;
 		.mb-lg-#{$num} {
 			margin-bottom: $num +0px !important;
 		}
-		$num: $num +5;
+		$num: ($num + 5);
 	}
 
 	$num: 0;
@@ -698,7 +698,7 @@ $num: 0;
 		.ms-sm-#{$num} {
 			margin-left: $num +0px !important;
 		}
-		$num: $num +5;
+		$num: ($num + 5);
 	}
 
 	$num: 0;
@@ -706,7 +706,7 @@ $num: 0;
 		.me-lg-#{$num} {
 			margin-right: $num +0px !important;
 		}
-		$num: $num +5;
+		$num: ($num + 5);
 	}
 
 	$num: 0;
@@ -715,7 +715,7 @@ $num: 0;
 			margin-left: $num +0px !important;
 			margin-right: $num +0px !important;
 		}
-		$num: $num +5;
+		$num: ($num + 5);
 	}
 
 	$num: 0;
@@ -724,7 +724,7 @@ $num: 0;
 			margin-top: $num +0px !important;
 			margin-bottom: $num +0px !important;
 		}
-		$num: $num +5;
+		$num: ($num + 5);
 	}
 }
 
@@ -734,7 +734,7 @@ $num: 0;
 		.m-xl-#{$num} {
 			margin: $num +0px !important;
 		}
-		$num: $num +5;
+		$num: ($num + 5);
 	}
 
 	$num: 0;
@@ -742,7 +742,7 @@ $num: 0;
 		.mt-xl-#{$num} {
 			margin-top: $num +0px !important;
 		}
-		$num: $num +5;
+		$num: ($num + 5);
 	}
 
 	$num: 0;
@@ -750,7 +750,7 @@ $num: 0;
 		.mb-xl-#{$num} {
 			margin-bottom: $num +0px !important;
 		}
-		$num: $num +5;
+		$num: ($num + 5);
 	}
 
 	$num: 0;
@@ -758,7 +758,7 @@ $num: 0;
 		.ms-xl-#{$num} {
 			margin-left: $num +0px !important;
 		}
-		$num: $num +5;
+		$num: ($num + 5);
 	}
 
 	$num: 0;
@@ -766,7 +766,7 @@ $num: 0;
 		.me-xl-#{$num} {
 			margin-right: $num +0px !important;
 		}
-		$num: $num +5;
+		$num: ($num + 5);
 	}
 
 	$num: 0;
@@ -775,7 +775,7 @@ $num: 0;
 			margin-left: $num +0px !important;
 			margin-right: $num +0px !important;
 		}
-		$num: $num +5;
+		$num: ($num + 5);
 	}
 
 	$num: 0;
@@ -784,7 +784,7 @@ $num: 0;
 			margin-top: $num +0px !important;
 			margin-bottom: $num +0px !important;
 		}
-		$num: $num +5;
+		$num: ($num + 5);
 	}
 }
 
@@ -794,7 +794,7 @@ $num: 0;
 		.m-xxl-#{$num} {
 			margin: $num +0px !important;
 		}
-		$num: $num +5;
+		$num: ($num + 5);
 	}
 
 	$num: 0;
@@ -802,7 +802,7 @@ $num: 0;
 		.mt-xxl-#{$num} {
 			margin-top: $num +0px !important;
 		}
-		$num: $num +5;
+		$num: ($num + 5);
 	}
 
 	$num: 0;
@@ -810,7 +810,7 @@ $num: 0;
 		.mb-xxl-#{$num} {
 			margin-bottom: $num +0px !important;
 		}
-		$num: $num +5;
+		$num: ($num + 5);
 	}
 
 	$num: 0;
@@ -818,7 +818,7 @@ $num: 0;
 		.ms-xxl-#{$num} {
 			margin-left: $num +0px !important;
 		}
-		$num: $num +5;
+		$num: ($num + 5);
 	}
 
 	$num: 0;
@@ -826,7 +826,7 @@ $num: 0;
 		.me-xxl-#{$num} {
 			margin-right: $num +0px !important;
 		}
-		$num: $num +5;
+		$num: ($num + 5);
 	}
 
 	$num: 0;
@@ -835,7 +835,7 @@ $num: 0;
 			margin-left: $num +0px !important;
 			margin-right: $num +0px !important;
 		}
-		$num: $num +5;
+		$num: ($num + 5);
 	}
 
 	$num: 0;
@@ -844,7 +844,7 @@ $num: 0;
 			margin-top: $num +0px !important;
 			margin-bottom: $num +0px !important;
 		}
-		$num: $num +5;
+		$num: ($num + 5);
 	}
 }
 
