@@ -1,9 +1,10 @@
-@import "icon-classes/classes-day.scss";
-@import "icon-classes/classes-night.scss";
-@import "icon-classes/classes-neutral.scss";
-@import "icon-classes/classes-misc.scss";
-@import "icon-classes/classes-moon.scss";
-@import "icon-classes/classes-moon-aliases.scss";
-@import "icon-classes/classes-time.scss";
-@import "icon-classes/classes-direction.scss";
-@import "icon-classes/classes-beaufort.scss";
+@use "../sass/icon-classes/classes-day";
+@use "../sass/icon-classes/classes-night";
+@use "../sass/icon-classes/classes-neutral";
+@use "../sass/icon-classes/classes-misc";
+@use "../sass/icon-classes/classes-moon";
+@use "../sass/icon-classes/classes-moon-aliases";
+@use "../sass/icon-classes/classes-time";
+@use "../sass/icon-classes/classes-direction";
+@use "../sass/icon-classes/classes-beaufort";
+|

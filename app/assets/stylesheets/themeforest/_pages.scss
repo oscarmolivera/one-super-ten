@@ -1,8 +1,8 @@
-@use "sass:color";
+@use "./variable" as variable;
+@use "./mixin" as mixin;
+@use "./responsive" as responsive;
 @use "sass:math";
-@use "mixin";
-@use "responsive";
-@use "variable";
+@use "sass:color";
 
 /*---Pages Layout---*/
 

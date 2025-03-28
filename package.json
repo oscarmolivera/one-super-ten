@@ -5,8 +5,10 @@
     "esbuild": "^0.25.1"
   },
   "scripts": {
-    "build": "node esbuild.config.js",
-    "watch": "node esbuild.config.js --watch"
+    "watch:css": "sass --watch app/assets/stylesheets:app/assets/builds",
+    "build:css": "sass app/assets/stylesheets:app/assets/builds",
+    "watch": "node esbuild.config.js --watch",
+    "build": "node esbuild.config.js"
   },
   "dependencies": {
     "@hotwired/stimulus": "^3.2.2",

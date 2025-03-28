@@ -1,5 +1,7 @@
+@use "./variables" as *;
 /* FONT PATH
  * -------------------------- */
+$fa-version: "6.0.0" !default;
 
 @font-face {
   font-family: 'FontAwesome';

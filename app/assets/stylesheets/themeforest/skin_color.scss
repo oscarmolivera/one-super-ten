@@ -4,90 +4,106 @@ Author: Multipurpose Themes
 File: scss
 */
 
-@import 'variable'; 
-@import 'mixin'; 
-@import 'responsive';
+@use 'variable' as var;
+@use 'mixin' as mixin;
+@use 'responsive' as responsive;
+@use "sass:color";
 
 /*---light skin---*/
- 
-.light-skin{
-    .main-header{
-        li{
-            &.user-header{
-                background-color: $white;
-            } 
+
+.light-skin {
+    .main-header {
+        li {
+            &.user-header {
+                background-color: var.$white;
+            }
         }
-        .navbar{
-            .sidebar-toggle{
-                color: $white; 
+
+        .navbar {
+            .sidebar-toggle {
+                color: var.$white;
             }
-            .res-only-view{
-                color: $white;
+
+            .res-only-view {
+                color: var.$white;
             }
-            .nav{
-                >li{
-                    >a{
-                        color: $icon-lite-color;
-                        @include hover-state{
-                            background-color: rgba($black, 0.03);
-                            color: $primary;
+
+            .nav {
+                >li {
+                    >a {
+                        color: var.$icon-lite-color;
+
+                        @include mixin.hover-state {
+                            background-color: rgba(var.$black, 0.03);
+                            color: var.$primary;
                         }
                     }
                 }
-                .open{
-                    > a{
-                        background-color: rgba($black, 0.05);
-                        @include hover-focus-state{
-                            background-color: rgba($black, 0.05);
+
+                .open {
+                    >a {
+                        background-color: rgba(var.$black, 0.05);
+
+                        @include mixin.hover-focus-state {
+                            background-color: rgba(var.$black, 0.05);
                         }
                     }
                 }
-                >.active{
-                    >a{
-                       background-color: rgba($black, 0.05); 
+
+                >.active {
+                    >a {
+                        background-color: rgba(var.$black, 0.05);
                     }
                 }
             }
         }
-        .app-menu{
-            .dropdown-mega-menu{
-                .nav{
-                    >li{
-                        >a{
-                            color: lighten($dark, 30%);
+
+        .app-menu {
+            .dropdown-mega-menu {
+                .nav {
+                    >li {
+                        >a {
+                            color: color.adjust(var.$dark, $lightness: 30%);
                         }
                     }
                 }
             }
         }
     }
-    .main-sidebar{
-        border-right: 0px solid rgba($dx-blue,0.16);
-        background-color: $dark; 
+
+    .main-sidebar {
+        border-right: 0px solid rgba(var.$dx-blue, 0.16);
+        background-color: var.$dark;
     }
-    .user-panel{
-        >.info{
-          color: $white;  
-            >a{
-                color: $white;
+
+    .user-panel {
+        >.info {
+            color: var.$white;
+
+            >a {
+                color: var.$white;
             }
         }
     }
-    .sidebar-menu{
-        >li{
-            @include hover-active-state{
-                >a{
-                   color: $dark; 
+
+    .sidebar-menu {
+        >li {
+            @include mixin.hover-active-state {
+                >a {
+                    color: var.$dark;
                 }
             }
-            &.active{
-                >a{
-                    background-color: $dark;
-                    color: $white;
-                    > i{
-                       color: $white; 
+
+            &.active {
+                >a {
+                    background-color: var.$dark;
+                    color: var.$white;
+
+                    >i {
+                        color: var.$white;
                     }
-                    &:after{
+
+                    &:after {
                         content: " ";
                         position: absolute;
                         right: 0;
@@ -101,170 +117,198 @@ File: scss
                     }
                 }
             }
-            &.menu-open{
-                >a{
-                   color: $dark;  
+
+            &.menu-open {
+                >a {
+                    color: var.$dark;
                 }
             }
-            >.treeview-menu{
+
+            >.treeview-menu {
                 margin: 0 0px;
             }
-        } 
+        }
     }
-    &.sidebar-collapse{
-        .sidebar-menu{
-            >li{
-                >.treeview-menu{
-                    background-color: $dark;    
+
+    &.sidebar-collapse {
+        .sidebar-menu {
+            >li {
+                >.treeview-menu {
+                    background-color: var.$dark;
                     box-shadow: 5px 8px 10px 0px rgba(0, 0, 0, 0.1);
-                    > .treeview .treeview-menu{
-                        background-color: $dark;    
+
+                    >.treeview .treeview-menu {
+                        background-color: var.$dark;
                         box-shadow: 5px 8px 10px 0px rgba(0, 0, 0, 0.1);
                     }
                 }
             }
-        } 
+        }
     }
-    &.sidebar-mini{
-        &.sidebar-collapse{
-            .sidebar-menu{
-                >li{
-                    >a{
-                        >span{
-                            background-color: $dark !important;
+
+    &.sidebar-mini {
+        &.sidebar-collapse {
+            .sidebar-menu {
+                >li {
+                    >a {
+                        >span {
+                            background-color: var.$dark !important;
                             box-shadow: 5px 8px 10px 0px rgba(0, 0, 0, 0.1);
                         }
                     }
                 }
-                >li.active{
-                    >a{
-                        >span{
-                            background: $dark !important;
-                            color: $white;
+
+                >li.active {
+                    >a {
+                        >span {
+                            background: var.$dark !important;
+                            color: var.$white;
                         }
                     }
                 }
             }
         }
     }
-    .sidebar{
-        a{
-          color: $light5;  
-            &:hover{
-               text-decoration: none; 
+
+    .sidebar {
+        a {
+            color: var.$light5;
+
+            &:hover {
+                text-decoration: none;
             }
         }
     }
-    .sidebar-form{
+
+    .sidebar-form {
         border-radius: 3px;
-        border: 1px solid lighten($black, 50%); 
-        input[type="text"]{
+        border: 1px solid color.adjust(var.$black, $lightness: 50%);
+
+        input[type="text"] {
             box-shadow: none;
-            background-color: rgba($black, 0.59);
-            border: 1px solid rgba($black, 0.59);
+            background-color: rgba(var.$black, 0.59);
+            border: 1px solid rgba(var.$black, 0.59);
             height: 35px;
-            color: $white;
+            color: var.$white;
             border-top-left-radius: 2px;
             border-top-right-radius: 0;
             border-bottom-right-radius: 0;
             border-bottom-left-radius: 2px;
-            &:focus{
-               color: $white; 
-                + .input-group-btn{
-                    .btn{
-                       color: $white; 
+
+            &:focus {
+                color: var.$white;
+
+                +.input-group-btn {
+                    .btn {
+                        color: var.$white;
                     }
                 }
             }
         }
-        .btn{
+
+        .btn {
             box-shadow: none;
-            background-color: rgba($black, 0.59);
-            border: 1px solid rgba($black, 0.59);
+            background-color: rgba(var.$black, 0.59);
+            border: 1px solid rgba(var.$black, 0.59);
             height: 35px;
-            color: $light;
+            color: var.$light;
             border-top-left-radius: 0;
             border-top-right-radius: 2px;
             border-bottom-right-radius: 2px;
             border-bottom-left-radius: 0;
         }
     }
-    .control-sidebar{
-        color: $dark;
-        background-color: $white;
-        +.control-sidebar-bg{
-            -webkit-box-shadow: 0px 5px 10px 1px rgba(lighten($black, 30%), 0.2);
-            -moz-box-shadow: 0px 5px 10px 1px rgba(lighten($black, 30%), 0.2);
-            box-shadow: 0px 5px 10px 1px rgba(lighten($black, 30%), 0.2); 
+
+    .control-sidebar {
+        color: var.$dark;
+        background-color: var.$white;
+
+        +.control-sidebar-bg {
+            -webkit-box-shadow: 0px 5px 10px 1px rgba(color.adjust(var.$black, $lightness: 30%), 0.2);
+            -moz-box-shadow: 0px 5px 10px 1px rgba(color.adjust(var.$black, $lightness: 30%), 0.2);
+            box-shadow: 0px 5px 10px 1px rgba(color.adjust(var.$black, $lightness: 30%), 0.2);
         }
-        .nav-tabs{
-            &.control-sidebar-tabs{
-                border-bottom: 1px solid lighten($black, 80%);
-                >li{
-                    >a{
-                       color: $dark;
-                        border-bottom-color: lighten($black, 80%);
-                        @include hover-state{
-                            border-bottom-color: lighten($black, 80%);
+
+        .nav-tabs {
+            &.control-sidebar-tabs {
+                border-bottom: 1px solid color.adjust(var.$black, $lightness: 80%);
+
+                >li {
+                    >a {
+                        color: var.$dark;
+                        border-bottom-color: color.adjust(var.$black, $lightness: 80%);
+
+                        @include mixin.hover-state {
+                            border-bottom-color: color.adjust(var.$black, $lightness: 80%);
                             background-color: transparent;
-                            
+
                         }
-                        &.active{
+
+                        &.active {
                             background-color: transparent;
-                            @include hover-state{
-                              background-color: transparent;  
+
+                            @include mixin.hover-state {
+                                background-color: transparent;
                             }
                         }
                     }
                 }
             }
         }
-        .control-sidebar-heading{
-            color: $dark;
+
+        .control-sidebar-heading {
+            color: var.$dark;
         }
-        .control-sidebar-subheading{
-            color: $dark;
+
+        .control-sidebar-subheading {
+            color: var.$dark;
         }
-        .control-sidebar-menu{
+
+        .control-sidebar-menu {
             margin-left: -14px;
-            >li{
-                >a{
-                    &:hover{
-                       background-color: $light; 
+
+            >li {
+                >a {
+                    &:hover {
+                        background-color: var.$light;
                     }
-                    .menu-info{
-                        >p{
-                           color: lighten($black, 40%); 
+
+                    .menu-info {
+                        >p {
+                            color: color.adjust(var.$black, $lightness: 40%);
                         }
                     }
-                } 
+                }
             }
         }
     }
 }
-.control-sidebar+.control-sidebar-bg{
-    background-color: $white;
+
+.control-sidebar+.control-sidebar-bg {
+    background-color: var.$white;
 }
 
-@include screen-sm-max{
-    .light-skin{
-        &.sidebar-mini{
-            &.sidebar-collapse{
-                .sidebar-menu{
-                    >li{
-                        >a{
-                            >span{
-                                background-color: rgba($white,0) !important;
+@include responsive.screen-sm-max {
+    .light-skin {
+        &.sidebar-mini {
+            &.sidebar-collapse {
+                .sidebar-menu {
+                    >li {
+                        >a {
+                            >span {
+                                background-color: rgba(var.$white, 0) !important;
                             }
                         }
-                        &.menu-open{
-                            >a{
-                                background-color: rgba($white,0.95) !important;
+
+                        &.menu-open {
+                            >a {
+                                background-color: rgba(var.$white, 0.95) !important;
                             }
                         }
-                        &.active{
-                            >a{
-                               background-color: rgba($white,0.95) !important; 
+
+                        &.active {
+                            >a {
+                                background-color: rgba(var.$white, 0.95) !important;
                             }
                         }
                     }
@@ -274,8 +318,47 @@ File: scss
     }
 }
 
-.alert-primary, .alert-danger, .alert-error, .alert-info, .alert-success, .alert-warning, .bg-black, .bg-black-active, .callout.callout-danger, .callout.callout-info, .callout.callout-success, .callout.callout-warning, .callout.callout-primary, .label-danger, .label-info, .label-primary, .label-success, .label-warning, .modal-danger .modal-body, .modal-danger .modal-footer, .modal-danger .modal-header, .modal-info .modal-body, .modal-info .modal-footer, .modal-info .modal-header, .modal-primary .modal-body, .modal-primary .modal-footer, .modal-primary .modal-header, .modal-success .modal-body, .modal-success .modal-footer, .modal-success .modal-header, .modal-warning .modal-body, .modal-warning .modal-footer, .modal-warning .modal-header, .bg-warning, .bg-gray, .modal-primary .modal-header *, .modal-info .modal-header *, .modal-success .modal-header *, .modal-danger .modal-header *, .modal-warning .modal-header *{
-    color: $white;
+.alert-primary,
+.alert-danger,
+.alert-error,
+.alert-info,
+.alert-success,
+.alert-warning,
+.bg-black,
+.bg-black-active,
+.callout.callout-danger,
+.callout.callout-info,
+.callout.callout-success,
+.callout.callout-warning,
+.callout.callout-primary,
+.label-danger,
+.label-info,
+.label-primary,
+.label-success,
+.label-warning,
+.modal-danger .modal-body,
+.modal-danger .modal-footer,
+.modal-danger .modal-header,
+.modal-info .modal-body,
+.modal-info .modal-footer,
+.modal-info .modal-header,
+.modal-primary .modal-body,
+.modal-primary .modal-footer,
+.modal-primary .modal-header,
+.modal-success .modal-body,
+.modal-success .modal-footer,
+.modal-success .modal-header,
+.modal-warning .modal-body,
+.modal-warning .modal-footer,
+.modal-warning .modal-header,
+.bg-warning,
+.bg-gray,
+.modal-primary .modal-header *,
+.modal-info .modal-header *,
+.modal-success .modal-header *,
+.modal-danger .modal-header *,
+.modal-warning .modal-header * {
+    color: var.$white;
 }
 
 
@@ -283,248 +366,306 @@ File: scss
 
 /*---Dark skin---*/
 
-body{
-    &.dark-skin{
+body {
+    &.dark-skin {
         background-color: #12213c;
-	    color: $dark-text;        
-        .navbar-nav{
-            >.user-menu{
-                >.dropdown-menu{
-                    >.user-body{
-                        border-color: rgba($white, 0.12);
+        color: var.$dark-text;
+
+        .navbar-nav {
+            >.user-menu {
+                >.dropdown-menu {
+                    >.user-body {
+                        border-color: rgba(var.$white, 0.12);
                     }
-                } 
+                }
             }
+
             >.dropdown {
-                >.dropdown-menu{
-                    >li{
-                        .menu{
-                            >li{
-                                >a{
-                                    border-color: rgba($white, 0.12);
-                                    color: $dark-text;
-                                    >div{
-                                        >h4{
-                                            color: $dark-title;
-                                            >small{
-                                               color: $dark-title; 
+                >.dropdown-menu {
+                    >li {
+                        .menu {
+                            >li {
+                                >a {
+                                    border-color: rgba(var.$white, 0.12);
+                                    color: var.$dark-text;
+
+                                    >div {
+                                        >h4 {
+                                            color: var.$dark-title;
+
+                                            >small {
+                                                color: var.$dark-title;
                                             }
                                         }
-                                        >span{
-                                            color: $dark-text;
+
+                                        >span {
+                                            color: var.$dark-text;
                                         }
-                                    }                                
-                                    >h3{
-                                        color: $dark-title;
                                     }
-                                    &:hover{
-                                        background-color: rgba($body-dark, 0.2);
+
+                                    >h3 {
+                                        color: var.$dark-title;
+                                    }
+
+                                    &:hover {
+                                        background-color: rgba(var.$body-dark, 0.2);
                                     }
                                 }
                             }
-                        } 
-                        &.header{
-                            border-color: rgba($white, 0.12) ;
-                            border-bottom: 1px solid rgba($white, 0.12);
-                            color: $dark-text;
-                            background-color: lighten($body-dark, 05%);
+                        }
+
+                        &.header {
+                            border-color: rgba(var.$white, 0.12);
+                            border-bottom: 1px solid rgba(var.$white, 0.12);
+                            color: var.$dark-text;
+                            background-color: color.adjust(var.$body-dark, $lightness: 5%);
                         }
                     }
-                } 
+                }
             }
         }
     }
 }
-.dark-skin{
-    h1, h2, h3, h4, h5, h6{
-        color: rgba($white, 0.85); 
+
+.dark-skin {
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        color: rgba(var.$white, 0.85);
     }
-    a{
-        color: $dark-text; 
-        &.bg-light{
-            @include hover-focus-state{
-                background-color: lighten($body-dark, 30%) !important;
+
+    a {
+        color: var.$dark-text;
+
+        &.bg-light {
+            @include mixin.hover-focus-state {
+                background-color: color.adjust(var.$body-dark, $lightness: 30%) !important;
             }
         }
     }
-    .form-control, .form-select{
-        background-color: $dark3;
-	    color: $dark-text; 
+
+    .form-control,
+    .form-select {
+        background-color: var.$dark3;
+        color: var.$dark-text;
     }
-    .search-box{
-        .app-search{
-            .srh-btn{
-                background-color: lighten($body-dark, 25%);
+
+    .search-box {
+        .app-search {
+            .srh-btn {
+                background-color: color.adjust(var.$body-dark, $lightness: 25%);
             }
-        } 
+        }
     }
-    .content-header{
-        .breadcrumb{
-            color: $dark-text;
-            .breadcrumb-item{
-                a{
-                    color: $dark-text;
+
+    .content-header {
+        .breadcrumb {
+            color: var.$dark-text;
+
+            .breadcrumb-item {
+                a {
+                    color: var.$dark-text;
                 }
-                &.active{
-                    color: $dark2;
+
+                &.active {
+                    color: var.$dark2;
                 }
             }
         }
     }
-    .dropdown-menu{
-        background-color: lighten($body-dark, 05%);
-        border-color: rgba($white, 0.12);
-        >li{
-            >a{
-               color: $dark-text; 
+
+    .dropdown-menu {
+        background-color: color.adjust(var.$body-dark, $lightness: 05%);
+        border-color: rgba(var.$white, 0.12);
+
+        >li {
+            >a {
+                color: var.$dark-text;
             }
         }
     }
+
     .box-solid .box-controls .dropdown-item {
-        color: $dark-text;
+        color: var.$dark-text;
     }
-    .dropdown-grid{
-        border-color: rgba($white, 0.12);
-        .dropdown-item{
-            &:hover{
-                border-color: lighten($body-dark, 30%);
+
+    .dropdown-grid {
+        border-color: rgba(var.$white, 0.12);
+
+        .dropdown-item {
+            &:hover {
+                border-color: color.adjust(var.$body-dark, $lightness: 30%);
             }
         }
     }
-    .dropdown-divider{
-        border-color: rgba($white, 0.12);
+
+    .dropdown-divider {
+        border-color: rgba(var.$white, 0.12);
     }
-    .dropdown-item{
-        @include hover-focus-state{
-            background-color: lighten($body-dark, 10%);
-            color: $dark-text;
+
+    .dropdown-item {
+        @include mixin.hover-focus-state {
+            background-color: color.adjust(var.$body-dark, $lightness: 10%);
+            color: var.$dark-text;
         }
     }
-    .content-header{
-        .page-title{
-           color: $dark-text;
-	       border-color: lighten($body-dark, 50%); 
-        } 
-        .right-title{
-            .dropdown{
-                >.btn{
-                    border-color: rgba($white, 0.12)!important;
-                    background-color: lighten($body-dark, 25%);
+
+    .content-header {
+        .page-title {
+            color: var.$dark-text;
+            border-color: color.adjust(var.$body-dark, $lightness: 50%);
+        }
+
+        .right-title {
+            .dropdown {
+                >.btn {
+                    border-color: rgba(var.$white, 0.12) !important;
+                    background-color: color.adjust(var.$body-dark, $lightness: 25%);
                 }
-            } 
-        }
-    }
-    .subheader_daterange{
-        background-color: lighten($body-dark, 25%);
-    }
-    .nav-tabs-custom > .nav-tabs > li > a {
-        color: $dark-text;
-    }
-    .ranges{
-        li{
-            background-color: rgba($body-dark, 0.2);
-            border-color: rgba($white, 0.12);
-            color: $dark-text;
-        }
-    }
-    .btn-default{
-        background-color: $dark3;
-        color: $dark-text;
-        border-color: rgba($white, 0.12);
-        &.hover{
-            background-color: lighten($body-dark, 25%);
-            border-color: lighten($body-dark, 25%); 
-        }
-        @include hover-active-state{
-            background-color: lighten($body-dark, 25%);
-            border-color: lighten($body-dark, 25%);
-        }
-    }
-    .btn{
-        &.btn-outline{
-            color: $dark-text;
-            border-color: rgba($white, 0.12);
-            &:hover{
-                color: $white;
-                background-color: rgba($body-dark,0.2);
             }
+        }
+    }
+
+    .subheader_daterange {
+        background-color: color.adjust(var.$body-dark, $lightness: 25%);
+    }
+
+    .nav-tabs-custom>.nav-tabs>li>a {
+        color: var.$dark-text;
+    }
+
+    .ranges {
+        li {
+            background-color: rgba(var.$body-dark, 0.2);
+            border-color: rgba(var.$white, 0.12);
+            color: var.$dark-text;
+        }
+    }
+
+    .btn-default {
+        background-color: var.$dark3;
+        color: var.$dark-text;
+        border-color: rgba(var.$white, 0.12);
+
+        &.hover {
+            background-color: color.adjust(var.$body-dark, $lightness: 25%);
+            border-color: color.adjust(var.$body-dark, $lightness: 25%);
+        }
+
+        @include mixin.hover-active-state {
+            background-color: color.adjust(var.$body-dark, $lightness: 25%);
+            border-color: color.adjust(var.$body-dark, $lightness: 25%);
+        }
+    }
+
+    .btn {
+        &.btn-outline {
+            color: var.$dark-text;
+            border-color: rgba(var.$white, 0.12);
+
+            &:hover {
+                color: var.$white;
+                background-color: rgba(var.$body-dark, 0.2);
+            }
+
             &.btn-white {
-                color: $white !important;
-                border-color: $white !important;
+                color: var.$white !important;
+                border-color: var.$white !important;
             }
+
             &.btn-dark {
-                color: $dark-text !important;
+                color: var.$dark-text !important;
                 background-color: transparent;
-                border-color: $dark;
+                border-color: var.$dark;
             }
         }
     }
-    .btn-toggle{
-        @include before-after-state{
-            color: $dark-text;
+
+    .btn-toggle {
+        @include mixin.before-after-state {
+            color: var.$dark-text;
         }
-    }    
-    button{
-        &.bg-light{
-            @include hover-focus-state{
-                background-color: lighten($body-dark, 30%) !important;
+    }
+
+    button {
+        &.bg-light {
+            @include mixin.hover-focus-state {
+                background-color: color.adjust(var.$body-dark, $lightness: 30%) !important;
             }
         }
-    }    
-    .btn.btn-light{        
-        background-color: lighten($body-dark, 05%);
-        border-color: rgba($white, 0.12);
-        color: $dark-text !important;
     }
-    .box-controls{
-        li > a{
-            color: $dark-text;
+
+    .btn.btn-light {
+        background-color: color.adjust(var.$body-dark, $lightness: 05%);
+        border-color: rgba(var.$white, 0.12);
+        color: var.$dark-text !important;
+    }
+
+    .box-controls {
+        li>a {
+            color: var.$dark-text;
         }
     }
-    .box{
-        background-color: lighten($body-dark, 25%);
-        .box-header{
-            color: $dark-text;
-            border-color: rgba($white, 0.12);
-            .box-subtitle{
-                color: $dark-text;
-            }            
+
+    .box {
+        background-color: color.adjust(var.$body-dark, $lightness: 25%);
+
+        .box-header {
+            color: var.$dark-text;
+            border-color: rgba(var.$white, 0.12);
+
+            .box-subtitle {
+                color: var.$dark-text;
+            }
         }
-        .box-footer{
-            background-color: $dark3;
-            border-color: rgba($white, 0.12);
+
+        .box-footer {
+            background-color: var.$dark3;
+            border-color: rgba(var.$white, 0.12);
         }
-        .box-transparent{
+
+        .box-transparent {
             background-color: transparent !important;
             box-shadow: none !important;
         }
-        &[class*=bg-pale]{
-            >.box-header{
-                color: $dark;
+
+        &[class*=bg-pale] {
+            >.box-header {
+                color: var.$dark;
             }
         }
-        &.box-solid{
-            .box-body{
-                background-color: $dark3 !important;
-                color: $dark-text;
-            }                  
-            .box-controls{
-                li > a{
-                    color: $white;
+
+        &.box-solid {
+            .box-body {
+                background-color: var.$dark3 !important;
+                color: var.$dark-text;
+            }
+
+            .box-controls {
+                li>a {
+                    color: var.$white;
                 }
             }
-            &.box-default{
-                >.box-header{
-                    color: $dark;
-                    background-color: $light;
-                    .btn{
-                        color: $dark;
+
+            &.box-default {
+                >.box-header {
+                    color: var.$dark;
+                    background-color: var.$light;
+
+                    .btn {
+                        color: var.$dark;
                     }
-                    a{
-                        color: $dark;
+
+                    a {
+                        color: var.$dark;
                     }
-                    >.box-tools{
-                        .btn{
+
+                    >.box-tools {
+                        .btn {
                             border: 0;
                             box-shadow: none;
                         }
@@ -532,986 +673,1213 @@ body{
                 }
             }
         }
+
         .border-right {
-            border-right: 1px solid $light;
+            border-right: 1px solid var.$light;
         }
-        .border-left{
-            border-left: 1px solid $light;
+
+        .border-left {
+            border-left: 1px solid var.$light;
         }
-        .overlay{
-           background: rgba($white, .7);
+
+        .overlay {
+            background: rgba(var.$white, .7);
         }
-        .flex-column{
+
+        .flex-column {
             >li {
-                border-color: rgba($white, 0.12);
+                border-color: rgba(var.$white, 0.12);
             }
         }
+
         .knob-label {
-            color: lighten($body-dark, 45%);
-        }        
+            color: color.adjust(var.$body-dark, $lightness: 45%);
+        }
     }
-    .box-inverse{
-        color: $white !important;
-        background-color: lighten($body-dark, 30%);
-        .box-header{
-            color: $white !important;
-            border-color: rgba($white, 0.15);
+
+    .box-inverse {
+        color: var.$white !important;
+        background-color: color.adjust(var.$body-dark, $lightness: 30%);
+
+        .box-header {
+            color: var.$white !important;
+            border-color: rgba(var.$white, 0.15);
         }
-        .box-title{
-            color: $white !important;
+
+        .box-title {
+            color: var.$white !important;
         }
-        h1, h2, h3, h4, h5, h6, small{
-            color: $white !important;
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6,
+        small {
+            color: var.$white !important;
         }
-        .box-controls{
-            li{
-                >a{
-                    color: $dark-text !important;
+
+        .box-controls {
+            li {
+                >a {
+                    color: var.$dark-text !important;
                 }
             }
         }
-        .box-footer{
-            border-color: rgba($white, 0.5);
+
+        .box-footer {
+            border-color: rgba(var.$white, 0.5);
         }
-        .box-action{
-            border-color: rgba($white, 0.5);
+
+        .box-action {
+            border-color: rgba(var.$white, 0.5);
         }
-        .box-btn-more{
-            @include before-after-state{
-                border-color: $white;
+
+        .box-btn-more {
+            @include mixin.before-after-state {
+                border-color: var.$white;
             }
         }
-    }    
-    .box-gray{
-        background-color: lighten($body-dark, 50%);
-        &.box-bordered{
-            border-color: lighten($body-dark, 50%);
+    }
+
+    .box-gray {
+        background-color: color.adjust(var.$body-dark, $lightness: 50%);
+
+        &.box-bordered {
+            border-color: color.adjust(var.$body-dark, $lightness: 50%);
         }
     }
-    .box-dark{
-        background-color: $dark;
+
+    .box-dark {
+        background-color: var.$dark;
+
         .box-bordered {
-            border-color: $dark;
+            border-color: var.$dark;
         }
     }
+
     .box-bordered {
-        border-color: rgba($white, 0.12);
+        border-color: rgba(var.$white, 0.12);
     }
-    .box-profile{
-        &.nav-tabs-custom{
-            >.nav-tabs{
-                background-color: lighten($body-dark, 30%);
-                >li{
-                    >a.active{                       
-                        color: $dark-text;
-                        &:hover{
-                            color: $dark-text;
+
+    .box-profile {
+        &.nav-tabs-custom {
+            >.nav-tabs {
+                background-color: color.adjust(var.$body-dark, $lightness: 30%);
+
+                >li {
+                    >a.active {
+                        color: var.$dark-text;
+
+                        &:hover {
+                            color: var.$dark-text;
                         }
                     }
                 }
             }
         }
-    }    
-    .box-comments{
-        .username{
-            color: $white;
-            .comment-text{
-                color: lighten($body-dark, 65%);;
+    }
+
+    .box-comments {
+        .username {
+            color: var.$white;
+
+            .comment-text {
+                color: color.adjust(var.$body-dark, $lightness: 65%);
+                ;
             }
         }
+
         .box-comment {
-            border-color: rgba($white, 0.12);
+            border-color: rgba(var.$white, 0.12);
         }
     }
-    .card{
-        background-color: $dark3;
-        .card-header{
+
+    .card {
+        background-color: var.$dark3;
+
+        .card-header {
             background-color: transparent !important;
-            border-color: rgba($white, 0.12);
+            border-color: rgba(var.$white, 0.12);
         }
-        .card-footer{
+
+        .card-footer {
             background-color: transparent !important;
-            border-color: rgba($white, 0.12);
+            border-color: rgba(var.$white, 0.12);
         }
     }
-    .left-block{
-        border-color: rgba($white, 0.12) !important;
-        background-color: rgba(lighten($body-dark, 05%), 1);
-        .left-content-area{
-            >.box{
-               background-color: lighten($body-dark, 05%); 
+
+    .left-block {
+        border-color: rgba(var.$white, 0.12) !important;
+        background-color: rgba(color.adjust(var.$body-dark, $lightness: 05%), 1);
+
+        .left-content-area {
+            >.box {
+                background-color: color.adjust(var.$body-dark, $lightness: 05%);
             }
-            >.card{
-               background-color: lighten($body-dark, 05%); 
+
+            >.card {
+                background-color: color.adjust(var.$body-dark, $lightness: 05%);
             }
         }
     }
-    .todo-list{
-        >li{
-            color: $dark-text;
+
+    .todo-list {
+        >li {
+            color: var.$dark-text;
         }
     }
-    .btn-box-tool{
-        &:hover{
-           color: $dark-text; 
+
+    .btn-box-tool {
+        &:hover {
+            color: var.$dark-text;
         }
     }
-    .show{
-        .btn-box-tool{
-            color: $dark-text;
-        }        
-    }
-    .page-header{
-        border-color: rgba($white, 0.12);
-    }
-    .overlay-wrapper{
-        .overlay{
-            background: rgba($white, .7); 
+
+    .show {
+        .btn-box-tool {
+            color: var.$dark-text;
         }
     }
-    .info-box{
-        background-color: lighten($body-dark, 25%);
+
+    .page-header {
+        border-color: rgba(var.$white, 0.12);
     }
-    .badge-default{
-        color: $dark;
-        background-color: lighten($body-dark, 55%);
+
+    .overlay-wrapper {
+        .overlay {
+            background: rgba(var.$white, .7);
+        }
     }
-    code{
-        border-color: rgba($white, 0.12);
-        background-color: $body-dark; 
+
+    .info-box {
+        background-color: color.adjust(var.$body-dark, $lightness: 25%);
     }
+
+    .badge-default {
+        color: var.$dark;
+        background-color: color.adjust(var.$body-dark, $lightness: 55%);
+    }
+
+    code {
+        border-color: rgba(var.$white, 0.12);
+        background-color: var.$body-dark;
+    }
+
     .code-preview {
-        border-color: rgba($white, 0.12);
-        background-color: $body-dark; 
+        border-color: rgba(var.$white, 0.12);
+        background-color: var.$body-dark;
     }
-    .table{
-        color: $dark-text;
-        >thead{
-            >tr{
-                >th{
-                   border-color: rgba($white, 0.12); 
-                } 
-                >td{
-                   border-color: rgba($white, 0.12); 
+
+    .table {
+        color: var.$dark-text;
+
+        >thead {
+            >tr {
+                >th {
+                    border-color: rgba(var.$white, 0.12);
+                }
+
+                >td {
+                    border-color: rgba(var.$white, 0.12);
                 }
             }
         }
-        >tbody{
-            >tr{
-                >td{
-                   border-color: rgba($white, 0.12); 
+
+        >tbody {
+            >tr {
+                >td {
+                    border-color: rgba(var.$white, 0.12);
                 }
-                >th{
-                   border-color: rgba($white, 0.12);  
+
+                >th {
+                    border-color: rgba(var.$white, 0.12);
                 }
             }
         }
-        >tfoot{
-            >tr{
-                >td{
-                   border-color: rgba($white, 0.12); 
-                } 
-                >th{
-                   border-color: rgba($white, 0.12); 
+
+        >tfoot {
+            >tr {
+                >td {
+                    border-color: rgba(var.$white, 0.12);
                 }
-            } 
+
+                >th {
+                    border-color: rgba(var.$white, 0.12);
+                }
+            }
         }
-        &.table-striped > tbody > tr:nth-of-type(odd) {
+
+        &.table-striped>tbody>tr:nth-of-type(odd) {
             color: inherit;
         }
     }
-    .table-bordered{
-        border-color: rgba($white, 0.12);
-        >tbody{
-            >tr{
-                >td{
-                   border-color: rgba($white, 0.12) !important; 
-                } 
-                >th{
-                   border-color: rgba($white, 0.12) !important; 
+
+    .table-bordered {
+        border-color: rgba(var.$white, 0.12);
+
+        >tbody {
+            >tr {
+                >td {
+                    border-color: rgba(var.$white, 0.12) !important;
+                }
+
+                >th {
+                    border-color: rgba(var.$white, 0.12) !important;
                 }
             }
         }
-        >tfoot{
-            >tr{
-                >td{
-                   border-color: rgba($white, 0.12) !important; 
-                } 
-                >th{
-                   border-color: rgba($white, 0.12) !important; 
+
+        >tfoot {
+            >tr {
+                >td {
+                    border-color: rgba(var.$white, 0.12) !important;
+                }
+
+                >th {
+                    border-color: rgba(var.$white, 0.12) !important;
                 }
             }
         }
-        >thead{
-            >tr{
-                >td{
-                   border-color: rgba($white, 0.12) !important; 
-                } 
-                >th{
-                   border-color: rgba($white, 0.12) !important; 
+
+        >thead {
+            >tr {
+                >td {
+                    border-color: rgba(var.$white, 0.12) !important;
+                }
+
+                >th {
+                    border-color: rgba(var.$white, 0.12) !important;
                 }
             }
         }
     }
-    .table-active{
-        background-color: lighten($body-dark, 20%);
-        >th{
-           background-color: lighten($body-dark, 20%); 
+
+    .table-active {
+        background-color: color.adjust(var.$body-dark, $lightness: 20%);
+
+        >th {
+            background-color: color.adjust(var.$body-dark, $lightness: 20%);
         }
-        >td{
-           background-color: lighten($body-dark, 20%); 
+
+        >td {
+            background-color: color.adjust(var.$body-dark, $lightness: 20%);
         }
-    }    
-    .table-separated{
-        tbody{
-            tr{
-                background-color: $dark;
+    }
+
+    .table-separated {
+        tbody {
+            tr {
+                background-color: var.$dark;
             }
         }
     }
-    .dataTable{
-        input{            
-            border-color: rgba($white, 0.12);
-            color: lighten($body-dark, 45%);
-            background-color: lighten($body-dark, 15%);
+
+    .dataTable {
+        input {
+            border-color: rgba(var.$white, 0.12);
+            color: color.adjust(var.$body-dark, $lightness: 45%);
+            background-color: color.adjust(var.$body-dark, $lightness: 15%);
         }
-        select{
-            border-color: rgba($white, 0.12);
-            color: lighten($body-dark, 45%);
-            background-color: lighten($body-dark, 15%);
+
+        select {
+            border-color: rgba(var.$white, 0.12);
+            color: color.adjust(var.$body-dark, $lightness: 45%);
+            background-color: color.adjust(var.$body-dark, $lightness: 15%);
         }
     }
-    .page-item{
-        &.disabled{
-            .page-link{
-                color: $dark-text;
-                background-color: $body-dark;
-                border-color: rgba($white, 0.12);
+
+    .page-item {
+        &.disabled {
+            .page-link {
+                color: var.$dark-text;
+                background-color: var.$body-dark;
+                border-color: rgba(var.$white, 0.12);
             }
         }
     }
-    .pagination{
-        >li{
-            >a{
-               background-color: $dark; 
-               color: $dark-text;
+
+    .pagination {
+        >li {
+            >a {
+                background-color: var.$dark;
+                color: var.$dark-text;
             }
         }
     }
-    .paging_simple_numbers{
-        .pagination{
-            .paginate_button{
-               background-color: transparent; 
-                &:hover{
+
+    .paging_simple_numbers {
+        .pagination {
+            .paginate_button {
+                background-color: transparent;
+
+                &:hover {
                     background-color: transparent;
                 }
             }
         }
     }
-    .nav{
-        >li{
-            >a{
-                @include hover-state{
-                    color: lighten($dark, 25%);
+
+    .nav {
+        >li {
+            >a {
+                @include mixin.hover-state {
+                    color: color.adjust(var.$dark, $lightness: 25%);
                 }
             }
         }
     }
-    .nav-tabs-custom{
-        >.nav-tabs{
-            >li{
-                >a{
-                    &.active{                        
-                        background-color: lighten($dark, 15%);
-                        color: $white;                        
-                        border-left-color: rgba($white, 0.12);
-                        border-right-color: rgba($white, 0.12);
-                        &:hover{                               
-                            background-color: lighten($dark, 15%);
-                            color: $dark-text;
+
+    .nav-tabs-custom {
+        >.nav-tabs {
+            >li {
+                >a {
+                    &.active {
+                        background-color: color.adjust(var.$dark, $lightness: 15%);
+                        color: var.$white;
+                        border-left-color: rgba(var.$white, 0.12);
+                        border-right-color: rgba(var.$white, 0.12);
+
+                        &:hover {
+                            background-color: color.adjust(var.$dark, $lightness: 15%);
+                            color: var.$dark-text;
                         }
-                    } 
+                    }
                 }
             }
         }
     }
-    .media-list-hover{
+
+    .media-list-hover {
         >.media:not(.media-list-header):not(.media-list-footer) {
-            &:hover{
-                background-color: rgba($body-dark, 0.2);
+            &:hover {
+                background-color: rgba(var.$body-dark, 0.2);
             }
         }
-        .media-list-body{
-            >.media{
-                &:hover{
-                    background-color: rgba($body-dark, 0.2);
+
+        .media-list-body {
+            >.media {
+                &:hover {
+                    background-color: rgba(var.$body-dark, 0.2);
                 }
             }
         }
     }
-    .media{
-        a:not(.btn):not(.avatar){            
-            color: $dark-text;
-        } 
+
+    .media {
+        a:not(.btn):not(.avatar) {
+            color: var.$dark-text;
+        }
     }
-    .media-list-hover{
-        > .media:not(.media-list-header):not(.media-list-footer):hover, .media-list-body > .media:hover{
-            background-color: lighten($body-dark, 05%); 
-            a:not(.btn):not(.avatar){
-                color: $dark-text;
+
+    .media-list-hover {
+
+        >.media:not(.media-list-header):not(.media-list-footer):hover,
+        .media-list-body>.media:hover {
+            background-color: color.adjust(var.$body-dark, $lightness: 05%);
+
+            a:not(.btn):not(.avatar) {
+                color: var.$dark-text;
             }
-            .divider-dash{
-                color: $dark-text;
+
+            .divider-dash {
+                color: var.$dark-text;
             }
         }
     }
-    .modal-content{
-        background-color: lighten($body-dark, 05%);
+
+    .modal-content {
+        background-color: color.adjust(var.$body-dark, $lightness: 05%);
     }
-    .modal-header{
-        border-color: rgba($white, 0.12);
+
+    .modal-header {
+        border-color: rgba(var.$white, 0.12);
     }
-    .modal-footer{
-        border-color: rgba($white, 0.12);
+
+    .modal-footer {
+        border-color: rgba(var.$white, 0.12);
     }
-    .media-body{
-        >p:last-child{
-           color: $dark-text; 
+
+    .media-body {
+        >p:last-child {
+            color: var.$dark-text;
         }
-    }    
-    .modal-fill{
-        .modal-content{
-            background-color: $dark;
+    }
+
+    .modal-fill {
+        .modal-content {
+            background-color: var.$dark;
         }
     }
-    .modal{
+
+    .modal {
         &.modal-fill {
-            background-color: $dark;
+            background-color: var.$dark;
         }
     }
+
     .media-list-divided {
-        >.media:not(.media-list-header):not(.media-list-footer){
-            border-bottom-color: rgba($white, 0.2);
+        >.media:not(.media-list-header):not(.media-list-footer) {
+            border-bottom-color: rgba(var.$white, 0.2);
         }
+
         .media-list-body {
-            >.media{                
-                border-bottom-color: rgba($white, 0.2);
+            >.media {
+                border-bottom-color: rgba(var.$white, 0.2);
             }
         }
     }
+
     .close {
-        color: lighten($body-dark, 60%);
+        color: color.adjust(var.$body-dark, $lightness: 60%);
         text-shadow: none;
     }
-    .flex-column{
-        >li{
-            >a{
-                color: lighten($body-dark, 60%);
+
+    .flex-column {
+        >li {
+            >a {
+                color: color.adjust(var.$body-dark, $lightness: 60%);
             }
         }
     }
-    .mailbox-nav{
-        .nav-pills{
-            >li{
-                >a{
-                    @include hover-focus-state{
-                        background-color: rgba($body-dark, 0.2);
+
+    .mailbox-nav {
+        .nav-pills {
+            >li {
+                >a {
+                    @include mixin.hover-focus-state {
+                        background-color: rgba(var.$body-dark, 0.2);
                     }
-                    &.active{
-                        @include hover-focus-state{
-                            background-color: rgba($body-dark, 0.2);
+
+                    &.active {
+                        @include mixin.hover-focus-state {
+                            background-color: rgba(var.$body-dark, 0.2);
                         }
                     }
-                } 
+                }
             }
         }
     }
-    .mailbox-messages{
-        table{
-            a{
-                color: $dark-text;
+
+    .mailbox-messages {
+        table {
+            a {
+                color: var.$dark-text;
             }
-        } 
-        .mailbox-date{
+        }
+
+        .mailbox-date {
             font-size: 12px;
-            color: $dark-text;
+            color: var.$dark-text;
         }
     }
-    .mailbox-controls{
-        &.with-border{
-            border-color: rgba($white, 0.12);
+
+    .mailbox-controls {
+        &.with-border {
+            border-color: rgba(var.$white, 0.12);
         }
     }
-    .mailbox-read-info{
-        border-color: rgba($white, 0.12);
+
+    .mailbox-read-info {
+        border-color: rgba(var.$white, 0.12);
     }
+
     .mailbox-read-time {
-        color: $dark-text;
+        color: var.$dark-text;
     }
-    .mailbox-attachment-info{
-        background-color: lighten($body-dark, 15%);
+
+    .mailbox-attachment-info {
+        background-color: color.adjust(var.$body-dark, $lightness: 15%);
     }
-    .mailbox-attachments{
-        li{
-           border-color: rgba($white, 0.12); 
+
+    .mailbox-attachments {
+        li {
+            border-color: rgba(var.$white, 0.12);
         }
     }
-    .callout{
-        .highlight{
-            background-color: $dark3;
-        } 
-    }
-    .callout code{
-        background-color: $dark3;
-    }
-    .wysihtml5-toolbar{
-        .btn-default{
-            background-color: $dark3;
+
+    .callout {
+        .highlight {
+            background-color: var.$dark3;
         }
     }
-    .wysihtml5-sandbox{
-	    background-color: $dark3 !important;
-	    border-color: rgba($white, 0.12) !important;
-        body.placeholder{
-	       background-color: lighten($body-dark, 15%) !important;
-	       border-color: rgba($white, 0.12) !important;
+
+    .callout code {
+        background-color: var.$dark3;
+    }
+
+    .wysihtml5-toolbar {
+        .btn-default {
+            background-color: var.$dark3;
         }
     }
-    .lookup::before{
-        color: $dark-text;
-    }    
-    .lookup{
+
+    .wysihtml5-sandbox {
+        background-color: var.$dark3 !important;
+        border-color: rgba(var.$white, 0.12) !important;
+
+        body.placeholder {
+            background-color: color.adjust(var.$body-dark, $lightness: 15%) !important;
+            border-color: rgba(var.$white, 0.12) !important;
+        }
+    }
+
+    .lookup::before {
+        color: var.$dark-text;
+    }
+
+    .lookup {
         input {
-            color: $dark-text;
+            color: var.$dark-text;
         }
     }
-    .form-control, .form-select {
-        border-color: rgba($white, 0.12);
+
+    .form-control,
+    .form-select {
+        border-color: rgba(var.$white, 0.12);
     }
-    .form-element{
-        .form-control{
-            color: $dark-text;
-            background-image: -webkit-gradient(linear, left top, left bottom, from($warning), to($warning)), -webkit-gradient(linear, left top, left bottom, from(rgba($white, 0.12)), to(rgba($white, 0.12)));
-            background-image: -webkit-linear-gradient($warning , $warning), -webkit-linear-gradient(rgba($white, 0.12), rgba($white, 0.12));
-            background-image: -o-linear-gradient($warning , $warning), -o-linear-gradient(rgba($white, 0.12), rgba($white, 0.12));
-            background-image: linear-gradient($warning , $warning), linear-gradient(rgba($white, 0.12), rgba($white, 0.12));
-            &:focus{
-                background-image: -webkit-gradient(linear, left top, left bottom, from($warning), to($warning)), -webkit-gradient(linear, left top, left bottom, from(rgba($white, 0.12)), to(rgba($white, 0.12)));
-                background-image: -webkit-linear-gradient($warning , $warning), -webkit-linear-gradient(rgba($white, 0.12), rgba($white, 0.12));
-                background-image: -o-linear-gradient($warning , $warning), -o-linear-gradient(rgba($white, 0.12), rgba($white, 0.12));
-                background-image: linear-gradient($warning , $warning), linear-gradient(rgba($white, 0.12), rgba($white, 0.12));
+
+    .form-element {
+        .form-control {
+            color: var.$dark-text;
+            background-image: -webkit-gradient(linear, left top, left bottom, from(var.$warning), to(var.$warning)), -webkit-gradient(linear, left top, left bottom, from(rgba(var.$white, 0.12)), to(rgba(var.$white, 0.12)));
+            background-image: -webkit-linear-gradient(var.$warning , var.$warning), -webkit-linear-gradient(rgba(var.$white, 0.12), rgba(var.$white, 0.12));
+            background-image: -o-linear-gradient(var.$warning , var.$warning), -o-linear-gradient(rgba(var.$white, 0.12), rgba(var.$white, 0.12));
+            background-image: linear-gradient(var.$warning , var.$warning), linear-gradient(rgba(var.$white, 0.12), rgba(var.$white, 0.12));
+
+            &:focus {
+                background-image: -webkit-gradient(linear, left top, left bottom, from(var.$warning), to(var.$warning)), -webkit-gradient(linear, left top, left bottom, from(rgba(var.$white, 0.12)), to(rgba(var.$white, 0.12)));
+                background-image: -webkit-linear-gradient(var.$warning , var.$warning), -webkit-linear-gradient(rgba(var.$white, 0.12), rgba(var.$white, 0.12));
+                background-image: -o-linear-gradient(var.$warning , var.$warning), -o-linear-gradient(rgba(var.$white, 0.12), rgba(var.$white, 0.12));
+                background-image: linear-gradient(var.$warning , var.$warning), linear-gradient(rgba(var.$white, 0.12), rgba(var.$white, 0.12));
             }
         }
-        .form-control{
+
+        .form-control {}
+    }
+
+    .input-group {
+        .input-group-addon {
+            border-color: rgba(var.$white, 0.12);
+            color: var.$dark-text;
+            background-color: color.adjust(var.$body-dark, $lightness: 15%);
         }
     }
-    .input-group{
-        .input-group-addon{
-            border-color: rgba($white, 0.12);
-            color: $dark-text;
-            background-color: lighten($body-dark, 15%);
-        }
+
+    .input-group-text {
+        border-color: rgba(var.$white, 0.12);
+        color: var.$dark-text;
+        background-color: color.adjust(var.$body-dark, $lightness: 15%);
     }
-    .input-group-text{
-            border-color: rgba($white, 0.12);
-            color: $dark-text;
-            background-color: lighten($body-dark, 15%);
-    }
-    .direct-chat-text{
+
+    .direct-chat-text {
         p {
-            background: lighten($body-dark, 15%);    
-            color: lighten($body-dark, 75%);
+            background: color.adjust(var.$body-dark, $lightness: 15%);
+            color: color.adjust(var.$body-dark, $lightness: 75%);
         }
     }
-    .direct-chat-timestamp{
-        color: lighten($body-dark, 55%);
+
+    .direct-chat-timestamp {
+        color: color.adjust(var.$body-dark, $lightness: 55%);
     }
-    time{
-        color: $dark-text;
+
+    time {
+        color: var.$dark-text;
     }
-    .wizard-content{
-        .wizard{
-            >.steps{
-                >ul{
-                    >li{                        
-                        background-color: lighten($body-dark, 15%);
-                        border-color: rgba($white, 0.12);
-                    } 
+
+    .wizard-content {
+        .wizard {
+            >.steps {
+                >ul {
+                    >li {
+                        background-color: color.adjust(var.$body-dark, $lightness: 15%);
+                        border-color: rgba(var.$white, 0.12);
+                    }
                 }
             }
         }
     }
-    ul{
-        .list-style-none{
-            li{
-                a{                    
-                    color: lighten($body-dark, 75%);
+
+    ul {
+        .list-style-none {
+            li {
+                a {
+                    color: color.adjust(var.$body-dark, $lightness: 75%);
                 }
             }
-        }  
-    }
-    .divider-dash{
-        color: lighten($body-dark, 75%);
-    }    
-    .divider{
-        @include before-after-state{
-            border-top: 1px solid lighten($body-dark, 30%);;
         }
     }
-    .fc-toolbar{
-        .fc-center{
-            color: $dark-text;
+
+    .divider-dash {
+        color: color.adjust(var.$body-dark, $lightness: 75%);
+    }
+
+    .divider {
+        @include mixin.before-after-state {
+            border-top: 1px solid color.adjust(var.$body-dark, $lightness: 30%);
+            ;
         }
     }
-    .fc-button{
-        background-color: lighten($body-dark, 15%);
-        border-color: rgba($white, 0.12);
-        color: $dark-text;
+
+    .fc-toolbar {
+        .fc-center {
+            color: var.$dark-text;
+        }
+    }
+
+    .fc-button {
+        background-color: color.adjust(var.$body-dark, $lightness: 15%);
+        border-color: rgba(var.$white, 0.12);
+        color: var.$dark-text;
         text-shadow: none;
     }
-    .fc{
-        th{
-            &[class*=fc-]{
-               background-color: $dark3; 
+
+    .fc {
+        th {
+            &[class*=fc-] {
+                background-color: var.$dark3;
             }
-            &.fc-widget-header{
-                color: $dark-text;
+
+            &.fc-widget-header {
+                color: var.$dark-text;
             }
-        } 
+        }
     }
-    .fc-unthemed{
-        .fc-content{
-            border-color: rgba($white, 0);
+
+    .fc-unthemed {
+        .fc-content {
+            border-color: rgba(var.$white, 0);
         }
-        .fc-divider{
-            border-color: rgba($white, 0);
+
+        .fc-divider {
+            border-color: rgba(var.$white, 0);
         }
-        .fc-list-heading{
-            td{
-                border-color: rgba($white, 0);
+
+        .fc-list-heading {
+            td {
+                border-color: rgba(var.$white, 0);
             }
         }
-        .fc-list-view{
-            border-color: rgba($white, 0);
+
+        .fc-list-view {
+            border-color: rgba(var.$white, 0);
         }
-        .fc-popover{
-            border-color: rgba($white, 0);
+
+        .fc-popover {
+            border-color: rgba(var.$white, 0);
         }
-        .fc-row{
-            border-color: rgba($white, 0);
+
+        .fc-row {
+            border-color: rgba(var.$white, 0);
         }
-        tbody{
-            border-color: rgba($white, 0);
+
+        tbody {
+            border-color: rgba(var.$white, 0);
         }
-        td{
-            border-color: rgba($white, 0);
+
+        td {
+            border-color: rgba(var.$white, 0);
         }
-        th{
-            border-color: rgba($white, 0);
+
+        th {
+            border-color: rgba(var.$white, 0);
         }
-        thead{
-            border-color: rgba($white, 0);
+
+        thead {
+            border-color: rgba(var.$white, 0);
         }
+
         .fc-today {
-            border-color: rgba($white, 0);
-            background-color: lighten($body-dark, 15%)!important;
+            border-color: rgba(var.$white, 0);
+            background-color: color.adjust(var.$body-dark, $lightness: 15%) !important;
         }
     }
-    .fc-day{
-        background-color: $dark3;
+
+    .fc-day {
+        background-color: var.$dark3;
     }
-    .publisher-multi{
-        .publisher-input{
-            color: $white;
+
+    .publisher-multi {
+        .publisher-input {
+            color: var.$white;
         }
     }
-    .user-block{
+
+    .user-block {
         .description {
-            color: $dark-text;
+            color: var.$dark-text;
         }
     }
-    .post{
-        border-bottom-color: rgba($white, 0.12);
-        color: $dark-text;  
+
+    .post {
+        border-bottom-color: rgba(var.$white, 0.12);
+        color: var.$dark-text;
     }
-    .blockquote{
-        color: $dark-text;
-        footer{
-           color: $dark-text; 
+
+    .blockquote {
+        color: var.$dark-text;
+
+        footer {
+            color: var.$dark-text;
         }
     }
-    .progress{
-        background-color: lighten($body-dark, 15%);
+
+    .progress {
+        background-color: color.adjust(var.$body-dark, $lightness: 15%);
     }
-    .ribbon-wrapper{
-        background-color: lighten($body-dark, 15%);
+
+    .ribbon-wrapper {
+        background-color: color.adjust(var.$body-dark, $lightness: 15%);
     }
-    .ribbon-wrapper-reverse{
-        background-color: lighten($body-dark, 15%);
+
+    .ribbon-wrapper-reverse {
+        background-color: color.adjust(var.$body-dark, $lightness: 15%);
     }
-    .ribbon-wrapper-bottom{
-        background-color: lighten($body-dark, 15%);
+
+    .ribbon-wrapper-bottom {
+        background-color: color.adjust(var.$body-dark, $lightness: 15%);
     }
-    .ribbon-wrapper-right-bottom{
-        background-color: lighten($body-dark, 15%);
+
+    .ribbon-wrapper-right-bottom {
+        background-color: color.adjust(var.$body-dark, $lightness: 15%);
     }
-    .flexslider{
-        background: $dark3;
+
+    .flexslider {
+        background: var.$dark3;
         border-color: transparent;
     }
-    .slider-track{        
-        background-color: lighten($body-dark, 15%);
-        background-image: -moz-linear-gradient(top, lighten($body-dark, 15%), lighten($body-dark, 15%));
-        background-image: -webkit-gradient(linear, 0 0, 0 100%, from(lighten($body-dark, 15%)), to(lighten($body-dark, 15%)));
-        background-image: -webkit-linear-gradient(top, lighten($body-dark, 15%), lighten($body-dark, 15%));
-        background-image: -o-linear-gradient(top, lighten($body-dark, 15%), lighten($body-dark, 15%));
-        background-image: linear-gradient(to bottom, lighten($body-dark, 15%), lighten($body-dark, 15%));
+
+    .slider-track {
+        background-color: color.adjust(var.$body-dark, $lightness: 15%);
+        background-image: -moz-linear-gradient(top, color.adjust(var.$body-dark, $lightness: 15%), color.adjust(var.$body-dark, $lightness: 15%));
+        background-image: -webkit-gradient(linear, 0 0, 0 100%, from(color.adjust(var.$body-dark, $lightness: 15%)), to(color.adjust(var.$body-dark, $lightness: 15%)));
+        background-image: -webkit-linear-gradient(top, color.adjust(var.$body-dark, $lightness: 15%), color.adjust(var.$body-dark, $lightness: 15%));
+        background-image: -o-linear-gradient(top, color.adjust(var.$body-dark, $lightness: 15%), color.adjust(var.$body-dark, $lightness: 15%));
+        background-image: linear-gradient(to bottom, color.adjust(var.$body-dark, $lightness: 15%), color.adjust(var.$body-dark, $lightness: 15%));
     }
-    .vtabs{
-        .tabs-vertical{
-            li{
-                .nav-link{
-                    color: $dark-text;
-                } 
+
+    .vtabs {
+        .tabs-vertical {
+            li {
+                .nav-link {
+                    color: var.$dark-text;
+                }
             }
         }
     }
-    .tabcontent-border{
-        border-color: rgba($white, 0.12);
+
+    .tabcontent-border {
+        border-color: rgba(var.$white, 0.12);
     }
-    .nav-tabs-custom{
-        background-color: $dark3;
-        > .tab-content{            
-            background-color: $dark3;
+
+    .nav-tabs-custom {
+        background-color: var.$dark3;
+
+        >.tab-content {
+            background-color: var.$dark3;
         }
     }
+
     .nav-tabs {
-        border-color: rgba($white, 0.12);
+        border-color: rgba(var.$white, 0.12);
+
         .nav-link {
-            border-color: rgba($white, 0.12);
-            color: $dark-text;
-            &.active{
-                color: $white !important;
+            border-color: rgba(var.$white, 0.12);
+            color: var.$dark-text;
+
+            &.active {
+                color: var.$white !important;
             }
         }
     }
-    .nav-pills{
-        >li{
-            >a{
-               color: $dark-text; 
-                &.active{
-                    color: $white !important;
+
+    .nav-pills {
+        >li {
+            >a {
+                color: var.$dark-text;
+
+                &.active {
+                    color: var.$white !important;
                 }
             }
         }
     }
-    .nav-tabs-inverse-mode{
-        .nav-link{
-            &.active{
-                color: $dark-text !important;
-                @include hover-focus-state{
-                    color: $dark-text !important;
+
+    .nav-tabs-inverse-mode {
+        .nav-link {
+            &.active {
+                color: var.$dark-text !important;
+
+                @include mixin.hover-focus-state {
+                    color: var.$dark-text !important;
                 }
             }
         }
     }
-    .timeline__post{
-        background-color: lighten($body-dark, 15%); 
+
+    .timeline__post {
+        background-color: color.adjust(var.$body-dark, $lightness: 15%);
     }
-    .timeline{
-        .timeline-item{
-            >.timeline-event{
-                background-color: lighten($body-dark, 15%);
-                border-color: rgba($white, 0.12);
-                color: $dark-text;
-                &.timeline-event-default{
-                    background-color: lighten($body-dark, 15%);
-                    border-color: rgba($white, 0.12);
-                    color: $dark-text;                    
-                    &:before{
-                        border-left-color: rgba($white, 0.12);
-                        border-right-color: rgba($white, 0.12);
-                    }                    
-                    &:after{                    
-                        border-left-color: lighten($body-dark, 15%);
-                        border-right-color: lighten($body-dark, 15%);
+
+    .timeline {
+        .timeline-item {
+            >.timeline-event {
+                background-color: color.adjust(var.$body-dark, $lightness: 15%);
+                border-color: rgba(var.$white, 0.12);
+                color: var.$dark-text;
+
+                &.timeline-event-default {
+                    background-color: color.adjust(var.$body-dark, $lightness: 15%);
+                    border-color: rgba(var.$white, 0.12);
+                    color: var.$dark-text;
+
+                    &:before {
+                        border-left-color: rgba(var.$white, 0.12);
+                        border-right-color: rgba(var.$white, 0.12);
+                    }
+
+                    &:after {
+                        border-left-color: color.adjust(var.$body-dark, $lightness: 15%);
+                        border-right-color: color.adjust(var.$body-dark, $lightness: 15%);
                     }
                 }
-                &:before{
-                    border-left-color: rgba($white, 0.12);
-                    border-right-color: rgba($white, 0.12);
+
+                &:before {
+                    border-left-color: rgba(var.$white, 0.12);
+                    border-right-color: rgba(var.$white, 0.12);
                 }
-                &:after{                    
-                    border-left-color: lighten($body-dark, 15%);
-                    border-right-color: lighten($body-dark, 15%);
+
+                &:after {
+                    border-left-color: color.adjust(var.$body-dark, $lightness: 15%);
+                    border-right-color: color.adjust(var.$body-dark, $lightness: 15%);
                 }
-            } 
+            }
         }
     }
-    .panel{
-       background-color: $dark3; 
+
+    .panel {
+        background-color: var.$dark3;
     }
-    .panel-title{
-        color: $dark-text;
+
+    .panel-title {
+        color: var.$dark-text;
     }
-    .fontawesome-icon-list{
-        .fa-hover{
-            color: $dark-text;
-        } 
+
+    .fontawesome-icon-list {
+        .fa-hover {
+            color: var.$dark-text;
+        }
     }
-    .ion-icon-list{
+
+    .ion-icon-list {
         .ion-hover {
-            color: $dark-text;
+            color: var.$dark-text;
         }
     }
-    .bs-glyphicons{
-        li{            
-            border-color: rgba($white, 0.12);
-            color: $dark-text;
+
+    .bs-glyphicons {
+        li {
+            border-color: rgba(var.$white, 0.12);
+            color: var.$dark-text;
         }
     }
-    .icon-list-demo{
-        div{
-            color: $dark-text;
+
+    .icon-list-demo {
+        div {
+            color: var.$dark-text;
         }
     }
-    .dp-off{
-        background-color: lighten($body-dark, 15%)!important; 
+
+    .dp-off {
+        background-color: color.adjust(var.$body-dark, $lightness: 15%) !important;
     }
-    .dp-divider{
-        border-color: rgba($white, 0.12) !important;
+
+    .dp-divider {
+        border-color: rgba(var.$white, 0.12) !important;
     }
-    .myadmin-dd{
-        .dd-list{
-            .dd-item{
-                .dd-handle{
-                    background-color: lighten($body-dark, 15%);
+
+    .myadmin-dd {
+        .dd-list {
+            .dd-item {
+                .dd-handle {
+                    background-color: color.adjust(var.$body-dark, $lightness: 15%);
                 }
             }
-            .dd3-content{
-                background-color: lighten($body-dark, 15%);
+
+            .dd3-content {
+                background-color: color.adjust(var.$body-dark, $lightness: 15%);
             }
-            .dd3-handle{
-                background-color: lighten($body-dark, 15%);
+
+            .dd3-handle {
+                background-color: color.adjust(var.$body-dark, $lightness: 15%);
             }
         }
     }
-    .grid-stack-item-content{
-        background-color: lighten($body-dark, 15%);
-        color: $dark-text;
+
+    .grid-stack-item-content {
+        background-color: color.adjust(var.$body-dark, $lightness: 15%);
+        color: var.$dark-text;
     }
-    .sweet-alert{
-        background-color: lighten($body-dark, 15%);
-        h2{            
-            color: $dark-text;
+
+    .sweet-alert {
+        background-color: color.adjust(var.$body-dark, $lightness: 15%);
+
+        h2 {
+            color: var.$dark-text;
         }
-        p{
-            color: $dark-text;
+
+        p {
+            color: var.$dark-text;
         }
-        .sa-icon.sa-success{
-            @include before-after-state{
-                background-color: lighten($body-dark, 15%);
+
+        .sa-icon.sa-success {
+            @include mixin.before-after-state {
+                background-color: color.adjust(var.$body-dark, $lightness: 15%);
             }
+
             .sa-fix {
-                background-color: lighten($body-dark, 15%);
+                background-color: color.adjust(var.$body-dark, $lightness: 15%);
             }
         }
     }
-    .ct-grid{
-        stroke: rgba($white, 0.2);
+
+    .ct-grid {
+        stroke: rgba(var.$white, 0.2);
     }
-    .ct-label{        
-        fill: rgba($white, 0.4);
-        color: rgba($white, 0.4);
+
+    .ct-label {
+        fill: rgba(var.$white, 0.4);
+        color: rgba(var.$white, 0.4);
     }
-    .invoice{
-        border-color: rgba($white, 0.12);
-        background-color: lighten($dark3, 05%);
+
+    .invoice {
+        border-color: rgba(var.$white, 0.12);
+        background-color: color.adjust(var.$dark3, $lightness: 5%);
     }
-    .invoice-details{
-        border-color: rgba($white, 0.12);
-        background-color: lighten($dark3, 05%);
+
+    .invoice-details {
+        border-color: rgba(var.$white, 0.12);
+        background-color: color.adjust(var.$dark3, $lightness: 5%);
     }
-    .product-list-in-box{
+
+    .product-list-in-box {
         >.item {
-            border-color: rgba($white, 0.12);
+            border-color: rgba(var.$white, 0.12);
         }
     }
-    .list-group-item{        
-        background-color: $dark3;    
-	    border: 1px solid rgba($white, 0.12);
+
+    .list-group-item {
+        background-color: var.$dark3;
+        border: 1px solid rgba(var.$white, 0.12);
     }
-    .list-style-none{
-        li{
-            &.divider{
-               background-color: lighten($body-dark, 30%); 
-            } 
-        } 
-    }
-    .attachment-block{
-        background-color: lighten($body-dark, 30%);    
-	    border-color: rgba($white, 0.12);
-        .attachment-text{
-            color: lighten($body-dark, 45%);
+
+    .list-style-none {
+        li {
+            &.divider {
+                background-color: color.adjust(var.$body-dark, $lightness: 30%);
+            }
         }
     }
-    .badge-ring{
-        &::after{            
-            background-color: lighten($body-dark, 25%);
+
+    .attachment-block {
+        background-color: color.adjust(var.$body-dark, $lightness: 30%);
+        border-color: rgba(var.$white, 0.12);
+
+        .attachment-text {
+            color: color.adjust(var.$body-dark, $lightness: 45%);
         }
     }
-    :not(pre)>code[class*="language-"]{
-        background: lighten($body-dark, 15%);
-        border: 1px solid lighten($body-dark, 20%);
-        border-left: 2px solid $warning;
-    }
-    pre[class*="language-"]{
-        background: lighten($body-dark, 15%);
-        border: 1px solid lighten($body-dark, 20%);
-        border-left: 2px solid $warning;
-    }
-    hr{
-        border-top-color: rgba($white, 0.1);
-    }
-    .icons-list-demo{
-         div {
-            color: lighten($body-dark, 70%);
+
+    .badge-ring {
+        &::after {
+            background-color: color.adjust(var.$body-dark, $lightness: 25%);
         }
     }
-    .custom-file-label{
-        background-color: lighten($body-dark, 30%);
-        border: 1px solid rgba($white, 0.12);
+
+    :not(pre)>code[class*="language-"] {
+        background: color.adjust(var.$body-dark, $lightness: 15%);
+        border: 1px solid color.adjust(var.$body-dark, $lightness: 20%);
+        border-left: 2px solid var.$warning;
+    }
+
+    pre[class*="language-"] {
+        background: color.adjust(var.$body-dark, $lightness: 15%);
+        border: 1px solid color.adjust(var.$body-dark, $lightness: 20%);
+        border-left: 2px solid var.$warning;
+    }
+
+    hr {
+        border-top-color: rgba(var.$white, 0.1);
+    }
+
+    .icons-list-demo {
+        div {
+            color: color.adjust(var.$body-dark, $lightness: 70%);
+        }
+    }
+
+    .custom-file-label {
+        background-color: color.adjust(var.$body-dark, $lightness: 30%);
+        border: 1px solid rgba(var.$white, 0.12);
+
         ::after {
-            color: lighten($body-dark, 70%);
-            background-color: lighten($body-dark, 30%);
-            border-left: 1px solid rgba($white, 0.12);
+            color: color.adjust(var.$body-dark, $lightness: 70%);
+            background-color: color.adjust(var.$body-dark, $lightness: 30%);
+            border-left: 1px solid rgba(var.$white, 0.12);
         }
     }
+
     .dropzone {
-        background-color: lighten($body-dark, 15%);
+        background-color: color.adjust(var.$body-dark, $lightness: 15%);
     }
-    
-    .main-header{
-        .logo-box{
-            background: $body-dark !important;
+
+    .main-header {
+        .logo-box {
+            background: var.$body-dark !important;
         }
-        .app-menu{        
-            .search-bx {   
-              input[type="search"] {
-                background-color: $dark3;
-                color: $dark-text;
-              }
-              ::placeholder {
-                color: $dark-text;
-              }
-              .btn {
-                background-color: $dark3;
-                color: $dark-text !important;
-              }
+
+        .app-menu {
+            .search-bx {
+                input[type="search"] {
+                    background-color: var.$dark3;
+                    color: var.$dark-text;
+                }
+
+                ::placeholder {
+                    color: var.$dark-text;
+                }
+
+                .btn {
+                    background-color: var.$dark3;
+                    color: var.$dark-text !important;
+                }
             }
         }
-        li{
-            &.user-header{                
-                background-color: $white;   
-            } 
+
+        li {
+            &.user-header {
+                background-color: var.$white;
+            }
         }
-        .navbar{
-            .sidebar-toggle{
-                color: $white;
+
+        .navbar {
+            .sidebar-toggle {
+                color: var.$white;
             }
-            .res-only-view{
-                color: $white;
+
+            .res-only-view {
+                color: var.$white;
             }
-            .nav{
-                    >li{
-                    >a{
-                       color: $dark-text;
-                       background-color: $dark3; 
-                            @include hover-state{
-                                background-color: rgba($body-dark, 0.05);
-                            }
+
+            .nav {
+                >li {
+                    >a {
+                        color: var.$dark-text;
+                        background-color: var.$dark3;
+
+                        @include mixin.hover-state {
+                            background-color: rgba(var.$body-dark, 0.05);
                         }
                     }
-                    .open{
-                        >a{
-                           background-color: rgba($body-dark, 0.05); 
-                                @include hover-focus-state{
-                                    background-color: rgba($body-dark, 0.05);
-                                }
+                }
+
+                .open {
+                    >a {
+                        background-color: rgba(var.$body-dark, 0.05);
+
+                        @include mixin.hover-focus-state {
+                            background-color: rgba(var.$body-dark, 0.05);
                         }
                     }
-                    >.active{
-                        >a{
-                           background-color: rgba($body-dark, 0.05); 
-                        }
+                }
+
+                >.active {
+                    >a {
+                        background-color: rgba(var.$body-dark, 0.05);
                     }
+                }
             }
         }
-    }    
-    .main-footer{
-        background: $body-dark;
-        color: $dark-text;
-        border-color: rgba($white, 0.12);
     }
-    .main-sidebar{
-        background-color: $body-dark;
+
+    .main-footer {
+        background: var.$body-dark;
+        color: var.$dark-text;
+        border-color: rgba(var.$white, 0.12);
     }
-    .left-side{
-        box-shadow: 0 10px 15px -5px rgba(lighten($dark, 15%), .07);
-        background-color: rgba(lighten($body-dark, 30%), 0.75);   
+
+    .main-sidebar {
+        background-color: var.$body-dark;
     }
-    .user-panel{
-        >.info{
-           color: $white; 
-            >a{
-                color: $white; 
+
+    .left-side {
+        box-shadow: 0 10px 15px -5px rgba(color.adjust(var.$dark, $lightness: 15%), .07);
+        background-color: rgba(color.adjust(var.$body-dark, $lightness: 30%), 0.75);
+    }
+
+    .user-panel {
+        >.info {
+            color: var.$white;
+
+            >a {
+                color: var.$white;
             }
-        } 
-    }
-    
-    .sidebar-menu{
-        >li{
-            border-left: 3px solid $body-dark;
         }
     }
-    .main-sidebar{
+
+    .sidebar-menu {
+        >li {
+            border-left: 3px solid var.$body-dark;
+        }
+    }
+
+    .main-sidebar {
         .sidebar-footer {
-            background-color: $body-dark;
-        }    
+            background-color: var.$body-dark;
+        }
     }
-    .sidebar-menu{
-        >li{
-            &.treeview.menu-open{            
-                >a{
-                   opacity: 1; 
+
+    .sidebar-menu {
+        >li {
+            &.treeview.menu-open {
+                >a {
+                    opacity: 1;
                 }
             }
-            &:hover{
-                >a{
-                  color: $white;
-                    >i{
-                       color: $white;
-	                   border: 0px solid lighten($body-dark, 60%);
+
+            &:hover {
+                >a {
+                    color: var.$white;
+
+                    >i {
+                        color: var.$white;
+                        border: 0px solid color.adjust(var.$body-dark, $lightness: 60%);
                     }
                 }
             }
-            &.active{
-                >a{
-                  color: $white; 
-                    >i{
-                       color: lighten($body-dark, 60%);
-	                   border: 0px solid lighten($body-dark, 60%);
+
+            &.active {
+                >a {
+                    color: var.$white;
+
+                    >i {
+                        color: color.adjust(var.$body-dark, $lightness: 60%);
+                        border: 0px solid color.adjust(var.$body-dark, $lightness: 60%);
                     }
                 }
             }
-            &.active{
-                >a{
-                    background-color: $white;
-                    color: $dark;
-                    > i{
-                       color: $dark; 
+
+            &.active {
+                >a {
+                    background-color: var.$white;
+                    color: var.$dark;
+
+                    >i {
+                        color: var.$dark;
                     }
-                    &:after{
+
+                    &:after {
                         content: " ";
                         position: absolute;
                         right: 0;
@@ -1521,61 +1889,69 @@ body{
                         height: 0;
                         border-style: solid;
                         border-width: 22px 10px 22px 0;
-                        border-color: transparent lighten($body-dark, 20%) transparent transparent !important;
+                        border-color: transparent color.adjust(var.$body-dark, $lightness: 20%) transparent transparent !important;
                     }
                 }
             }
-            &.menu-open{
-                >a{  
-                    >i{
-                       color: lighten($body-dark, 60%);
-	                   border: 0px solid lighten($body-dark, 60%);
+
+            &.menu-open {
+                >a {
+                    >i {
+                        color: color.adjust(var.$body-dark, $lightness: 60%);
+                        border: 0px solid color.adjust(var.$body-dark, $lightness: 60%);
                     }
                 }
             }
-            >a{
-                >i{
-                   color:$dark2; 
+
+            >a {
+                >i {
+                    color: var.$dark2;
                 }
             }
-            >.treeview-menu{
+
+            >.treeview-menu {
                 margin: 0 0px;
             }
-        } 
-        li{
-            &.header{
-                color: $light5;
+        }
+
+        li {
+            &.header {
+                color: var.$light5;
             }
         }
     }
-    &.sidebar-collapse{
-        .sidebar-menu{
-            >li{
-                >.treeview-menu{
-                    background-color: $body-dark;
-                    > .treeview .treeview-menu{
-                        background-color: $body-dark;   
-                    }
-                } 
-            }
-        }
-    }
-    &.sidebar-mini{
-        &.sidebar-collapse{
-            .sidebar-menu{
-                >li{
-                    >a{
-                        >span{
-                            background-color: $body-dark !important;
-                            color: $white;
-                        } 
+
+    &.sidebar-collapse {
+        .sidebar-menu {
+            >li {
+                >.treeview-menu {
+                    background-color: var.$body-dark;
+
+                    >.treeview .treeview-menu {
+                        background-color: var.$body-dark;
                     }
                 }
-                >li.active{
-                    >a{
-                        >span{
-                            background-color: $body-dark !important;
-                            color: $white;
+            }
+        }
+    }
+
+    &.sidebar-mini {
+        &.sidebar-collapse {
+            .sidebar-menu {
+                >li {
+                    >a {
+                        >span {
+                            background-color: var.$body-dark !important;
+                            color: var.$white;
+                        }
+                    }
+                }
+
+                >li.active {
+                    >a {
+                        >span {
+                            background-color: var.$body-dark !important;
+                            color: var.$white;
                         }
                     }
                 }
@@ -1584,25 +1960,27 @@ body{
     }
 }
 
-@include screen-sm-max{
-    .dark-skin{
-        &.sidebar-mini{
-            &.sidebar-collapse{
-                .sidebar-menu{
-                    >li{
-                        >a{
-                            >span{
-                               background-color: rgba(lighten($body-dark, 30%), 0) !important; 
-                            } 
-                        } 
-                        &.menu-open{
-                            >a{
-                                background-color: rgba(lighten($body-dark, 30%), 0) !important;
+@include responsive.screen-sm-max {
+    .dark-skin {
+        &.sidebar-mini {
+            &.sidebar-collapse {
+                .sidebar-menu {
+                    >li {
+                        >a {
+                            >span {
+                                background-color: rgba(color.adjust(var.$body-dark, $lightness: 30%), 0) !important;
                             }
                         }
-                        &.active{
-                            >a{
-                                background-color: rgba(lighten($body-dark, 30%), 0) !important;
+
+                        &.menu-open {
+                            >a {
+                                background-color: rgba(color.adjust(var.$body-dark, $lightness: 30%), 0) !important;
+                            }
+                        }
+
+                        &.active {
+                            >a {
+                                background-color: rgba(color.adjust(var.$body-dark, $lightness: 30%), 0) !important;
                             }
                         }
                     }
@@ -1611,91 +1989,120 @@ body{
         }
     }
 }
-.dark-skin{
-    .sidebar{
-        a{
-          color: $dark-text; 
-            &:hover{
-               text-decoration: none; 
+
+.dark-skin {
+    .sidebar {
+        a {
+            color: var.$dark-text;
+
+            &:hover {
+                text-decoration: none;
             }
         }
     }
-    .sidebar-form{
-        border: 1px solid lighten($body-dark, 60%);
-        input[type="text"]{
+
+    .sidebar-form {
+        border: 1px solid color.adjust(var.$body-dark, $lightness: 60%);
+
+        input[type="text"] {
             box-shadow: none;
-            background-color: rgba($body-dark, 0.59);
-            border: 1px solid rgba($body-dark, 0.59);
-            color: $white;
-                &:focus{
-                    color: $white;
-                    + .input-group-btn .btn{
-                        color: $white;
-                    }
-                }
-        }
-        .btn{
-            box-shadow: none;
-            background-color: rgba($body-dark, 0.59);
-            border: 1px solid rgba($body-dark, 0.59);
-            color: $light;
-        }
-    }
-    .main-footer{
-       background-color: body-dark;
-        color: $white;
-    }
-    .nav-dot-separated{
-        .nav-item::after{
-           color: $dark-text; 
-        } 
-        >.nav-link::after{
-           color: $dark-text; 
-        } 
-    }
-    .box{        
-        background-color: $dark3;
-	    box-shadow: -7.829px 11.607px 21px 0px rgba(25, 42, 70, 0.13);
-        &.box-solid{
-            .box-title{
-                color: $white;
-            }
-        }
-        &[class*=bg]{
-            h1, h2, h3, h4, h5, h6{
-                color: $white;
-            }
-            .box-controls{
-                li > a{
-                    color: $white;
+            background-color: rgba(var.$body-dark, 0.59);
+            border: 1px solid rgba(var.$body-dark, 0.59);
+            color: var.$white;
+
+            &:focus {
+                color: var.$white;
+
+                +.input-group-btn .btn {
+                    color: var.$white;
                 }
             }
         }
-    }
-    .box-header{
-        color: $dark-text;
-    }
-    .control-sidebar{
-        color: $dark-text;
-        background-color: lighten($body-dark, 05%);
-        +.control-sidebar-bg{            
-            background-color: lighten($body-dark, 05%);
+
+        .btn {
+            box-shadow: none;
+            background-color: rgba(var.$body-dark, 0.59);
+            border: 1px solid rgba(var.$body-dark, 0.59);
+            color: var.$light;
         }
-        .nav-tabs{
-            &.control-sidebar-tabs{
-                border-bottom: 1px solid lighten($body-dark, 35%);
-                >li{
-                    >a{
-                       color: lighten($body-dark, 80%);
-                        &:hove{
-                            color: $white;
+    }
+
+    .main-footer {
+        background-color: body-dark;
+        color: var.$white;
+    }
+
+    .nav-dot-separated {
+        .nav-item::after {
+            color: var.$dark-text;
+        }
+
+        >.nav-link::after {
+            color: var.$dark-text;
+        }
+    }
+
+    .box {
+        background-color: var.$dark3;
+        box-shadow: -7.829px 11.607px 21px 0px rgba(25, 42, 70, 0.13);
+
+        &.box-solid {
+            .box-title {
+                color: var.$white;
+            }
+        }
+
+        &[class*=bg] {
+
+            h1,
+            h2,
+            h3,
+            h4,
+            h5,
+            h6 {
+                color: var.$white;
+            }
+
+            .box-controls {
+                li>a {
+                    color: var.$white;
+                }
+            }
+        }
+    }
+
+    .box-header {
+        color: var.$dark-text;
+    }
+
+    .control-sidebar {
+        color: var.$dark-text;
+        background-color: color.adjust(var.$body-dark, $lightness: 05%);
+
+        +.control-sidebar-bg {
+            background-color: color.adjust(var.$body-dark, $lightness: 05%);
+        }
+
+        .nav-tabs {
+            &.control-sidebar-tabs {
+                border-bottom: 1px solid color.adjust(var.$body-dark, $lightness: 35%);
+
+                >li {
+                    >a {
+                        color: color.adjust(var.$body-dark, $lightness: 80%);
+
+                        &:hove {
+                            color: var.$white;
                         }
-                        @include hover-state{
+
+                        @include mixin.hover-state {
                             background-color: transparent;
                         }
-                        &.active{
+
+                        &.active {
                             background-color: transparent;
-                            @include hover-state{
+
+                            @include mixin.hover-state {
                                 background-color: transparent;
                             }
                         }
@@ -1703,127 +2110,153 @@ body{
                 }
             }
         }
-        .control-sidebar-heading{
-            color: $dark-text;
+
+        .control-sidebar-heading {
+            color: var.$dark-text;
         }
-        .control-sidebar-subheading{
-           color: $dark-text; 
+
+        .control-sidebar-subheading {
+            color: var.$dark-text;
         }
-        .control-sidebar-menu{
-            >li{
+
+        .control-sidebar-menu {
+            >li {
                 >a {
-                    .menu-info{
-                        >p{
-                           color: lighten($body-dark, 70%); 
+                    .menu-info {
+                        >p {
+                            color: color.adjust(var.$body-dark, $lightness: 70%);
                         }
                     }
                 }
             }
         }
     }
-    .control-sidebar-dark{
-        .control-sidebar-menu{
-            >li{
-                >a:hover{
-                    background-color: lighten($body-dark, 10%);
+
+    .control-sidebar-dark {
+        .control-sidebar-menu {
+            >li {
+                >a:hover {
+                    background-color: color.adjust(var.$body-dark, $lightness: 10%);
                 }
             }
         }
     }
-    .dropdown-grid{
-        color: $dark-text;
+
+    .dropdown-grid {
+        color: var.$dark-text;
     }
+
     .text-muted {
-        color: $dark2 !important;
+        color: var.$dark2 !important;
     }
+
     .bg-light {
-      background-color: lighten($dark3, 02%) !important;
+        background-color: color.adjust(var.$dark3, $lightness: 02%) !important;
     }
+
     .bg-lighter {
-      background-color: lighten($dark3, 05%) !important;
+        background-color: color.adjust(var.$dark3, $lightness: 05%) !important;
     }
+
     .bg-lightest {
-      background-color: lighten($dark3, 10%) !important;
+        background-color: color.adjust(var.$dark3, $lightness: 10%) !important;
     }
+
     .table-hover tbody tr:hover {
-        color: $dark-title; 
+        color: var.$dark-title;
     }
-    .flot-tick-label.tickLabel{
+
+    .flot-tick-label.tickLabel {
         color: #969dab;
     }
+
     .callout {
-        &[class*=callout-]{
-            h1, h2, h3, h4, h5, h6{
-                color: $white;
+        &[class*=callout-] {
+
+            h1,
+            h2,
+            h3,
+            h4,
+            h5,
+            h6 {
+                color: var.$white;
             }
         }
-    } 
-    .btn-flat{        
-        background-color: $body-dark !important;
     }
+
+    .btn-flat {
+        background-color: var.$body-dark !important;
+    }
+
     .box-body .box-title {
-        color: $dark-title !important;
+        color: var.$dark-title !important;
     }
+
     .text-dark {
-        color:lighten($dark, 30%) !important;
+        color: color.adjust(var.$dark, $lightness: 30%) !important;
     }
 }
-.dark-skin{
+
+.dark-skin {
     &.layout-boxed {
-        background: $dark3;
+        background: var.$dark3;
+
         .wrapper {
-            background: $body-dark;
+            background: var.$body-dark;
         }
     }
 }
-.dark-skin{
+
+.dark-skin {
     .sticky-toolbar {
-        background: $body-dark;
+        background: var.$body-dark;
     }
-    .w3-sidebar{
-        background:  $dark3;
+
+    .w3-sidebar {
+        background: var.$dark3;
     }
+
     .demo-panel figure {
-        border: 5px solid $body-dark;
+        border: 5px solid var.$body-dark;
     }
-    .demo-panel .buy-bt-bx{
-        background: $dark3;
+
+    .demo-panel .buy-bt-bx {
+        background: var.$dark3;
     }
 }
-.dark-skin{
+
+.dark-skin {
     .chat-box {
-        background: $body-dark;
+        background: var.$body-dark;
     }
+
     #chat-input {
-        background: $body-dark;
+        background: var.$body-dark;
     }
+
     .chat-box-body {
-        border-color: rgba($white, 0.12);
-    }   
-    .cm-msg-text {
-        background: $dark3;
-        color: $dark-text;;
+        border-color: rgba(var.$white, 0.12);
     }
+
+    .cm-msg-text {
+        background: var.$dark3;
+        color: var.$dark-text;
+        ;
+    }
+
     #chat-input {
-        color: $dark-text;;
+        color: var.$dark-text;
+        ;
     }
 }
-.dark-skin{
+
+.dark-skin {
     .bootstrap-tagsinput {
-        background-color: lighten($body-dark, 15%);
+        background-color: color.adjust(var.$body-dark, $lightness: 15%);
         border-color: rgba(255, 255, 255, 0.12);
     }
-    .wizard-content .wizard > .steps > ul > li.disabled a {
-        color: $white;
+
+    .wizard-content .wizard>.steps>ul>li.disabled a {
+        color: var.$white;
     }
 }
-
-
-
-
-
-
-
-
-
-

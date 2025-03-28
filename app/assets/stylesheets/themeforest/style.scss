@@ -91,10 +91,8 @@ Waves
 @use './color_theme';
 @use './style_rtl';
 
+@use '../../images/themeforest/icons/Ionicons/scss/ionicons';
 @use '../../images/themeforest/icons/font-awesome/scss/font-awesome';
-
-@use '../../images/themeforest/icons/font-awesome/css/font-awesome.css';
-@use '../../images/themeforest/icons/Ionicons/css/ionicons.css';
 @use '../../images/themeforest/icons/themify-icons/themify-icons.css';
 @use '../../images/themeforest/icons/linea-icons/linea.css';
 @use '../../images/themeforest/icons/glyphicons/glyphicon.css'; 
@@ -102,6 +100,6 @@ Waves
 @use '../../images/themeforest/icons/material-design-iconic-font/css/materialdesignicons.css';
 @use '../../images/themeforest/icons/simple-line-icons/css/simple-line-icons.css';
 @use '../../images/themeforest/icons/cryptocoins-master/cryptocoins.css';
-@use '../../images/themeforest/icons/weather-icons/css/weather-icons.min.css';
+@use '../../images/themeforest/icons/weather-icons/sass/weather-icons-wind.min.scss';
 @use '../../images/themeforest/icons/iconsmind/style.css';
-@use '../../images/themeforest/icons/icomoon/style.css';
+@use '../../images/themeforest/icons/icomoon/icomoon-style.css';
