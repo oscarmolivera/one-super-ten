@@ -42,3 +42,4 @@
 /vendor/bundle
 /solid/*
 !.keep
+**/.DS_Store

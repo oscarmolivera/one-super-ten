@@ -124,6 +124,9 @@ GEM
       raabro (~> 1.4)
     globalid (1.2.1)
       activesupport (>= 6.1)
+    google-protobuf (4.30.2-arm64-darwin)
+      bigdecimal
+      rake (>= 13)
     i18n (1.14.7)
       concurrent-ruby (~> 1.0)
     io-console (0.8.0)
@@ -299,6 +302,8 @@ GEM
       rubocop-performance (>= 1.24)
       rubocop-rails (>= 2.30)
     ruby-progressbar (1.13.0)
+    sass-embedded (1.86.0-arm64-darwin)
+      google-protobuf (~> 4.30)
     securerandom (0.4.1)
     solid_cable (3.0.7)
       actioncable (>= 7.2)
@@ -381,6 +386,7 @@ DEPENDENCIES
   rails (~> 8.0.2)
   rails_12factor (~> 0.0.3)
   rubocop-rails-omakase
+  sass-embedded
   solid_cable
   solid_cache
   solid_queue

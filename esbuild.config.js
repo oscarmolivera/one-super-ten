@@ -1,4 +1,5 @@
 const esbuild = require("esbuild");
+const { sassPlugin } = require("esbuild-sass-plugin");
 
 const args = process.argv.slice(2);
 const watch = args.includes("--watch");
@@ -10,6 +11,7 @@ const options = {
   format: "esm",
   outdir: "app/assets/builds",
   publicPath: "/assets",
+  plugins: [sassPlugin()], 
   loader: {
     '.js': 'jsx',
     '.css': 'css',

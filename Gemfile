@@ -13,6 +13,7 @@ gem "pg", "~> 1.1"
 gem "puma", ">= 5.0"
 gem "pundit", "~> 2.5"
 gem "rails", "~> 8.0.2"
+gem 'sass-embedded'
 gem "solid_cable"
 gem "solid_cache"
 gem "solid_queue"
