@@ -1,5 +1,5 @@
 source "https://rubygems.org"
-ruby '3.2.3'
+ruby ">= 3.2.3", "< 4.0"
 
 gem "acts_as_tenant", "~> 1.0"
 gem "bootsnap", require: false
