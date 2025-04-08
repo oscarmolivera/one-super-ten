@@ -19,7 +19,15 @@ const options = {
   publicPath: "/assets",
   plugins: [
     sassPlugin(),
-    copy()
+    copy({
+      assets: [
+        {
+          from: ["app/assets/fonts/**/*.{woff,woff2,ttf,eot,svg}"],
+          to: ["fonts"],
+          keepStructure: false
+        }
+      ]
+    })
   ],
   loader: {
     '.js': 'jsx',
