@@ -1,2 +1,89 @@
-<h1>Home#index</h1>
-<p>Find me in app/views/home/index.html.erb</p>
+<div class="container py-5">
+  <h1 class="text-center mb-5 text-primary">Home#index Bootstrap + Bootstrap Icons Demo</h1>
+  <p>Find me in app/views/home/index.html.erb</p>
+  <div class="row mb-4">
+    <div class="col-md-6">
+      <div class="card shadow-sm border-0">
+        <div class="card-header bg-info text-white d-flex justify-content-between align-items-center">
+          <span><i class="bi bi-card-checklist me-2"></i> Card Header</span>
+          <span class="badge bg-warning text-dark">New</span>
+        </div>
+        <div class="card-body">
+          <h5 class="card-title">Bootstrap 5 Card</h5>
+          <p class="card-text text-muted">
+            This card uses classes like <code>.card</code>, <code>.card-body</code>, and <code>.text-muted</code>.
+          </p>
+          <a href="#" class="btn btn-success">
+            <i class="bi bi-check2-circle me-1"></i> Accept
+          </a>
+          <a href="#" class="btn btn-outline-danger">
+            <i class="bi bi-x-circle me-1"></i> Decline
+          </a>
+        </div>
+        <div class="card-footer text-end small text-secondary">
+          <i class="bi bi-clock me-1"></i> Updated 2 mins ago
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <form class="p-4 bg-light border rounded-3">
+        <h5 class="mb-3"><i class="bi bi-person-lines-fill me-2"></i> Contact Form</h5>
+
+        <div class="mb-3">
+          <label for="name" class="form-label">Name</label>
+          <input type="text" class="form-control" id="name" placeholder="Enter name">
+        </div>
+
+        <div class="mb-3">
+          <label for="email" class="form-label">Email address</label>
+          <input type="email" class="form-control" id="email" placeholder="name@example.com">
+        </div>
+
+        <div class="mb-3">
+          <label for="message" class="form-label">Message</label>
+          <textarea class="form-control" id="message" rows="3"></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-primary w-100">
+          <i class="bi bi-send-plus me-1"></i> Submit
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <hr class="my-5">
+
+  <div class="row text-center">
+    <div class="col">
+      <h4 class="mb-3">Bootstrap Icons</h4>
+      <div class="d-flex flex-wrap gap-4 justify-content-center fs-4 text-secondary">
+        <i class="bi bi-alarm"></i>
+        <i class="bi bi-bag"></i>
+        <i class="bi bi-bell"></i>
+        <i class="bi bi-box-arrow-up-right"></i>
+        <i class="bi bi-calendar-check"></i>
+        <i class="bi bi-chat-left-dots"></i>
+        <i class="bi bi-cloud-download"></i>
+        <i class="bi bi-cpu"></i>
+        <i class="bi bi-currency-exchange"></i>
+        <i class="bi bi-diagram-3"></i>
+        <i class="bi bi-eye-slash"></i>
+        <i class="bi bi-geo-alt"></i>
+        <i class="bi bi-heart-fill text-danger"></i>
+        <i class="bi bi-lightning-charge-fill text-warning"></i>
+        <i class="bi bi-lock-fill"></i>
+        <i class="bi bi-mic-mute-fill"></i>
+        <i class="bi bi-moon-stars"></i>
+        <i class="bi bi-palette-fill"></i>
+        <i class="bi bi-robot"></i>
+        <i class="bi bi-shield-lock-fill"></i>
+        <i class="bi bi-trash"></i>
+        <i class="bi bi-unlock-fill"></i>
+        <i class="bi bi-wifi-off"></i>
+        <i class="bi bi-x-diamond"></i>
+      </div>
+    </div>
+  </div>
+</div>
+
