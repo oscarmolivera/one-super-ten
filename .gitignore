@@ -42,3 +42,6 @@
 /vendor/bundle
 /solid/*
 !.keep
+solid/one_super_ten_development_cache
+solid/one_super_ten_development_cache-shm
+solid/one_super_ten_development_cache-wal
