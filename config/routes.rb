@@ -8,7 +8,7 @@ Rails.application.routes.draw do
   # -------------------------------------- MAIN PUBLIC SITE -
   constraints(lambda { |req| req.subdomain.blank? || req.subdomain == "www" }) do
     root to: "home#index", as: :main_root
-    get 'about', to: 'home#about'
+    get 'susudio', to: 'home#susudio'
     get 'contact', to: 'home#contact'
   end
 
