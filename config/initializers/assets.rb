@@ -7,6 +7,7 @@ Rails.application.config.assets.version = "1.0"
 # Rails.application.config.assets.paths << Emoji.images_path
 Rails.application.config.assets.precompile += %w( favicon.png )
 Rails.application.config.assets.paths << Rails.root.join("app", "assets", "fonts", "bootstrap-icons")
+Rails.application.config.assets.paths << Rails.root.join("app", "assets", "images", "vendor")
 
 Rails.application.config.assets.precompile += %w(
   vendor/bootstrap.min.css
