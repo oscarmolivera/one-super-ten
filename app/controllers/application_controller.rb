@@ -1,6 +1,5 @@
 class ApplicationController < ActionController::Base
   include Pundit::Authorization
-  allow_browser versions: :modern
   before_action :authenticate_user!
   before_action :switch_tenant
   before_action :authorize_super_admin, if: -> { request.subdomain == "admin" }

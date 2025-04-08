@@ -6,5 +6,10 @@ class HomeController < ApplicationController
 
   def susudio
     authorize :home, :susudio?
+
+    respond_to do |format|
+      format.html
+      format.json { render json: { message: 'ok' } }
+    end
   end
 end
