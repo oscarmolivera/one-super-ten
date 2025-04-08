@@ -59,6 +59,6 @@ Rails.application.configure do
   config.active_job.verbose_enqueue_logs = true
 
   config.hosts << /.*\.localhost.me/
-  config.hosts << "localhost"
+  config.hosts << "localhost.me"
 end
 
