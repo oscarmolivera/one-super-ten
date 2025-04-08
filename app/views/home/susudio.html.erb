@@ -1,14 +1,33 @@
 <main class="hold-transition light-skin sidebar-mini theme-primary fixed">
   <div class="wrappper">
     <div id="loader"></div>
+
     <header class="main-header">
       <%= render 'shared/dashboard/main_header' %>
     </header>
-  </div>
-  <aside class="main-sidebar">
-    <%= render 'shared/dashboard/main_sidebar' %>
-  </aside>
-  <div class="content-wrapper">
-    <%= render 'shared/dashboard/content_wrapper' %>
+
+    <aside class="main-sidebar">
+      <%= render 'shared/dashboard/main_sidebar' %>
+    </aside>
+
+    <div class="content-wrapper">
+      <%= render 'shared/dashboard/content_wrapper' %>
+    </div>
+
+    <footer class="main-footer">
+      <%= render 'shared/dashboard/main_footer' %>
+    </footer>
+
+    <aside class="control-sidebar">
+      <%= render 'shared/dashboard/control_sidebar' %>
+    </aside>
   </div>
 </main>  
+
+<div class="sticky-toolbar">
+  <%= render 'shared/dashboard/sticky_toolbar' %>
+</div>
+
+<div class="chat-box-body">
+  <%= render 'shared/dashboard/chat_box_body' %>
+</div>
