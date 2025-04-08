@@ -2,14 +2,16 @@
   "name": "app",
   "private": true,
   "devDependencies": {
-    "esbuild": "^0.25.1"
+    "esbuild": "^0.25.1",
+    "esbuild-plugin-copy": "^2.1.1",
+    "esbuild-sass-plugin": "^3.3.1",
+    "sass-embedded": "^1.86.3"
   },
   "scripts": {
-    "build": "esbuild app/javascript/*.* --bundle --sourcemap --format=esm --outdir=app/assets/builds --public-path=/assets",
-    "build:css:compile": "sass ./app/assets/stylesheets/application.bootstrap.scss:./app/assets/builds/application.css --no-source-map --load-path=node_modules",
-    "build:css:prefix": "postcss ./app/assets/builds/application.css --use=autoprefixer --output=./app/assets/builds/application.css",
-    "build:css": "yarn build:css:compile && yarn build:css:prefix",
-    "watch:css": "nodemon --watch ./app/assets/stylesheets/ --ext scss --exec \"yarn build:css\""
+    "watch:css": "sass --watch app/assets/stylesheets:app/assets/builds",
+    "build:css": "sass app/assets/stylesheets:app/assets/builds",
+    "watch": "node esbuild.config.js --watch",
+    "build": "node esbuild.config.js"
   },
   "dependencies": {
     "@hotwired/stimulus": "^3.2.2",
