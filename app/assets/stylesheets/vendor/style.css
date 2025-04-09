@@ -21222,7 +21222,8 @@ body .main-header .navbar .nav > li.search-box > a:hover, body .main-header .nav
   height: 100vh;
   z-index: 999999;
   overflow: visible;
-  background: #fff url("./images/vendor/1.gif") no-repeat center center; }
+  background: #fff url("vendor/1.gif") no-repeat center center;
+}
 
 /*sidebar*/
 .main-sidebar {
@@ -21468,7 +21469,7 @@ body .main-header .navbar .nav > li.search-box > a:hover, body .main-header .nav
   position: relative;
   width: 100%;
   padding: 10px 0 10px;
-  background-image: url(../../images/user-info.jpg); }
+  background-image: url('vendor/user-info.jpg'); }
   .user-panel:before, .user-panel:after {
     content: " ";
     display: table; }
