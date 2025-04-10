@@ -25,6 +25,11 @@ const options = {
           from: ["app/assets/fonts/**/*.{woff,woff2,ttf,eot,svg}"],
           to: ["fonts"],
           keepStructure: false
+        },
+        {
+          from: ["app/assets/images/**/*"],
+          to: ["images"],
+          keepStructure: false
         }
       ]
     })
