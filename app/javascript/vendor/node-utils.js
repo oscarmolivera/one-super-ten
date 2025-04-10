@@ -1,4 +1,4 @@
-import "animate.css";
+import "animate.css/animate.css";
 import AOS from "aos";
 import "aos/dist/aos.css";
 

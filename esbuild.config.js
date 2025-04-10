@@ -13,7 +13,7 @@ const entryPoints = [
 const options = {
   entryPoints: entryPoints,
   bundle: true,
-  //sourcemap: true,
+  sourcemap: true,
   format: "esm",
   outdir: "app/assets/builds",
   publicPath: "/assets",
