@@ -19,20 +19,7 @@ const options = {
   publicPath: "/assets",
   plugins: [
     sassPlugin(),
-    copy({
-      assets: [
-        {
-          from: ["app/assets/fonts/**/*.{woff,woff2,ttf,eot,svg}"],
-          to: ["fonts"],
-          keepStructure: false
-        },
-        {
-          from: ["app/assets/images/**/*"],
-          to: ["images"],
-          keepStructure: false
-        }
-      ]
-    })
+    copy()
   ],
   loader: {
     '.js': 'jsx',
@@ -49,7 +36,7 @@ const options = {
     '.eot': 'file',
     '.ttf': 'file'
   },
-  external: [],
+  external: []
 };
 async function runBuild() {
   if (watch) {
