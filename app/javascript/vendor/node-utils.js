@@ -25,3 +25,26 @@ document.addEventListener("DOMContentLoaded", () => {
     new PerfectScrollbar(container);
   }
 });
+
+import '../vendor/morris-global';
+
+document.addEventListener("turbo:load", () => {
+  const lineChart = document.getElementById('morris-line-chart');
+  if (lineChart && window.Morris && typeof window.Morris.Line === 'function') {
+    new window.Morris.Line({
+      element: 'morris-line-chart',
+      data: [
+        { year: '2019', value: 10 },
+        { year: '2020', value: 25 },
+        { year: '2021', value: 30 },
+        { year: '2022', value: 20 },
+        { year: '2023', value: 35 }
+      ],
+      xkey: 'year',
+      ykeys: ['value'],
+      labels: ['Value'],
+      lineColors: ['#007bff'],
+      resize: true
+    });
+  }
+});
