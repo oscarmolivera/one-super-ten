@@ -1,0 +1,19 @@
+#labella-timeline text {
+  font-size: 12px;
+  fill: #333;
+}
+
+#labella-timeline line {
+  stroke: #888;
+}
+
+#labella-timeline rect {
+  fill: #49a6e9;
+  rx: 3;
+  ry: 3;
+}
+
+#labella-timeline path.link {
+  stroke-width: 1px;
+  stroke-dasharray: 2, 2;
+}

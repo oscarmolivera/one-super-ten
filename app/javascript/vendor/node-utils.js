@@ -84,3 +84,6 @@ document.addEventListener("turbo:load", () => {
     }
   }
 });
+
+import '../vendor/vis';
+import '../vendor/labella';
