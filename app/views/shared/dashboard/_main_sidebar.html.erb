@@ -6,7 +6,7 @@
       <ul class="sidebar-menu" data-widget="tree">
         <li class="header">Dashboard & Apps</li>
         <li class="treeview">
-          <a href="#">
+          <%= link_to susudio_path do %>
             <i class="icon-Layout-4-blocks">
               <span class="path1"></span>
               <span class="path2"></span>
@@ -15,7 +15,7 @@
             <span class="pull-right-container">
               <i class="fa fa-angle-right pull-right"></i>
             </span>
-          </a>
+          <% end %>
           <ul class="treeview-menu">
             <li>
               <a href="index.html">
@@ -84,8 +84,8 @@
           </ul>
         </li>
         <li class="treeview">
-          <a href="#">
-            <i span class="icon-Layout-grid">
+          <%= link_to kamaly_path do %>
+            <i class="icon-Layout-grid">
               <span class="path1"></span>
               <span class="path2"></span>
             </i>
@@ -93,7 +93,7 @@
             <span class="pull-right-container">
               <i class="fa fa-angle-right pull-right"></i>
             </span>
-          </a>
+          <% end %>
           <ul class="treeview-menu">
             <li>
               <a href="extra_calendar.html">
