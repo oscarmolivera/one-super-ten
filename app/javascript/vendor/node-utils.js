@@ -87,3 +87,12 @@ document.addEventListener("turbo:load", () => {
 
 import '../vendor/vis';
 import '../vendor/labella';
+import '../vendor/flexslider';
+
+document.addEventListener('turbo:load', () => {
+  $('.flexslider').flexslider({
+    animation: 'slide',
+    controlNav: true,
+    directionNav: true
+  });
+});
