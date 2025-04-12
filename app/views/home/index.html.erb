@@ -82,8 +82,29 @@
         </div>
       </div>
     </div>
+    <div class="container mt-4">
+      <div class="card shadow">
+        <div class="card-header bg-dark text-white">
+          <i class="fa fa-play-circle"></i> OwlCarousel2 Demo
+        </div>
+        <div class="card-body">
+          <div class="owl-carousel owl-theme">
+            <% 1.upto(5) do |i| %>
+              <div class="item">
+                <img src="https://placehold.co/800x300?text=Slide+<%= i %>" class="img-fluid" alt="Slide <%= i %>">
+              </div>
+            <% end %>
+          </div>
+        </div>
+        <div class="card-footer text-end small text-muted">
+          Auto-play & Dots Enabled
+        </div>
+      </div>
+    </div>
   </div>
+</div>
 
+  <!-->
   <hr class="my-5">
 
   <div class="row text-center">
@@ -122,6 +143,4 @@
   </div>
   <div>
     <%# image_tag 'fonts/4x3/aw.svg', type: 'iamge/svg' %>
-  </div>
-</div>
-
+  </div-->

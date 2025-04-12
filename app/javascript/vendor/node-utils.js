@@ -48,3 +48,39 @@ document.addEventListener("turbo:load", () => {
     });
   }
 });
+import '../vendor/owl-caroussel';
+// Initialize Owl Carousel
+document.addEventListener("turbo:load", () => {
+  const owl = document.querySelector('.owl-carousel');
+  if (owl && typeof jQuery !== 'undefined') {
+    const images = owl.querySelectorAll("img");
+
+    // Esperar que todas las imágenes se carguen
+    let loadedCount = 0;
+    images.forEach((img) => {
+      if (img.complete) {
+        loadedCount++;
+      } else {
+        img.addEventListener("load", () => {
+          loadedCount++;
+          if (loadedCount === images.length) initOwl();
+        });
+      }
+    });
+
+    // En caso todas estén ya cargadas
+    if (loadedCount === images.length) initOwl();
+
+    function initOwl() {
+      jQuery(owl).owlCarousel({
+        loop: true,
+        margin: 10,
+        nav: true,
+        dots: true,
+        autoplay: true,
+        autoplayTimeout: 3000,
+        items: 1
+      });
+    }
+  }
+});
