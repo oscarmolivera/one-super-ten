@@ -49,6 +49,26 @@
         </button>
       </form>
     </div>
+    <div class="container mt-4">
+      <div class="card shadow border-primary">
+        <div class="card-header bg-primary text-white">
+          <i class="fa fa-cogs"></i> Scroll Test with Legacy CSS Classes
+        </div>
+        <div class="card-body p-0" style="max-height: 250px; overflow: auto;" id="scrollable-legacy">
+          <ul class="list-group list-group-flush">
+            <% 1.upto(10) do |i| %>
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+                <span><i class="fa fa-check-circle text-success me-2"></i> Legacy Item <%= i %></span>
+                <span class="badge bg-secondary rounded-pill"><%= i * 5 %> pts</span>
+              </li>
+            <% end %>
+          </ul>
+        </div>
+        <div class="card-footer text-end small text-muted">
+          Scroll to verify Perfect Scrollbar + CSS loading.
+        </div>
+      </div>
+    </div>
   </div>
 
   <hr class="my-5">

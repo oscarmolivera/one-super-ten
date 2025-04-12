@@ -1,6 +1,8 @@
 import "animate.css/animate.css";
 import AOS from "aos";
 import "aos/dist/aos.css";
+import PerfectScrollbar from 'perfect-scrollbar';
+import 'perfect-scrollbar/css/perfect-scrollbar.css';
 
 document.addEventListener("DOMContentLoaded", () => {
   AOS.init({
@@ -13,4 +15,13 @@ document.addEventListener("DOMContentLoaded", () => {
     mirror: false, // whether elements should animate out while scrolling past
     anchorPlacement: 'top-bottom', // defines trigger point relative to viewport
   });
+});
+
+
+// OPTIONAL: Auto-initialize scrollbar on a specific container after page load
+document.addEventListener("DOMContentLoaded", () => {
+  const container = document.querySelector('#scrollable-content');
+  if (container) {
+    new PerfectScrollbar(container);
+  }
 });
