@@ -101,3 +101,8 @@ import '../vendor/prism';
 document.addEventListener('turbo:load', () => {
   Prism.highlightAll();
 });
+
+import './dataTables'
+document.addEventListener('turbo:load', () => {
+  $('#example').DataTable()
+});
