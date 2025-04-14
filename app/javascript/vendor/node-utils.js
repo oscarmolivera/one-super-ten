@@ -85,10 +85,6 @@ document.addEventListener("turbo:load", () => {
   }
 });
 
-import '../vendor/vis';
-import '../vendor/labella';
-import '../vendor/flexslider';
-
 document.addEventListener('turbo:load', () => {
   $('.flexslider').flexslider({
     animation: 'slide',
@@ -105,4 +101,15 @@ document.addEventListener('turbo:load', () => {
 import './dataTables'
 document.addEventListener('turbo:load', () => {
   $('#example').DataTable()
+});
+
+import './magnific-popup'
+document.addEventListener('turbo:load', () => {
+  $('.popup-gallery').magnificPopup({
+    delegate: 'a',
+    type: 'image',
+    gallery: {
+      enabled: true
+    }
+  })
 });

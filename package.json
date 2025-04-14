@@ -31,6 +31,7 @@
     "jquery": "^3.7.1",
     "keycharm": "^0.4.0",
     "labella": "^1.1.4",
+    "magnific-popup": "^1.2.0",
     "moment": "^2.30.1",
     "morris.js06": "^0.6.9",
     "nodemon": "^3.1.9",

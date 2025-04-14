@@ -163,45 +163,76 @@
       </div>
     </div>
     <div class="container mt-4">
-      <h2>Sample DataTable</h2>
-      <table id="example" class="display" style="width:100%">
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Position</th>
-            <th>Office</th>
-            <th>Age</th>
-            <th>Start date</th>
-            <th>Salary</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Tiger Nixon</td>
-            <td>System Architect</td>
-            <td>Edinburgh</td>
-            <td>61</td>
-            <td>2011/04/25</td>
-            <td>$320,800</td>
-          </tr>
-          <tr>
-            <td>Garrett Winters</td>
-            <td>Accountant</td>
-            <td>Tokyo</td>
-            <td>63</td>
-            <td>2011/07/25</td>
-            <td>$170,750</td>
-          </tr>
-          <!-- Add more rows as needed -->
-        </tbody>
-      </table>    
-    </div>    
+      <div class="card mb-4">
+        <div class="card-header">
+          <h5>Sample DataTable</h5>
+        </div>
+        <div class="card-header">
+          <table id="example" class="display" style="width:100%">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Position</th>
+                <th>Office</th>
+                <th>Age</th>
+                <th>Start date</th>
+                <th>Salary</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Tiger Nixon</td>
+                <td>System Architect</td>
+                <td>Edinburgh</td>
+                <td>61</td>
+                <td>2011/04/25</td>
+                <td>$320,800</td>
+              </tr>
+              <tr>
+                <td>Garrett Winters</td>
+                <td>Accountant</td>
+                <td>Tokyo</td>
+                <td>63</td>
+                <td>2011/07/25</td>
+                <td>$170,750</td>
+              </tr>
+              <!-- Add more rows as needed -->
+            </tbody>
+          </table> 
+        </div>
+      </div>
+    </div>
+    <div class="container mt-4">
+      <div class="card mb-4">
+        <div class="card-header">
+          <h5>Magnific Popup Test</h5>
+        </div>
+        <div class="card-body">
+          <p>Click the image to see the popup.</p>
+          <div class="popup-gallery">
+            <%= link_to asset_path("vendor/1.jpg"), class: "popup-link" do %>
+              <%= image_tag("vendor/1.jpg", alt: "Thumbnail") %>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
   <!-->
-  <hr class="my-5">
+  <div class="container mt-4">
+    <div class="card mb-4">
+      <div class="card-header">
+        <h5 class="card-title">---</h5>
+      </div>
+      <div class="card-body">
+      </div>
+    </div>
+  </div>
 
+
+  <hr class="my-5">
   <div class="row text-center">
     <div class="col">
       <h4 class="mb-3">Bootstrap Icons</h4>
