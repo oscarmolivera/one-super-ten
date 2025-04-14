@@ -96,3 +96,8 @@ document.addEventListener('turbo:load', () => {
     directionNav: true
   });
 });
+
+import '../vendor/prism';
+document.addEventListener('turbo:load', () => {
+  Prism.highlightAll();
+});
