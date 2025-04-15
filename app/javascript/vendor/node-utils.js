@@ -14,6 +14,43 @@ document.addEventListener("DOMContentLoaded", () => {
     anchorPlacement: 'top-bottom', // defines trigger point relative to viewport
   });
 });
+// SweetAlert
+import swal from 'sweetalert'
+
+document.addEventListener("turbo:load", () => {
+  // Example bind
+  const trigger = document.getElementById('sweetalert-btn')
+  if (trigger) {
+    trigger.addEventListener('click', () => {
+      swal("Hello!", "SweetAlert is working!", "success")
+      swal("Good job!", "You clicked the button!", "success");
+
+      swal("Are you sure?", {
+        buttons: true,
+        dangerMode: true
+      });
+
+      swal({
+        title: "Auto close alert!",
+        text: "This will close in 2 seconds.",
+        timer: 2000,
+        buttons: false
+      });
+    })
+  }
+})
+
+// Bootstrap3 Editable'
+import '../vendor/bootstrap3-editable/bootstrap-editable.css'
+import '../vendor/bootstrap3-editable/bootstrap-editable.min.js'
+
+document.addEventListener("turbo:load", () => {
+  // Initialize editable elements
+  $('#username').editable({
+    url: '/post',         // fake url for demonstration
+    title: 'Enter username'
+  });
+})
 
 // JSVectormap
 import jsVectorMap from 'jsvectormap/dist/jsvectormap.js';
@@ -77,6 +114,7 @@ document.addEventListener("turbo:load", () => {
     });
   }
 });
+
 // Owl Carousel
 import '../vendor/owl-caroussel';
 document.addEventListener("turbo:load", () => {

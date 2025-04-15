@@ -47,6 +47,7 @@
     "propagating-hammerjs": "1.4.7",
     "raphael": "^2.3.0",
     "sass": "^1.85.1",
+    "sweetalert": "^2.1.2",
     "uuid": "9.0.0",
     "vectormap-js": "^4.0.3",
     "vis-data": "^7.1.9",
