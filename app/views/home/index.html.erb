@@ -49,6 +49,36 @@
         </button>
       </form>
     </div>
+
+    <!-- Ekko Lighthouse -->
+    <div class="container mt-4">
+      <div class="card shadow">
+        <div class="card-header bg-dark text-white">
+          <i class="fa fa-user"></i> Ekko Lightbox Demo
+        </div>
+        <div class="card-body">
+          <div class="row g-3">
+            <% 3.times do |i| %>
+              <div class="col-md-4">
+                <a href="https://picsum.photos/800/600?random=<%= i + 1 %>" 
+                  data-toggle="lightbox" 
+                  data-title="Image <%= i+1 %>" 
+                  data-footer="This is image <%= i+1 %> description" 
+                  data-gallery="lightbox-demo">
+                  <img src="https://picsum.photos/800/600?random=<%= i+1 %>" 
+                      class="img-fluid border rounded shadow-sm" alt="Thumbnail <%= i+1 %>">
+                </a>
+              </div>
+            <% end %>
+          </div>
+        </div>
+        <div class="card-footer text-end small text-muted">
+          Auto-play & Dots Enabled
+        </div>
+      </div>
+    </div>
+
+    <!-- Perfect Scrollbar-->
     <div class="container mt-4">
       <div class="card shadow border-primary">
         <div class="card-header bg-primary text-white">

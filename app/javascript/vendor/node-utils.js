@@ -15,6 +15,27 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
+// Ekko Lightbox
+import '../vendor/ekko-lightbox';
+document.addEventListener("turbo:load", () => {
+  document.querySelectorAll('[data-toggle="lightbox"]').forEach(el => {
+    el.addEventListener("click", function (e) {
+      e.preventDefault();
+      const lightbox = window.jQuery(this).ekkoLightbox();
+
+      // Optional fix: delay and then fix accessibility flags
+      setTimeout(() => {
+        const modal = document.querySelector('.ekko-lightbox');
+        if (modal) {
+          modal.removeAttribute('aria-hidden');
+          modal.setAttribute('aria-modal', 'true');
+          modal.removeAttribute('inert');
+        }
+      }, 100);
+    });
+  });
+});
+
 // Perfect Scrollbar
 import PerfectScrollbar from 'perfect-scrollbar';
 import 'perfect-scrollbar/css/perfect-scrollbar.css';
