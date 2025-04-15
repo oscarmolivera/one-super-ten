@@ -14,6 +14,22 @@ document.addEventListener("DOMContentLoaded", () => {
     anchorPlacement: 'top-bottom', // defines trigger point relative to viewport
   });
 });
+
+//Bootstrap Markdown
+import '../vendor/bootstrap3-editable/bootstrap-markdown.min.css'
+import '../vendor/bootstrap3-editable/bootstrap-markdown.js'
+
+document.addEventListener("turbo:load", () => {
+  const el = document.getElementById("markdown-editor")
+  if (el) {
+    $(el).markdown({
+      autofocus: true,
+      savable: true
+    })
+  }
+  const content = $('#markdown-editor').val()
+  console.log("Markdown content:", content)
+})
 // SweetAlert
 import swal from 'sweetalert'
 
