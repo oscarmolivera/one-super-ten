@@ -1,0 +1,24 @@
+.masonry-grid {
+  display: flex;
+  margin-left: -10px;
+  width: auto;
+  flex-wrap: wrap;
+}
+
+.masonry-sizer,
+.masonry-item {
+  width: 33.333%;
+  padding-left: 10px;
+  margin-bottom: 10px;
+}
+
+.masonry-item img {
+  display: block;
+  max-width: 100%;
+  border-radius: 6px;
+  transition: transform 0.3s ease-in-out;
+}
+
+.masonry-item:hover img {
+  transform: scale(1.03);
+}

@@ -113,3 +113,17 @@ document.addEventListener('turbo:load', () => {
     }
   })
 });
+
+document.addEventListener('turbo:load', () => {
+  const grid = document.querySelector('.masonry-grid')
+
+  if (!grid) return
+
+  imagesLoaded(grid, () => {
+    new Masonry(grid, {
+      itemSelector: '.masonry-item',
+      columnWidth: '.masonry-sizer',
+      percentPosition: true
+    })
+  })
+})

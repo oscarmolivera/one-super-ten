@@ -119,6 +119,7 @@
         </div>
       </div>
     </div>
+    <!-- -->
     <div class="container mt-4">
       <div class="card mb-4">
         <div class="card-header">
@@ -135,6 +136,7 @@
         </div>
       </div>
     </div>
+    <!-- -->
     <div class="container mt-4">
       <div class="card mb-4">
         <div class="card-header">
@@ -162,6 +164,7 @@
         </div>
       </div>
     </div>
+    <!-- -->
     <div class="container mt-4">
       <div class="card mb-4">
         <div class="card-header">
@@ -202,6 +205,7 @@
         </div>
       </div>
     </div>
+    <!-- -->
     <div class="container mt-4">
       <div class="card mb-4">
         <div class="card-header">
@@ -217,21 +221,30 @@
         </div>
       </div>
     </div>
-  </div>
-</div>
-
-  <!-->
-  <div class="container mt-4">
-    <div class="card mb-4">
-      <div class="card-header">
-        <h5 class="card-title">---</h5>
-      </div>
-      <div class="card-body">
+    <!-- --> 
+    <div class="container mt-4">
+      <div class="card mb-4">
+        <div class="card-header">
+          <h5 class="card-title">-Animated Masonry Gallery-</h5>
+        </div>
+        <div class="card-body">
+          <div class="masonry-grid">
+            <div class="masonry-sizer"></div>
+            <% 13.times do |i| %>
+              <div class="masonry-item">
+                <img src="https://picsum.photos/300/200?random=<%= i %>" alt="Image <%= i %>">
+              </div>
+            <% end %>
+          </div>
+        </div>
       </div>
     </div>
   </div>
+</div>
 
 
+
+  <!-- 
   <hr class="my-5">
   <div class="row text-center">
     <div class="col">
