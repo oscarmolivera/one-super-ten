@@ -15,6 +15,15 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
+// JSVectormap
+import jsVectorMap from 'jsvectormap/dist/jsvectormap.js';
+import 'jsvectormap/dist/maps/world.js';
+
+const map = new jsVectorMap({
+  selector: '#map',
+  map: 'world',
+})
+
 // Ekko Lightbox
 import '../vendor/ekko-lightbox';
 document.addEventListener("turbo:load", () => {
