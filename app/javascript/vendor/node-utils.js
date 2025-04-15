@@ -1,9 +1,7 @@
+//Aniimate.css - AOS
 import "animate.css/animate.css";
 import AOS from "aos";
 import "aos/dist/aos.css";
-import PerfectScrollbar from 'perfect-scrollbar';
-import 'perfect-scrollbar/css/perfect-scrollbar.css';
-
 document.addEventListener("DOMContentLoaded", () => {
   AOS.init({
     // 👇 YOUR CUSTOM CONFIG
@@ -17,8 +15,9 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
-
-// OPTIONAL: Auto-initialize scrollbar on a specific container after page load
+// Perfect Scrollbar
+import PerfectScrollbar from 'perfect-scrollbar';
+import 'perfect-scrollbar/css/perfect-scrollbar.css';
 document.addEventListener("DOMContentLoaded", () => {
   const container = document.querySelector('#scrollable-content');
   if (container) {
@@ -26,8 +25,8 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 
+// Morris.js
 import '../vendor/morris-global';
-
 document.addEventListener("turbo:load", () => {
   const lineChart = document.getElementById('morris-line-chart');
   if (lineChart && window.Morris && typeof window.Morris.Line === 'function') {
@@ -48,8 +47,8 @@ document.addEventListener("turbo:load", () => {
     });
   }
 });
+// Owl Carousel
 import '../vendor/owl-caroussel';
-// Initialize Owl Carousel
 document.addEventListener("turbo:load", () => {
   const owl = document.querySelector('.owl-carousel');
   if (owl && typeof jQuery !== 'undefined') {
@@ -85,6 +84,8 @@ document.addEventListener("turbo:load", () => {
   }
 });
 
+// FlexSlider
+import '../vendor/flexslider';
 document.addEventListener('turbo:load', () => {
   $('.flexslider').flexslider({
     animation: 'slide',
@@ -93,16 +94,19 @@ document.addEventListener('turbo:load', () => {
   });
 });
 
+// Prism.js
 import '../vendor/prism';
 document.addEventListener('turbo:load', () => {
   Prism.highlightAll();
 });
 
+// dataTables
 import './dataTables'
 document.addEventListener('turbo:load', () => {
   $('#example').DataTable()
 });
 
+// Magnific Popup
 import './magnific-popup'
 document.addEventListener('turbo:load', () => {
   $('.popup-gallery').magnificPopup({
@@ -114,6 +118,8 @@ document.addEventListener('turbo:load', () => {
   })
 });
 
+// Masonry
+import './masonry-layout'
 document.addEventListener('turbo:load', () => {
   const grid = document.querySelector('.masonry-grid')
 
