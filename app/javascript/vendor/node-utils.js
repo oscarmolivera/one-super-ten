@@ -16,7 +16,26 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 //---------------------------------------------------------------------
 
-//
+// jQuery Toast
+import './jquery-toast/jquery.toast.min.css';
+import { toast } from './jquery-toast/jquery.toast.min.js'
+
+document.addEventListener("turbo:load", () => {
+  const btn = document.getElementById('show-toast')
+  if (btn) {
+    btn.addEventListener('click', () => {
+      $.toast({
+        heading: 'Great!',
+        text: 'You just launched a toast!',
+        icon: 'success',
+        position: 'top-right',
+        loaderBg: '#28a745'
+      })
+    })
+  }
+})
+
+// Gridstack
 import 'gridstack/dist/gridstack.min.css';
 import { GridStack } from 'gridstack';
 
