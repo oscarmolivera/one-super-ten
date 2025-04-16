@@ -16,10 +16,19 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 //---------------------------------------------------------------------
 
-//Bootstrap Select
+// Bootstrap Tagsinput
+import 'bootstrap-tagsinput/dist/bootstrap-tagsinput.css'
+import 'bootstrap-tagsinput/dist/bootstrap-tagsinput.min.js'
+document.addEventListener("turbo:load", () => {
+  const tagInput = document.getElementById('tags')
+  if (tagInput) {
+    $('#tags').tagsinput()
+  }
+});
+
+// Bootstrap Select
 import 'bootstrap-select/dist/css/bootstrap-select.min.css'
 import 'bootstrap-select/dist/js/bootstrap-select.min.js'
-
 document.addEventListener("turbo:load", () => {
   $('.bootstrap-select').selectpicker()
 
@@ -27,9 +36,9 @@ document.addEventListener("turbo:load", () => {
   $('.bootstrap-select').on('changed.bs.select', function () {
     console.log("Selected:", $(this).val())
   })
-})
+});
 
-//bootstrap-colorpicker
+// Bootstrap-colorpicker
 import '@claviska/jquery-minicolors/jquery.minicolors.css'
 import '@claviska/jquery-minicolors'
 document.addEventListener("turbo:load", () => {
@@ -46,7 +55,7 @@ document.addEventListener("turbo:load", () => {
       console.log("Selected color:", $(this).val())
     })
   }
-})
+});
 
 // Bootstrap DateRangePicker
 import moment from 'moment'
@@ -159,7 +168,7 @@ document.addEventListener("turbo:load", () => {
     })
   }
   const content = $('#markdown-editor').val()
-})
+});
 
 // SweetAlert
 import swal from 'sweetalert'
@@ -184,7 +193,7 @@ document.addEventListener("turbo:load", () => {
       });
     })
   }
-})
+});
 
 // Bootstrap3 Editable'
 import '../vendor/bootstrap3-editable/bootstrap-editable.css'
@@ -195,7 +204,7 @@ document.addEventListener("turbo:load", () => {
     url: '/post',         // fake url for demonstration
     title: 'Enter username'
   });
-})
+});
 
 // JSVectormap
 import jsVectorMap from 'jsvectormap/dist/jsvectormap.js';
@@ -203,7 +212,7 @@ import 'jsvectormap/dist/maps/world.js';
 const map = new jsVectorMap({
   selector: '#map',
   map: 'world',
-})
+});
 
 // Ekko Lightbox
 import './ekko-lightbox';
@@ -344,4 +353,4 @@ document.addEventListener('turbo:load', () => {
       percentPosition: true
     })
   })
-})
+});
