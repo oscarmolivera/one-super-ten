@@ -16,9 +16,25 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 //---------------------------------------------------------------------
 
+// Bootstrap Switch
+import 'bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css';
+import { bootstrapSwitch } from 'bootstrap-switch';
+
+document.addEventListener("turbo:load", () => {
+  const switches = $('[data-toggle="switch"]')
+  if (switches.length && typeof $.fn.bootstrapSwitch === 'function') {
+    switches.bootstrapSwitch()
+
+    switches.on('switchChange.bootstrapSwitch', function (event, state) {
+      console.log(`Switch #${this.id} is now:`, state)
+    })
+  } else {
+    console.warn('Bootstrap Switch not loaded or missing input element.')
+  }
+})
+
 // Sortable
 import { Sortable } from 'sortablejs';
-
 document.addEventListener("turbo:load", () => {
   const el = document.getElementById('sortable-list')
   if (el) {
