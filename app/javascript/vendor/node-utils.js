@@ -15,6 +15,30 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
+// Daterangepicker
+import moment from 'moment'
+import 'daterangepicker/daterangepicker.css'
+import 'daterangepicker'
+
+document.addEventListener("turbo:load", () => {
+  const el = document.getElementById("daterange")
+  if (el) {
+    $(el).daterangepicker({
+      startDate: moment().subtract(7, 'days'),
+      endDate: moment(),
+      ranges: {
+        'Today': [moment(), moment()],
+        'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+        'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+        'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+        'This Month': [moment().startOf('month'), moment().endOf('month')],
+        'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+      }
+    }, function (start, end) {
+      console.log("Date range selected: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'))
+    })
+  }
+})
 // Select2
 import './select2';
 document.addEventListener("turbo:load", () => {
@@ -80,7 +104,6 @@ document.addEventListener("turbo:load", () => {
     })
   }
   const content = $('#markdown-editor').val()
-  console.log("Markdown content:", content)
 })
 // SweetAlert
 import swal from 'sweetalert'
