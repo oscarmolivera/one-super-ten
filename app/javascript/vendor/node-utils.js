@@ -16,10 +16,28 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 //---------------------------------------------------------------------
 
+// Raty manually imported
+import './raty/raty.css';
+import Raty from './raty/raty';
+document.addEventListener("turbo:load", () => {
+  const el = document.getElementById("raty")
+  if (el) {
+    new Raty(el, {
+      path: '/assets/raty/images',
+      score: 3,
+      half: true,
+      starHalf: 'star-half.png',
+      starOff: 'star-off.png',
+      starOn: 'star-on.png',
+      click: function (score) {
+        console.log("Selected rating:", score)
+      }
+    }).init()
+  }
+});
+
 // Bootstrap Touchspin
 import 'bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.css'
-window.$ = $
-window.jQuery = $
 import 'bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.js'
 // Rebind plugin (optional safety)
 if (typeof $.fn.TouchSpin === 'undefined') {
