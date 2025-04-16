@@ -16,6 +16,33 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 //---------------------------------------------------------------------
 
+// Bootstrap Touchspin
+import 'bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.css'
+window.$ = $
+window.jQuery = $
+import 'bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.js'
+// Rebind plugin (optional safety)
+if (typeof $.fn.TouchSpin === 'undefined') {
+  console.warn("TouchSpin plugin not found on $.fn — retrying registration")
+  require('bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.js')
+}
+document.addEventListener("turbo:load", () => {
+  const el = document.getElementById("touchspin")
+  if (el && typeof $(el).TouchSpin === 'function') {
+    $(el).TouchSpin({
+      min: 0,
+      max: 100,
+      step: 1,
+      decimals: 0,
+      boostat: 5,
+      maxboostedstep: 10,
+      postfix: '%'
+    })
+  } else {
+    console.warn("TouchSpin not registered or input not found.")
+  }
+})
+
 // Bootstrap Tagsinput
 import 'bootstrap-tagsinput/dist/bootstrap-tagsinput.css'
 import 'bootstrap-tagsinput/dist/bootstrap-tagsinput.min.js'
