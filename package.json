@@ -57,6 +57,7 @@
     "raphael": "^2.3.0",
     "sass": "^1.85.1",
     "select2": "^4.1.0-rc.0",
+    "sortablejs": "^1.15.6",
     "sweetalert": "^2.1.2",
     "uuid": "9.0.0",
     "vectormap-js": "^4.0.3",

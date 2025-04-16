@@ -16,6 +16,22 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 //---------------------------------------------------------------------
 
+// Sortable
+import { Sortable } from 'sortablejs';
+
+document.addEventListener("turbo:load", () => {
+  const el = document.getElementById('sortable-list')
+  if (el) {
+    Sortable.create(el, {
+      animation: 150,
+      ghostClass: 'bg-warning',
+      onEnd: function (evt) {
+        console.log('New order:', Array.from(el.children).map(li => li.dataset.id))
+      }
+    })
+  }
+})
+
 // jQuery Toast
 import './jquery-toast/jquery.toast.min.css';
 import { toast } from './jquery-toast/jquery.toast.min.js'
