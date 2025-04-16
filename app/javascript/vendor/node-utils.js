@@ -15,6 +15,22 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
+// Dropzone
+import '../vendor/dropzone';
+document.addEventListener("turbo:load", () => {
+  const el = document.getElementById("my-dropzone")
+  if (el) {
+    new Dropzone(el, {
+      url: "/upload", // Replace with your actual upload path
+      paramName: "file", // The name that will be used to transfer the file
+      maxFilesize: 2, // MB
+      acceptedFiles: ".jpg,.png,.gif,.pdf",
+      addRemoveLinks: true,
+      dictDefaultMessage: "Drop files here or click to upload"
+    })
+  }
+})
+
 //Bootstrap Markdown
 import '../vendor/bootstrap3-editable/bootstrap-markdown.min.css'
 import '../vendor/bootstrap3-editable/bootstrap-markdown.js'
