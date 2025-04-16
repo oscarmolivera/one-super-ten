@@ -16,6 +16,29 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 //---------------------------------------------------------------------
 
+//ion-rangeslider
+import 'ion-rangeslider/css/ion.rangeSlider.min.css';
+import 'ion-rangeslider';
+document.addEventListener("turbo:load", () => {
+  const rangeEl = document.getElementById("range")
+  if (rangeEl && typeof $(rangeEl).ionRangeSlider === 'function') {
+    $(rangeEl).ionRangeSlider({
+      min: 0,
+      max: 100,
+      from: 21,
+      to: 63,
+      type: 'double',
+      grid: true,
+      postfix: ' %',
+      onFinish: function (data) {
+        console.log("Range selected:", data.from, '-', data.to)
+      }
+    })
+  } else {
+    console.warn("ionRangeSlider not loaded or element missing.")
+  }
+});
+
 // Raty manually imported
 import './raty/raty.css';
 import Raty from './raty/raty';
@@ -39,11 +62,6 @@ document.addEventListener("turbo:load", () => {
 // Bootstrap Touchspin
 import 'bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.css'
 import 'bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.js'
-// Rebind plugin (optional safety)
-if (typeof $.fn.TouchSpin === 'undefined') {
-  console.warn("TouchSpin plugin not found on $.fn — retrying registration")
-  require('bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.js')
-}
 document.addEventListener("turbo:load", () => {
   const el = document.getElementById("touchspin")
   if (el && typeof $(el).TouchSpin === 'function') {
