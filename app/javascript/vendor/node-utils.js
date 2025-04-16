@@ -1,6 +1,6 @@
 //Aniimate.css - AOS
 import "animate.css/animate.css";
-import AOS from "aos";
+import  AOS  from "aos";
 import "aos/dist/aos.css";
 document.addEventListener("DOMContentLoaded", () => {
   AOS.init({
@@ -15,6 +15,24 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 //---------------------------------------------------------------------
+
+//
+import 'gridstack/dist/gridstack.min.css';
+import { GridStack } from 'gridstack';
+
+document.addEventListener("turbo:load", () => {
+  const gridEl = document.querySelector('.grid-stack')
+  if (gridEl) {
+    const grid = GridStack.init({
+      float: true,
+      resizable: {
+        handles: 'e, se, s, sw, w'
+      }
+    }, gridEl)
+
+    console.log('✅ GridStack initialized:', grid)
+  }
+});
 
 //ion-rangeslider
 import 'ion-rangeslider/css/ion.rangeSlider.min.css';
