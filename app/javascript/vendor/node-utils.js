@@ -15,8 +15,44 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
+// Select2
+import './select2';
+document.addEventListener("turbo:load", () => {
+
+  $('.select2-basic').select2()
+
+  $('.select2-tags').select2({
+    tags: true,
+    tokenSeparators: [',', ' ']
+  })
+
+  $('.select2-ajax').select2({
+    ajax: {
+      url: 'https://pokeapi.co/api/v2/pokemon',
+      dataType: 'json',
+      delay: 250,
+      data: function (params) {
+        return {
+          limit: 20,
+          offset: 0
+        }
+      },
+      processResults: function (data) {
+        return {
+          results: data.results.map(p => ({
+            id: p.name,
+            text: p.name.charAt(0).toUpperCase() + p.name.slice(1)
+          }))
+        }
+      }
+    },
+    placeholder: 'Search Pokémon',
+    minimumInputLength: 1
+  })
+});
+
 // Dropzone
-import '../vendor/dropzone';
+import './dropzone';
 document.addEventListener("turbo:load", () => {
   const el = document.getElementById("my-dropzone")
   if (el) {
@@ -29,7 +65,7 @@ document.addEventListener("turbo:load", () => {
       dictDefaultMessage: "Drop files here or click to upload"
     })
   }
-})
+});
 
 //Bootstrap Markdown
 import '../vendor/bootstrap3-editable/bootstrap-markdown.min.css'
@@ -94,7 +130,7 @@ const map = new jsVectorMap({
 })
 
 // Ekko Lightbox
-import '../vendor/ekko-lightbox';
+import './ekko-lightbox';
 document.addEventListener("turbo:load", () => {
   document.querySelectorAll('[data-toggle="lightbox"]').forEach(el => {
     el.addEventListener("click", function (e) {
@@ -125,7 +161,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 // Morris.js
-import '../vendor/morris-global';
+import './morris-global';
 document.addEventListener("turbo:load", () => {
   const lineChart = document.getElementById('morris-line-chart');
   if (lineChart && window.Morris && typeof window.Morris.Line === 'function') {
@@ -148,7 +184,7 @@ document.addEventListener("turbo:load", () => {
 });
 
 // Owl Carousel
-import '../vendor/owl-caroussel';
+import './owl-caroussel';
 document.addEventListener("turbo:load", () => {
   const owl = document.querySelector('.owl-carousel');
   if (owl && typeof jQuery !== 'undefined') {
@@ -185,7 +221,7 @@ document.addEventListener("turbo:load", () => {
 });
 
 // FlexSlider
-import '../vendor/flexslider';
+import './flexslider';
 document.addEventListener('turbo:load', () => {
   $('.flexslider').flexslider({
     animation: 'slide',
@@ -195,7 +231,7 @@ document.addEventListener('turbo:load', () => {
 });
 
 // Prism.js
-import '../vendor/prism';
+import './prism';
 document.addEventListener('turbo:load', () => {
   Prism.highlightAll();
 });

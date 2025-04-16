@@ -50,6 +50,37 @@
       </form>
     </div>
 
+    <!-- Select2 -->
+    <div class="container mt-4">
+      <div class="card mb-4">
+        <div class="card-header bg-info text-white">
+          <i class="fa fa-list"></i> Select2 Demo
+        </div>
+        <div class="card-body">
+          <label for="basic-select">Basic Select</label>
+          <select class="form-select select2-basic" id="basic-select" style="width: 100%">
+            <option value="AL">Alabama</option>
+            <option value="CA">California</option>
+            <option value="TX">Texas</option>
+          </select>
+
+          <label for="tag-select" class="mt-4">Tags Input</label>
+          <select class="form-select select2-tags" id="tag-select" multiple="multiple" style="width: 100%">
+            <option selected="selected">Ruby</option>
+            <option selected="selected">Rails</option>
+          </select>
+
+          <label for="ajax-select" class="mt-4">Ajax Select (example)</label>
+          <select class="form-select select2-ajax" id="ajax-select" style="width: 100%">
+            <!-- Options will be loaded dynamically -->
+          </select>
+        </div>
+        <div class="card-footer text-end small text-muted">
+          dropzone@6.0.0-beta.2
+        </div>
+      </div>
+    </div>
+
     <!-- Dropzone File Upload Demo -->
     <div class="container mt-4">
       <div class="card">
@@ -62,7 +93,7 @@
           </form>
         </div>
         <div class="card-footer text-end small text-muted">
-          dropzone@6.0.0-beta.2
+          select2@4.1.0-rc.0
         </div>
       </div>
     </div>
