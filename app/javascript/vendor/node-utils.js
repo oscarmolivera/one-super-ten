@@ -14,12 +14,44 @@ document.addEventListener("DOMContentLoaded", () => {
     anchorPlacement: 'top-bottom', // defines trigger point relative to viewport
   });
 });
+//---------------------------------------------------------------------
+
+//Bootstrap Select
+import 'bootstrap-select/dist/css/bootstrap-select.min.css'
+import 'bootstrap-select/dist/js/bootstrap-select.min.js'
+
+document.addEventListener("turbo:load", () => {
+  $('.bootstrap-select').selectpicker()
+
+  // Optional: watch for changes
+  $('.bootstrap-select').on('changed.bs.select', function () {
+    console.log("Selected:", $(this).val())
+  })
+})
+
+//bootstrap-colorpicker
+import '@claviska/jquery-minicolors/jquery.minicolors.css'
+import '@claviska/jquery-minicolors'
+document.addEventListener("turbo:load", () => {
+  const colorInput = document.getElementById("colorpicker")
+  if (colorInput) {
+    $('#colorpicker').minicolors({
+      control: 'hue',
+      defaultValue: '#563d7c',
+      format: 'hex',
+      theme: 'bootstrap'
+    })
+
+    $('#colorpicker').on('change', function () {
+      console.log("Selected color:", $(this).val())
+    })
+  }
+})
 
 // Bootstrap DateRangePicker
 import moment from 'moment'
 import 'bootstrap-daterangepicker/daterangepicker.css'
 import 'bootstrap-daterangepicker'
-
 document.addEventListener("turbo:load", () => {
   const el = document.getElementById("daterange")
   if (el) {
@@ -38,12 +70,11 @@ document.addEventListener("turbo:load", () => {
       console.log("Selected range: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'))
     })
   }
-})
+});
 
 // Daterangepicker
 import 'daterangepicker/daterangepicker.css'
 import 'daterangepicker'
-
 document.addEventListener("turbo:load", () => {
   const el = document.getElementById("daterange")
   if (el) {
@@ -62,7 +93,8 @@ document.addEventListener("turbo:load", () => {
       console.log("Date range selected: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'))
     })
   }
-})
+});
+
 // Select2
 import './select2';
 document.addEventListener("turbo:load", () => {
@@ -118,7 +150,6 @@ document.addEventListener("turbo:load", () => {
 //Bootstrap Markdown
 import '../vendor/bootstrap3-editable/bootstrap-markdown.min.css'
 import '../vendor/bootstrap3-editable/bootstrap-markdown.js'
-
 document.addEventListener("turbo:load", () => {
   const el = document.getElementById("markdown-editor")
   if (el) {
@@ -129,9 +160,9 @@ document.addEventListener("turbo:load", () => {
   }
   const content = $('#markdown-editor').val()
 })
+
 // SweetAlert
 import swal from 'sweetalert'
-
 document.addEventListener("turbo:load", () => {
   // Example bind
   const trigger = document.getElementById('sweetalert-btn')
@@ -158,7 +189,6 @@ document.addEventListener("turbo:load", () => {
 // Bootstrap3 Editable'
 import '../vendor/bootstrap3-editable/bootstrap-editable.css'
 import '../vendor/bootstrap3-editable/bootstrap-editable.min.js'
-
 document.addEventListener("turbo:load", () => {
   // Initialize editable elements
   $('#username').editable({
@@ -170,7 +200,6 @@ document.addEventListener("turbo:load", () => {
 // JSVectormap
 import jsVectorMap from 'jsvectormap/dist/jsvectormap.js';
 import 'jsvectormap/dist/maps/world.js';
-
 const map = new jsVectorMap({
   selector: '#map',
   map: 'world',

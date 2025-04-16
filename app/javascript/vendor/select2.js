@@ -8,5 +8,3 @@ window.jQuery = $
 
 // ✅ Register Select2 with jQuery
 $.fn.select2 = select2
-
-console.log("✅ Select2 loaded:", typeof $.fn.select2)
