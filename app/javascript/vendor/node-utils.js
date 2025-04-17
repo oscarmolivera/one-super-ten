@@ -16,10 +16,28 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 //---------------------------------------------------------------------
 
-//
+// Icheck
+import './icheck/icheck.min.js';
+import './icheck/flat/blue.css';
+document.addEventListener("turbo:load", () => {
+  const checkboxes = $('input.icheck')
+  if (checkboxes.length && typeof checkboxes.iCheck === 'function') {
+    checkboxes.iCheck({
+      checkboxClass: 'icheckbox_flat-blue',
+      radioClass: 'iradio_flat-blue'
+    })
+
+    checkboxes.on('ifChanged', function (event) {
+      console.log(`Value of ${this.name}:`, this.checked)
+    })
+  } else {
+    console.warn('iCheck not initialized or checkboxes not found')
+  }
+});
+
+// Bootstrap Slider
 import 'bootstrap-slider/dist/css/bootstrap-slider.min.css';
 import 'bootstrap-slider';
-
 document.addEventListener("turbo:load", () => {
   const el = document.getElementById('slider')
   if (el && typeof $(el).slider === 'function') {
@@ -39,10 +57,8 @@ document.addEventListener("turbo:load", () => {
 // Chartist.js
 import 'chartist/dist/index.css'
 import * as ChartistModule from 'chartist/dist/index.js'
-
 // Use the `.default` export
 window.Chartist = ChartistModule.default
-
 document.addEventListener("turbo:load", () => {
   const chartEl = document.getElementById('chartist-chart')
   if (chartEl && typeof window.Chartist !== 'undefined') {
