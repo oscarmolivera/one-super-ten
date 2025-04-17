@@ -17,6 +17,26 @@ document.addEventListener("DOMContentLoaded", () => {
 //---------------------------------------------------------------------
 
 //
+import 'bootstrap-slider/dist/css/bootstrap-slider.min.css';
+import 'bootstrap-slider';
+
+document.addEventListener("turbo:load", () => {
+  const el = document.getElementById('slider')
+  if (el && typeof $(el).slider === 'function') {
+    $('#slider').slider({
+      min: 0,
+      max: 100,
+      value: 40,
+      tooltip: 'always'
+    }).on('slide', function (event) {
+      console.log("Slider value:", event)
+    })
+  } else {
+    console.warn('Bootstrap Slider not initialized')
+  }
+});
+
+// Chartist.js
 import 'chartist/dist/index.css'
 import * as ChartistModule from 'chartist/dist/index.js'
 
