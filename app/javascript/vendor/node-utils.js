@@ -1,3 +1,48 @@
+window.locale = {
+  en: {
+    font_styles: {
+      normal: "Normal text",
+      h1: "Heading 1",
+      h2: "Heading 2",
+      h3: "Heading 3"
+    },
+    emphasis: {
+      bold: "Bold",
+      italic: "Italic",
+      underline: "Underline"
+    },
+    lists: {
+      unordered: "Unordered list",
+      ordered: "Ordered list",
+      outdent: "Outdent",
+      indent: "Indent"
+    },
+    link: {
+      insert: "Insert Link",
+      cancel: "Cancel"
+    },
+    image: {
+      insert: "Insert Image",
+      cancel: "Cancel"
+    },
+    html: {
+      edit: "Edit HTML"
+    },
+    colours: {
+      black: "Black",
+      silver: "Silver",
+      gray: "Grey",
+      maroon: "Maroon",
+      red: "Red",
+      purple: "Purple",
+      green: "Green",
+      olive: "Olive",
+      navy: "Navy",
+      blue: "Blue",
+      orange: "Orange"
+    }
+  }
+}
 //Aniimate.css - AOS
 import "animate.css/animate.css";
 import  AOS  from "aos";
@@ -15,6 +60,67 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 //---------------------------------------------------------------------
+
+// Bootstrap Wysihtml5
+window.locale = {
+  en: {
+    font_styles: {
+      normal: "Normal text",
+      h1: "Heading 1",
+      h2: "Heading 2",
+      h3: "Heading 3"
+    },
+    emphasis: {
+      bold: "Bold",
+      italic: "Italic",
+      underline: "Underline"
+    },
+    lists: {
+      unordered: "Unordered list",
+      ordered: "Ordered list",
+      outdent: "Outdent",
+      indent: "Indent"
+    },
+    link: {
+      insert: "Insert Link",
+      cancel: "Cancel"
+    },
+    image: {
+      insert: "Insert Image",
+      cancel: "Cancel"
+    },
+    html: {
+      edit: "Edit HTML"
+    },
+    colours: {
+      black: "Black",
+      silver: "Silver",
+      gray: "Grey",
+      maroon: "Maroon",
+      red: "Red",
+      purple: "Purple",
+      green: "Green",
+      olive: "Olive",
+      navy: "Navy",
+      blue: "Blue",
+      orange: "Orange"
+    }
+  }
+}
+
+import './bootstrap-wysihtml5/wysihtml5.js'
+import './bootstrap-wysihtml5/bootstrap-wysihtml5.js'
+import './bootstrap-wysihtml5/bootstrap-wysihtml5.css'
+
+document.addEventListener("turbo:load", () => {
+  const el = $('#wysi-editor')
+  if (el.length && typeof el.wysihtml5 === 'function') {
+    el.wysihtml5({ locale: 'en' })
+    console.log("✅ WYSIHTML5 initialized")
+  } else {
+    console.warn("⚠️ wysihtml5 not initialized")
+  }
+})
 
 // Icheck
 import './icheck/icheck.min.js';
