@@ -61,6 +61,21 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 //---------------------------------------------------------------------
 
+// Bootstrap Timepicker
+import './bootstrap-timepicker/bootstrap-timepicker.css';
+import * as timepicker from './bootstrap-timepicker/bootstrap-timepicker.js';
+window.timeInput = timepicker;
+document.addEventListener("turbo:load", () => {
+  const timeInput = $('#timepicker')
+  if (timeInput.length && typeof timeInput.timepicker === 'function') {
+    timeInput.timepicker({
+      showInputs: false,
+      minuteStep: 5,
+      showMeridian: false // 24h format
+    })
+  }
+});
+
 // Bootstrap Wysihtml5
 window.locale = {
   en: {
@@ -109,7 +124,7 @@ window.locale = {
 }
 
 import './bootstrap-wysihtml5/wysihtml5.js'
-import './bootstrap-wysihtml5/bootstrap-wysihtml5.js'
+import * as wysihtml5 from './bootstrap-wysihtml5/bootstrap-wysihtml5.js'
 import './bootstrap-wysihtml5/bootstrap-wysihtml5.css'
 
 document.addEventListener("turbo:load", () => {
@@ -117,10 +132,8 @@ document.addEventListener("turbo:load", () => {
   if (el.length && typeof el.wysihtml5 === 'function') {
     el.wysihtml5({ locale: 'en' })
     console.log("✅ WYSIHTML5 initialized")
-  } else {
-    console.warn("⚠️ wysihtml5 not initialized")
   }
-})
+});
 
 // Icheck
 import './icheck/icheck.min.js';
