@@ -16,6 +16,45 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 //---------------------------------------------------------------------
 
+//C3 chart
+import 'c3/c3.min.css';
+import * as d3 from 'd3';
+import c3 from 'c3';
+
+window.d3 = d3;
+window.c3 = c3;
+
+document.addEventListener("turbo:load", () => {
+  const chartEl = document.getElementById("c3-chart")
+  const chartNom = document.getElementById("c3-chart-nom")
+  if (chartEl) {
+    const chart = c3.generate({
+      bindto: '#c3-chart',
+      data: {
+        columns: [
+          ['Sales', 30, 200, 100, 400, 150, 250]
+        ],
+        type: 'line'
+      }
+    })
+
+  }
+  if (chartNom) {
+    const chart = c3.generate({
+      bindto: '#c3-chart-nom',
+      data: {
+        columns: [
+          ['Sales', 30, 200, 100, 400, 150, 250],
+          ['Revenue', 50, 20, 10, 40, 15, 25]
+        ],
+        type: 'bar'
+      }
+    })
+
+    console.log('✅ C3 chart generated:', chart)
+  }
+});
+
 // Bootstrap Switch
 import 'bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css';
 import { bootstrapSwitch } from 'bootstrap-switch';
