@@ -61,6 +61,19 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 //---------------------------------------------------------------------
 
+//
+import './pace/pace.min.css';
+import './pace/pace.min.js';
+document.addEventListener("turbo:load", () => {
+  const simulate = document.getElementById('simulate-load')
+  if (simulate) {
+    simulate.addEventListener('click', () => {
+      Pace.restart()
+      setTimeout(() => console.log('Fake load complete!'), 2000)
+    })
+  }
+});
+
 // Bootstrap Timepicker
 import './bootstrap-timepicker/bootstrap-timepicker.css';
 import * as timepicker from './bootstrap-timepicker/bootstrap-timepicker.js';
