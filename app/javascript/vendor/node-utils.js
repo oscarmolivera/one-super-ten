@@ -16,14 +16,36 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 //---------------------------------------------------------------------
 
+//
+import 'chartist/dist/index.css'
+import * as ChartistModule from 'chartist/dist/index.js'
+
+// Use the `.default` export
+window.Chartist = ChartistModule.default
+
+document.addEventListener("turbo:load", () => {
+  const chartEl = document.getElementById('chartist-chart')
+  if (chartEl && typeof window.Chartist !== 'undefined') {
+    new window.Chartist.Line('#chartist-chart', {
+      labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'],
+      series: [
+        [5, 9, 7, 8, 5],
+        [3, 5, 4, 6, 3]
+      ]
+    }, {
+      fullWidth: true,
+      chartPadding: { right: 40 },
+      low: 0
+    })
+  }
+});
+
 //C3 chart
 import 'c3/c3.min.css';
 import * as d3 from 'd3';
 import c3 from 'c3';
-
 window.d3 = d3;
 window.c3 = c3;
-
 document.addEventListener("turbo:load", () => {
   const chartEl = document.getElementById("c3-chart")
   const chartNom = document.getElementById("c3-chart-nom")
@@ -50,15 +72,12 @@ document.addEventListener("turbo:load", () => {
         type: 'bar'
       }
     })
-
-    console.log('✅ C3 chart generated:', chart)
   }
 });
 
 // Bootstrap Switch
 import 'bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css';
 import { bootstrapSwitch } from 'bootstrap-switch';
-
 document.addEventListener("turbo:load", () => {
   const switches = $('[data-toggle="switch"]')
   if (switches.length && typeof $.fn.bootstrapSwitch === 'function') {
@@ -67,10 +86,8 @@ document.addEventListener("turbo:load", () => {
     switches.on('switchChange.bootstrapSwitch', function (event, state) {
       console.log(`Switch #${this.id} is now:`, state)
     })
-  } else {
-    console.warn('Bootstrap Switch not loaded or missing input element.')
   }
-})
+});
 
 // Sortable
 import { Sortable } from 'sortablejs';
@@ -85,12 +102,11 @@ document.addEventListener("turbo:load", () => {
       }
     })
   }
-})
+});
 
 // jQuery Toast
 import './jquery-toast/jquery.toast.min.css';
 import { toast } from './jquery-toast/jquery.toast.min.js'
-
 document.addEventListener("turbo:load", () => {
   const btn = document.getElementById('show-toast')
   if (btn) {
@@ -104,12 +120,11 @@ document.addEventListener("turbo:load", () => {
       })
     })
   }
-})
+});
 
 // Gridstack
 import 'gridstack/dist/gridstack.min.css';
 import { GridStack } from 'gridstack';
-
 document.addEventListener("turbo:load", () => {
   const gridEl = document.querySelector('.grid-stack')
   if (gridEl) {
@@ -119,8 +134,6 @@ document.addEventListener("turbo:load", () => {
         handles: 'e, se, s, sw, w'
       }
     }, gridEl)
-
-    console.log('✅ GridStack initialized:', grid)
   }
 });
 
@@ -142,8 +155,6 @@ document.addEventListener("turbo:load", () => {
         console.log("Range selected:", data.from, '-', data.to)
       }
     })
-  } else {
-    console.warn("ionRangeSlider not loaded or element missing.")
   }
 });
 
@@ -182,10 +193,8 @@ document.addEventListener("turbo:load", () => {
       maxboostedstep: 10,
       postfix: '%'
     })
-  } else {
-    console.warn("TouchSpin not registered or input not found.")
   }
-})
+});
 
 // Bootstrap Tagsinput
 import 'bootstrap-tagsinput/dist/bootstrap-tagsinput.css'
