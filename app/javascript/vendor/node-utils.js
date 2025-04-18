@@ -60,6 +60,10 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 //---------------------------------------------------------------------
+//
+// Icon styles
+import 'weathericons/css/weather-icons.css'
+import 'weathericons/css/weather-icons-wind.css' // for wind direction icons
 
 //
 import './pace/pace.min.css';
@@ -190,7 +194,6 @@ document.addEventListener("turbo:load", () => {
 import 'chartist/dist/index.css'
 import * as ChartistModule from 'chartist/dist/index.js'
 // Use the `.default` export
-window.Chartist = ChartistModule.default
 document.addEventListener("turbo:load", () => {
   const chartEl = document.getElementById('chartist-chart')
   if (chartEl && typeof window.Chartist !== 'undefined') {
@@ -274,7 +277,7 @@ document.addEventListener("turbo:load", () => {
 
 // jQuery Toast
 import './jquery-toast/jquery.toast.min.css';
-import { toast } from './jquery-toast/jquery.toast.min.js'
+import * as  toast from './jquery-toast/jquery.toast.min.js'
 document.addEventListener("turbo:load", () => {
   const btn = document.getElementById('show-toast')
   if (btn) {

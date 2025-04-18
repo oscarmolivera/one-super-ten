@@ -1815,6 +1815,11 @@ vis-util@^5.0.7:
   resolved "https://registry.npmjs.org/vis-util/-/vis-util-5.0.7.tgz"
   integrity sha512-E3L03G3+trvc/X4LXvBfih3YIHcKS2WrP0XTdZefr6W6Qi/2nNCqZfe4JFfJU6DcQLm6Gxqj2Pfl+02859oL5A==
 
+weathericons@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/weathericons/-/weathericons-2.1.0.tgz#7453a1a35e200245e389fb5077d527eff30b73b4"
+  integrity sha512-V45viuyuQQOuoePTqzxvP/wBpYALWkD695fkFvqpn+BiMyo64fFlyDbP2A8umZyFyz1cXFPNw1pWqeaSaQqJlQ==
+
 wrap-ansi@^7.0.0:
   version "7.0.0"
   resolved "https://registry.npmjs.org/wrap-ansi/-/wrap-ansi-7.0.0.tgz"
