@@ -50,6 +50,32 @@
       </form>
     </div>
     <!-- *********************************************************** -->
+        <!-- HTML5 Date Picker (Native) -->
+    <div class="container mt-4">
+      <div class="card">
+        <div class="card-header bg-secondary text-white">
+          <i class="fa fa-calendar"></i> Native HTML5 Date Picker
+        </div>
+        <div class="card-body">
+          <label for="native-datepicker-full">Choose a date:</label>
+          <input
+            type="date"
+            id="native-datepicker-full"
+            name="native-datepicker-full"
+            class="form-control"
+            min="1900-01-01"
+            max="2099-12-31"
+            value="<%= Date.today.strftime('%Y-%m-%d') %>" />
+          <small class="form-text text-muted mt-2">
+            This uses the standard <code>&lt;input type="date"&gt;</code> element and is styled with Bootstrap.
+          </small>
+        </div>
+        <div class="card-footer text-end small text-muted">
+          Native browser support – no JS required
+        </div>
+      </div>
+    </div>
+    
     <!-- Pace.js Loading Bar Demo -->
     <div class="container mt-4">
       <div class="card">
