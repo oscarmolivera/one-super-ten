@@ -10,11 +10,25 @@
     </button>
     <div class="collapse ps-4" id="finanzasMenu">
       <a href="#" class="d-block text-white-50 py-1 ps-3 small">
-        <i class="far fa-dot-circle me-2"></i>1_Finanzas 1
+        <!-- Rol2 admin. Inclusiuon de data niños nuevos / pago de cuota inscripcion -->
+        <i class="far fa-dot-circle me-2"></i>Inscripciones
       </a>
       <a href="#" class="d-block text-white-50 py-1 ps-3 small">
-        <i class="far fa-dot-circle me-2"></i>Finanzas 2
+        <!-- Rol2 admin. Gestion de pagos de alumnos  (diferentes montos por status)-->
+        <i class="far fa-dot-circle me-2"></i>Mensualidades
       </a>
+      <a href="#" class="d-block text-white-50 py-1 ps-3 small">
+        <!-- Rol2 admin. listado editable de alumnos sin pagos -->
+        <i class="far fa-dot-circle me-2"></i>Exoneraciones
+      </a>
+      <a href="#" class="d-block text-white-50 py-1 ps-3 small">
+        <!-- Rol2 admin. De Tienda, Sponsors, personal, alquilar cancha -->
+        <i class="far fa-dot-circle me-2"></i>Ingresos
+      </a>  
+      <a href="#" class="d-block text-white-50 py-1 ps-3 small">
+        <!-- Rol2 admin. Sueldos & salarios pago servicios licencias permisos mantenimiento estructura -->
+        <i class="far fa-dot-circle me-2"></i>Egresos
+      </a>      
     </div>
   </div>
 
@@ -24,42 +38,31 @@
       <i class="fas fa-chevron-down small"></i>
     </button>
     <div class="collapse ps-4" id="personalMenu">
-      <% 1.upto(9) do |i| %>
-        <a href="#" class="d-block text-white-50 py-1 ps-3 small">
-          <i class="far fa-dot-circle me-2"></i>Dashboard <%= i %>
-          <% if i == 9 %><span class="badge bg-danger ms-2">New</span><% end %>
-        </a>
-      <% end %>
-    </div>
-  </div>
-
-  <div class="mb-2">
-    <button class="btn w-100 text-start text-white d-flex justify-content-between align-items-center" data-bs-toggle="collapse" data-bs-target="#eventosMenu">
-      <span><i class="fas fa-th-large me-2"></i>Eventos</span>
-      <i class="fas fa-chevron-down small"></i>
-    </button>
-    <div class="collapse ps-4" id="eventosMenu">
-      <% 1.upto(9) do |i| %>
-        <a href="#" class="d-block text-white-50 py-1 ps-3 small">
-          <i class="far fa-dot-circle me-2"></i>Dashboard <%= i %>
-          <% if i == 9 %><span class="badge bg-danger ms-2">New</span><% end %>
-        </a>
-      <% end %>
+      <a href="#" class="d-block text-white-50 py-1 ps-3 small">
+        <!-- Rol2 admin. Control personal Academia -->
+        <i class="far fa-dot-circle me-2"></i>Nomina
+      </a>
     </div>
   </div>
 
   <div class="mb-2">
     <button class="btn w-100 text-start text-white d-flex justify-content-between align-items-center" data-bs-toggle="collapse" data-bs-target="#tiendaMenu">
+        <!-- Rol1 G.Gral. Control y Gestion de productos -->
+        <!-- Rol1 admin. Control y Gestion de productos -->
       <span><i class="fas fa-th-large me-2"></i>Tienda</span>
       <i class="fas fa-chevron-down small"></i>
     </button>
     <div class="collapse ps-4" id="tiendaMenu">
-      <% 1.upto(9) do |i| %>
-        <a href="#" class="d-block text-white-50 py-1 ps-3 small">
-          <i class="far fa-dot-circle me-2"></i>Dashboard <%= i %>
-          <% if i == 9 %><span class="badge bg-danger ms-2">New</span><% end %>
-        </a>
-      <% end %>
+      <a href="#" class="d-block text-white-50 py-1 ps-3 small">
+        <i class="far fa-dot-circle me-2"></i>Inventario
+      </a>
+            <a href="#" class="d-block text-white-50 py-1 ps-3 small">
+        <i class="far fa-dot-circle me-2"></i>Ordenes
+      </a>
+      </a>
+            <a href="#" class="d-block text-white-50 py-1 ps-3 small">
+        <i class="far fa-dot-circle me-2"></i>Productos
+      </a>
     </div>
   </div>
 
@@ -69,12 +72,10 @@
       <i class="fas fa-chevron-down small"></i>
     </button>
     <div class="collapse ps-4" id="sponsorsMenu">
-      <% 1.upto(9) do |i| %>
-        <a href="#" class="d-block text-white-50 py-1 ps-3 small">
-          <i class="far fa-dot-circle me-2"></i>Dashboard <%= i %>
-          <% if i == 9 %><span class="badge bg-danger ms-2">New</span><% end %>
-        </a>
-      <% end %>
+      <a href="#" class="d-block text-white-50 py-1 ps-3 small">
+        <!-- Rol1 admin. Listado y Gestion de sponsors -->
+        <i class="far fa-dot-circle me-2"></i>Gestion
+      </a>
     </div>
   </div>
 
