@@ -1,10 +1,10 @@
 <!-- Navigation Menu -->
 <nav class="flex-grow-1 overflow-auto mt-3 px-3">
-  <p class="text-uppercase small text-secondary">Dashboard & Apps</p>
+  <p class="text-uppercase small text-secondary">Administración</p>
 
   <div class="mb-2">
     <button class="btn w-100 text-start text-white d-flex justify-content-between align-items-center" data-bs-toggle="collapse" data-bs-target="#dashboardMenu">
-      <span><i class="fas fa-th-large me-2"></i>Dashboard</span>
+      <span><i class="fas fa-th-large me-2"></i>Finanzas</span>
       <i class="fas fa-chevron-down small"></i>
     </button>
     <div class="collapse ps-4" id="dashboardMenu">
@@ -17,35 +17,136 @@
     </div>
   </div>
 
+  <div class="mb-2">
+    <button class="btn w-100 text-start text-white d-flex justify-content-between align-items-center" data-bs-toggle="collapse" data-bs-target="#dashboardMenu">
+      <span><i class="fas fa-th-large me-2"></i>Personal</span>
+      <i class="fas fa-chevron-down small"></i>
+    </button>
+    <div class="collapse ps-4" id="dashboardMenu">
+      <% 1.upto(9) do |i| %>
+        <a href="#" class="d-block text-white-50 py-1 ps-3 small">
+          <i class="far fa-dot-circle me-2"></i>Dashboard <%= i %>
+          <% if i == 9 %><span class="badge bg-danger ms-2">New</span><% end %>
+        </a>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="mb-2">
+    <button class="btn w-100 text-start text-white d-flex justify-content-between align-items-center" data-bs-toggle="collapse" data-bs-target="#dashboardMenu">
+      <span><i class="fas fa-th-large me-2"></i>Eventos</span>
+      <i class="fas fa-chevron-down small"></i>
+    </button>
+    <div class="collapse ps-4" id="dashboardMenu">
+      <% 1.upto(9) do |i| %>
+        <a href="#" class="d-block text-white-50 py-1 ps-3 small">
+          <i class="far fa-dot-circle me-2"></i>Dashboard <%= i %>
+          <% if i == 9 %><span class="badge bg-danger ms-2">New</span><% end %>
+        </a>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="mb-2">
+    <button class="btn w-100 text-start text-white d-flex justify-content-between align-items-center" data-bs-toggle="collapse" data-bs-target="#dashboardMenu">
+      <span><i class="fas fa-th-large me-2"></i>Tienda</span>
+      <i class="fas fa-chevron-down small"></i>
+    </button>
+    <div class="collapse ps-4" id="dashboardMenu">
+      <% 1.upto(9) do |i| %>
+        <a href="#" class="d-block text-white-50 py-1 ps-3 small">
+          <i class="far fa-dot-circle me-2"></i>Dashboard <%= i %>
+          <% if i == 9 %><span class="badge bg-danger ms-2">New</span><% end %>
+        </a>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="mb-2">
+    <button class="btn w-100 text-start text-white d-flex justify-content-between align-items-center" data-bs-toggle="collapse" data-bs-target="#dashboardMenu">
+      <span><i class="fas fa-th-large me-2"></i>Sponsors</span>
+      <i class="fas fa-chevron-down small"></i>
+    </button>
+    <div class="collapse ps-4" id="dashboardMenu">
+      <% 1.upto(9) do |i| %>
+        <a href="#" class="d-block text-white-50 py-1 ps-3 small">
+          <i class="far fa-dot-circle me-2"></i>Dashboard <%= i %>
+          <% if i == 9 %><span class="badge bg-danger ms-2">New</span><% end %>
+        </a>
+      <% end %>
+    </div>
+  </div>
+
+
+  <p class="text-uppercase small text-secondary mt-4">Academia</p>
+
+  <div class="mb-2">
+    <button class="btn w-100 text-start text-white d-flex justify-content-between align-items-center" data-bs-toggle="collapse" data-bs-target="#dashboardMenu">
+      <span><i class="fas fa-th-large me-2"></i>Escuela</span>
+      <i class="fas fa-chevron-down small"></i>
+    </button>
+    <div class="collapse ps-4" id="dashboardMenu">
+      <% 1.upto(9) do |i| %>
+        <a href="#" class="d-block text-white-50 py-1 ps-3 small">
+          <i class="far fa-dot-circle me-2"></i>Dashboard <%= i %>
+          <% if i == 9 %><span class="badge bg-danger ms-2">New</span><% end %>
+        </a>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="mb-2">
+    <button class="btn w-100 text-start text-white d-flex justify-content-between align-items-center" data-bs-toggle="collapse" data-bs-target="#dashboardMenu">
+      <span><i class="fas fa-th-large me-2"></i>Alumnos</span>
+      <i class="fas fa-chevron-down small"></i>
+    </button>
+    <div class="collapse ps-4" id="dashboardMenu">
+      <% 1.upto(9) do |i| %>
+        <a href="#" class="d-block text-white-50 py-1 ps-3 small">
+          <i class="far fa-dot-circle me-2"></i>Dashboard <%= i %>
+          <% if i == 9 %><span class="badge bg-danger ms-2">New</span><% end %>
+        </a>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="mb-2">
+    <button class="btn w-100 text-start text-white d-flex justify-content-between align-items-center" data-bs-toggle="collapse" data-bs-target="#dashboardMenu">
+      <span><i class="fas fa-th-large me-2"></i>Torneos</span>
+      <i class="fas fa-chevron-down small"></i>
+    </button>
+    <div class="collapse ps-4" id="dashboardMenu">
+      <% 1.upto(9) do |i| %>
+        <a href="#" class="d-block text-white-50 py-1 ps-3 small">
+          <i class="far fa-dot-circle me-2"></i>Dashboard <%= i %>
+          <% if i == 9 %><span class="badge bg-danger ms-2">New</span><% end %>
+        </a>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="mb-2">
+    <button class="btn w-100 text-start text-white d-flex justify-content-between align-items-center" data-bs-toggle="collapse" data-bs-target="#dashboardMenu">
+      <span><i class="fas fa-th-large me-2"></i>Categorías</span>
+      <i class="fas fa-chevron-down small"></i>
+    </button>
+    <div class="collapse ps-4" id="dashboardMenu">
+      <% 1.upto(9) do |i| %>
+        <a href="#" class="d-block text-white-50 py-1 ps-3 small">
+          <i class="far fa-dot-circle me-2"></i>Dashboard <%= i %>
+          <% if i == 9 %><span class="badge bg-danger ms-2">New</span><% end %>
+        </a>
+      <% end %>
+    </div>
+  </div>
+
+  <p class="text-uppercase small text-secondary mt-4">Configuración</p>
+
   <a href="#" class="d-flex align-items-center text-white py-2">
-    <i class="fas fa-th me-2"></i>Apps
+    <i class="fas fa-book me-2"></i>Opción
   </a>
 
-  <p class="text-uppercase small text-secondary mt-4">Components & UI</p>
-
   <a href="#" class="d-flex align-items-center text-white py-2">
-    <i class="fas fa-pen-square me-2"></i>UI Elements
-  </a>
-
-  <a href="#" class="d-flex align-items-center text-white py-2">
-    <i class="fas fa-table me-2"></i>Forms & Tables
-  </a>
-
-  <a href="#" class="d-flex align-items-center text-white py-2">
-    <i class="fas fa-chart-pie me-2"></i>Charts
-  </a>
-
-  <p class="text-uppercase small text-secondary mt-4">Collections</p>
-
-  <a href="#" class="d-flex align-items-center text-white py-2">
-    <i class="fas fa-book me-2"></i>Widgets
-  </a>
-
-  <a href="#" class="d-flex align-items-center text-white py-2">
-    <i class="fas fa-shopping-bag me-2"></i>Ecommerce
-  </a>
-
-  <a href="#" class="d-flex align-items-center text-white py-2">
-    <i class="fas fa-user me-2"></i>Pages
+    <i class="fas fa-shopping-bag me-2"></i>Applicacion
   </a>
 </nav>
