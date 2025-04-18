@@ -1,28 +1,29 @@
 <!-- Navigation Menu -->
 <nav class="flex-grow-1 overflow-auto mt-3 px-3">
+  <!-- Administracion -->
   <p class="text-uppercase small text-secondary">Administración</p>
 
   <div class="mb-2">
-    <button class="btn w-100 text-start text-white d-flex justify-content-between align-items-center" data-bs-toggle="collapse" data-bs-target="#dashboardMenu">
+    <button class="btn w-100 text-start text-white d-flex justify-content-between align-items-center" data-bs-toggle="collapse" data-bs-target="#finanzasMenu">
       <span><i class="fas fa-th-large me-2"></i>Finanzas</span>
       <i class="fas fa-chevron-down small"></i>
     </button>
-    <div class="collapse ps-4" id="dashboardMenu">
-      <% 1.upto(9) do |i| %>
-        <a href="#" class="d-block text-white-50 py-1 ps-3 small">
-          <i class="far fa-dot-circle me-2"></i>Dashboard <%= i %>
-          <% if i == 9 %><span class="badge bg-danger ms-2">New</span><% end %>
-        </a>
-      <% end %>
+    <div class="collapse ps-4" id="finanzasMenu">
+      <a href="#" class="d-block text-white-50 py-1 ps-3 small">
+        <i class="far fa-dot-circle me-2"></i>1_Finanzas 1
+      </a>
+      <a href="#" class="d-block text-white-50 py-1 ps-3 small">
+        <i class="far fa-dot-circle me-2"></i>Finanzas 2
+      </a>
     </div>
   </div>
 
   <div class="mb-2">
-    <button class="btn w-100 text-start text-white d-flex justify-content-between align-items-center" data-bs-toggle="collapse" data-bs-target="#dashboardMenu">
+    <button class="btn w-100 text-start text-white d-flex justify-content-between align-items-center" data-bs-toggle="collapse" data-bs-target="#personalMenu">
       <span><i class="fas fa-th-large me-2"></i>Personal</span>
       <i class="fas fa-chevron-down small"></i>
     </button>
-    <div class="collapse ps-4" id="dashboardMenu">
+    <div class="collapse ps-4" id="personalMenu">
       <% 1.upto(9) do |i| %>
         <a href="#" class="d-block text-white-50 py-1 ps-3 small">
           <i class="far fa-dot-circle me-2"></i>Dashboard <%= i %>
@@ -33,11 +34,11 @@
   </div>
 
   <div class="mb-2">
-    <button class="btn w-100 text-start text-white d-flex justify-content-between align-items-center" data-bs-toggle="collapse" data-bs-target="#dashboardMenu">
+    <button class="btn w-100 text-start text-white d-flex justify-content-between align-items-center" data-bs-toggle="collapse" data-bs-target="#eventosMenu">
       <span><i class="fas fa-th-large me-2"></i>Eventos</span>
       <i class="fas fa-chevron-down small"></i>
     </button>
-    <div class="collapse ps-4" id="dashboardMenu">
+    <div class="collapse ps-4" id="eventosMenu">
       <% 1.upto(9) do |i| %>
         <a href="#" class="d-block text-white-50 py-1 ps-3 small">
           <i class="far fa-dot-circle me-2"></i>Dashboard <%= i %>
@@ -48,11 +49,11 @@
   </div>
 
   <div class="mb-2">
-    <button class="btn w-100 text-start text-white d-flex justify-content-between align-items-center" data-bs-toggle="collapse" data-bs-target="#dashboardMenu">
+    <button class="btn w-100 text-start text-white d-flex justify-content-between align-items-center" data-bs-toggle="collapse" data-bs-target="#tiendaMenu">
       <span><i class="fas fa-th-large me-2"></i>Tienda</span>
       <i class="fas fa-chevron-down small"></i>
     </button>
-    <div class="collapse ps-4" id="dashboardMenu">
+    <div class="collapse ps-4" id="tiendaMenu">
       <% 1.upto(9) do |i| %>
         <a href="#" class="d-block text-white-50 py-1 ps-3 small">
           <i class="far fa-dot-circle me-2"></i>Dashboard <%= i %>
@@ -63,11 +64,11 @@
   </div>
 
   <div class="mb-2">
-    <button class="btn w-100 text-start text-white d-flex justify-content-between align-items-center" data-bs-toggle="collapse" data-bs-target="#dashboardMenu">
+    <button class="btn w-100 text-start text-white d-flex justify-content-between align-items-center" data-bs-toggle="collapse" data-bs-target="#sponsorsMenu">
       <span><i class="fas fa-th-large me-2"></i>Sponsors</span>
       <i class="fas fa-chevron-down small"></i>
     </button>
-    <div class="collapse ps-4" id="dashboardMenu">
+    <div class="collapse ps-4" id="sponsorsMenu">
       <% 1.upto(9) do |i| %>
         <a href="#" class="d-block text-white-50 py-1 ps-3 small">
           <i class="far fa-dot-circle me-2"></i>Dashboard <%= i %>
@@ -77,15 +78,15 @@
     </div>
   </div>
 
-
+  <!-- ACADEMIA -->
   <p class="text-uppercase small text-secondary mt-4">Academia</p>
 
   <div class="mb-2">
-    <button class="btn w-100 text-start text-white d-flex justify-content-between align-items-center" data-bs-toggle="collapse" data-bs-target="#dashboardMenu">
+    <button class="btn w-100 text-start text-white d-flex justify-content-between align-items-center" data-bs-toggle="collapse" data-bs-target="#escuelaMenu">
       <span><i class="fas fa-th-large me-2"></i>Escuela</span>
       <i class="fas fa-chevron-down small"></i>
     </button>
-    <div class="collapse ps-4" id="dashboardMenu">
+    <div class="collapse ps-4" id="escuelaMenu">
       <% 1.upto(9) do |i| %>
         <a href="#" class="d-block text-white-50 py-1 ps-3 small">
           <i class="far fa-dot-circle me-2"></i>Dashboard <%= i %>
@@ -96,55 +97,66 @@
   </div>
 
   <div class="mb-2">
-    <button class="btn w-100 text-start text-white d-flex justify-content-between align-items-center" data-bs-toggle="collapse" data-bs-target="#dashboardMenu">
+    <button class="btn w-100 text-start text-white d-flex justify-content-between align-items-center" data-bs-toggle="collapse" data-bs-target="#alumnosMenu">
       <span><i class="fas fa-th-large me-2"></i>Alumnos</span>
       <i class="fas fa-chevron-down small"></i>
     </button>
-    <div class="collapse ps-4" id="dashboardMenu">
-      <% 1.upto(9) do |i| %>
-        <a href="#" class="d-block text-white-50 py-1 ps-3 small">
-          <i class="far fa-dot-circle me-2"></i>Dashboard <%= i %>
-          <% if i == 9 %><span class="badge bg-danger ms-2">New</span><% end %>
-        </a>
-      <% end %>
+    <div class="collapse ps-4" id="alumnosMenu">
+      <a href="#" class="d-block text-white-50 py-1 ps-3 small">
+        <i class="far fa-dot-circle me-2"></i>item
+      </a>
     </div>
   </div>
 
   <div class="mb-2">
-    <button class="btn w-100 text-start text-white d-flex justify-content-between align-items-center" data-bs-toggle="collapse" data-bs-target="#dashboardMenu">
+    <button class="btn w-100 text-start text-white d-flex justify-content-between align-items-center" data-bs-toggle="collapse" data-bs-target="#torneosMenu">
       <span><i class="fas fa-th-large me-2"></i>Torneos</span>
       <i class="fas fa-chevron-down small"></i>
     </button>
-    <div class="collapse ps-4" id="dashboardMenu">
-      <% 1.upto(9) do |i| %>
-        <a href="#" class="d-block text-white-50 py-1 ps-3 small">
-          <i class="far fa-dot-circle me-2"></i>Dashboard <%= i %>
-          <% if i == 9 %><span class="badge bg-danger ms-2">New</span><% end %>
-        </a>
-      <% end %>
+    <div class="collapse ps-4" id="torneosMenu">
+      <a href="#" class="d-block text-white-50 py-1 ps-3 small">
+        <!-- Rol4 DEL. Listado/Creacion de Torneos/Partidos Amistosos  -->
+        <i class="far fa-dot-circle me-2"></i>Gestion
+      </a>
+      <a href="#" class="d-block text-white-50 py-1 ps-3 small">
+        <!-- Rol4 DEL. Listado/Creacion de proximos partidos de la categoria  -->
+        <i class="far fa-dot-circle me-2"></i>Calendario
+      </a>
+
+      <a href="#" class="d-block text-white-50 py-1 ps-3 small">
+        <!-- Rol4 DEL. Control de pagos por partido y fondo disponible  -->
+        <i class="far fa-dot-circle me-2"></i>Arbitraje
+      </a>
     </div>
   </div>
 
   <div class="mb-2">
-    <button class="btn w-100 text-start text-white d-flex justify-content-between align-items-center" data-bs-toggle="collapse" data-bs-target="#dashboardMenu">
+    <button class="btn w-100 text-start text-white d-flex justify-content-between align-items-center" data-bs-toggle="collapse" data-bs-target="#categoriasMenu">
       <span><i class="fas fa-th-large me-2"></i>Categorías</span>
       <i class="fas fa-chevron-down small"></i>
     </button>
-    <div class="collapse ps-4" id="dashboardMenu">
-      <% 1.upto(9) do |i| %>
-        <a href="#" class="d-block text-white-50 py-1 ps-3 small">
-          <i class="far fa-dot-circle me-2"></i>Dashboard <%= i %>
-          <% if i == 9 %><span class="badge bg-danger ms-2">New</span><% end %>
-        </a>
-      <% end %>
+    <div class="collapse ps-4" id="categoriasMenu">
+      <a href="#" class="d-block text-white-50 py-1 ps-3 small">
+        <!-- Rol4 DEL. listado de jugadores mas refuerzos   -->
+        <i class="far fa-dot-circle me-2"></i>Mi categoria
+      </a>
     </div>
   </div>
-
+  <!-- Configuracion -->
   <p class="text-uppercase small text-secondary mt-4">Configuración</p>
 
-  <a href="#" class="d-flex align-items-center text-white py-2">
-    <i class="fas fa-book me-2"></i>Opción
-  </a>
+  <div class="mb-2">
+    <button class="btn w-100 text-start text-white d-flex justify-content-between align-items-center" data-bs-toggle="collapse" data-bs-target="#configMenu">
+      <span><i class="fas fa-th-large me-2"></i>Sitio Web</span>
+      <i class="fas fa-chevron-down small"></i>
+    </button>
+    <div class="collapse ps-4" id="configMenu">
+      <a href="#" class="d-block text-white-50 py-1 ps-3 small">
+        <!-- Rol5 RR.SS un lugar donde se coloque el nombre del torneo y las fotos asociadas  -->
+        <i class="far fa-dot-circle me-2"></i>Publicaciones
+      </a>
+    </div>
+  </div>
 
   <a href="#" class="d-flex align-items-center text-white py-2">
     <i class="fas fa-shopping-bag me-2"></i>Applicacion
@@ -168,5 +180,5 @@
   <a href="#" class="d-flex align-items-center text-white py-2">
     <i class="fas fa-shopping-bag me-2"></i>Pagos
   </a>
-  <p class="text-uppercase small text-secondary mt-4">----------------------------</p>
+  
 </nav>
