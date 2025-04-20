@@ -1,66 +1,19 @@
-window.locale = {
-  en: {
-    font_styles: {
-      normal: "Normal text",
-      h1: "Heading 1",
-      h2: "Heading 2",
-      h3: "Heading 3"
-    },
-    emphasis: {
-      bold: "Bold",
-      italic: "Italic",
-      underline: "Underline"
-    },
-    lists: {
-      unordered: "Unordered list",
-      ordered: "Ordered list",
-      outdent: "Outdent",
-      indent: "Indent"
-    },
-    link: {
-      insert: "Insert Link",
-      cancel: "Cancel"
-    },
-    image: {
-      insert: "Insert Image",
-      cancel: "Cancel"
-    },
-    html: {
-      edit: "Edit HTML"
-    },
-    colours: {
-      black: "Black",
-      silver: "Silver",
-      gray: "Grey",
-      maroon: "Maroon",
-      red: "Red",
-      purple: "Purple",
-      green: "Green",
-      olive: "Olive",
-      navy: "Navy",
-      blue: "Blue",
-      orange: "Orange"
-    }
-  }
-}
-//Aniimate.css - AOS
+import * as bootstrap from 'bootstrap'
+window.bootstrap = bootstrap
+
+import * as Popper from '@popperjs/core'
+window.Popper = Popper
 import "animate.css/animate.css";
+
+//Aniimate.css - AOS
 import  AOS  from "aos";
 import "aos/dist/aos.css";
-document.addEventListener("DOMContentLoaded", () => {
-  AOS.init({
-    // 👇 YOUR CUSTOM CONFIG
-    offset: 120, // distance in px before element is revealed
-    delay: 100, // delay in ms before animation starts
-    duration: 800, // duration in ms
-    easing: 'ease-in-out', // AOS built-in easing options
-    once: true, // whether animation should happen only once
-    mirror: false, // whether elements should animate out while scrolling past
-    anchorPlacement: 'top-bottom', // defines trigger point relative to viewport
-  });
-});
+
 //---------------------------------------------------------------------
-//
+// jQuery Slimscroll & Sparkline
+import 'jquery-slimscroll';
+import 'jquery-sparkline';
+
 // Icon styles
 import 'weathericons/css/weather-icons.css'
 import 'weathericons/css/weather-icons-wind.css' // for wind direction icons
@@ -68,148 +21,28 @@ import 'weathericons/css/weather-icons-wind.css' // for wind direction icons
 //
 import './pace/pace.min.css';
 import './pace/pace.min.js';
-document.addEventListener("turbo:load", () => {
-  const simulate = document.getElementById('simulate-load')
-  if (simulate) {
-    simulate.addEventListener('click', () => {
-      Pace.restart()
-      setTimeout(() => console.log('Fake load complete!'), 2000)
-    })
-  }
-});
 
 // Bootstrap Timepicker
 import './bootstrap-timepicker/bootstrap-timepicker.css';
 import * as timepicker from './bootstrap-timepicker/bootstrap-timepicker.js';
 window.timeInput = timepicker;
-document.addEventListener("turbo:load", () => {
-  const timeInput = $('#timepicker')
-  if (timeInput.length && typeof timeInput.timepicker === 'function') {
-    timeInput.timepicker({
-      showInputs: false,
-      minuteStep: 5,
-      showMeridian: false // 24h format
-    })
-  }
-});
 
-// Bootstrap Wysihtml5
-window.locale = {
-  en: {
-    font_styles: {
-      normal: "Normal text",
-      h1: "Heading 1",
-      h2: "Heading 2",
-      h3: "Heading 3"
-    },
-    emphasis: {
-      bold: "Bold",
-      italic: "Italic",
-      underline: "Underline"
-    },
-    lists: {
-      unordered: "Unordered list",
-      ordered: "Ordered list",
-      outdent: "Outdent",
-      indent: "Indent"
-    },
-    link: {
-      insert: "Insert Link",
-      cancel: "Cancel"
-    },
-    image: {
-      insert: "Insert Image",
-      cancel: "Cancel"
-    },
-    html: {
-      edit: "Edit HTML"
-    },
-    colours: {
-      black: "Black",
-      silver: "Silver",
-      gray: "Grey",
-      maroon: "Maroon",
-      red: "Red",
-      purple: "Purple",
-      green: "Green",
-      olive: "Olive",
-      navy: "Navy",
-      blue: "Blue",
-      orange: "Orange"
-    }
-  }
-}
 
 import './bootstrap-wysihtml5/wysihtml5.js'
 import * as wysihtml5 from './bootstrap-wysihtml5/bootstrap-wysihtml5.js'
 import './bootstrap-wysihtml5/bootstrap-wysihtml5.css'
 
-document.addEventListener("turbo:load", () => {
-  const el = $('#wysi-editor')
-  if (el.length && typeof el.wysihtml5 === 'function') {
-    el.wysihtml5({ locale: 'en' })
-    console.log("✅ WYSIHTML5 initialized")
-  }
-});
-
 // Icheck
 import './icheck/icheck.min.js';
 import './icheck/flat/blue.css';
-document.addEventListener("turbo:load", () => {
-  const checkboxes = $('input.icheck')
-  if (checkboxes.length && typeof checkboxes.iCheck === 'function') {
-    checkboxes.iCheck({
-      checkboxClass: 'icheckbox_flat-blue',
-      radioClass: 'iradio_flat-blue'
-    })
-
-    checkboxes.on('ifChanged', function (event) {
-      console.log(`Value of ${this.name}:`, this.checked)
-    })
-  } else {
-    console.warn('iCheck not initialized or checkboxes not found')
-  }
-});
 
 // Bootstrap Slider
 import 'bootstrap-slider/dist/css/bootstrap-slider.min.css';
 import 'bootstrap-slider';
-document.addEventListener("turbo:load", () => {
-  const el = document.getElementById('slider')
-  if (el && typeof $(el).slider === 'function') {
-    $('#slider').slider({
-      min: 0,
-      max: 100,
-      value: 40,
-      tooltip: 'always'
-    }).on('slide', function (event) {
-      console.log("Slider value:", event)
-    })
-  } else {
-    console.warn('Bootstrap Slider not initialized')
-  }
-});
 
 // Chartist.js
 import 'chartist/dist/index.css'
 import * as ChartistModule from 'chartist/dist/index.js'
-// Use the `.default` export
-document.addEventListener("turbo:load", () => {
-  const chartEl = document.getElementById('chartist-chart')
-  if (chartEl && typeof window.Chartist !== 'undefined') {
-    new window.Chartist.Line('#chartist-chart', {
-      labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'],
-      series: [
-        [5, 9, 7, 8, 5],
-        [3, 5, 4, 6, 3]
-      ]
-    }, {
-      fullWidth: true,
-      chartPadding: { right: 40 },
-      low: 0
-    })
-  }
-});
 
 //C3 chart
 import 'c3/c3.min.css';
@@ -217,491 +50,100 @@ import * as d3 from 'd3';
 import c3 from 'c3';
 window.d3 = d3;
 window.c3 = c3;
-document.addEventListener("turbo:load", () => {
-  const chartEl = document.getElementById("c3-chart")
-  const chartNom = document.getElementById("c3-chart-nom")
-  if (chartEl) {
-    const chart = c3.generate({
-      bindto: '#c3-chart',
-      data: {
-        columns: [
-          ['Sales', 30, 200, 100, 400, 150, 250]
-        ],
-        type: 'line'
-      }
-    })
-
-  }
-  if (chartNom) {
-    const chart = c3.generate({
-      bindto: '#c3-chart-nom',
-      data: {
-        columns: [
-          ['Sales', 30, 200, 100, 400, 150, 250],
-          ['Revenue', 50, 20, 10, 40, 15, 25]
-        ],
-        type: 'bar'
-      }
-    })
-  }
-});
 
 // Bootstrap Switch
 import 'bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css';
 import { bootstrapSwitch } from 'bootstrap-switch';
-document.addEventListener("turbo:load", () => {
-  const switches = $('[data-toggle="switch"]')
-  if (switches.length && typeof $.fn.bootstrapSwitch === 'function') {
-    switches.bootstrapSwitch()
-
-    switches.on('switchChange.bootstrapSwitch', function (event, state) {
-      console.log(`Switch #${this.id} is now:`, state)
-    })
-  }
-});
 
 // Sortable
 import { Sortable } from 'sortablejs';
-document.addEventListener("turbo:load", () => {
-  const el = document.getElementById('sortable-list')
-  if (el) {
-    Sortable.create(el, {
-      animation: 150,
-      ghostClass: 'bg-warning',
-      onEnd: function (evt) {
-        console.log('New order:', Array.from(el.children).map(li => li.dataset.id))
-      }
-    })
-  }
-});
 
 // jQuery Toast
 import './jquery-toast/jquery.toast.min.css';
 import * as  toast from './jquery-toast/jquery.toast.min.js'
-document.addEventListener("turbo:load", () => {
-  const btn = document.getElementById('show-toast')
-  if (btn) {
-    btn.addEventListener('click', () => {
-      $.toast({
-        heading: 'Great!',
-        text: 'You just launched a toast!',
-        icon: 'success',
-        position: 'top-right',
-        loaderBg: '#28a745'
-      })
-    })
-  }
-});
 
 // Gridstack
 import 'gridstack/dist/gridstack.min.css';
 import { GridStack } from 'gridstack';
-document.addEventListener("turbo:load", () => {
-  const gridEl = document.querySelector('.grid-stack')
-  if (gridEl) {
-    const grid = GridStack.init({
-      float: true,
-      resizable: {
-        handles: 'e, se, s, sw, w'
-      }
-    }, gridEl)
-  }
-});
 
 //ion-rangeslider
 import 'ion-rangeslider/css/ion.rangeSlider.min.css';
 import 'ion-rangeslider';
-document.addEventListener("turbo:load", () => {
-  const rangeEl = document.getElementById("range")
-  if (rangeEl && typeof $(rangeEl).ionRangeSlider === 'function') {
-    $(rangeEl).ionRangeSlider({
-      min: 0,
-      max: 100,
-      from: 21,
-      to: 63,
-      type: 'double',
-      grid: true,
-      postfix: ' %',
-      onFinish: function (data) {
-        console.log("Range selected:", data.from, '-', data.to)
-      }
-    })
-  }
-});
 
 // Raty manually imported
 import './raty/raty.css';
 import Raty from './raty/raty';
-document.addEventListener("turbo:load", () => {
-  const el = document.getElementById("raty")
-  if (el) {
-    new Raty(el, {
-      path: '/assets/raty/images',
-      score: 3,
-      half: true,
-      starHalf: 'star-half.png',
-      starOff: 'star-off.png',
-      starOn: 'star-on.png',
-      click: function (score) {
-        console.log("Selected rating:", score)
-      }
-    }).init()
-  }
-});
 
 // Bootstrap Touchspin
 import 'bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.css'
 import 'bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.js'
-document.addEventListener("turbo:load", () => {
-  const el = document.getElementById("touchspin")
-  if (el && typeof $(el).TouchSpin === 'function') {
-    $(el).TouchSpin({
-      min: 0,
-      max: 100,
-      step: 1,
-      decimals: 0,
-      boostat: 5,
-      maxboostedstep: 10,
-      postfix: '%'
-    })
-  }
-});
 
 // Bootstrap Tagsinput
 import 'bootstrap-tagsinput/dist/bootstrap-tagsinput.css'
 import 'bootstrap-tagsinput/dist/bootstrap-tagsinput.min.js'
-document.addEventListener("turbo:load", () => {
-  const tagInput = document.getElementById('tags')
-  if (tagInput) {
-    $('#tags').tagsinput()
-  }
-});
 
 // Bootstrap Select
 import 'bootstrap-select/dist/css/bootstrap-select.min.css'
 import 'bootstrap-select/dist/js/bootstrap-select.min.js'
-document.addEventListener("turbo:load", () => {
-  $('.bootstrap-select').selectpicker()
-
-  // Optional: watch for changes
-  $('.bootstrap-select').on('changed.bs.select', function () {
-    console.log("Selected:", $(this).val())
-  })
-});
 
 // Bootstrap-colorpicker
 import '@claviska/jquery-minicolors/jquery.minicolors.css'
 import '@claviska/jquery-minicolors'
-document.addEventListener("turbo:load", () => {
-  const colorInput = document.getElementById("colorpicker")
-  if (colorInput) {
-    $('#colorpicker').minicolors({
-      control: 'hue',
-      defaultValue: '#563d7c',
-      format: 'hex',
-      theme: 'bootstrap'
-    })
-
-    $('#colorpicker').on('change', function () {
-      console.log("Selected color:", $(this).val())
-    })
-  }
-});
 
 // Bootstrap DateRangePicker
 import moment from 'moment'
 import 'bootstrap-daterangepicker/daterangepicker.css'
 import 'bootstrap-daterangepicker'
-document.addEventListener("turbo:load", () => {
-  const el = document.getElementById("daterange")
-  if (el) {
-    $(el).daterangepicker({
-      startDate: moment().subtract(7, 'days'),
-      endDate: moment(),
-      ranges: {
-        'Today': [moment(), moment()],
-        'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-        'Last 7 Days': [moment().subtract(6, 'days'), moment()],
-        'Last 30 Days': [moment().subtract(29, 'days'), moment()],
-        'This Month': [moment().startOf('month'), moment().endOf('month')],
-        'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
-      }
-    }, function (start, end) {
-      console.log("Selected range: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'))
-    })
-  }
-});
 
 // Daterangepicker
 import 'daterangepicker/daterangepicker.css'
 import 'daterangepicker'
-document.addEventListener("turbo:load", () => {
-  const el = document.getElementById("daterange")
-  if (el) {
-    $(el).daterangepicker({
-      startDate: moment().subtract(7, 'days'),
-      endDate: moment(),
-      ranges: {
-        'Today': [moment(), moment()],
-        'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-        'Last 7 Days': [moment().subtract(6, 'days'), moment()],
-        'Last 30 Days': [moment().subtract(29, 'days'), moment()],
-        'This Month': [moment().startOf('month'), moment().endOf('month')],
-        'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
-      }
-    }, function (start, end) {
-      console.log("Date range selected: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'))
-    })
-  }
-});
 
 // Select2
 import './select2';
-document.addEventListener("turbo:load", () => {
-
-  $('.select2-basic').select2()
-
-  $('.select2-tags').select2({
-    tags: true,
-    tokenSeparators: [',', ' ']
-  })
-
-  $('.select2-ajax').select2({
-    ajax: {
-      url: 'https://pokeapi.co/api/v2/pokemon',
-      dataType: 'json',
-      delay: 250,
-      data: function (params) {
-        return {
-          limit: 20,
-          offset: 0
-        }
-      },
-      processResults: function (data) {
-        return {
-          results: data.results.map(p => ({
-            id: p.name,
-            text: p.name.charAt(0).toUpperCase() + p.name.slice(1)
-          }))
-        }
-      }
-    },
-    placeholder: 'Search Pokémon',
-    minimumInputLength: 1
-  })
-});
 
 // Dropzone
 import './dropzone';
-document.addEventListener("turbo:load", () => {
-  const el = document.getElementById("my-dropzone")
-  if (el) {
-    new Dropzone(el, {
-      url: "/upload", // Replace with your actual upload path
-      paramName: "file", // The name that will be used to transfer the file
-      maxFilesize: 2, // MB
-      acceptedFiles: ".jpg,.png,.gif,.pdf",
-      addRemoveLinks: true,
-      dictDefaultMessage: "Drop files here or click to upload"
-    })
-  }
-});
 
 //Bootstrap Markdown
-import '../vendor/bootstrap3-editable/bootstrap-markdown.min.css'
-import '../vendor/bootstrap3-editable/bootstrap-markdown.js'
-document.addEventListener("turbo:load", () => {
-  const el = document.getElementById("markdown-editor")
-  if (el) {
-    $(el).markdown({
-      autofocus: true,
-      savable: true
-    })
-  }
-  const content = $('#markdown-editor').val()
-});
+// import '../vendor/bootstrap3-editable/bootstrap-markdown.min.css'
+// import '../vendor/bootstrap3-editable/bootstrap-markdown.js'
 
 // SweetAlert
 import swal from 'sweetalert'
-document.addEventListener("turbo:load", () => {
-  // Example bind
-  const trigger = document.getElementById('sweetalert-btn')
-  if (trigger) {
-    trigger.addEventListener('click', () => {
-      swal("Hello!", "SweetAlert is working!", "success")
-      swal("Good job!", "You clicked the button!", "success");
-
-      swal("Are you sure?", {
-        buttons: true,
-        dangerMode: true
-      });
-
-      swal({
-        title: "Auto close alert!",
-        text: "This will close in 2 seconds.",
-        timer: 2000,
-        buttons: false
-      });
-    })
-  }
-});
 
 // Bootstrap3 Editable'
-import '../vendor/bootstrap3-editable/bootstrap-editable.css'
-import '../vendor/bootstrap3-editable/bootstrap-editable.min.js'
-document.addEventListener("turbo:load", () => {
-  // Initialize editable elements
-  $('#username').editable({
-    url: '/post',         // fake url for demonstration
-    title: 'Enter username'
-  });
-});
-
-// JSVectormap
-import jsVectorMap from 'jsvectormap/dist/jsvectormap.js';
-import 'jsvectormap/dist/maps/world.js';
-const map = new jsVectorMap({
-  selector: '#map',
-  map: 'world',
-});
+// import '../vendor/bootstrap3-editable/bootstrap-editable.css'
+// import '../vendor/bootstrap3-editable/bootstrap-editable.min.js'
 
 // Ekko Lightbox
 import './ekko-lightbox';
-document.addEventListener("turbo:load", () => {
-  document.querySelectorAll('[data-toggle="lightbox"]').forEach(el => {
-    el.addEventListener("click", function (e) {
-      e.preventDefault();
-      const lightbox = window.jQuery(this).ekkoLightbox();
-
-      // Optional fix: delay and then fix accessibility flags
-      setTimeout(() => {
-        const modal = document.querySelector('.ekko-lightbox');
-        if (modal) {
-          modal.removeAttribute('aria-hidden');
-          modal.setAttribute('aria-modal', 'true');
-          modal.removeAttribute('inert');
-        }
-      }, 100);
-    });
-  });
-});
 
 // Perfect Scrollbar
 import PerfectScrollbar from 'perfect-scrollbar';
 import 'perfect-scrollbar/css/perfect-scrollbar.css';
-document.addEventListener("DOMContentLoaded", () => {
-  const container = document.querySelector('#scrollable-content');
-  if (container) {
-    new PerfectScrollbar(container);
-  }
-});
+window.PerfectScrollbar = PerfectScrollbar;
 
 // Morris.js
 import './morris-global';
-document.addEventListener("turbo:load", () => {
-  const lineChart = document.getElementById('morris-line-chart');
-  if (lineChart && window.Morris && typeof window.Morris.Line === 'function') {
-    new window.Morris.Line({
-      element: 'morris-line-chart',
-      data: [
-        { year: '2019', value: 10 },
-        { year: '2020', value: 25 },
-        { year: '2021', value: 30 },
-        { year: '2022', value: 20 },
-        { year: '2023', value: 35 }
-      ],
-      xkey: 'year',
-      ykeys: ['value'],
-      labels: ['Value'],
-      lineColors: ['#007bff'],
-      resize: true
-    });
-  }
-});
 
 // Owl Carousel
 import './owl-caroussel';
-document.addEventListener("turbo:load", () => {
-  const owl = document.querySelector('.owl-carousel');
-  if (owl && typeof jQuery !== 'undefined') {
-    const images = owl.querySelectorAll("img");
-
-    // Esperar que todas las imágenes se carguen
-    let loadedCount = 0;
-    images.forEach((img) => {
-      if (img.complete) {
-        loadedCount++;
-      } else {
-        img.addEventListener("load", () => {
-          loadedCount++;
-          if (loadedCount === images.length) initOwl();
-        });
-      }
-    });
-
-    // En caso todas estén ya cargadas
-    if (loadedCount === images.length) initOwl();
-
-    function initOwl() {
-      jQuery(owl).owlCarousel({
-        loop: true,
-        margin: 10,
-        nav: true,
-        dots: true,
-        autoplay: true,
-        autoplayTimeout: 3000,
-        items: 1
-      });
-    }
-  }
-});
 
 // FlexSlider
 import './flexslider';
-document.addEventListener('turbo:load', () => {
-  $('.flexslider').flexslider({
-    animation: 'slide',
-    controlNav: true,
-    directionNav: true
-  });
-});
 
 // Prism.js
 import './prism';
-document.addEventListener('turbo:load', () => {
-  Prism.highlightAll();
-});
 
 // dataTables
 import './dataTables'
-document.addEventListener('turbo:load', () => {
-  $('#example').DataTable()
-});
 
 // Magnific Popup
 import './magnific-popup'
-document.addEventListener('turbo:load', () => {
-  $('.popup-gallery').magnificPopup({
-    delegate: 'a',
-    type: 'image',
-    gallery: {
-      enabled: true
-    }
-  })
-});
 
 // Masonry
-import './masonry-layout'
-document.addEventListener('turbo:load', () => {
-  const grid = document.querySelector('.masonry-grid')
-
-  if (!grid) return
-
-  imagesLoaded(grid, () => {
-    new Masonry(grid, {
-      itemSelector: '.masonry-item',
-      columnWidth: '.masonry-sizer',
-      percentPosition: true
-    })
-  })
-});
+import './masonry-layout';
+// Feather Icons
+import feather from 'feather-icons'
+window.feather = feather

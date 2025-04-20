@@ -1,7 +1,7 @@
 // Entry point for the build script in your package.json
-import "./vendor/jquery"
 import "@hotwired/turbo-rails"
 import "./controllers"
-import * as bootstrap from "bootstrap"
+import "./vendor/jquery"
 import "../assets/stylesheets/application.scss"
 import "./vendor/node-utils"
+import './vendor/themeforest/template';
