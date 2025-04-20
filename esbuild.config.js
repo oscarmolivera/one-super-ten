@@ -1,4 +1,3 @@
-
 const esbuild = require("esbuild");
 
 const args = process.argv.slice(2);
@@ -8,6 +7,7 @@ const { copy } = require("esbuild-plugin-copy");
 
 const entryPoints = [
   "app/javascript/application.js",
+  "app/assets/stylesheets/application.scss",
 ];
 
 const options = {
@@ -18,8 +18,9 @@ const options = {
   outdir: "app/assets/builds",
   publicPath: "/assets",
   plugins: [
-    sassPlugin(),
-    copy()
+    sassPlugin({
+      loadPaths: ["node_modules"], 
+    }),
   ],
   loader: {
     '.js': 'jsx',
@@ -34,10 +35,12 @@ const options = {
     '.woff': 'file',
     '.woff2': 'file',
     '.eot': 'file',
-    '.ttf': 'file'
+    '.ttf': 'file',
   },
-  external: []
+  assetNames: 'webfonts/[name]-[hash]', 
+  external: [],
 };
+
 async function runBuild() {
   if (watch) {
     const ctx = await esbuild.context(options);
