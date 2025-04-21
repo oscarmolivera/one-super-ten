@@ -147,3 +147,6 @@ import './masonry-layout';
 // Feather Icons
 import feather from 'feather-icons'
 window.feather = feather
+
+// FontAwesome
+import '@fortawesome/fontawesome-free/js/all.js';
