@@ -28,9 +28,6 @@
           <%= link_to "Admin Dashboard", admin_users_path %>
           <%= link_to "Manage Users", admin_users_path %>
         <% end %>
-        <div>
-          <%= link_to "Logout", destroy_user_session_path, method: :delete, data: { turbo_method: :delete } %>
-        </div>
       </nav>
     <% end %>
     <%= yield %>

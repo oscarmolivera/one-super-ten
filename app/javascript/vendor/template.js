@@ -1564,10 +1564,17 @@ function w3_close() {
 		loader.style.display = 'none';
 	}
 
-	document.addEventListener("DOMContentLoaded", function() {
-		loader = document.getElementById('loader');
-		loadNow(1);
-	});
+  document.addEventListener('turbo:load', () => {
+    const loader = document.getElementById('loader');
+    if (!loader) return;
+
+    loader.style.transition = 'opacity 0.4s ease';
+    loader.style.opacity = 0;
+
+    setTimeout(() => {
+      loader.style.display = 'none';
+    }, 400); // matches fade-out time
+  });
 
   
   
