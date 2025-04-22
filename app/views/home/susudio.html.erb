@@ -1,33 +1,24 @@
-<main class="hold-transition light-skin sidebar-mini theme-primary fixed">
-  <div class="wrappper">
-    <!-- div id="loader"></div -->
+<div class="wrapper">
+  <div id="loader"></div>
 
-    <header class="main-header">
-      <%= render 'shared/dashboard/main_header' %>
-    </header>
+  <header class="main-header">
+    <%= render 'shared/dashboard/main_header' %>
+  </header>
 
-    <aside class="main-sidebar">
-      <%= render 'shared/dashboard/main_sidebar' %>
-    </aside>
+  <aside class="main-sidebar left-side-section bg-dark text-white">
+    <%= render 'shared/dashboard/main_sidebar' %>
+  </aside>
 
-    <div class="content-wrapper">
-      <%= render 'shared/dashboard/content_wrapper' %>
-    </div>
-
-    <footer class="main-footer">
-      <%= render 'shared/dashboard/main_footer' %>
-    </footer>
-
-    <aside class="control-sidebar">
-      <%= render 'shared/dashboard/control_sidebar' %>
-    </aside>
+  <div class="content-wrapper big-side-section">
+    <%= render 'shared/dashboard/content_wrapper' %>
   </div>
-</main>  
 
-<div class="sticky-toolbar">
-  <%= render 'shared/dashboard/sticky_toolbar' %>
+  <footer class="main-footer">
+    <%= render 'shared/dashboard/main_footer' %>
+  </footer>
+
+  <aside class="control-sidebar">
+    <%= render 'shared/dashboard/control_sidebar' %>
+  </aside>
 </div>
 
-<div class="chat-box-body">
-  <%= render 'shared/dashboard/chat_box_body' %>
-</div>

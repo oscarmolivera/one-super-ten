@@ -2,6 +2,7 @@
 @use './vendor/bootstrap-icons';
 @use './vendor/style';
 @use './vendor/color_theme';
+@use './vendor/custom.css';
 @use './vendor/all';
 @use './vendor/brands';
 @use './vendor/font-awesome';
@@ -22,4 +23,3 @@
 @use './vendor/iconmind';
 @use './vendor/icostyle';
 
-//@use './vendor/animate';

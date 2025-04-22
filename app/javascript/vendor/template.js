@@ -1548,16 +1548,17 @@ function w3_close() {
 		
 	var loader;
 
-	function loadNow(opacity) {
-		if (opacity <= 0) {
-			displayContent();
-		} else {
-			loader.style.opacity = opacity;
-			window.setTimeout(function() {
-				loadNow(opacity - 0.05);
-			}, 50);
-		}
-	}
+  function loadNow(opacity) {
+    if (!loader) return;
+    if (opacity <= 0) {
+      displayContent();
+    } else {
+      loader.style.opacity = opacity;
+      setTimeout(function () {
+        loadNow(opacity - 0.05);
+      }, 50);
+    }
+  }
 
 	function displayContent() {
 		loader.style.display = 'none';
@@ -1568,13 +1569,17 @@ function w3_close() {
 		loadNow(1);
 	});
 
-
-new PerfectScrollbar(".multinav-scroll");
-
-
-var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-  return new bootstrap.Tooltip(tooltipTriggerEl)
-})
-
-
+  
+  
+  document.addEventListener('turbo:load', function () {
+    new PerfectScrollbar(".multinav-scroll");
+    const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+    const tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+      if (window.bootstrap && window.bootstrap.Tooltip) {
+        return new window.bootstrap.Tooltip(tooltipTriggerEl);
+      } else {
+        console.error('Bootstrap Tooltip is not available. Ensure Bootstrap is loaded.');
+        return null;
+      }
+    }).filter(tooltip => tooltip !== null);
+  });
