@@ -1571,15 +1571,19 @@ function w3_close() {
 
   
   
-  document.addEventListener('turbo:load', function () {
-    new PerfectScrollbar(".multinav-scroll");
-    const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
-    const tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-      if (window.bootstrap && window.bootstrap.Tooltip) {
-        return new window.bootstrap.Tooltip(tooltipTriggerEl);
-      } else {
-        console.error('Bootstrap Tooltip is not available. Ensure Bootstrap is loaded.');
-        return null;
-      }
-    }).filter(tooltip => tooltip !== null);
-  });
+document.addEventListener('turbo:load', function () {
+  const scrollTarget = document.querySelector(".multinav-scroll");
+  if (scrollTarget) {
+    new PerfectScrollbar(scrollTarget);
+  }
+
+  const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+  const tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+    if (window.bootstrap && window.bootstrap.Tooltip) {
+      return new window.bootstrap.Tooltip(tooltipTriggerEl);
+    } else {
+      console.error('Bootstrap Tooltip is not available. Ensure Bootstrap is loaded.');
+      return null;
+    }
+  }).filter(tooltip => tooltip !== null);
+});

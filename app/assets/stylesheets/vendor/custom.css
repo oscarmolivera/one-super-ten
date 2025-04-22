@@ -41,6 +41,18 @@
 .flex-grow-1 p{
 		font-size: 20px;
 	}
+.full-page-bg{
+	background: url('vendor/bg-1.jpg') no-repeat center center fixed;
+	background-size: cover;
+	background-position: center;
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+	min-height: 100vh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
 
 
 /*=================================*/
@@ -286,4 +298,4 @@
 		padding: 10px;
   }
 }
-  
+
