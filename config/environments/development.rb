@@ -24,12 +24,14 @@ Rails.application.configure do
   config.cache_store = :solid_cache_store
 
   # ✅ Fix session persistence issues
-  config.session_store :cookie_store, 
-                       key: "_one_super_ten_session", 
-                       expire_after: 90.minutes, 
-                       secure: false,
-                       httponly: true,
-                       domain: nil
+  config.session_store :cookie_store,
+                        key: '_one_super_ten_session',
+                        expire_after: 90.minutes,
+                        same_site: :lax,
+                        secure: false, # or true in production
+                        httponly: true,
+                        domain: :all,
+                        tld_length: 2
 
   # Store uploaded files on the local file system (see config/storage.yml for options).
   config.active_storage.service = :local
