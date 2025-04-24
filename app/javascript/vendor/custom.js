@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener('turbo:load', function () {
   setTimeout(() => {
     const alerts = document.querySelectorAll(".alert");
     alerts.forEach(alert => {
@@ -6,4 +6,10 @@ document.addEventListener("DOMContentLoaded", function () {
       bsAlert.close();
     });
   }, 3000);
+  // Initialize treeview
+  $('[data-widget="tree"]').tree('destroy');
+  $('[data-widget="tree"]').tree('init');
+  $('[data-widget="tree"]').each(function () {
+    $(this).tree()
+  });
 });
