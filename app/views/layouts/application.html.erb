@@ -15,33 +15,12 @@
 
     <%= favicon_link_tag 'favicon.png', type: 'image/png' %>
 
-    <%# Includes all stylesheet files in app/assets/stylesheets %>
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_include_tag "application", "data-turbo-track": "reload", type: "module" %>
   </head>
 
   <body class="hold-transition theme-primary light-skin sidebar-mini fixed">
     <%= render "shared/flash" %>
-    <% if current_user %>
-      <nav>
-        <% if current_user.admin? %>
-          <%= link_to "Admin Dashboard", admin_users_path %>
-          <%= link_to "Manage Users", admin_users_path %>
-        <% end %>
-      </nav>
-    <% end %>
     <%= yield %>
   </body>
 </html>
-<!-- Add this right before closing </body> tag in your layout -->
-<script>
-  document.addEventListener("DOMContentLoaded", function () {
-    setTimeout(() => {
-      const alerts = document.querySelectorAll(".alert");
-      alerts.forEach(alert => {
-        let bsAlert = bootstrap.Alert.getOrCreateInstance(alert);
-        bsAlert.close();
-      });
-    }, 3000); // 3 seconds
-  });
-</script>

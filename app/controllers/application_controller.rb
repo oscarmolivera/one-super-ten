@@ -2,7 +2,7 @@ class ApplicationController < ActionController::Base
   include Pundit::Authorization
   before_action :authenticate_user!
   before_action :switch_tenant
-  before_action :authorize_super_admin, if: -> { request.subdomain == "admin" }
+  before_action :authorize_super_admin, if: -> { request.subdomain == "super_admin" }
   
   before_action :ensure_tenant_user, if: -> { current_user.present? }
 
@@ -27,7 +27,7 @@ class ApplicationController < ActionController::Base
   end
 
   def authorize_super_admin
-    redirect_to root_path, alert: "Access Denied" unless current_user&.super_admin?
+    redirect_to root_path, alert: "Access Denied" unless current_user&.has_role?(:super_admin)
   end
 
   private

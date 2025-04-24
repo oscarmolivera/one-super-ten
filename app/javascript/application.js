@@ -11,7 +11,4 @@ window.feather = feather
 import PerfectScrollbar from 'perfect-scrollbar'
 window.PerfectScrollbar = PerfectScrollbar
 import "./vendor/template"
-document.addEventListener("turbo:load", () => {
-  console.log("tree plugin:", typeof $.fn.tree);
-  $('[data-widget="tree"]').tree(); // force reinit
-});
+import "./vendor/custom"
