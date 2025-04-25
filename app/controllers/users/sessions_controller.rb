@@ -19,7 +19,7 @@ class Users::SessionsController < Devise::SessionsController
         end
       end
     end
-    Rails.logger.info "Session after sign in: #{session.inspect}"
+    # Rails.logger.info "Session after sign in: #{session.inspect}"
   end
 
   def after_sign_in_path_for(user)

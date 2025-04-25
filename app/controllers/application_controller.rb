@@ -17,7 +17,7 @@ class ApplicationController < ActionController::Base
 
     return if subdomain.blank? || %w[www landing].include?(subdomain)
     
-    tenant = Tenant.find_by(subdomain: fetch_subdomain)
+    tenant = Tenant.find_by(subdomain: subdomain)
     
     if tenant
       ActsAsTenant.current_tenant = tenant

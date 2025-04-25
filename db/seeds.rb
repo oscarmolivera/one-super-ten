@@ -12,7 +12,10 @@ deportivo = Tenant.find_by(subdomain: "deportivo-margarita")
 su = User.create!(email: "admin@nubbe.net", password: "s3cret.", first_name: "Super Admin", last_name: "Nubbe.Net", tenant: root_tenant)
 ta_aca =User.create!(email: "admin@academy1.com", password: "s3cret.", first_name: "Academy1", last_name: "Admin", tenant: academia)
 ta_dep = User.create!(email: "admin@academy2.com", password: "s3cret.", first_name: "Academy2", last_name: "Admin", tenant: deportivo)
-
+sa_aca =User.create!(email: "administrador@academy1.com", password: "s3cret.", first_name: "Miriam", last_name: "Admin", tenant: academia)
+sa_dep =User.create!(email: "administrador@academy2.com", password: "s3cret.", first_name: "Alberto", last_name: "Admin", tenant: deportivo)
+co_aca =User.create!(email: "entrenador@academy1.com", password: "s3cret.", first_name: "Rodrigo", last_name: "Coach", tenant: academia)
+co_dep =User.create!(email: "entrenador@academy2.com", password: "s3cret.", first_name: "Samuel", last_name: "Coach", tenant: deportivo)
 
 
 # SuperAdmin for Tenants  
@@ -21,11 +24,19 @@ Role.find_or_create_by(name: :super_admin, resource: root_tenant, tenant: su.ten
 # TenantAdmin for Academies
 Role.find_or_create_by(name: :tenant_admin, resource: academia, tenant: ta_aca.tenant)
 Role.find_or_create_by(name: :tenant_admin, resource: deportivo, tenant: ta_dep.tenant)
+Role.find_or_create_by(name: :staff_assistant, resource: academia, tenant: sa_aca.tenant)
+Role.find_or_create_by(name: :staff_assistant, resource: deportivo, tenant: sa_dep.tenant)
+Role.find_or_create_by(name: :coach, resource: academia, tenant: co_aca.tenant)
+Role.find_or_create_by(name: :coach, resource: deportivo, tenant: co_dep.tenant)
 
 # Role Assignments
 su.add_role(:super_admin, root_tenant)
 ta_aca.add_role(:tenant_admin, academia)
 ta_dep.add_role(:tenant_admin, deportivo)
+sa_aca.add_role(:staff_assistant, academia)
+sa_dep.add_role(:staff_assistant, deportivo)
+co_aca.add_role(:coach, academia)
+co_dep.add_role(:coach, deportivo)
 
 # Base Roles for Tenants
 # [ 

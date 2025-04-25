@@ -1,0 +1,11 @@
+<% if current_user.can_view_schedules? %>
+  <div class="coach-widgets">
+    <h2>Athlete Schedules</h2>
+    <ul>
+      <% (1..@schedules).each do |schedule| %>
+        <li><%= schedule %> - <%= schedule %></li>
+      <% end %>
+    </ul>
+    <%= link_to "Go Admin", tenant_dashboard_path %>
+  </div>
+<% end %>

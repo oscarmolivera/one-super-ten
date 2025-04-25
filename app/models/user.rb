@@ -10,7 +10,7 @@ class User < ApplicationRecord
   end
 
   def can_manage_appointments?
-    staff_assistant?
+    is_role_staff_assistant?
   end
 
   def super_admin?
@@ -19,6 +19,14 @@ class User < ApplicationRecord
 
   def is_role_tenant_admin?
     has_role?(:tenant_admin, ActsAsTenant.current_tenant)  
+  end
+  
+  def is_role_staff_assistant?
+    has_role?(:staff_assistant, ActsAsTenant.current_tenant)  
+  end
+
+  def is_role_coach?
+    has_role?(:coach, ActsAsTenant.current_tenant)  
   end
 
   def role_name

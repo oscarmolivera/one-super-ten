@@ -1,6 +1,8 @@
 module DashboardHelper
   def dashboard_widgets
-    case current_user.role
+    case current_user.role_name
+    when 'tenant_admin'
+      render 'shared/dashboard/coach_widgets'
     when 'coach'
       render 'coach_widgets'
     when 'staff_assistant'
