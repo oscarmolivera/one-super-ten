@@ -1,0 +1,12 @@
+<a href="javascript:void(0)" class="link" data-bs-toggle="tooltip" title="Settings">
+  <span class="icon-Settings-2"></span>
+</a>
+<a href="mailbox.html" class="link" data-bs-toggle="tooltip" title="Email">
+  <span class="icon-Mail"></span>
+</a>
+<%= link_to destroy_user_session_path, method: :delete, title: "Logout", data: { bs_toggle: 'tooltip', turbo_method: :delete } do %>
+  <span class="icon-Lock-overturning">
+    <span class="path1"></span>
+    <span class="path2"></span>
+  </span>
+<% end %>

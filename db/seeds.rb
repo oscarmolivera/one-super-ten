@@ -38,27 +38,5 @@ sa_dep.add_role(:staff_assistant, deportivo)
 co_aca.add_role(:coach, academia)
 co_dep.add_role(:coach, deportivo)
 
-# Base Roles for Tenants
-# [ 
-#   :tenant_admin,
-#   :staft_admin,
-#   :coach,
-#   :team_assistant,
-#   :player,
-#   :parent,
-#   :guest
-# ].each do |role|
-#   Role.find_or_create_by(name: role, resource: academia,  tenant: root_tenant)
-# end
-
-
-
-# academia = Tenant.find_by(subdomain: "academia-margarita")
-# ActsAsTenant.with_tenant(Tenant.find_by(subdomain: "academia-margarita")) do
-#   Player.create(email: "nachitoolivo@gmail.com", tenant: academia)
-# end
-
-# deportivo = Tenant.find_by(subdomain: "deportivo-margarita")
-# ActsAsTenant.with_tenant(Tenant.find_by(subdomain: "deportivo-margarita")) do
-#   Player.create(email: "nuevo-ingreso@gmail.com", tenant: deportivo)
-# end
+ActsAsTenant.with_tenant(academia) { Player.create(email: "nachitoolivo@gmail.com", tenant: academia) }
+ActsAsTenant.with_tenant(deportivo) { Player.create(email: "doriona@gmail.com", tenant: deportivo) }

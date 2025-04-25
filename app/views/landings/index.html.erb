@@ -13,8 +13,17 @@
   </div>
 <% end %>
 <div>
-  <%= current_user&.email %>
+  <p>
+    <span>
+      <%= current_user&.email %>
+    </span>
+  </p>
+  <p>
+    <span>
+      <%= current_user&.role_name %>
+    </span>
+  </p>
 </div>
 <div>
-  
+  <%= link_to 'quit', destroy_user_session_path, method: :delete, title: "Logout", data: { turbo_method: :delete }  %>
 </div>

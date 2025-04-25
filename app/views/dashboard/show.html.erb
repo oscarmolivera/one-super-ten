@@ -1,5 +1,23 @@
-<div class="dashboard" style="background-color: <%= current_user.tenant.theme_color %>">
-  <%= render 'shared/dashboard/shared_widgets' %>
+<div class="container mt-5">
+  <div class="card">
+    <div class="card-header">
+      <h1><%= @message %></h1>
+    </div>
+    <div class="card-body">
 
-  <%= dashboard_widgets %>
+      <% if current_user.has_role?(:coach) %>
+        <h3>Coach Section</h3>
+        <p>Here you can manage your team's practices and games.</p>
+
+      <% elsif current_user.has_role?(:staff_assistant) %>
+        <h3>Staff Assistant Section</h3>
+        <p>Here you can assist coaches with logistics and reports.</p>
+
+      <% else %>
+        <p>You do not have access to any dashboard features.</p>
+      <% end %>
+
+      <%= link_to 'quit', destroy_user_session_path, method: :delete, title: "Logout", data: { turbo_method: :delete }  %>
+    </div>
+  </div>
 </div>

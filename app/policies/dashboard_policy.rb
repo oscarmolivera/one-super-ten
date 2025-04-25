@@ -1,7 +1,10 @@
 class DashboardPolicy < ApplicationPolicy
-  ALLOWED_ROLES = %w[coach staff_assistant tenant_admin].freeze
+
+  def index?
+    current_user  
+  end
 
   def show?
-    user.tenant.present? && ALLOWED_ROLES.include?(user.role_name)
+    user.has_role?(:coach) || user.has_role?(:staff_assistant)
   end
 end
