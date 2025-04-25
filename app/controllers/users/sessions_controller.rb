@@ -10,7 +10,6 @@ class Users::SessionsController < Devise::SessionsController
     end
 
     super do |user|
-      binding.pry
       if user.present?
         if user.tenant.id != ActsAsTenant.current_tenant.id
           sign_out user
