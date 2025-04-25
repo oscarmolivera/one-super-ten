@@ -1,12 +1,12 @@
 class LandingPolicy < ApplicationPolicy
   class Scope < Scope
     def resolve
-      scope.where(tenant_id: ActsAsTenant.current_tenant&.id) # 🔹 Only fetch landings for the current tenant
+      scope.where(tenant: ActsAsTenant.current_tenant)
     end
   end
 
   def show?
-    record.tenant_id == user.tenant_id
+    record.tenant == user.tenant
   end
 
   def create?
@@ -14,10 +14,10 @@ class LandingPolicy < ApplicationPolicy
   end
 
   def update?
-    user.admin? && record.tenant_id == user.tenant_id
+    user.admin? && record.tenant == user.tenant
   end
 
   def destroy?
-    user.admin? && record.tenant_id == user.tenant_id
+    user.admin? && record.tenant == user.tenant
   end
 end

@@ -34,7 +34,7 @@ class ApplicationController < ActionController::Base
 
   def ensure_tenant_user
     if current_user && ActsAsTenant.current_tenant
-      if current_user.tenant_id != ActsAsTenant.current_tenant.id
+      if current_user.tenant.id != ActsAsTenant.current_tenant.id
         sign_out current_user
         redirect_to new_user_session_path, alert: "Unauthorized access to tenant."
       else

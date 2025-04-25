@@ -10,8 +10,9 @@ class Users::SessionsController < Devise::SessionsController
     end
 
     super do |user|
+      binding.pry
       if user.present?
-        if user.tenant_id != ActsAsTenant.current_tenant.id
+        if user.tenant.id != ActsAsTenant.current_tenant.id
           sign_out user
           flash[:alert] = "Unauthorized access to tenant."
           redirect_to new_user_session_path and return
@@ -24,7 +25,7 @@ class Users::SessionsController < Devise::SessionsController
   def after_sign_in_path_for(user)
     if user.has_role?(:super_admin)
       superadmin_root_path
-    elsif user.has_role?(:tenant_admin) && user.tenant_id == ActsAsTenant.current_tenant&.id
+    elsif user.has_role?(:tenant_admin, ActsAsTenant.current_tenant) && user.tenant == ActsAsTenant.current_tenant
       tenant_dashboard_path
     else
       main_root_path

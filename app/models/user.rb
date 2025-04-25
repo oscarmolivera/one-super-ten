@@ -5,8 +5,24 @@ class User < ApplicationRecord
   belongs_to :tenant
   acts_as_tenant(:tenant)
 
+  def can_view_schedules?
+    is_role_tenant_admin?
+  end
+
+  def can_manage_appointments?
+    staff_assistant?
+  end
+
   def super_admin?
     has_role?(:super_admin)
+  end
+
+  def is_role_tenant_admin?
+    has_role?(:tenant_admin, ActsAsTenant.current_tenant)  
+  end
+
+  def role_name
+    roles.first&.name.to_s.downcase
   end
 
   def add_role_with_tenant(role_name, resource = nil)
@@ -14,7 +30,6 @@ class User < ApplicationRecord
   end
 
   def has_role?(role_name, resource = nil)
-    Rails.logger.info "Checking role: #{role_name}, tenant: #{ActsAsTenant.current_tenant&.id}, user roles: #{roles.pluck(:name, :tenant_id)}"
     if resource
       super(role_name, resource)
     else
@@ -24,6 +39,6 @@ class User < ApplicationRecord
   
 
   def self.find_for_database_authentication(warden_conditions)
-    where(email: warden_conditions[:email], tenant_id: ActsAsTenant.current_tenant&.id).first
+    where(email: warden_conditions[:email], tenant: ActsAsTenant.current_tenant).first
   end
 end

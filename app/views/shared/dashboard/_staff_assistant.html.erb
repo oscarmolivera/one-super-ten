@@ -1,0 +1,11 @@
+<% if current_user.can_manage_appointments? %>
+  <div class="staff-assistant-widgets">
+    <h2>Appointments</h2>
+    <ul>
+      <% (1..@appointments).each do |appointment| %>
+        <li><%= appointment %> - <%= appointment %></li>
+      <% end %>
+    </ul>
+    <%= link_to "Manage Appointments", tenant_dashboard_path %>
+  </div>
+<% end %>

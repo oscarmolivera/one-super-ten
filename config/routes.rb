@@ -30,6 +30,7 @@ Rails.application.routes.draw do
     
     authenticate :user do
       get 'dashboard', to: 'dashboard#index', as: :tenant_dashboard
+      get 'show-test', to: 'dashboard#show', as: :tenant_show_dashboard
     end
   end
 
