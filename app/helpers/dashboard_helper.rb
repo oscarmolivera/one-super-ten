@@ -8,6 +8,8 @@ module DashboardHelper
       coach_sidebar
     elsif current_user.has_role?(:player)
       player_sidebar
+    elsif current_user.has_role?(:team_assistant)
+      team_assistant_sidebar
     else
       []
     end
@@ -174,6 +176,50 @@ module DashboardHelper
             icon: "icon-Layout-grid",
             children: [
               { label: "Mis Torneos", icon: "icon-Commit", path: tenant_dashboard_path }
+            ]
+          }
+        ]
+      }
+    ]
+  end
+
+  def team_assistant_sidebar
+    [
+      {
+        header: "ACADEMIA",
+        items: [
+          {
+            label: "Mi Categoría",
+            icon: "icon-Layout-grid",
+            children: [
+              { label: "Listado Jugadores", icon: "icon-Commit", path: tenant_dashboard_path },
+              { label: "Listado Refuerzo", icon: "icon-Commit", path: tenant_dashboard_path },
+              { label: "Entrenadores Y Asistentes", icon: "icon-Commit", path: tenant_dashboard_path },
+            ]
+          },
+          {
+            label: "Torneos",
+            icon: "icon-Layout-grid",
+            children: [
+              { label: "Creacion de Torneos", icon: "icon-Commit", path: tenant_dashboard_path },
+              { label: "Calendario de Partidos", icon: "icon-Commit", path: tenant_dashboard_path },
+              { label: "Ingreso de data de Partidos", icon: "icon-Commit", path: tenant_dashboard_path },
+              { label: "Actas & Protestas de Partidos", icon: "icon-Commit", path: tenant_dashboard_path },
+              { label: "Resultados de Partidos", icon: "icon-Commit", path: tenant_dashboard_path },
+              { label: "Tablas de Posiciones", icon: "icon-Commit", path: tenant_dashboard_path },
+              { label: "Convocatorias", icon: "icon-Commit", path: tenant_dashboard_path },
+              { label: "InformacionGeneral Reglas&Grupos", icon: "icon-Commit", path: tenant_dashboard_path },
+              { label: "Publicaciones para Padres", icon: "icon-Commit", path: tenant_dashboard_path },
+              { label: "Planillas de torneo para imprimir", icon: "icon-Commit", path: tenant_dashboard_path },
+            ]
+          },
+          {
+            label: "Entrenamientos",
+            icon: "icon-Layout-grid",
+            children: [
+              { label: "Horarios", icon: "icon-Commit", path: tenant_dashboard_path },
+              { label: "Sedes", icon: "icon-Commit", path: tenant_dashboard_path },
+          
             ]
           }
         ]

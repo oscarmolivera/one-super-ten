@@ -27,3 +27,6 @@
 <div>
   <%= link_to 'quit', destroy_user_session_path, method: :delete, title: "Logout", data: { turbo_method: :delete }  %>
 </div>
+<div>
+  <%= link_to 'Dashboard', tenant_dashboard_path, title: "Dashboard"  %>
+</div>
