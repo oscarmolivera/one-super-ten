@@ -201,6 +201,8 @@ module DashboardHelper
             label: "Torneos",
             icon: "icon-Layout-grid",
             children: [
+              { label: "Listado Torneos Activo", icon: "icon-Commit", path: tenant_dashboard_path },
+              { label: "listado historial torneos del pasado", icon: "icon-Commit", path: tenant_dashboard_path },              
               { label: "Creacion de Torneos", icon: "icon-Commit", path: tenant_dashboard_path },
               { label: "Calendario de Partidos", icon: "icon-Commit", path: tenant_dashboard_path },
               { label: "Ingreso de data de Partidos", icon: "icon-Commit", path: tenant_dashboard_path },
@@ -237,12 +239,43 @@ module DashboardHelper
             icon: "icon-Library",
             children: [
               { label: "Perfil", icon: "icon-Commit", path: "#" },
-              { label: "Entrenamientos", icon: "icon-Commit", path: "#" },
-              { label: "Palmarés", icon: "icon-Commit", path: "#" },
-              { label: "Torneos", icon: "icon-Commit", path: "#" },
-              { label: "Pagos", icon: "icon-Commit", path: "#" }
+              { label: "Mi Categoría (listado con perfil publico de jugadores con informacion delegado y entrenadores)", icon: "icon-Commit", path: "#" },
+              { label: "Palmarés en perfil", icon: "icon-Commit", path: "#" },
+              { label: "Album de fotos en perfil", icon: "icon-Commit", path: "#" },
             ]
-          }
+          },
+          {
+            label: "Torneos",
+            icon: "icon-Layout-grid",
+            children: [
+              { label: "solo ver listado Torneos Activo", icon: "icon-Commit", path: tenant_dashboard_path },
+              { label: "solo ver listado historial torneos del pasado", icon: "icon-Commit", path: tenant_dashboard_path },
+              { label: "solo ver Calendario de Partidos", icon: "icon-Commit", path: tenant_dashboard_path },
+              { label: "solo ver Resultados de Partidos", icon: "icon-Commit", path: tenant_dashboard_path },
+              { label: "solo ver Tablas de Posiciones", icon: "icon-Commit", path: tenant_dashboard_path },
+              { label: "solo ver Convocatorias", icon: "icon-Commit", path: tenant_dashboard_path },
+              { label: "solo ver InformacionGeneral Reglas&Grupos", icon: "icon-Commit", path: tenant_dashboard_path },
+              { label: "solo ver Publicaciones para Padres", icon: "icon-Commit", path: tenant_dashboard_path },
+              { label: "solo ver Relacion del Pote del Albitraje", icon: "icon-Commit", path: tenant_dashboard_path },
+            ]
+          },
+          {
+            label: "Entrenamientos",
+            icon: "icon-Layout-grid",
+            children: [
+              { label: "Horarios", icon: "icon-Commit", path: tenant_dashboard_path },
+              { label: "Sedes", icon: "icon-Commit", path: tenant_dashboard_path }
+            ]
+          },
+          {
+            label: "Mensualidad",
+            icon: "icon-Layout-grid",
+            children: [
+              { label: "Historial de Relacion de Pagos", icon: "icon-Commit", path: tenant_dashboard_path },
+              { label: "Comprobante de  Pagos con impresion", icon: "icon-Commit", path: tenant_dashboard_path },
+              { label: "Reporte de Pagos", icon: "icon-Commit", path: tenant_dashboard_path }
+            ]
+          }          
         ]
       }
     ]
