@@ -165,17 +165,41 @@ module DashboardHelper
         header: "ACADEMIA",
         items: [
           {
-            label: "Entrenamientos",
+            label: "Mis Categorías",
             icon: "icon-Layout-grid",
             children: [
-              { label: "Mi Cronograma", icon: "icon-Commit", path: tenant_dashboard_path }
+              { label: "Listado de Categorias", icon: "icon-Commit", path: tenant_dashboard_path },
+              { label: "Listado de Refuerzo por categorias", icon: "icon-Commit", path: tenant_dashboard_path },
+              { label: "Informacion de Delegados & Asistentes x Categorias", icon: "icon-Commit", path: tenant_dashboard_path },
+              { label: "Listado Jugadores x Categoria", icon: "icon-Commit", path: tenant_dashboard_path },
             ]
           },
           {
             label: "Torneos",
             icon: "icon-Layout-grid",
-            children: [
-              { label: "Mis Torneos", icon: "icon-Commit", path: tenant_dashboard_path }
+            children: [ #Menu multiplicado por las categorias que tenga el entrenador asignado
+              { label: "Listado Torneos Activos", icon: "icon-Commit", path: tenant_dashboard_path },
+              { label: "listado historial torneos del pasado", icon: "icon-Commit", path: tenant_dashboard_path },              
+              { label: "Creacion de Torneos", icon: "icon-Commit", path: tenant_dashboard_path },
+              { label: "Creacion de Partidos", icon: "icon-Commit", path: tenant_dashboard_path },
+              { label: "Calendario de Partidos", icon: "icon-Commit", path: tenant_dashboard_path },
+              { label: "Ingreso de data de Partidos", icon: "icon-Commit", path: tenant_dashboard_path },
+              { label: "Actas & Protestas de Partidos", icon: "icon-Commit", path: tenant_dashboard_path },
+              { label: "Resultados de Partidos", icon: "icon-Commit", path: tenant_dashboard_path },
+              { label: "Tablas de Posiciones", icon: "icon-Commit", path: tenant_dashboard_path },
+              { label: "Convocatorias", icon: "icon-Commit", path: tenant_dashboard_path },
+              { label: "InformacionGeneral Reglas&Grupos", icon: "icon-Commit", path: tenant_dashboard_path },
+              { label: "Publicaciones para Padres", icon: "icon-Commit", path: tenant_dashboard_path },
+              { label: "Planillas de torneo para imprimir", icon: "icon-Commit", path: tenant_dashboard_path },
+            ]
+          },
+          {
+            label: "Entrenamientos",
+            icon: "icon-Layout-grid",
+            children: [#Menu multiplicado por las categorias que tenga el entrenador asignado
+              { label: "Horarios", icon: "icon-Commit", path: tenant_dashboard_path },
+              { label: "Sedes", icon: "icon-Commit", path: tenant_dashboard_path },
+          
             ]
           }
         ]
@@ -204,6 +228,7 @@ module DashboardHelper
               { label: "Listado Torneos Activo", icon: "icon-Commit", path: tenant_dashboard_path },
               { label: "listado historial torneos del pasado", icon: "icon-Commit", path: tenant_dashboard_path },              
               { label: "Creacion de Torneos", icon: "icon-Commit", path: tenant_dashboard_path },
+              { label: "Creacion de Partidos", icon: "icon-Commit", path: tenant_dashboard_path },
               { label: "Calendario de Partidos", icon: "icon-Commit", path: tenant_dashboard_path },
               { label: "Ingreso de data de Partidos", icon: "icon-Commit", path: tenant_dashboard_path },
               { label: "Actas & Protestas de Partidos", icon: "icon-Commit", path: tenant_dashboard_path },
