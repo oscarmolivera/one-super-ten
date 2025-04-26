@@ -16,6 +16,8 @@ sa_aca =User.create!(email: "administrador@academy1.com", password: "s3cret.", f
 sa_dep =User.create!(email: "administrador@academy2.com", password: "s3cret.", first_name: "Alberto", last_name: "Admin", tenant: deportivo)
 co_aca =User.create!(email: "entrenador@academy1.com", password: "s3cret.", first_name: "Rodrigo", last_name: "Coach", tenant: academia)
 co_dep =User.create!(email: "entrenador@academy2.com", password: "s3cret.", first_name: "Samuel", last_name: "Coach", tenant: deportivo)
+ju_aca =User.create!(email: "jugador1@academy1.com", password: "s3cret.", first_name: "Julian", last_name: "Jugador", tenant: academia)
+ju_dep =User.create!(email: "jugador1@academy2.com", password: "s3cret.", first_name: "Enrique", last_name: "Jugaror", tenant: deportivo)
 
 
 # SuperAdmin for Tenants  
@@ -28,6 +30,8 @@ Role.find_or_create_by(name: :staff_assistant, resource: academia, tenant: sa_ac
 Role.find_or_create_by(name: :staff_assistant, resource: deportivo, tenant: sa_dep.tenant)
 Role.find_or_create_by(name: :coach, resource: academia, tenant: co_aca.tenant)
 Role.find_or_create_by(name: :coach, resource: deportivo, tenant: co_dep.tenant)
+Role.find_or_create_by(name: :player, resource: academia, tenant: ju_aca.tenant)
+Role.find_or_create_by(name: :player, resource: deportivo, tenant: ju_dep.tenant)
 
 # Role Assignments
 su.add_role(:super_admin, root_tenant)
@@ -37,6 +41,8 @@ sa_aca.add_role(:staff_assistant, academia)
 sa_dep.add_role(:staff_assistant, deportivo)
 co_aca.add_role(:coach, academia)
 co_dep.add_role(:coach, deportivo)
+ju_aca.add_role(:player, academia)
+ju_dep.add_role(:player, deportivo)
 
 ActsAsTenant.with_tenant(academia) { Player.create(email: "nachitoolivo@gmail.com", tenant: academia) }
 ActsAsTenant.with_tenant(deportivo) { Player.create(email: "doriona@gmail.com", tenant: deportivo) }
