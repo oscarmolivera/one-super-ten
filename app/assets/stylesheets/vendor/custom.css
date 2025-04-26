@@ -57,6 +57,18 @@
 	display: none;
 }
 
+.bg-comming-soon{
+	background: url('vendor/bg-2.jpg') no-repeat center center fixed;
+	background-size: cover;
+	background-position: center;
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+	min-height: 100vh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
 
 /*=================================*/
 @media only screen and (max-width: 1600px) {
