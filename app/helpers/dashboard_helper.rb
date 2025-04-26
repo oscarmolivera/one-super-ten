@@ -4,6 +4,8 @@ module DashboardHelper
 
     if current_user.has_role?(:superadmin) || current_user.has_role?(:tenant_admin)
       tenant_admin_sidebar
+    elsif current_user.has_role?(:staff_assistant)
+      staff_assistant_sidebar
     elsif current_user.has_role?(:coach)
       coach_sidebar
     elsif current_user.has_role?(:player)
@@ -82,43 +84,47 @@ module DashboardHelper
         header: "ACADEMIA",
         items: [
           {
-            label: "Escuela",
-            icon: "icon-Layout-4-blocks",
-            children: [
-              { label: "Escritorio", icon: "icon-Commit", path: tenant_dashboard_path },
-              { label: "Gestión", icon: "icon-Commit", path: tenant_dashboard_path }
-            ]
-          },
-          {
-            label: "Entrenamiento",
+            label: "Categorías",
             icon: "icon-Layout-grid",
             children: [
-              { label: "Cronogramas", icon: "icon-Commit", path: tenant_dashboard_path }
-            ]
-          },
-          {
-            label: "Alumnos",
-            icon: "icon-Layout-grid",
-            children: [
-              { label: "Gestión", icon: "icon-Commit", path: tenant_dashboard_path }
+              { label: "Listado de Categorias", icon: "icon-Commit", path: tenant_dashboard_path },
+              { label: "Listado de Refuerzo por categorias", icon: "icon-Commit", path: tenant_dashboard_path },
+              { label: "Informacion de Entrenadores, Delegados & Asistentes x Categorias", icon: "icon-Commit", path: tenant_dashboard_path },
+              { label: "Listado Jugadores x Categoria", icon: "icon-Commit", path: tenant_dashboard_path },
             ]
           },
           {
             label: "Torneos",
             icon: "icon-Layout-grid",
-            children: [
-              { label: "Gestión", icon: "icon-Commit", path: tenant_dashboard_path },
-              { label: "Calendario", icon: "icon-Commit", path: tenant_dashboard_path },
-              { label: "Albitraje", icon: "icon-Commit", path: tenant_dashboard_path }
+            children: [ #Menu multiplicado por las categorias existentes en la academia
+              { label: "Listado Torneos Activos", icon: "icon-Commit", path: tenant_dashboard_path },
+              { label: "listado historial torneos del pasado", icon: "icon-Commit", path: tenant_dashboard_path },              
+              { label: "Creacion de Torneos", icon: "icon-Commit", path: tenant_dashboard_path },
+              { label: "Creacion de Partidos", icon: "icon-Commit", path: tenant_dashboard_path },
+              { label: "Calendario de Partidos", icon: "icon-Commit", path: tenant_dashboard_path },
+              { label: "Ingreso de data de Partidos", icon: "icon-Commit", path: tenant_dashboard_path },
+              { label: "Actas & Protestas de Partidos", icon: "icon-Commit", path: tenant_dashboard_path },
+              { label: "Resultados de Partidos", icon: "icon-Commit", path: tenant_dashboard_path },
+              { label: "Tablas de Posiciones", icon: "icon-Commit", path: tenant_dashboard_path },
+              { label: "Convocatorias", icon: "icon-Commit", path: tenant_dashboard_path },
+              { label: "InformacionGeneral Reglas&Grupos", icon: "icon-Commit", path: tenant_dashboard_path },
+              { label: "Publicaciones para Padres", icon: "icon-Commit", path: tenant_dashboard_path },
+              { label: "Planillas de torneo para imprimir", icon: "icon-Commit", path: tenant_dashboard_path },
             ]
           },
           {
-            label: "Categorias",
+            label: "Entrenamientos",
             icon: "icon-Layout-grid",
-            children: [
-              { label: "Gestión", icon: "icon-Commit", path: tenant_dashboard_path },
-              { label: "Convocatorias", icon: "icon-Commit", path: tenant_dashboard_path },
-              { label: "Mi Categoria", icon: "icon-Commit", path: tenant_dashboard_path }
+            children: [#Menu multiplicado por las categorias existentes de la academia
+              { label: "Horarios", icon: "icon-Commit", path: tenant_dashboard_path },
+              { label: "Sedes", icon: "icon-Commit", path: tenant_dashboard_path },
+            ]
+          },
+          {
+            label: "Federación",
+            icon: "icon-Layout-grid",
+            children: [# Para ser llenado por luis sobre necesidades de la federacion
+              { label: "Opcion 1", icon: "icon-Commit", path: tenant_dashboard_path },
             ]
           }
         ]
@@ -128,32 +134,44 @@ module DashboardHelper
         items: [
           {
             label: "Finanzas",
-            icon: "icon-Write",
+            icon: "icon-Layout-grid",
             children: [
-              { label: "Inscripción", icon: "icon-Commit", path: tenant_dashboard_path },
-              { label: "Mensualidades", icon: "icon-Commit", path: tenant_dashboard_path },
-              { label: "Exoneraciones", icon: "icon-Commit", path: tenant_dashboard_path },
-              { label: "Ingresos", icon: "icon-Commit", path: tenant_dashboard_path },
-              { label: "Egresos", icon: "icon-Commit", path: tenant_dashboard_path }
-            ]
+              { label: "Inscribir o retirar un niño en la academia con o sin pagos especiales", icon: "icon-Commit", path: tenant_dashboard_path },
+              { label: "listado de todos los inscritos en la academia ordenado por categorias", icon: "icon-Commit", path: tenant_dashboard_path },
+              { label: "Area de control de pagos y morosidad por niños por categoria", icon: "icon-Commit", path: tenant_dashboard_path },
+              { label: "Listado de Niños con mesualidad exonerada por mes o por temporada", icon: "icon-Commit", path: tenant_dashboard_path },
+              { label: "Inscripcion manual de pago de mansualidades/inscripcion(genera comprobante imprime y envia a correo)", icon: "icon-Commit", path: tenant_dashboard_path },
+              { label: "Reporte/estadistica mensual de pagos y morosidad de la academia )", icon: "icon-Commit", path: tenant_dashboard_path },
+              { label: "Servicios y Gastos de Funcionamiento", icon: "icon-Commit", path: tenant_dashboard_path },
+
+            ]  
           },
           {
             label: "Personal",
-            icon: "icon-Write",
+            icon: "icon-Layout-grid",
             children: [
-              { label: "Nomina", icon: "icon-Commit", path: tenant_dashboard_path }
+              { label: "Inscribir o dar de baja a un empleado (entrenador/asistente/delegado/otro)", icon: "icon-Commit", path: tenant_dashboard_path },
+              { label: "Listado de Personal x area y x categoria con acceso al perfil del empleado)", icon: "icon-Commit", path: tenant_dashboard_path },
+              { label: "Asistencia del personal y horario y sede donde el profe deberia estar dando clases )", icon: "icon-Commit", path: tenant_dashboard_path },
             ]
           },
           {
-            label: "Tienda",
-            icon: "icon-Chart-pie",
+            label: "Tienda Online",
+            icon: "icon-Layout-grid",
             children: [
-              { label: "Ordenes", icon: "icon-Commit", path: "#" },
-              { label: "Productos", icon: "icon-Commit", path: "#" },
-              { label: "Inline charts", icon: "icon-Commit", path: "#" },
-              { label: "Inventario", icon: "icon-Commit", path: "#" }
+              { label: "Ingreso / Egreso de productos x primera", icon: "icon-Commit", path: tenant_dashboard_path },
+              { label: "Cargas productos al inventario", icon: "icon-Commit", path: tenant_dashboard_path },
+              { label: "Ordenes de ventas de productos q genera comprobante de pago", icon: "icon-Commit", path: tenant_dashboard_path },
             ]
-          }
+          },
+          {
+            label: "Sponsors",
+            icon: "icon-Layout-grid",
+            children: [
+              { label: "Ingreso / Egreso de sponsors", icon: "icon-Commit", path: tenant_dashboard_path },
+              { label: "Registro de Aportes", icon: "icon-Commit", path: tenant_dashboard_path },
+            ]
+          }          
         ]
       }
     ]
@@ -199,9 +217,58 @@ module DashboardHelper
             children: [#Menu multiplicado por las categorias que tenga el entrenador asignado
               { label: "Horarios", icon: "icon-Commit", path: tenant_dashboard_path },
               { label: "Sedes", icon: "icon-Commit", path: tenant_dashboard_path },
-          
             ]
           }
+        ]
+      }
+    ]
+  end
+
+  def staff_assistant_sidebar
+    [ 
+      {
+        header: "ADMINISTRACIÓN",
+        items: [
+          {
+            label: "Finanzas",
+            icon: "icon-Layout-grid",
+            children: [
+              { label: "Inscribir o retirar un niño en la academia con o sin pagos especiales", icon: "icon-Commit", path: tenant_dashboard_path },
+              { label: "listado de todos los inscritos en la academia ordenado por categorias", icon: "icon-Commit", path: tenant_dashboard_path },
+              { label: "Area de control de pagos y morosidad por niños por categoria", icon: "icon-Commit", path: tenant_dashboard_path },
+              { label: "Listado de Niños con mesualidad exonerada por mes o por temporada", icon: "icon-Commit", path: tenant_dashboard_path },
+              { label: "Inscripcion manual de pago de mansualidades/inscripcion(genera comprobante imprime y envia a correo)", icon: "icon-Commit", path: tenant_dashboard_path },
+              { label: "Reporte/estadistica mensual de pagos y morosidad de la academia )", icon: "icon-Commit", path: tenant_dashboard_path },
+              { label: "Servicios y Gastos de Funcionamiento", icon: "icon-Commit", path: tenant_dashboard_path },
+
+            ]  
+          },
+          {
+            label: "Personal",
+            icon: "icon-Layout-grid",
+            children: [
+              { label: "Inscribir o dar de baja a un empleado (entrenador/asistente/delegado/otro)", icon: "icon-Commit", path: tenant_dashboard_path },
+              { label: "Listado de Personal x area y x categoria con acceso al perfil del empleado)", icon: "icon-Commit", path: tenant_dashboard_path },
+              { label: "Asistencia del personal y horario y sede donde el profe deberia estar dando clases )", icon: "icon-Commit", path: tenant_dashboard_path },
+            ]
+          },
+          {
+            label: "Tienda Online",
+            icon: "icon-Layout-grid",
+            children: [
+              { label: "Ingreso / Egreso de productos x primera", icon: "icon-Commit", path: tenant_dashboard_path },
+              { label: "Cargas productos al inventario", icon: "icon-Commit", path: tenant_dashboard_path },
+              { label: "Ordenes de ventas de productos q genera comprobante de pago", icon: "icon-Commit", path: tenant_dashboard_path },
+            ]
+          },
+          {
+            label: "Sponsors",
+            icon: "icon-Layout-grid",
+            children: [
+              { label: "Ingreso / Egreso de sponsors", icon: "icon-Commit", path: tenant_dashboard_path },
+              { label: "Registro de Aportes", icon: "icon-Commit", path: tenant_dashboard_path },
+            ]
+          }          
         ]
       }
     ]
