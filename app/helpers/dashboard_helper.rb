@@ -22,7 +22,29 @@ module DashboardHelper
     'shared/dashboard/default_dashboard'
   end
 
+  def dynamic_background_style
+    tenant = ActsAsTenant.current_tenant
+    return default_background_style unless tenant
+
+    gradient = case tenant.subdomain
+    when 'academia-margarita'
+      "linear-gradient(rgba(27,36,189,255), rgba(250,214,4,255) )"
+    when 'deportivo-margarita'
+      "linear-gradient(rgba(193,241,0,255), rgba(3,130,245,255))"
+    when 'campeones'
+      "linear-gradient(rgba(0,80,0,0.6), rgba(0,80,0,0.6))"
+    else
+      "linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5))"
+    end
+
+    "background-image: #{gradient}, url('/vendor/bg-2.jpg'); background-size: cover; background-position: center; background-attachment: fixed;"
+  end
+
   private
+
+  def default_background_style
+    "background-image: linear-gradient(rgba(0,199,144,255), rgba(29,108,229,255)), url('/vendor/bg-2.jpg'); background-size: cover; background-position: center; background-attachment: fixed;"
+  end
 
   def superadmin_sidebar
     [
