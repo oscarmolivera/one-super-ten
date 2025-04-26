@@ -1,7 +1,7 @@
 class DashboardPolicy < ApplicationPolicy
 
   def index?
-    current_user  
+    user  
   end
 
   def show?
