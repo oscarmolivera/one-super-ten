@@ -79,4 +79,6 @@ config.active_job.verbose_enqueue_logs = true
     config.hosts << /.*\.#{domain}/
     config.hosts << ENV["APP_DOMAIN"]
   end
+
+  config.hosts << "nubbe-ost-3926c7d2da80.herokuapp.com"
 end
