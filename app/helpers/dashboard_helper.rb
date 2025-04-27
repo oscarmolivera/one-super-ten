@@ -41,13 +41,13 @@ module DashboardHelper
       "linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5))"
     end
 
-    "background-image: #{gradient}, url('/vendor/bg-2.jpg'); background-size: cover; background-position: center; background-attachment: fixed;"
+    "background-image: #{gradient}, url(#{asset_path('vendor/bg-2.jpg')}); background-size: cover; background-position: center; background-attachment: fixed;"
   end
 
   private
 
   def default_background_style
-    "background-image: linear-gradient(rgba(0,199,144,255), rgba(29,108,229,255)), url('/vendor/bg-2.jpg'); background-size: cover; background-position: center; background-attachment: fixed;"
+    "background-image: linear-gradient(rgba(0,199,144,255), rgba(29,108,229,255)), url(#{asset_path('vendor/bg-2.jpg')}); background-size: cover; background-position: center; background-attachment: fixed;"
   end
 
   def superadmin_sidebar

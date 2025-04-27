@@ -14,11 +14,10 @@ class ApplicationController < ActionController::Base
 
   def switch_tenant
     subdomain = fetch_subdomain
+    return if subdomain.blank?
 
-    return if subdomain.blank? || %w[www landing].include?(subdomain)
-    
     tenant = Tenant.find_by(subdomain: subdomain)
-    
+
     if tenant
       ActsAsTenant.current_tenant = tenant
     else
@@ -57,8 +56,14 @@ class ApplicationController < ActionController::Base
   end
 
   def fetch_subdomain
-    full_host = request.host
-    parts = full_host.split('.')
-    parts.first unless parts.first == 'localhost'
+    host = request.host
+    app_domain = Rails.env.development? ? 'localhost.me' : ENV.fetch('APP_DOMAIN')
+
+    if host == app_domain || host == "www.#{app_domain}"
+      nil
+    else
+      parts = host.split('.')
+      parts.first
+    end
   end
 end
