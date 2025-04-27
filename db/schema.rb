@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_03_24_212106) do
+ActiveRecord::Schema[8.0].define(version: 2025_04_27_003026) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -33,6 +33,18 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_24_212106) do
     t.index ["tenant_id"], name: "index_players_on_tenant_id"
   end
 
+  create_table "roles", force: :cascade do |t|
+    t.string "name"
+    t.string "resource_type"
+    t.bigint "resource_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "tenant_id"
+    t.index ["name", "resource_type", "resource_id"], name: "index_roles_on_name_and_resource_type_and_resource_id"
+    t.index ["resource_type", "resource_id"], name: "index_roles_on_resource"
+    t.index ["tenant_id"], name: "index_roles_on_tenant_id"
+  end
+
   create_table "solid_cache_entries", force: :cascade do |t|
     t.binary "key", null: false
     t.binary "value", null: false
@@ -50,8 +62,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_24_212106) do
     t.string "subdomain"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "tenant_id"
-    t.index ["tenant_id"], name: "index_tenants_on_tenant_id"
+    t.bigint "parent_tenant_id"
+    t.index ["parent_tenant_id"], name: "index_tenants_on_parent_tenant_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -63,16 +75,27 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_24_212106) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "tenant_id", null: false
-    t.integer "role", default: 0, null: false
     t.string "first_name"
     t.string "last_name"
+    t.integer "failed_attempts"
+    t.string "unlock_token"
+    t.datetime "locked_at"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["tenant_id"], name: "index_users_on_tenant_id"
   end
 
+  create_table "users_roles", id: false, force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "role_id"
+    t.index ["role_id"], name: "index_users_roles_on_role_id"
+    t.index ["user_id", "role_id"], name: "index_users_roles_on_user_id_and_role_id"
+    t.index ["user_id"], name: "index_users_roles_on_user_id"
+  end
+
   add_foreign_key "landings", "tenants"
   add_foreign_key "players", "tenants"
-  add_foreign_key "tenants", "tenants"
+  add_foreign_key "roles", "tenants"
+  add_foreign_key "tenants", "tenants", column: "parent_tenant_id"
   add_foreign_key "users", "tenants"
 end

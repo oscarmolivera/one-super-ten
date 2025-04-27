@@ -1,2 +1,56 @@
-<h1>Home#index</h1>
-<p>Find me in app/views/home/index.html.erb</p>
+<div class="bg-comming-soon" style="<%= dynamic_background_style %>">
+  <div class="row justify-content-md-center align-items-center h-p100">
+    <div class="col-12">
+      <div class="box bg-transparent no-border no-shadow">	
+        <div class="box-body text-center">
+              
+          <div class="row justify-content-md-center align-items-center h-p100">
+            
+            <div class="col-md-12 col-12">
+              <div class="text-start">
+                <h1 class="fs-50 text-white">Nubbe.Net</h1>	
+
+                  <p class="mb-20 text-white fs-18">Gestión deportiva de alto rendimiento</p>
+                
+                <div class="mx-auto mt-40">
+                  <h3 class="text-uppercase text-white">Infórmate cuando estemos listos</h3>
+                  <div class="input-group">
+                    <input type="text" class="form-control p-10" placeholder="Correo electrónico...">
+                    <button type="button" class="btn btn-success">Notifícame</button>
+                  </div>
+                </div>
+                
+                <p class="gap-items-2 mt-40">
+                  <a class="btn btn-social-icon btn-facebook" href="#"><i class="fa fa-facebook"></i></a>
+                  <a class="btn btn-social-icon btn-google" href="#"><i class="fa fa-twitter"></i></a>
+                  <a class="btn btn-social-icon btn-instagram" href="#"><i class="fa fa-linkedin"></i></a>
+                  <a class="btn btn-social-icon btn-twitter" href="#"><i class="fa fa-twitter"></i></a>
+                </p>
+                
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+</div>
+
+
+<!-- Modal -->
+  <div class="modal center-modal fade" id="modal-center" tabindex="-1">
+    <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-body text-center">
+      <h2>Subscribe Us</h2>
+        <p>Be the first to know when our site is ready</p>
+      <form class="mx-auto flexbox w-p75 mb-30" method="post" action="">
+        <input type="text" class="form-control rounded" name="EMAIL" placeholder="Enter email address">
+        <button class="btn btn-danger" type="submit">Subscribe Us</button>
+      </form>
+      </div>
+    </div>
+    </div>
+  </div>
+  <!-- /.modal -->

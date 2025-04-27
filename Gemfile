@@ -13,6 +13,7 @@ gem "pg", "~> 1.1"
 gem "puma", ">= 5.0"
 gem "pundit", "~> 2.5"
 gem "rails", "~> 8.0.2"
+gem "rolify", "~> 5.2"
 gem "solid_cable"
 gem "solid_cache"
 gem "solid_queue"
@@ -23,15 +24,20 @@ gem "turbo-rails"
 gem "tzinfo-data", platforms: %i[ windows jruby ]
 
 group :development, :test do
-  gem "debug"
+  gem 'better_errors'
+  gem 'binding_of_caller'
   gem "brakeman", require: false
-  gem "rubocop-rails-omakase", require: false
-  # Temporary Heroku fix for net-pop / net-protocol issue
+  gem 'bullet'
+  gem "debug"
+  gem 'meta_request'
   gem 'net-pop', '~> 0.1.2'
   gem 'net-protocol', '~> 0.2.2'
+  #gem 'rack-mini-profiler'
+  gem "rubocop-rails-omakase", require: false
 end
 
 group :development do
+  gem 'pry-byebug'
   gem "web-console"
 end
 group :staging do

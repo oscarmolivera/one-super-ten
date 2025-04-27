@@ -1,0 +1,32 @@
+<h1>
+  <p>Landing#index</p>
+  <p>
+    <%= "Welcome to #{ActsAsTenant.current_tenant.name}" %>
+  </p>
+</h1>
+<p>This platform provides sports academies with personalized online services.</p>
+
+<% @landings.each do |landing| %>
+  <div>
+    <h2><%= landing.title %></h2>
+    <p><%= landing.description %></p>
+  </div>
+<% end %>
+<div>
+  <p>
+    <span>
+      <%= current_user&.email %>
+    </span>
+  </p>
+  <p>
+    <span>
+      <%= current_user&.role_name %>
+    </span>
+  </p>
+</div>
+<div>
+  <%= link_to 'quit', destroy_user_session_path, method: :delete, title: "Logout", data: { turbo_method: :delete }  %>
+</div>
+<div>
+  <%= link_to 'Dashboard', tenant_dashboard_path, title: "Dashboard"  %>
+</div>

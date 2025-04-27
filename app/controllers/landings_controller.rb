@@ -21,7 +21,7 @@ class LandingsController < ApplicationController
 
   def create
     @landing = Landing.new(landing_params)
-    @landing.tenant_id = ActsAsTenant.current_tenant.id # 🔹 Ensure the landing belongs to the current tenant
+    @landing.tenant = ActsAsTenant.current_tenant
     authorize @landing
 
     respond_to do |format|

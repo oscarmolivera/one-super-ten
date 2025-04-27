@@ -1,23 +1,23 @@
 class UserPolicy < ApplicationPolicy
   class Scope < Scope
     def resolve
-      scope.where(tenant_id: ActsAsTenant.current_tenant&.id) # 🔹 Only show users from the current tenant
+      scope.where(tenant: ActsAsTenant.current_tenant) 
     end
   end
 
   def index?
-    user.admin? && user.tenant_id == ActsAsTenant.current_tenant&.id
+    user.has_role?(:tenant_admin, ActsAsTenant.current_tenant) && user.tenant == ActsAsTenant.current_tenant
   end
 
   def show?
-    user.admin? && record.tenant_id == user.tenant_id
+    user.has_role?(:tenant_admin, ActsAsTenant.current_tenant) && record.tenant == user.tenant
   end
 
   def update?
-    user.admin? && record.tenant_id == user.tenant_id
+    user.has_role?(:tenant_admin, ActsAsTenant.current_tenant) && record.tenant == user.tenant
   end
 
   def destroy?
-    user.admin? && record.tenant_id == user.tenant_id
+    user.has_role?(:tenant_admin, ActsAsTenant.current_tenant) && record.tenant == user.tenant
   end
 end

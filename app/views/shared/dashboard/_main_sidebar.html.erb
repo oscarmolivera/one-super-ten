@@ -1,0 +1,46 @@
+<!-- sidebar-->
+<section class="sidebar position-relative">
+  <div class="multinav">
+    <div class="multinav-scroll dark-skin ps" style="height: 100%;">
+      <ul class="sidebar-menu" data-widget="tree">
+        <% sidebar_menu_items.each do |section| %>
+          <li class="header"><%= section[:header] %></li>
+
+          <% section[:items].each do |item| %>
+            <li class="treeview">
+              <a href="#">
+                <i class="<%= item[:icon] %>">
+                  <span class="path1"></span>
+                  <span class="path2"></span>
+                </i>
+                <span><%= item[:label] %></span>
+                <span class="pull-right-container">
+                  <i class="fa fa-angle-right pull-right"></i>
+                </span>
+              </a>
+
+              <% if item[:children].present? %>
+                <ul class="treeview-menu">
+                  <% item[:children].each do |child| %>
+                    <li>
+                      <%= link_to child[:path] do %>
+                        <i class="<%= child[:icon] %>">
+                          <span class="path1"></span>
+                          <span class="path2"></span>
+                        </i>
+                        <%= child[:label] %>
+                      <% end %>
+                    </li>
+                  <% end %>
+                </ul>
+              <% end %>
+            </li>
+          <% end %>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+</section>
+<div class="sidebar-footer">
+  <%= render 'shared/dashboard/sidebar_footer' %>
+</div>

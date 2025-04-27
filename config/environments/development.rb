@@ -18,17 +18,19 @@ Rails.application.configure do
   # Enable Action Controller caching
   config.action_controller.perform_caching = true
   config.action_controller.enable_fragment_cache_logging = true
+  config.action_dispatch.tld_length = 1
 
-  # ✅ Use Solid Cache for caching
+
   config.cache_store = :solid_cache_store
 
-  # ✅ Fix session persistence issues
-  config.session_store :cookie_store, 
-                       key: "_one_super_ten_session", 
-                       expire_after: 90.minutes, 
-                       secure: false,
-                       httponly: true,
-                       domain: nil
+  config.session_store :cache_store,
+                        key: '_one_super_ten_session',
+                        expire_after: 90.minutes,
+                        same_site: :lax,
+                        secure: false, # or true in production
+                        httponly: true,
+                        domain: :all,
+                        tld_length: 2
 
   # Store uploaded files on the local file system (see config/storage.yml for options).
   config.active_storage.service = :local
@@ -57,7 +59,7 @@ Rails.application.configure do
   # Highlight code that enqueued background job in logs.
   config.active_job.verbose_enqueue_logs = true
 
-  config.hosts << /.*\.localhost/
-  config.hosts << "localhost"
+  config.hosts << /.*\.localhost.me/
+  config.hosts << "localhost.me"
 end
 
