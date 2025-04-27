@@ -36,6 +36,6 @@ Rails.application.routes.draw do
 
   # ----------------------------------- CATCH-ALL + FALLBACK -
   root to: "home#index", as: :fallback_root
-  get '/favicon.ico', to: redirect(ActionController::Base.helpers.asset_path('favicon.png'))
+  get '/favicon.ico', to: redirect('/assets/favicon.png')
   get '*path', to: 'errors#not_found', constraints: ->(req) { req.subdomain.present? }
 end
