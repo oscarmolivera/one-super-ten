@@ -51,11 +51,14 @@ Rails.application.configure do
   config.active_record.query_log_tags_enabled = true
   config.active_record.dump_schema_after_migration = false
 
-  # View rendering
-  config.action_view.annotate_rendered_view_with_filenames = true
+# View rendering
+config.action_view.annotate_rendered_view_with_filenames = true
 
-  # Background job log info
-  config.active_job.verbose_enqueue_logs = true
+# Asset handling
+config.assets.compile = false
+
+# Background job log info
+config.active_job.verbose_enqueue_logs = true
 
   # Raise error if before_action references non-existing actions
   config.action_controller.raise_on_missing_callback_actions = true
