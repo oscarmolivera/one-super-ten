@@ -20,11 +20,10 @@ Rails.application.configure do
   config.action_controller.enable_fragment_cache_logging = true
   config.action_dispatch.tld_length = 1
 
-  # ✅ Use Solid Cache for caching
+
   config.cache_store = :solid_cache_store
 
-  # ✅ Fix session persistence issues
-  config.session_store :cookie_store,
+  config.session_store :cache_store,
                         key: '_one_super_ten_session',
                         expire_after: 90.minutes,
                         same_site: :lax,

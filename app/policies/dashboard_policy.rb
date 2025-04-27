@@ -1,7 +1,8 @@
 class DashboardPolicy < ApplicationPolicy
 
   def index?
-    user  
+    %i[tenant_admin staff_assistant coach player team_assistant]
+      .any? { |role| user.has_role?(role, ActsAsTenant.current_tenant) }
   end
 
   def show?

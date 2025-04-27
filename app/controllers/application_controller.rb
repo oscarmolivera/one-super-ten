@@ -1,7 +1,8 @@
 class ApplicationController < ActionController::Base
   include Pundit::Authorization
-  before_action :authenticate_user!
+
   before_action :switch_tenant
+  before_action :authenticate_user!
   before_action :authorize_super_admin, if: -> { request.subdomain == "super_admin" }
   
   before_action :ensure_tenant_user, if: -> { current_user.present? }
@@ -13,16 +14,14 @@ class ApplicationController < ActionController::Base
   
 
   def switch_tenant
-    subdomain = fetch_subdomain
-
+    subdomain = request.subdomain
     return if subdomain.blank? || %w[www landing].include?(subdomain)
-    
-    tenant = Tenant.find_by(subdomain: subdomain)
-    
-    if tenant
-      ActsAsTenant.current_tenant = tenant
-    else
-      redirect_to new_user_session_path, alert: 'Invalid tenant'
+
+    ActsAsTenant.current_tenant = Tenant.find_by(subdomain: subdomain)
+
+    unless ActsAsTenant.current_tenant
+      flash[:alert] = "Tenant not found."
+      redirect_to main_root_path
     end
   end
 
@@ -47,7 +46,7 @@ class ApplicationController < ActionController::Base
   
   def user_not_authorized
     flash[:alert] = "You are not authorized to perform this action."
-    redirect_to(request.referer || fallback_root_path)
+    redirect_to(request.referer || main_root_path)
   end
 
   def fetch_subdomain

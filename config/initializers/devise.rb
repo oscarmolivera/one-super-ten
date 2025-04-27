@@ -311,3 +311,10 @@ Devise.setup do |config|
   # changed. Defaults to true, so a user is signed in automatically after changing a password.
   # config.sign_in_after_change_password = true
 end
+
+Warden::Manager.after_set_user except: :fetch do |record, warden, options|
+  if record.respond_to?(:tenant)
+    ActsAsTenant.current_tenant = record.tenant
+    Rails.logger.debug "Warden after_set_user: Tenant set to #{record.tenant&.name} for User #{record.email}"
+  end
+end

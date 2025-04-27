@@ -5,7 +5,9 @@
       <div class="box bg-primary-light pull-up">
         <div class="box-body p-xl-0">							
           <div class="row align-items-center">
-            <div class="col-12 col-lg-3"><img src="../images/svg-icon/color-svg/custom-14.svg" alt=""></div>
+            <div class="col-12 col-lg-3">
+              <%= image_tag 'vendor/custom-14.svg', alt: '' %>
+            </div>
             <div class="col-12 col-lg-9">
               <h2>Bienvenido <%= current_user.first_name %></h2>
               <p class="text-dark mb-0 fs-16">
@@ -48,7 +50,7 @@
       </div>
     </div>
     <div class="col-xl-3 col-md-6 col-12">
-      <div class="box bg-secondary-light pull-up" style="background-image: url(../images/svg-icon/color-svg/st-1.svg); background-position: right bottom; background-repeat: no-repeat;">
+      <div class="box bg-secondary-light pull-up" style="background-image: url(<%= asset_path('vendor/st-1.svg')%>); background-position: right bottom; background-repeat: no-repeat;">
         <div class="box-body">	
           <div class="flex-grow-1">	
             <div class="d-flex align-items-center pe-2 justify-content-between">
@@ -75,7 +77,7 @@
       </div>
     </div>
     <div class="col-xl-3 col-md-6 col-12">
-      <div class="box bg-secondary-light pull-up" style="background-image: url(../images/svg-icon/color-svg/st-2.svg); background-position: right bottom; background-repeat: no-repeat;">
+      <div class="box bg-secondary-light pull-up" style="background-image: url(<%= asset_path('vendor/st-2.svg')%>); background-position: right bottom; background-repeat: no-repeat;">
         <div class="box-body">	
           <div class="flex-grow-1">	
             <div class="d-flex align-items-center pe-2 justify-content-between">
@@ -100,7 +102,7 @@
       </div>
     </div>
     <div class="col-xl-3 col-md-6 col-12">
-      <div class="box bg-secondary-light pull-up" style="background-image: url(../images/svg-icon/color-svg/st-3.svg); background-position: right bottom; background-repeat: no-repeat;">
+      <div class="box bg-secondary-light pull-up" style="background-image: url(<%= asset_path('vendor/st-3.svg')%>); background-position: right bottom; background-repeat: no-repeat;">
         <div class="box-body">	
           <div class="flex-grow-1">	
             <div class="d-flex align-items-center pe-2 justify-content-between">
@@ -126,7 +128,7 @@
       </div>
     </div>
     <div class="col-xl-3 col-md-6 col-12">
-      <div class="box bg-secondary-light pull-up" style="background-image: url(../images/svg-icon/color-svg/st-4.svg); background-position: right bottom; background-repeat: no-repeat;">
+      <div class="box bg-secondary-light pull-up" style="background-image: url(<%= asset_path('vendor/st-4.svg')%>); background-position: right bottom; background-repeat: no-repeat;">
         <div class="box-body">	
           <div class="flex-grow-1">	
             <div class="d-flex align-items-center pe-2 justify-content-between">
