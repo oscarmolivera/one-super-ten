@@ -1,5 +1,6 @@
 class User < ApplicationRecord
-  devise :database_authenticatable, :recoverable, :rememberable, :validatable
+  devise :database_authenticatable, :recoverable, :rememberable, :validatable,
+          :lockable, :timeoutable
   rolify
 
   belongs_to :tenant
