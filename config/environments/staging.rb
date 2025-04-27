@@ -21,7 +21,7 @@ Rails.application.configure do
   # Mailer config
   config.action_mailer.raise_delivery_errors = true
   config.action_mailer.perform_caching = false
-  config.action_mailer.default_url_options = { host: 'mykos.shop', protocol: 'https' }
+  config.action_mailer.default_url_options = { host: ENV["APP_DOMAIN"], protocol: 'https' }
 
   # Uncomment and configure this block if sending real emails in staging:
   # config.action_mailer.delivery_method = :smtp
@@ -60,9 +60,20 @@ Rails.application.configure do
   # Raise error if before_action references non-existing actions
   config.action_controller.raise_on_missing_callback_actions = true
 
+  # Redirect www to non-www
+  config.middleware.insert_before(0, Rack::Rewrite) do
+    r301 %r{.*}, 'https://nubbe.net$&', if: Proc.new { |rack_env|
+      rack_env['HTTP_HOST'] == 'www.nubbe.net'
+    }
+  end
+
   # Require master key for encrypted credentials
   config.require_master_key = true
   config.force_ssl = true
 
-  config.hosts << /.*\.mykos\.shop/
+  if ENV["APP_DOMAIN"].present?
+    domain = ENV["APP_DOMAIN"].gsub(".", '\.')
+    config.hosts << /.*\.#{domain}/
+    config.hosts << ENV["APP_DOMAIN"]
+  end
 end
