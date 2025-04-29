@@ -12,3 +12,5 @@ import PerfectScrollbar from 'perfect-scrollbar'
 window.PerfectScrollbar = PerfectScrollbar
 import "./vendor/template"
 import "./vendor/custom"
+import { Turbo } from "@hotwired/turbo-rails"
+Turbo.session.drive = true
