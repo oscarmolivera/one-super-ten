@@ -81,6 +81,7 @@ module ApplicationHelper
             children: [
               { label: "Dashboard", icon: "icon-Commit", path: tenant_dashboard_path },
               { label: "Escuelas", icon: "icon-Commit", path: schools_path },
+              { label: "Categorías", icon: "icon-Commit", path: categories_path },
             ]  
           }
         ]
