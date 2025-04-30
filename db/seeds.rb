@@ -1,3 +1,5 @@
+require 'faker'
+
 ActiveRecord::Base.connection.execute <<-SQL
   INSERT INTO tenants (name, subdomain, created_at, updated_at, parent_tenant_id)
   VALUES ('Main Tenant', 'main', '#{Time.current}', '#{Time.current}', NULL),
@@ -8,6 +10,19 @@ SQL
 root_tenant = Tenant.find_by(subdomain: "main")
 academia = Tenant.find_by(subdomain: "academia-margarita")
 deportivo = Tenant.find_by(subdomain: "deportivo-margarita")
+tenants = [academia, deportivo]
+
+fcampo = School.create!(tenant: academia, name:'Futbol Campo', description: 'Escuela de Valores')
+fsala = School.create!(tenant: academia, name:'Futbol Sala', description: 'Escuela de Valores')
+emas = School.create!(tenant: deportivo, name:'Escuela Masculina', description: 'Futbol Campo de Varones')
+efem = School.create!(tenant: deportivo, name:'Escuela Femenina', description: 'Futbol Campo de Mujeres')
+schools = [fcampo, fsala, emas, efem]
+
+cat_fs9a = Category.create!(tenant: academia, school: fsala, name: 'Categoria Sub 10', description: 'Niños o niñas con 8 o 9 años')
+cat_fc9a = Category.create!(tenant: academia, school: fcampo, name: 'Categoria Sub 10', description: 'Niños o niñas con 8 o 9 años')
+cat_vr9a = Category.create!(tenant: deportivo, school: emas, name: 'Categoria Sub 10', description: 'Varones menores de 10 años')
+cat_hm9a = Category.create!(tenant: deportivo, school: efem, name: 'Categoria Sub 10', description: 'Hembras menores de 10 años')
+categories = [cat_fc9a, cat_fs9a, cat_hm9a, cat_vr9a]
 
 su = User.create!(email: "admin@nubbe.net", password: "s3cret.", first_name: "Super Admin", last_name: "Nubbe.Net", tenant: root_tenant)
 ta_aca =User.create!(email: "admin@academia.com", password: "s3cret.", first_name: "Luis", last_name: "TenantAdmin", tenant: academia)
@@ -36,6 +51,8 @@ Role.find_or_create_by(name: :player, resource: academia, tenant: ju_aca.tenant)
 Role.find_or_create_by(name: :player, resource: deportivo, tenant: ju_dep.tenant)
 Role.find_or_create_by(name: :team_assistant, resource: academia, tenant: td_aca.tenant)
 Role.find_or_create_by(name: :team_assistant, resource: deportivo, tenant: td_dep.tenant)
+Role.find_or_create_by(name: :player, resource: academia, tenant: academia)
+Role.find_or_create_by(name: :player, resource: deportivo, tenant: deportivo)
 
 # Role Assignments
 su.add_role(:super_admin, root_tenant)
@@ -50,5 +67,42 @@ ju_dep.add_role(:player, deportivo)
 td_aca.add_role(:team_assistant, academia)
 td_dep.add_role(:team_assistant, deportivo)
 
-ActsAsTenant.with_tenant(academia) { Player.create(email: "nachitoolivo@gmail.com", tenant: academia) }
-ActsAsTenant.with_tenant(deportivo) { Player.create(email: "doriona@gmail.com", tenant: deportivo) }
+first_names = %w[Lucas Mateo Santiago Diego Gabriel Daniel Sebastian Tomas Nicolas Benjamin]
+last_names = %w[Rodriguez Gonzalez Hernandez Ramirez Diaz Torres Martinez Romero Alvarez Ruiz]
+
+20.times do
+  tenant = tenants.sample
+  school = tenant.schools.sample
+  category = school.categories.sample
+  first_name = first_names.sample
+  last_name = last_names.sample
+  birthday = Date.new(rand(2007..2019), rand(1..12), rand(1..28))
+  position = %w[Delantero Mediocampista Defensa Guardameta].sample
+  email = "#{Faker::Internet.email}"
+
+  user = User.create!(
+    email: email,
+    password: 's3cret.',
+    tenant_id: tenant.id,
+    first_name: first_name,
+    last_name: last_name,
+  )
+
+  user.add_role(:player, tenant)
+
+  player = Player.create!(
+    tenant_id: tenant.id,
+    email: email,
+    first_name: first_name,
+    last_name: last_name,
+    date_of_birth: birthday,
+    position: position,
+    category_id: category.id,
+    is_active: true,
+    user_id: user.id
+  )
+
+  PlayerSchool.find_or_create_by!(player: player, school: school)
+  CategoryPlayer.find_or_create_by!(player: player, category: category)
+  
+end

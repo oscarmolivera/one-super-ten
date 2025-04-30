@@ -10,9 +10,30 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_04_27_003026) do
+ActiveRecord::Schema[8.0].define(version: 2025_04_29_024410) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
+
+  create_table "categories", force: :cascade do |t|
+    t.bigint "tenant_id", null: false
+    t.bigint "school_id", null: false
+    t.string "name", null: false
+    t.text "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["school_id"], name: "index_categories_on_school_id"
+    t.index ["tenant_id"], name: "index_categories_on_tenant_id"
+  end
+
+  create_table "category_players", force: :cascade do |t|
+    t.bigint "player_id", null: false
+    t.bigint "category_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["category_id"], name: "index_category_players_on_category_id"
+    t.index ["player_id", "category_id"], name: "index_category_players_on_player_id_and_category_id", unique: true
+    t.index ["player_id"], name: "index_category_players_on_player_id"
+  end
 
   create_table "landings", force: :cascade do |t|
     t.string "title"
@@ -24,13 +45,42 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_27_003026) do
     t.index ["tenant_id"], name: "index_landings_on_tenant_id"
   end
 
+  create_table "player_schools", force: :cascade do |t|
+    t.bigint "player_id", null: false
+    t.bigint "school_id", null: false
+    t.boolean "active"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["player_id", "school_id"], name: "index_player_schools_on_player_id_and_school_id", unique: true
+    t.index ["player_id"], name: "index_player_schools_on_player_id"
+    t.index ["school_id"], name: "index_player_schools_on_school_id"
+  end
+
   create_table "players", force: :cascade do |t|
     t.string "email"
     t.bigint "tenant_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "category_id"
+    t.string "first_name", null: false
+    t.string "last_name", null: false
+    t.string "full_name"
+    t.date "date_of_birth"
+    t.string "gender"
+    t.string "nationality"
+    t.string "document_number"
+    t.string "profile_picture"
+    t.string "dominant_side"
+    t.string "position"
+    t.text "address"
+    t.boolean "is_active", default: true, null: false
+    t.text "bio"
+    t.text "notes"
+    t.bigint "user_id"
+    t.index ["category_id"], name: "index_players_on_category_id"
     t.index ["email"], name: "index_players_on_email"
     t.index ["tenant_id"], name: "index_players_on_tenant_id"
+    t.index ["user_id"], name: "index_players_on_user_id"
   end
 
   create_table "roles", force: :cascade do |t|
@@ -43,6 +93,15 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_27_003026) do
     t.index ["name", "resource_type", "resource_id"], name: "index_roles_on_name_and_resource_type_and_resource_id"
     t.index ["resource_type", "resource_id"], name: "index_roles_on_resource"
     t.index ["tenant_id"], name: "index_roles_on_tenant_id"
+  end
+
+  create_table "schools", force: :cascade do |t|
+    t.bigint "tenant_id", null: false
+    t.string "name", null: false
+    t.text "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["tenant_id"], name: "index_schools_on_tenant_id"
   end
 
   create_table "solid_cache_entries", force: :cascade do |t|
@@ -93,9 +152,18 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_27_003026) do
     t.index ["user_id"], name: "index_users_roles_on_user_id"
   end
 
+  add_foreign_key "categories", "schools"
+  add_foreign_key "categories", "tenants"
+  add_foreign_key "category_players", "categories"
+  add_foreign_key "category_players", "players"
   add_foreign_key "landings", "tenants"
+  add_foreign_key "player_schools", "players"
+  add_foreign_key "player_schools", "schools"
+  add_foreign_key "players", "categories"
   add_foreign_key "players", "tenants"
+  add_foreign_key "players", "users"
   add_foreign_key "roles", "tenants"
+  add_foreign_key "schools", "tenants"
   add_foreign_key "tenants", "tenants", column: "parent_tenant_id"
   add_foreign_key "users", "tenants"
 end

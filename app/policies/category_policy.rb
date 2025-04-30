@@ -1,4 +1,4 @@
-class PlayerPolicy < ApplicationPolicy
+class CategoryPolicy < ApplicationPolicy
   class Scope < ApplicationPolicy::Scope
     def resolve
       scope.where(tenant: ActsAsTenant.current_tenant)

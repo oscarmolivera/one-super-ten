@@ -1,4 +1,23 @@
 class Player < ApplicationRecord
   acts_as_tenant(:tenant)
-  validates_uniqueness_of :email, scope: :tenant_id
+
+  belongs_to :tenant
+  belongs_to :user, optional: true
+
+  has_many :player_schools, dependent: :destroy
+  has_many :schools, through: :player_schools
+
+  has_many :category_players, dependent: :destroy
+  has_many :categories, through: :category_players
+
+  validates :first_name, :last_name, presence: true
+
+  enum :gender, { hombre: 'hombre', mujer: 'mujer' }
+  enum :dominant_side, {izquierdo: 'izquierdo', derecho: 'derecho', ambos: 'ambos'}
+  enum :position, {portero: 'portero', mediocampo: 'mediocampo', lateral: 'lateral', defensa: 'defensa', delantero: 'delantero'  }
+
+
+  def full_name
+    "#{first_name} #{last_name}"
+  end
 end

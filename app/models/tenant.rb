@@ -4,7 +4,8 @@ class Tenant < ApplicationRecord
   has_many :roles, inverse_of: :tenant
   has_many :users
   has_many :landings
-  has_many :players
+  has_many :schools, dependent: :destroy
+  has_many :players, dependent: :destroy
 
   before_validation :set_default_parent, on: :create
 
