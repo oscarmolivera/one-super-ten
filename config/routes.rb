@@ -24,13 +24,13 @@ Rails.application.routes.draw do
 
   # ------------------- TENANT PUBLIC LANDING + AUTH ROUTES -
   constraints(SubdomainConstraint) do
-    root to: "landings#index", as: :tenant_root  
-    resources :landings, only: [:index]
-    resources :tenants, only: [:index]
-    
+    root to: "landings#index", as: :tenant_root      
     authenticate :user do
       get 'dashboard', to: 'dashboard#index', as: :tenant_dashboard
       get 'show-test', to: 'dashboard#show', as: :tenant_show_dashboard
+      resources :schools
+      resources :categories
+      resources :players
     end
   end
 
