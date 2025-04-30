@@ -82,6 +82,7 @@ module ApplicationHelper
               { label: "Dashboard", icon: "icon-Commit", path: tenant_dashboard_path },
               { label: "Escuelas", icon: "icon-Commit", path: schools_path },
               { label: "Categorías", icon: "icon-Commit", path: categories_path },
+              { label: "Jugadores", icon: "icon-Commit", path: players_path },
             ]  
           }
         ]

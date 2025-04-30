@@ -1,0 +1,136 @@
+<!-- app/views/players/_form.html.erb -->
+<div class="container mt-4">
+  <h1><%= action_name == "new" ? "Nuevo Jugador" : "Edit Jugador" %></h1>
+
+  <%= form_with(model: @player, local: true) do |form| %>
+    <% if @player.errors.any? %>
+      <div class="alert alert-danger">
+        <ul>
+          <% @player.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div class="card shadow-sm">
+      <div class="card-header">
+        <ul class="nav nav-tabs card-header-tabs" id="playerFormTabs" role="tablist">
+          <li class="nav-item">
+            <button class="nav-link active" id="basic-tab" data-bs-toggle="tab" data-bs-target="#basic" type="button" role="tab">Basic Info</button>
+          </li>
+          <li class="nav-item">
+            <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button" role="tab">Emergency Contact</button>
+          </li>
+          <li class="nav-item">
+            <button class="nav-link" id="physical-tab" data-bs-toggle="tab" data-bs-target="#physical" type="button" role="tab">Physical Stats</button>
+          </li>
+          <li class="nav-item">
+            <button class="nav-link" id="school-tab" data-bs-toggle="tab" data-bs-target="#school" type="button" role="tab">School</button>
+          </li>
+        </ul>
+      </div>
+
+      <div class="card-body tab-content">
+        <div class="tab-pane fade show active" id="basic" role="tabpanel">
+          <div class="row g-3">
+            <div class="col-md-6">
+                <%= form.label :school_id, "School" %>
+                <%= form.select :school_id, options_from_collection_for_select(@schools, :id, :name), { prompt: "Select a School" }, 
+                                class: "form-control",  data: { controller: "school-select", action: "change->school-select#loadCategories",
+                                school_select_target: "school" } %>
+            </div>
+
+            <div class="col-md-6">
+              <%= form.label :category_id, "Categoria" %>
+              <%= form.select :category_id, options_from_collection_for_select(Category.all, :id, :name), { prompt: "Select a Category" }, 
+                              class: "form-control", data: { school_select_target: "category" } %>
+            </div>
+
+            <div class="col-md-6">
+              <%= form.label :first_name, class: 'form-label' %>
+              <%= form.text_field :first_name, class: 'form-control' %>
+            </div>
+
+            <div class="col-md-6">
+              <%= form.label :last_name, class: 'form-label' %>
+              <%= form.text_field :last_name, class: 'form-control' %>
+            </div>
+
+            <div class="col-md-6">
+              <%= form.label :date_of_birth, class: 'form-label' %>
+              <%= form.date_field :date_of_birth, class: 'form-control' %>
+            </div>
+
+            <div class="col-md-6">
+              <%= form.label :gender, class: 'form-label' %>
+              <%= form.select :gender, Player.genders.keys.map { |g| [g.humanize, g] }, {}, class: 'form-select' %>
+            </div>
+            <div class="col-md-6">
+              <%= form.label :dominant_side, "Lado Dominante" %>
+              <%= form.select :dominant_side, Player.dominant_sides.keys.map { |g| [g.humanize, g] }, { prompt: "Select a Side" }, class: 'form-control' %>
+            </div>
+
+            <div class="col-md-6">
+              <%= form.label :position, "Posición" %>
+              <%= form.select :position, Player.positions.keys.map { |g| [g.humanize, g] }, { prompt: "Select a Pocicion" }, class: 'form-control' %>
+            </div>
+          </div>
+        </div>
+
+        <div class="tab-pane fade" id="contact" role="tabpanel">
+          <div class="row g-3">
+            <div class="col-md-6">
+              <%= form.label :emergency_contact_name, class: 'form-label' %>
+              <%= form.text_field :emergency_contact_name, class: 'form-control' %>
+            </div>
+
+            <div class="col-md-6">
+              <%= form.label :emergency_contact_phone, class: 'form-label' %>
+              <%= form.telephone_field :emergency_contact_phone, class: 'form-control' %>
+            </div>
+          </div>
+        </div>
+
+        <div class="tab-pane fade" id="physical" role="tabpanel">
+          <div class="row g-3">
+            <div class="col-md-6">
+              <%= form.label :height_cm, class: 'form-label' %>
+              <%= form.number_field :height_cm, class: 'form-control' %>
+            </div>
+
+            <div class="col-md-6">
+              <%= form.label :weight_kg, class: 'form-label' %>
+              <%= form.number_field :weight_kg, class: 'form-control' %>
+            </div>
+          </div>
+        </div>
+
+        <div class="tab-pane fade" id="school" role="tabpanel">
+          <div class="row g-3">
+            <div class="col-md-12">
+              <h5>Select School</h5>
+              <% School.where(tenant: ActsAsTenant.current_tenant).each do |school| %>
+                <div class="form-check">
+                  <%= form.radio_button :school_id, school.id, 
+                                       class: 'form-check-input', 
+                                       checked: @player.schools.include?(school) %>
+                  <%= form.label "school_id_#{school.id}", school.name, class: 'form-check-label' %>
+                </div>
+              <% end %>
+              <% if @player.errors[:school_id].any? %>
+                <div class="text-danger">
+                  <%= @player.errors[:school_id].join(", ") %>
+                </div>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card-footer text-end">
+        <%= form.submit class: 'btn btn-success' %>
+      </div>
+    </div>
+  <% end %>
+</div>
