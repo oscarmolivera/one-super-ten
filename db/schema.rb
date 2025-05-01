@@ -10,9 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_04_29_024410) do
+ActiveRecord::Schema[8.0].define(version: 2025_04_30_233102) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
+
+  create_table "assistant_assignments", force: :cascade do |t|
+    t.bigint "coach_id", null: false
+    t.bigint "assistant_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["assistant_id"], name: "index_assistant_assignments_on_assistant_id"
+    t.index ["coach_id"], name: "index_assistant_assignments_on_coach_id"
+  end
 
   create_table "categories", force: :cascade do |t|
     t.bigint "tenant_id", null: false
@@ -25,6 +34,15 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_29_024410) do
     t.index ["tenant_id"], name: "index_categories_on_tenant_id"
   end
 
+  create_table "category_coaches", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "category_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["category_id"], name: "index_category_coaches_on_category_id"
+    t.index ["user_id"], name: "index_category_coaches_on_user_id"
+  end
+
   create_table "category_players", force: :cascade do |t|
     t.bigint "player_id", null: false
     t.bigint "category_id", null: false
@@ -33,6 +51,15 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_29_024410) do
     t.index ["category_id"], name: "index_category_players_on_category_id"
     t.index ["player_id", "category_id"], name: "index_category_players_on_player_id_and_category_id", unique: true
     t.index ["player_id"], name: "index_category_players_on_player_id"
+  end
+
+  create_table "coach_profiles", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.date "hire_date"
+    t.decimal "salary", precision: 10, scale: 2
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_coach_profiles_on_user_id"
   end
 
   create_table "landings", force: :cascade do |t|
@@ -152,10 +179,15 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_29_024410) do
     t.index ["user_id"], name: "index_users_roles_on_user_id"
   end
 
+  add_foreign_key "assistant_assignments", "users", column: "assistant_id"
+  add_foreign_key "assistant_assignments", "users", column: "coach_id"
   add_foreign_key "categories", "schools"
   add_foreign_key "categories", "tenants"
+  add_foreign_key "category_coaches", "categories"
+  add_foreign_key "category_coaches", "users"
   add_foreign_key "category_players", "categories"
   add_foreign_key "category_players", "players"
+  add_foreign_key "coach_profiles", "users"
   add_foreign_key "landings", "tenants"
   add_foreign_key "player_schools", "players"
   add_foreign_key "player_schools", "schools"

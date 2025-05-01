@@ -31,6 +31,13 @@ Rails.application.routes.draw do
       resources :schools
       resources :categories
       resources :players
+      resources :coaches do
+        member do
+          get :assistants           # admin/coaches/:id/assistants
+          post :assign_assistant    # admin/coaches/:id/assign_assistant
+          delete 'remove_assistant/:assistant_id', to: 'coaches#remove_assistant', as: :remove_assistant
+        end
+      end
     end
   end
 
