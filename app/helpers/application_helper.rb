@@ -84,6 +84,7 @@ module ApplicationHelper
               { label: "Categorías", icon: "icon-Commit", path: categories_path },
               { label: "Jugadores", icon: "icon-Commit", path: players_path },
               { label: "Entrenadores", icon: "icon-Commit", path: coaches_path },
+              { label: "Asistentes", icon: "icon-Commit", path: assistants_path },
             ]  
           }
         ]

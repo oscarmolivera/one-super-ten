@@ -1,4 +1,4 @@
-class CoachPolicy < ApplicationPolicy
+class AssistantPolicy < ApplicationPolicy
   class Scope < Scope
     def resolve
       scope.where(tenant: ActsAsTenant.current_tenant)
@@ -7,10 +7,10 @@ class CoachPolicy < ApplicationPolicy
 
   def index?
     %i[tenant_admin staff_assistant coach player team_assistant]
-      .any? { |role| user.has_role?(role, ActsAsTenant.current_tenant) }
+    .any? { |role| user.has_role?(role, ActsAsTenant.current_tenant) }
   end
 
-  def show?
+  def edit?
     index?
   end
   

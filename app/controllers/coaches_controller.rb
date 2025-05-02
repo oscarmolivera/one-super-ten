@@ -35,7 +35,7 @@ class CoachesController < ApplicationController
 
   def update
     authorize :coach, :index?
-    if @coach.update(coach_params)
+    if @coach.update(filtered_params)
       redirect_to coaches_path, notice: "Coach updated successfully."
     else
       render :edit
@@ -49,7 +49,7 @@ class CoachesController < ApplicationController
 
   def assistants
     @coach = User.find(params[:id])
-    authorize [:admin, :coach], :manage_assistants?
+    authorize :coach, :index?
 
     @available_assistants = User
       .with_role(:assistant_coach, ActsAsTenant.current_tenant)
@@ -59,7 +59,8 @@ class CoachesController < ApplicationController
   def assign_assistant
     @coach = User.find(params[:id])
     assistant = User.find(params[:assistant_id])
-    authorize [:admin, :coach], :manage_assistants?
+    authorize :coach, :index?
+
 
     if !@coach.assistants.include?(assistant)
       @coach.assistants << assistant
@@ -68,18 +69,18 @@ class CoachesController < ApplicationController
       flash[:alert] = "Already assigned."
     end
 
-    redirect_to assistants_admin_coach_path(@coach)
+    redirect_to coaches_path
   end
 
   def remove_assistant
     @coach = User.find(params[:id])
     assistant = User.find(params[:assistant_id])
-    authorize [:admin, :coach], :manage_assistants?
+    authorize :coach, :index?
 
     @coach.assistants.destroy(assistant)
 
     flash[:notice] = "Assistant removed."
-    redirect_to assistants_admin_coach_path(@coach)
+    redirect_to assistants_coach_path(@coach)
   end
 
   private
@@ -93,5 +94,11 @@ class CoachesController < ApplicationController
       :email, :password, :first_name, :last_name,
       coach_profile_attributes: [:hire_date, :salary]
     )
+  end
+
+  def filtered_params
+    filtered = coach_params
+    filtered.delete(:password) if filtered_params[:password].blank?
+    filtered
   end
 end

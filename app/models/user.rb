@@ -15,11 +15,18 @@ class User < ApplicationRecord
   has_many :assistant_assignments, foreign_key: :coach_id, class_name: 'AssistantAssignment', dependent: :destroy
   has_many :assistants, through: :assistant_assignments, source: :assistant
 
+  has_many :coach_assignments, foreign_key: :assistant_id, class_name: 'AssistantAssignment', dependent: :destroy
+  has_many :coaches, through: :coach_assignments, source: :coach
+
   # Helper scopes
   scope :coaches, -> { with_role(:coach) }
 
   # Optional
   accepts_nested_attributes_for :coach_profile
+
+  def full_name
+    "#{first_name} #{last_name}"
+  end
 
   def can_view_schedules?
     is_role_tenant_admin?
