@@ -29,9 +29,16 @@ Rails.application.routes.draw do
       get 'dashboard', to: 'dashboard#index', as: :tenant_dashboard
       get 'show-test', to: 'dashboard#show', as: :tenant_show_dashboard
       resources :schools
-      resources :categories
+      resources :categories do
+        resources :matches, only: [:index]
+        resources :call_ups, only: [:index, :new]
+      end
       resources :players
       resources :tournaments
+      resources :call_ups, only: [:new, :create]
+      resources :matches, only: [:new, :create, :show, :index, :update] do
+        patch :update_performances, on: :member
+      end
       resources :coaches do
         member do
           get :assistants           # admin/coaches/:id/assistants

@@ -1,0 +1,24 @@
+<div class="wrapper">
+  <div id="loader"></div>
+
+  <header class="main-header">
+    <%= render 'shared/dashboard/main_header' %>
+  </header>
+
+  <aside class="main-sidebar left-side-section bg-dark text-white">
+    <%= render 'shared/dashboard/main_sidebar' %>
+  </aside>
+
+  <div class="content-wrapper big-side-section">
+    <%= render 'call_ups/system_test/form', call_up: @call_up %> 
+  </div>
+  
+  <footer class="main-footer">
+    <%= render 'shared/dashboard/main_footer' %>
+  </footer>
+
+  <aside class="control-sidebar">
+    <%= render 'shared/dashboard/control_sidebar' %>
+  </aside>
+</div>
+

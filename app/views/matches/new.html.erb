@@ -1,0 +1,26 @@
+<div class="wrapper">
+  <div id="loader"></div>
+
+  <header class="main-header">
+    <%= render 'shared/dashboard/main_header' %>
+  </header>
+
+  <aside class="main-sidebar left-side-section bg-dark text-white">
+    <%= render 'shared/dashboard/main_sidebar' %>
+  </aside>
+
+  <div class="content-wrapper big-side-section">
+    <h1>New Match</h1>
+    <%= render "matches/system_test/form", match: @match, category: @category %>
+    <%= link_to "Back to Category Matches", category_matches_path(params[:category_id]), class: "btn btn-link mt-3" %>
+  </div>
+
+  <footer class="main-footer">
+    <%= render 'shared/dashboard/main_footer' %>
+  </footer>
+
+  <aside class="control-sidebar">
+    <%= render 'shared/dashboard/control_sidebar' %>
+  </aside>
+</div>
+
