@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_04_30_233102) do
+ActiveRecord::Schema[8.0].define(version: 2025_05_02_212322) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -60,6 +60,38 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_30_233102) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_coach_profiles_on_user_id"
+  end
+
+  create_table "event_participations", force: :cascade do |t|
+    t.bigint "event_id", null: false
+    t.bigint "category_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["category_id"], name: "index_event_participations_on_category_id"
+    t.index ["event_id"], name: "index_event_participations_on_event_id"
+  end
+
+  create_table "events", force: :cascade do |t|
+    t.bigint "school_id"
+    t.bigint "tenant_id", null: false
+    t.string "title", null: false
+    t.text "description"
+    t.datetime "start_time"
+    t.datetime "end_time"
+    t.string "location_name"
+    t.string "location_address"
+    t.boolean "external_organizer", default: false
+    t.string "organizer_name"
+    t.bigint "coach_id"
+    t.integer "event_type", default: 0
+    t.integer "status", default: 0
+    t.boolean "allow_reinforcements", default: false
+    t.boolean "is_public", default: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["coach_id"], name: "index_events_on_coach_id"
+    t.index ["school_id"], name: "index_events_on_school_id"
+    t.index ["tenant_id"], name: "index_events_on_tenant_id"
   end
 
   create_table "landings", force: :cascade do |t|
@@ -188,6 +220,11 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_30_233102) do
   add_foreign_key "category_players", "categories"
   add_foreign_key "category_players", "players"
   add_foreign_key "coach_profiles", "users"
+  add_foreign_key "event_participations", "categories"
+  add_foreign_key "event_participations", "events"
+  add_foreign_key "events", "schools"
+  add_foreign_key "events", "tenants"
+  add_foreign_key "events", "users", column: "coach_id"
   add_foreign_key "landings", "tenants"
   add_foreign_key "player_schools", "players"
   add_foreign_key "player_schools", "schools"

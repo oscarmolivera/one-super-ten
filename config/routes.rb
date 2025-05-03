@@ -38,6 +38,11 @@ Rails.application.routes.draw do
           delete 'remove_assistant/:assistant_id', to: 'coaches#remove_assistant', as: :remove_assistant
         end
       end
+      resources :events do
+        collection do
+          get :calendar
+        end
+      end
       get 'assistants', to: 'assistants#index', as: :assistants
       post 'assistants/assign_coach', to: 'assistants#assign_coach', as: :assign_coach_to_assistant
       delete 'assistants/remove_coach', to: 'assistants#remove_coach', as: :remove_coach_from_assistant
