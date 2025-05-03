@@ -16,13 +16,11 @@ fcampo = School.create!(tenant: academia, name:'Futbol Campo', description: 'Esc
 fsala = School.create!(tenant: academia, name:'Futbol Sala', description: 'Escuela de Valores')
 emas = School.create!(tenant: deportivo, name:'Escuela Masculina', description: 'Futbol Campo de Varones')
 efem = School.create!(tenant: deportivo, name:'Escuela Femenina', description: 'Futbol Campo de Mujeres')
-schools = [fcampo, fsala, emas, efem]
 
 cat_fs9a = Category.create!(tenant: academia, school: fsala, name: 'Categoria Sub 10', description: 'Niños o niñas con 8 o 9 años')
 cat_fc9a = Category.create!(tenant: academia, school: fcampo, name: 'Categoria Sub 10', description: 'Niños o niñas con 8 o 9 años')
 cat_vr9a = Category.create!(tenant: deportivo, school: emas, name: 'Categoria Sub 10', description: 'Varones menores de 10 años')
 cat_hm9a = Category.create!(tenant: deportivo, school: efem, name: 'Categoria Sub 10', description: 'Hembras menores de 10 años')
-categories = [cat_fc9a, cat_fs9a, cat_hm9a, cat_vr9a]
 
 su = User.create!(email: "admin@nubbe.net", password: "s3cret.", first_name: "Super Admin", last_name: "Nubbe.Net", tenant: root_tenant)
 ta_aca =User.create!(email: "admin@academia.com", password: "s3cret.", first_name: "Luis", last_name: "TenantAdmin", tenant: academia)
@@ -173,3 +171,14 @@ events.each do |attrs|
   )
   event.categories << [cat_fs9a, cat_hm9a].sample
 end
+
+Tournament.create!(
+  tenant: academia,
+  name: "Summer Cup 2025",
+  description: "Annual youth soccer tournament.",
+  start_date: Date.today + 1.month,
+  end_date: Date.today + 1.month + 7.days,
+  public: true,
+  status: :published,
+  categories: [cat_fc9a, cat_vr9a]
+)
