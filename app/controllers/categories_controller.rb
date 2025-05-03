@@ -20,7 +20,6 @@ class CategoriesController < ApplicationController
   def create
     authorize :category, :index?
     @category = Category.new(category_params)
-    binding.pry
     if @category.save
       redirect_to categories_path, notice: "Category created successfully."
     else

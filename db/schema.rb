@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_05_03_171956) do
+ActiveRecord::Schema[8.0].define(version: 2025_05_03_181637) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -59,6 +59,30 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_03_171956) do
     t.datetime "updated_at", null: false
     t.index ["assistant_id"], name: "index_assistant_assignments_on_assistant_id"
     t.index ["coach_id"], name: "index_assistant_assignments_on_coach_id"
+  end
+
+  create_table "call_up_players", force: :cascade do |t|
+    t.bigint "call_up_id", null: false
+    t.bigint "player_id", null: false
+    t.integer "attendance", default: 0
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["call_up_id"], name: "index_call_up_players_on_call_up_id"
+    t.index ["player_id"], name: "index_call_up_players_on_player_id"
+  end
+
+  create_table "call_ups", force: :cascade do |t|
+    t.bigint "tenant_id", null: false
+    t.bigint "category_id", null: false
+    t.bigint "match_id"
+    t.string "name"
+    t.integer "status", default: 0
+    t.datetime "call_up_date"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["category_id"], name: "index_call_ups_on_category_id"
+    t.index ["match_id"], name: "index_call_ups_on_match_id"
+    t.index ["tenant_id"], name: "index_call_ups_on_tenant_id"
   end
 
   create_table "categories", force: :cascade do |t|
@@ -140,6 +164,37 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_03_171956) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["tenant_id"], name: "index_landings_on_tenant_id"
+  end
+
+  create_table "match_performances", force: :cascade do |t|
+    t.bigint "match_id", null: false
+    t.bigint "player_id", null: false
+    t.integer "goals", default: 0
+    t.integer "minutes_played", default: 0
+    t.integer "assists", default: 0
+    t.integer "yellow_cards", default: 0
+    t.integer "red_cards", default: 0
+    t.text "notes"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["match_id"], name: "index_match_performances_on_match_id"
+    t.index ["player_id"], name: "index_match_performances_on_player_id"
+  end
+
+  create_table "matches", force: :cascade do |t|
+    t.bigint "tenant_id", null: false
+    t.bigint "tournament_id"
+    t.integer "match_type", default: 0
+    t.string "opponent_name"
+    t.string "location"
+    t.datetime "scheduled_at"
+    t.integer "home_score"
+    t.integer "away_score"
+    t.text "notes"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["tenant_id"], name: "index_matches_on_tenant_id"
+    t.index ["tournament_id"], name: "index_matches_on_tournament_id"
   end
 
   create_table "player_schools", force: :cascade do |t|
@@ -275,6 +330,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_03_171956) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "assistant_assignments", "users", column: "assistant_id"
   add_foreign_key "assistant_assignments", "users", column: "coach_id"
+  add_foreign_key "call_up_players", "call_ups"
+  add_foreign_key "call_up_players", "players"
+  add_foreign_key "call_ups", "matches"
   add_foreign_key "categories", "schools"
   add_foreign_key "categories", "tenants"
   add_foreign_key "category_coaches", "categories"
@@ -288,6 +346,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_03_171956) do
   add_foreign_key "events", "tenants"
   add_foreign_key "events", "users", column: "coach_id"
   add_foreign_key "landings", "tenants"
+  add_foreign_key "match_performances", "matches"
+  add_foreign_key "match_performances", "players"
+  add_foreign_key "matches", "tournaments"
   add_foreign_key "player_schools", "players"
   add_foreign_key "player_schools", "schools"
   add_foreign_key "players", "categories"

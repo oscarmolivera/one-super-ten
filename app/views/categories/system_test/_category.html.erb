@@ -22,6 +22,7 @@
               <td><%= School.find(category.school_id).name %></td>
               <td>
                 <%= link_to "Edit", edit_category_path(category), class: "btn btn-sm btn-warning" %>
+                <%= link_to "View Matches", category_matches_path(category), class: "btn btn-secondary" %>
               </td>
             </tr>
           <% end %>
