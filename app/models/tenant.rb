@@ -5,6 +5,7 @@ class Tenant < ApplicationRecord
   has_many :users
   has_many :landings
   has_many :schools, dependent: :destroy
+  has_many :categories, through: :schools
   has_many :players, dependent: :destroy
 
   before_validation :set_default_parent, on: :create
