@@ -85,6 +85,7 @@ module ApplicationHelper
               { label: "Jugadores", icon: "icon-Commit", path: players_path },
               { label: "Entrenadores", icon: "icon-Commit", path: coaches_path },
               { label: "Asistentes", icon: "icon-Commit", path: assistants_path },
+              { label: "Eventos", icon: "icon-Commit", path: events_path },
             ]  
           }
         ]

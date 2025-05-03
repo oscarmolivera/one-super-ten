@@ -150,3 +150,26 @@ CoachProfile.all.each do |coach_profile|
     AssistantAssignment.create!(coach: coach, assistant: assistant)
   end
 end
+
+events = [
+  { title: "Amistoso vs Águilas", event_type: :friendly, allow_reinforcements: true },
+  { title: "Torneo Estatal Sub14", event_type: :tournament, external_organizer: true, organizer_name: "Federación Regional" },
+  { title: "Partido de práctica", event_type: :match }
+]
+
+coach = Role.all.where(name: 'coach', tenant: academia).last.users.last
+
+events.each do |attrs|
+  event = Event.create!(
+    school: fcampo,
+    coach: coach,
+    tenant: academia,
+    description: "#{attrs[:title]} en cancha sintética",
+    start_time: Time.now + rand(1..10).days,
+    end_time: Time.now + rand(11..15).days,
+    location_name: "Estadio Olímpico",
+    location_address: "Calle Fútbol, Caracas",
+    **attrs
+  )
+  event.categories << [cat_fs9a, cat_hm9a].sample
+end
