@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_05_03_181637) do
+ActiveRecord::Schema[8.0].define(version: 2025_05_04_221057) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -256,6 +256,19 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_03_181637) do
     t.index ["tenant_id"], name: "index_schools_on_tenant_id"
   end
 
+  create_table "sites", force: :cascade do |t|
+    t.bigint "school_id", null: false
+    t.string "name", null: false
+    t.string "address"
+    t.string "city"
+    t.string "map_url"
+    t.integer "capacity"
+    t.text "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["school_id"], name: "index_sites_on_school_id"
+  end
+
   create_table "solid_cache_entries", force: :cascade do |t|
     t.binary "key", null: false
     t.binary "value", null: false
@@ -297,6 +310,34 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_03_181637) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["tenant_id"], name: "index_tournaments_on_tenant_id"
+  end
+
+  create_table "training_attendances", force: :cascade do |t|
+    t.bigint "training_session_id", null: false
+    t.bigint "player_id", null: false
+    t.string "status", default: "present", null: false
+    t.text "notes"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["player_id"], name: "index_training_attendances_on_player_id"
+    t.index ["training_session_id", "player_id"], name: "index_training_attendance_on_session_and_player", unique: true
+    t.index ["training_session_id"], name: "index_training_attendances_on_training_session_id"
+  end
+
+  create_table "training_sessions", force: :cascade do |t|
+    t.bigint "category_id", null: false
+    t.bigint "coach_id", null: false
+    t.bigint "site_id"
+    t.datetime "scheduled_at", null: false
+    t.integer "duration_minutes"
+    t.text "objectives"
+    t.text "activities"
+    t.text "notes"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["category_id"], name: "index_training_sessions_on_category_id"
+    t.index ["coach_id"], name: "index_training_sessions_on_coach_id"
+    t.index ["site_id"], name: "index_training_sessions_on_site_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -356,9 +397,15 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_03_181637) do
   add_foreign_key "players", "users"
   add_foreign_key "roles", "tenants"
   add_foreign_key "schools", "tenants"
+  add_foreign_key "sites", "schools"
   add_foreign_key "tenants", "tenants", column: "parent_tenant_id"
   add_foreign_key "tournament_categories", "categories"
   add_foreign_key "tournament_categories", "tournaments"
   add_foreign_key "tournaments", "tenants"
+  add_foreign_key "training_attendances", "players"
+  add_foreign_key "training_attendances", "training_sessions"
+  add_foreign_key "training_sessions", "categories"
+  add_foreign_key "training_sessions", "sites"
+  add_foreign_key "training_sessions", "users", column: "coach_id"
   add_foreign_key "users", "tenants"
 end

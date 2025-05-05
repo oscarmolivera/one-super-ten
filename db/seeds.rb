@@ -17,10 +17,13 @@ fsala = School.create!(tenant: academia, name:'Futbol Sala', description: 'Escue
 emas = School.create!(tenant: deportivo, name:'Escuela Masculina', description: 'Futbol Campo de Varones')
 efem = School.create!(tenant: deportivo, name:'Escuela Femenina', description: 'Futbol Campo de Mujeres')
 
+cat_fs8a = Category.create!(tenant: academia, school: fsala, name: 'Categoria Sub 9', description: 'Niños o niñas con 7 o 8 años')
 cat_fs9a = Category.create!(tenant: academia, school: fsala, name: 'Categoria Sub 10', description: 'Niños o niñas con 8 o 9 años')
+cat_fc8a = Category.create!(tenant: academia, school: fcampo, name: 'Categoria Sub 9', description: 'Niños o niñas con 7 o 8 años')
 cat_fc9a = Category.create!(tenant: academia, school: fcampo, name: 'Categoria Sub 10', description: 'Niños o niñas con 8 o 9 años')
 cat_vr9a = Category.create!(tenant: deportivo, school: emas, name: 'Categoria Sub 10', description: 'Varones menores de 10 años')
 cat_hm9a = Category.create!(tenant: deportivo, school: efem, name: 'Categoria Sub 10', description: 'Hembras menores de 10 años')
+categorias = [cat_fc8a, cat_fs8a, cat_fs9a, cat_hm9a]
 
 su = User.create!(email: "admin@nubbe.net", password: "s3cret.", first_name: "Super Admin", last_name: "Nubbe.Net", tenant: root_tenant)
 ta_aca =User.create!(email: "admin@academia.com", password: "s3cret.", first_name: "Luis", last_name: "TenantAdmin", tenant: academia)
@@ -169,16 +172,30 @@ events.each do |attrs|
     location_address: "Calle Fútbol, Caracas",
     **attrs
   )
-  event.categories << [cat_fs9a, cat_hm9a].sample
+  event.categories << categorias.sample
 end
 
-Tournament.create!(
-  tenant: academia,
-  name: "Summer Cup 2025",
-  description: "Annual youth soccer tournament.",
-  start_date: Date.today + 1.month,
-  end_date: Date.today + 1.month + 7.days,
-  public: true,
-  status: :published,
-  categories: [cat_fc9a, cat_vr9a]
+Site.create!(
+  school_id: fcampo.id,
+  name: 'Pozo Viejo',
+  address: 'Av Principal Pozo Viejo',
+  city: 'Porlamar',
+  map_url: '',
+  capacity: 150,
+  description: 'Una descripcion del sitio'
 )
+10.times do |i|
+  category = categorias.sample
+  coach = User.with_role(:coach, category.tenant).first
+
+  TrainingSession.create!(
+    category: category,
+    coach: coach,
+    site: Site.first,
+    scheduled_at: 2.days.from_now,
+    duration_minutes: 90,
+    objectives: "#{i} - Improve passing and stamina",
+    activities: "#{i} -Warm-up, cone drills, 5v5 mini-game",
+    notes: "#{i} - All players must bring water"
+  )
+end

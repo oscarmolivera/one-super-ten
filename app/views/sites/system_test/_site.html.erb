@@ -1,0 +1,38 @@
+<div class="container mt-4">
+  <h1>Sedes</h1>
+
+  <%= link_to "Nueva Sede", new_site_path, class: "btn btn-primary mb-3" %>
+
+  <div class="card">
+    <div class="card-body">
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Dirección</th>
+            <th>Ciudad</th>
+            <th>Capacidad</th>
+            <th>Description</th>
+            <th>Escuela</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @sites.each do |site| %>
+            <tr>
+              <td><%= site.name %></td>
+              <td><%= site.address %></td>
+              <td><%= site.city %></td>
+              <td><%= site.capacity %></td>
+              <td><%= site.description %></td>
+              <td><%= School.find(site.school_id).name %></td>
+              <td>
+                <%= link_to "Edit", edit_site_path(site), class: "btn btn-sm btn-warning" %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

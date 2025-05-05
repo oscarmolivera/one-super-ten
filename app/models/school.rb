@@ -5,6 +5,7 @@ class School < ApplicationRecord
   has_many :categories, dependent: :destroy
   has_many :player_schools, dependent: :destroy
   has_many :players, through: :player_schools
+  has_many :sites
 
   validates :name, presence: true
 end

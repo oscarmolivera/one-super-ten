@@ -32,6 +32,7 @@ Rails.application.routes.draw do
       resources :categories do
         resources :matches, only: [:index]
         resources :call_ups, only: [:index, :new]
+        resources :training_sessions, only: [:index]
       end
       resources :players
       resources :tournaments
@@ -57,6 +58,10 @@ Rails.application.routes.draw do
       get 'assistants/:id/edit', to: 'assistants#edit', as: :edit_assistant
       patch 'assistants/:id', to: 'assistants#update', as: :assistant
 
+      resources :sites
+      resources :training_sessions do
+        resources :training_attendances, only: [:index, :new, :create, :edit, :update]
+      end
     end
   end
 

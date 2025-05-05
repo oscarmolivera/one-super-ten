@@ -1,0 +1,27 @@
+<div class="wrapper">
+  <div id="loader"></div>
+
+  <header class="main-header">
+    <%= render 'shared/dashboard/main_header' %>
+  </header>
+
+  <aside class="main-sidebar left-side-section bg-dark text-white">
+    <%= render 'shared/dashboard/main_sidebar' %>
+  </aside>
+
+  <div class="content-wrapper big-side-section">
+    <div class="container mt-4">
+      <h2>Editar Asistencia de <%= @attendance.player.full_name %></h2>
+      <%= render 'training_attendances/system_test/form', attendance: @attendance%>
+    </div>
+  </div>
+
+  <footer class="main-footer">
+    <%= render 'shared/dashboard/main_footer' %>
+  </footer>
+
+  <aside class="control-sidebar">
+    <%= render 'shared/dashboard/control_sidebar' %>
+  </aside>
+</div>
+
