@@ -1,0 +1,47 @@
+<div class="container mt-4">
+  <h1>Sesiones de Entrenamientos | Categoría " <%= "#{@category.name}" %> "</h1>
+
+  <%= link_to "Nueva Sesión", new_training_session_path, class: "btn btn-primary mb-3" %>
+
+  <div class="card">
+    <div class="card-body">
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th>Categoría</th>
+            <th>Entrenador</th>
+            <th>Sitio</th>
+            <th>Fecha</th>
+            <th>Duración</th>
+            <th>Objetivos</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @training_sessions.each do |session| %>
+            <tr>
+              <td><%= session.category&.name %></td>
+              <td><%= session.coach&.full_name || "Sin asignar" %></td>
+              <td>
+                <% if session.site.present? %>
+                  <%= session.site.name %><br>
+                  <small class="text-muted"><%= session.site.address %></small>
+                <% else %>
+                  <em>No asignado</em>
+                <% end %>
+              </td>
+              <td><%= l(session.scheduled_at, format: :short) %></td>
+              <td><%= session.duration_minutes %> min</td>
+              <td><%= truncate(session.objectives, length: 50) %></td>
+              <td>
+                <%= link_to "Asistencia", training_session_training_attendances_path(session), class: "btn btn-sm btn-info" %>
+                <%= link_to "Editar", edit_training_session_path(session), class: "btn btn-sm btn-warning" %>
+                <%= link_to "Eliminar", training_session_path(session), method: :delete, data: { confirm: "¿Seguro?" }, class: "btn btn-sm btn-danger" %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
