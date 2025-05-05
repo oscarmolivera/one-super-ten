@@ -18,6 +18,22 @@ class CallUpsController < ApplicationController
     end
   end
 
+  def edit
+    authorize :call_up, :index?
+    @call_up = CallUp.find(params[:id])
+    @category_players = @call_up.category.players
+  end
+
+  def update
+    authorize :call_up, :index?
+    @call_up = CallUp.find(params[:id])
+    if @call_up.update(call_up_params)
+      redirect_to match_path(@call_up.match), notice: "CallUp updated with new players."
+    else
+      render :edit, status: :unprocessable_entity
+    end
+  end
+
   private
 
   def call_up_params

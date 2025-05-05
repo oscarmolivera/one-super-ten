@@ -31,13 +31,14 @@ Rails.application.routes.draw do
       resources :schools
       resources :categories do
         resources :matches, only: [:index]
-        resources :call_ups, only: [:index, :new]
+        resources :call_ups, only: [:index, :new, :edit, :update ]
         resources :training_sessions, only: [:index]
       end
       resources :players
       resources :tournaments
-      resources :call_ups, only: [:new, :create]
+      resources :call_ups, only: [:new, :create, :edit, :update]
       resources :matches, only: [:new, :create, :show, :index, :update] do
+        resources :line_ups, only: [:index, :new, :create, :edit, :update ]
         patch :update_performances, on: :member
       end
       resources :coaches do
