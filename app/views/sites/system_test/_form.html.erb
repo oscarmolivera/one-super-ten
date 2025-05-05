@@ -1,0 +1,37 @@
+<div class="container mt-4">
+  <h1><%= action_name == "new" ? "New School" : "Edit School" %></h1>
+
+<%= form_with(model: site) do |f| %>
+<div>
+  <%= f.label :school_id, "School" %>
+  <%= f.collection_select :school_id, @schools, :id, :name, prompt: "Select a school" %>
+</div>
+
+  <div>
+    <%= f.label :name %>
+    <%= f.text_field :name %>
+  </div>
+
+  <div>
+    <%= f.label :address %>
+    <%= f.text_field :address %>
+  </div>
+
+  <div>
+    <%= f.label :city %>
+    <%= f.text_field :city %>
+  </div>
+
+  <div>
+    <%= f.label :capacity %>
+    <%= f.number_field :capacity %>
+  </div>
+
+  <div>
+    <%= f.label :description %>
+    <%= f.text_area :description %>
+  </div>
+
+  <%= f.submit %>
+<% end %>
+</div>
