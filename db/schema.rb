@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_05_04_221057) do
+ActiveRecord::Schema[8.0].define(version: 2025_05_05_155451) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -166,6 +166,19 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_04_221057) do
     t.index ["tenant_id"], name: "index_landings_on_tenant_id"
   end
 
+  create_table "line_ups", force: :cascade do |t|
+    t.bigint "match_id", null: false
+    t.bigint "call_up_player_id", null: false
+    t.integer "role", default: 0, null: false
+    t.string "position", null: false
+    t.integer "jersey_number"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["call_up_player_id"], name: "index_line_ups_on_call_up_player_id"
+    t.index ["match_id", "call_up_player_id"], name: "index_line_ups_on_match_id_and_call_up_player_id", unique: true
+    t.index ["match_id"], name: "index_line_ups_on_match_id"
+  end
+
   create_table "match_performances", force: :cascade do |t|
     t.bigint "match_id", null: false
     t.bigint "player_id", null: false
@@ -213,7 +226,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_04_221057) do
     t.bigint "tenant_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "category_id"
     t.string "first_name", null: false
     t.string "last_name", null: false
     t.string "full_name"
@@ -229,7 +241,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_04_221057) do
     t.text "bio"
     t.text "notes"
     t.bigint "user_id"
-    t.index ["category_id"], name: "index_players_on_category_id"
     t.index ["email"], name: "index_players_on_email"
     t.index ["tenant_id"], name: "index_players_on_tenant_id"
     t.index ["user_id"], name: "index_players_on_user_id"
@@ -387,12 +398,13 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_04_221057) do
   add_foreign_key "events", "tenants"
   add_foreign_key "events", "users", column: "coach_id"
   add_foreign_key "landings", "tenants"
+  add_foreign_key "line_ups", "call_up_players"
+  add_foreign_key "line_ups", "matches"
   add_foreign_key "match_performances", "matches"
   add_foreign_key "match_performances", "players"
   add_foreign_key "matches", "tournaments"
   add_foreign_key "player_schools", "players"
   add_foreign_key "player_schools", "schools"
-  add_foreign_key "players", "categories"
   add_foreign_key "players", "tenants"
   add_foreign_key "players", "users"
   add_foreign_key "roles", "tenants"

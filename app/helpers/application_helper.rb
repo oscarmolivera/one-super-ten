@@ -87,9 +87,7 @@ module ApplicationHelper
               { label: "Asistentes", icon: "icon-Commit", path: assistants_path },
               { label: "Eventos", icon: "icon-Commit", path: events_path },
               { label: "Torneos", icon: "icon-Commit", path: tournaments_path },
-              { label: "Sedes", icon: "icon-Commit", path: sites_path },
-              { label: "Entrenamientos", icon: "icon-Commit", path: training_sessions_path },
-              { label: "Asistencia", icon: "icon-Commit", path: training_sessions_path },
+              { label: "Sedes", icon: "icon-Commit", path: sites_path }
             ]  
           }
         ]

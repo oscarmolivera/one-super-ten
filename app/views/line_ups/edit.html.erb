@@ -10,9 +10,11 @@
   </aside>
 
   <div class="content-wrapper big-side-section">
-    <%= render 'call_ups/system_test/form', call_up: call_up %> 
+    <h2>Edit LineUp</h2>
+    <%= render 'line_ups/system_test/form' %> 
+    <%= link_to "Back to Match", match_path(@match), class: "btn btn-secondary mt-3" %>
   </div>
-  
+
   <footer class="main-footer">
     <%= render 'shared/dashboard/main_footer' %>
   </footer>

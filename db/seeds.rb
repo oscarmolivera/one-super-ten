@@ -72,14 +72,14 @@ first_names = %w[Lucas Mateo Santiago Diego Gabriel Daniel Sebastian Tomas Nicol
 last_names = %w[Rodriguez Gonzalez Hernandez Ramirez Diaz Torres Martinez Romero Alvarez Ruiz]
 
 # Create demo Players
-20.times do
+160.times do
   tenant = tenants.sample
   school = tenant.schools.sample
   category = school.categories.sample
   first_name = first_names.sample
   last_name = last_names.sample
   birthday = Date.new(rand(2007..2019), rand(1..12), rand(1..28))
-  position = %w[Delantero Mediocampista Defensa Guardameta].sample
+  position = %w[delantero mediocampo defensa portero].sample
   email = "#{Faker::Internet.email}"
 
   user = User.create!(
@@ -89,8 +89,11 @@ last_names = %w[Rodriguez Gonzalez Hernandez Ramirez Diaz Torres Martinez Romero
     first_name: first_name,
     last_name: last_name,
   )
-
+  
   user.add_role(:player, tenant)
+
+  dice = [true, true, true, false, true, true, true, true, true, true]
+  usuario_id = user.id if dice.sample
 
   player = Player.create!(
     tenant_id: tenant.id,
@@ -99,9 +102,8 @@ last_names = %w[Rodriguez Gonzalez Hernandez Ramirez Diaz Torres Martinez Romero
     last_name: last_name,
     date_of_birth: birthday,
     position: position,
-    category_id: category.id,
     is_active: true,
-    user_id: user.id
+    user_id: usuario_id
   )
 
   PlayerSchool.find_or_create_by!(player: player, school: school)

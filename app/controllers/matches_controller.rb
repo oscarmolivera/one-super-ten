@@ -11,6 +11,7 @@ class MatchesController < ApplicationController
 
   def show
     authorize :match, :index?
+    @line_ups = @match.line_ups.includes(call_up_player: :player)
   end
 
   def update_performances
