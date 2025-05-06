@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_05_06_203206) do
+ActiveRecord::Schema[8.0].define(version: 2025_05_06_220558) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -154,6 +154,18 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_06_203206) do
     t.index ["coach_id"], name: "index_events_on_coach_id"
     t.index ["school_id"], name: "index_events_on_school_id"
     t.index ["tenant_id"], name: "index_events_on_tenant_id"
+  end
+
+  create_table "exonerations", force: :cascade do |t|
+    t.bigint "tenant_id", null: false
+    t.bigint "player_id", null: false
+    t.date "start_date", null: false
+    t.date "end_date", null: false
+    t.text "reason"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["player_id"], name: "index_exonerations_on_player_id"
+    t.index ["tenant_id"], name: "index_exonerations_on_tenant_id"
   end
 
   create_table "expenses", force: :cascade do |t|
@@ -477,6 +489,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_06_203206) do
   add_foreign_key "events", "schools"
   add_foreign_key "events", "tenants"
   add_foreign_key "events", "users", column: "coach_id"
+  add_foreign_key "exonerations", "players"
+  add_foreign_key "exonerations", "tenants"
   add_foreign_key "expenses", "tenants"
   add_foreign_key "expenses", "users", column: "author_id"
   add_foreign_key "incomes", "tenants"

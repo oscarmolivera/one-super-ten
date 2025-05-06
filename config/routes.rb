@@ -67,6 +67,7 @@ Rails.application.routes.draw do
       resources :publications
       resources :incomes
       resources :expenses
+      resources :exonerations
     end
   end
 
