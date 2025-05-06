@@ -89,7 +89,8 @@ module ApplicationHelper
               { label: "Torneos", icon: "icon-Commit", path: tournaments_path },
               { label: "Sedes", icon: "icon-Commit", path: sites_path },
               { label: "Publicaciones", icon: "icon-Commit", path: publications_path },
-              { label: "Incomes", icon: "icon-Commit", path: incomes_path },
+              { label: "Ingresos", icon: "icon-Commit", path: incomes_path },
+              { label: "Gastos", icon: "icon-Commit", path: expenses_path },
             ]  
           }
         ]

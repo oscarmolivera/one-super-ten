@@ -1,0 +1,14 @@
+<h1><%= @expense.title %></h1>
+
+<p><strong>Description:</strong> <%= @expense.description %></p>
+<p><strong>Amount:</strong> <%= number_to_currency(@expense.amount) %></p>
+<p><strong>Type:</strong> <%= @expense.expense_type.humanize %></p>
+<p><strong>Date:</strong> <%= l(@expense.spent_on) %></p>
+<p><strong>Author:</strong> <%= @expense.author.full_name %></p>
+
+<% if @expense.expensable.present? %>
+  <p><strong>Related to:</strong> <%= link_to @expense.expensable_type, polymorphic_path(@expense.expensable) %></p>
+<% end %>
+
+<%= link_to 'Edit', edit_expense_path(@expense), class: "btn btn-warning" %>
+<%= link_to 'Back', expenses_path, class: "btn btn-secondary" %>

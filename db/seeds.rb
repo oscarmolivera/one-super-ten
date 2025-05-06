@@ -214,3 +214,4 @@ MatchReport.create!(
   reported_at: Time.zone.now
 )
 load Rails.root.join("db/seeds/incomes.rb")
+load Rails.root.join("db/seeds/expenses.rb")

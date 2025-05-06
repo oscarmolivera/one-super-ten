@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_05_06_151521) do
+ActiveRecord::Schema[8.0].define(version: 2025_05_06_203206) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -154,6 +154,25 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_06_151521) do
     t.index ["coach_id"], name: "index_events_on_coach_id"
     t.index ["school_id"], name: "index_events_on_school_id"
     t.index ["tenant_id"], name: "index_events_on_tenant_id"
+  end
+
+  create_table "expenses", force: :cascade do |t|
+    t.bigint "tenant_id", null: false
+    t.bigint "author_id", null: false
+    t.string "title", null: false
+    t.text "description"
+    t.decimal "amount", precision: 12, scale: 2, null: false
+    t.date "spent_on", null: false
+    t.string "expense_type", null: false
+    t.string "payment_method"
+    t.string "reference_code"
+    t.string "expensable_type"
+    t.bigint "expensable_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["author_id"], name: "index_expenses_on_author_id"
+    t.index ["expensable_type", "expensable_id"], name: "index_expenses_on_expensable"
+    t.index ["tenant_id"], name: "index_expenses_on_tenant_id"
   end
 
   create_table "incomes", force: :cascade do |t|
@@ -458,6 +477,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_06_151521) do
   add_foreign_key "events", "schools"
   add_foreign_key "events", "tenants"
   add_foreign_key "events", "users", column: "coach_id"
+  add_foreign_key "expenses", "tenants"
+  add_foreign_key "expenses", "users", column: "author_id"
   add_foreign_key "incomes", "tenants"
   add_foreign_key "landings", "tenants"
   add_foreign_key "line_ups", "call_up_players"
