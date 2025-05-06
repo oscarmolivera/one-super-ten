@@ -1,0 +1,41 @@
+<!-- app/views/players/show.html.erb -->
+
+<h1><%= @player.full_name %></h1>
+
+<p>
+  <strong>Status de exoneración actual:</strong>
+  <% if @player.exonerated_for? %>
+    <span class="badge bg-success">Exonerado</span>
+  <% else %>
+    <span class="badge bg-danger">Debe pagar</span>
+  <% end %>
+</p>
+
+<% if @player.exonerations.any? %>
+  <h3>Historial de exoneraciones</h3>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Inicio</th>
+        <th>Fin</th>
+        <th>Motivo</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @player.exonerations.each do |ex| %>
+        <tr>
+          <td><%= ex.start_date %></td>
+          <td><%= ex.end_date %></td>
+          <td><%= ex.reason %></td>
+          <td>
+            <%= link_to 'Editar', edit_exoneration_path(ex), class: "btn btn-sm btn-primary" %>
+            <%= link_to 'Eliminar', exoneration_path(ex), method: :delete, data: { confirm: "¿Seguro?" }, class: "btn btn-sm btn-danger" %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>
+
+<%= link_to 'Exonerar Jugador', new_exoneration_path(player_id: @player.id), class: "btn btn-success mt-2" %>

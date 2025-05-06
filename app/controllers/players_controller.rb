@@ -11,6 +11,7 @@ class PlayersController < ApplicationController
 
   def show
     authorize :player, :index?
+    @player = Player.includes(:exonerations).find(params[:id])
   end
 
   def new

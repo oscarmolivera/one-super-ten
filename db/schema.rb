@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_05_05_155451) do
+ActiveRecord::Schema[8.0].define(version: 2025_05_06_220558) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -156,6 +156,54 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_05_155451) do
     t.index ["tenant_id"], name: "index_events_on_tenant_id"
   end
 
+  create_table "exonerations", force: :cascade do |t|
+    t.bigint "tenant_id", null: false
+    t.bigint "player_id", null: false
+    t.date "start_date", null: false
+    t.date "end_date", null: false
+    t.text "reason"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["player_id"], name: "index_exonerations_on_player_id"
+    t.index ["tenant_id"], name: "index_exonerations_on_tenant_id"
+  end
+
+  create_table "expenses", force: :cascade do |t|
+    t.bigint "tenant_id", null: false
+    t.bigint "author_id", null: false
+    t.string "title", null: false
+    t.text "description"
+    t.decimal "amount", precision: 12, scale: 2, null: false
+    t.date "spent_on", null: false
+    t.string "expense_type", null: false
+    t.string "payment_method"
+    t.string "reference_code"
+    t.string "expensable_type"
+    t.bigint "expensable_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["author_id"], name: "index_expenses_on_author_id"
+    t.index ["expensable_type", "expensable_id"], name: "index_expenses_on_expensable"
+    t.index ["tenant_id"], name: "index_expenses_on_tenant_id"
+  end
+
+  create_table "incomes", force: :cascade do |t|
+    t.bigint "tenant_id", null: false
+    t.string "source_type"
+    t.bigint "source_id"
+    t.string "title", null: false
+    t.text "description"
+    t.decimal "amount", precision: 10, scale: 2, null: false
+    t.string "currency", default: "USD"
+    t.string "tag"
+    t.datetime "received_at", null: false
+    t.string "income_type", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["source_type", "source_id"], name: "index_incomes_on_source"
+    t.index ["tenant_id"], name: "index_incomes_on_tenant_id"
+  end
+
   create_table "landings", force: :cascade do |t|
     t.string "title"
     t.text "description"
@@ -192,6 +240,23 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_05_155451) do
     t.datetime "updated_at", null: false
     t.index ["match_id"], name: "index_match_performances_on_match_id"
     t.index ["player_id"], name: "index_match_performances_on_player_id"
+  end
+
+  create_table "match_reports", force: :cascade do |t|
+    t.bigint "tenant_id", null: false
+    t.bigint "match_id", null: false
+    t.bigint "user_id", null: false
+    t.string "author_role"
+    t.text "general_observations"
+    t.text "incidents"
+    t.text "team_claims"
+    t.text "final_notes"
+    t.datetime "reported_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["match_id"], name: "index_match_reports_on_match_id"
+    t.index ["tenant_id"], name: "index_match_reports_on_tenant_id"
+    t.index ["user_id"], name: "index_match_reports_on_user_id"
   end
 
   create_table "matches", force: :cascade do |t|
@@ -244,6 +309,33 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_05_155451) do
     t.index ["email"], name: "index_players_on_email"
     t.index ["tenant_id"], name: "index_players_on_tenant_id"
     t.index ["user_id"], name: "index_players_on_user_id"
+  end
+
+  create_table "publication_targets", force: :cascade do |t|
+    t.bigint "publication_id", null: false
+    t.bigint "user_id", null: false
+    t.boolean "read", default: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["publication_id"], name: "index_publication_targets_on_publication_id"
+    t.index ["user_id"], name: "index_publication_targets_on_user_id"
+  end
+
+  create_table "publications", force: :cascade do |t|
+    t.bigint "tenant_id", null: false
+    t.bigint "author_id", null: false
+    t.bigint "category_id"
+    t.string "title", null: false
+    t.text "body", null: false
+    t.string "visibility", default: "all", null: false
+    t.boolean "pinned", default: false
+    t.datetime "published_at"
+    t.datetime "expires_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["author_id"], name: "index_publications_on_author_id"
+    t.index ["category_id"], name: "index_publications_on_category_id"
+    t.index ["tenant_id"], name: "index_publications_on_tenant_id"
   end
 
   create_table "roles", force: :cascade do |t|
@@ -397,16 +489,29 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_05_155451) do
   add_foreign_key "events", "schools"
   add_foreign_key "events", "tenants"
   add_foreign_key "events", "users", column: "coach_id"
+  add_foreign_key "exonerations", "players"
+  add_foreign_key "exonerations", "tenants"
+  add_foreign_key "expenses", "tenants"
+  add_foreign_key "expenses", "users", column: "author_id"
+  add_foreign_key "incomes", "tenants"
   add_foreign_key "landings", "tenants"
   add_foreign_key "line_ups", "call_up_players"
   add_foreign_key "line_ups", "matches"
   add_foreign_key "match_performances", "matches"
   add_foreign_key "match_performances", "players"
+  add_foreign_key "match_reports", "matches"
+  add_foreign_key "match_reports", "tenants"
+  add_foreign_key "match_reports", "users"
   add_foreign_key "matches", "tournaments"
   add_foreign_key "player_schools", "players"
   add_foreign_key "player_schools", "schools"
   add_foreign_key "players", "tenants"
   add_foreign_key "players", "users"
+  add_foreign_key "publication_targets", "publications"
+  add_foreign_key "publication_targets", "users"
+  add_foreign_key "publications", "categories"
+  add_foreign_key "publications", "tenants"
+  add_foreign_key "publications", "users", column: "author_id"
   add_foreign_key "roles", "tenants"
   add_foreign_key "schools", "tenants"
   add_foreign_key "sites", "schools"
