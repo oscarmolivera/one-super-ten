@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_05_06_124447) do
+ActiveRecord::Schema[8.0].define(version: 2025_05_06_143126) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -263,6 +263,33 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_06_124447) do
     t.index ["user_id"], name: "index_players_on_user_id"
   end
 
+  create_table "publication_targets", force: :cascade do |t|
+    t.bigint "publication_id", null: false
+    t.bigint "user_id", null: false
+    t.boolean "read", default: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["publication_id"], name: "index_publication_targets_on_publication_id"
+    t.index ["user_id"], name: "index_publication_targets_on_user_id"
+  end
+
+  create_table "publications", force: :cascade do |t|
+    t.bigint "tenant_id", null: false
+    t.bigint "author_id", null: false
+    t.bigint "category_id"
+    t.string "title", null: false
+    t.text "body", null: false
+    t.string "visibility", default: "all", null: false
+    t.boolean "pinned", default: false
+    t.datetime "published_at"
+    t.datetime "expires_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["author_id"], name: "index_publications_on_author_id"
+    t.index ["category_id"], name: "index_publications_on_category_id"
+    t.index ["tenant_id"], name: "index_publications_on_tenant_id"
+  end
+
   create_table "roles", force: :cascade do |t|
     t.string "name"
     t.string "resource_type"
@@ -427,6 +454,11 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_06_124447) do
   add_foreign_key "player_schools", "schools"
   add_foreign_key "players", "tenants"
   add_foreign_key "players", "users"
+  add_foreign_key "publication_targets", "publications"
+  add_foreign_key "publication_targets", "users"
+  add_foreign_key "publications", "categories"
+  add_foreign_key "publications", "tenants"
+  add_foreign_key "publications", "users", column: "author_id"
   add_foreign_key "roles", "tenants"
   add_foreign_key "schools", "tenants"
   add_foreign_key "sites", "schools"
