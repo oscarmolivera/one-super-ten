@@ -1,0 +1,28 @@
+<h2>Match Reports for <%= @match.opponent_name %></h2>
+
+<%= link_to 'New Report', new_match_match_report_path(@match), class: 'btn btn-primary' %>
+
+<table class="table mt-3">
+  <thead>
+    <tr>
+      <th>Author</th>
+      <th>Role</th>
+      <th>Reported At</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @match_reports.each do |report| %>
+      <tr>
+        <td><%= report.user.full_name %></td>
+        <td><%= report.author_role.titleize %></td>
+        <td><%= l(report.reported_at, format: :short) %></td>
+        <td>
+          <%= link_to 'Show', match_match_report_path(@match, report), class: 'btn btn-sm btn-info' %>
+          <%= link_to 'Edit', edit_match_match_report_path(@match, report), class: 'btn btn-sm btn-warning' %>
+          <%= link_to 'Delete', match_match_report_path(@match, report), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-sm btn-danger' %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

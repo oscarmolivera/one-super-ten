@@ -201,3 +201,15 @@ Site.create!(
     notes: "#{i} - All players must bring water"
   )
 end
+
+MatchReport.create!(
+  tenant: academy,
+  match: Match.first,
+  user:  CoachProfile.first.user,
+  author_role: :coach,
+  general_observations: "Game was played under fair weather. Good discipline.",
+  incidents: "Minor altercation at 45'. Yellow card to #9.",
+  team_claims: "Home team claimed an offside was missed.",
+  final_notes: "Game concluded without major issues.",
+  reported_at: Time.zone.now
+)

@@ -1,0 +1,13 @@
+<h3>Match Report</h3>
+
+<p><strong>Author:</strong> <%= @match_report.user.full_name %></p>
+<p><strong>Role:</strong> <%= @match_report.author_role.titleize %></p>
+<p><strong>Reported At:</strong> <%= l(@match_report.reported_at, format: :long) %></p>
+
+<hr>
+
+<p><strong>General Observations:</strong><br><%= simple_format(@match_report.general_observations) %></p>
+<p><strong>Incidents:</strong><br><%= simple_format(@match_report.incidents) %></p>
+<p><strong>Team Claims:</strong><br><%= simple_format(@match_report.team_claims) %></p>
+<p><strong>Final Notes:</strong><br><%= simple_format(@match_report.final_notes) %></p>
+

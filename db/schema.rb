@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_05_05_155451) do
+ActiveRecord::Schema[8.0].define(version: 2025_05_06_124447) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -192,6 +192,23 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_05_155451) do
     t.datetime "updated_at", null: false
     t.index ["match_id"], name: "index_match_performances_on_match_id"
     t.index ["player_id"], name: "index_match_performances_on_player_id"
+  end
+
+  create_table "match_reports", force: :cascade do |t|
+    t.bigint "tenant_id", null: false
+    t.bigint "match_id", null: false
+    t.bigint "user_id", null: false
+    t.string "author_role"
+    t.text "general_observations"
+    t.text "incidents"
+    t.text "team_claims"
+    t.text "final_notes"
+    t.datetime "reported_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["match_id"], name: "index_match_reports_on_match_id"
+    t.index ["tenant_id"], name: "index_match_reports_on_tenant_id"
+    t.index ["user_id"], name: "index_match_reports_on_user_id"
   end
 
   create_table "matches", force: :cascade do |t|
@@ -402,6 +419,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_05_155451) do
   add_foreign_key "line_ups", "matches"
   add_foreign_key "match_performances", "matches"
   add_foreign_key "match_performances", "players"
+  add_foreign_key "match_reports", "matches"
+  add_foreign_key "match_reports", "tenants"
+  add_foreign_key "match_reports", "users"
   add_foreign_key "matches", "tournaments"
   add_foreign_key "player_schools", "players"
   add_foreign_key "player_schools", "schools"

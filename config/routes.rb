@@ -39,6 +39,7 @@ Rails.application.routes.draw do
       resources :call_ups, only: [:new, :create, :edit, :update]
       resources :matches, only: [:new, :create, :show, :index, :update] do
         resources :line_ups, only: [:index, :new, :create, :edit, :update ]
+        resources :match_reports
         patch :update_performances, on: :member
       end
       resources :coaches do
