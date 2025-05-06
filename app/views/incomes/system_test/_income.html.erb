@@ -1,0 +1,30 @@
+<h1>Ingresos</h1>
+
+<%= link_to "Nuevo Ingreso", new_income_path, class: "btn btn-primary mb-3" %>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Título</th>
+      <th>Tipo</th>
+      <th>Monto</th>
+      <th>Fecha</th>
+      <th>Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @incomes.each do |income| %>
+      <tr>
+        <td><%= income.title %></td>
+        <td><%= income.income_type.humanize %></td>
+        <td><%= number_to_currency(income.amount, unit: income.currency) %></td>
+        <td><%= l(income.received_at) %></td>
+        <td>
+          <%= link_to "Ver", income_path(income), class: "btn btn-sm btn-outline-info" %>
+          <%= link_to "Editar", edit_income_path(income), class: "btn btn-sm btn-outline-warning" %>
+          <%= link_to "Eliminar", income_path(income), method: :delete, data: { confirm: "¿Estás seguro?" }, class: "btn btn-sm btn-outline-danger" %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

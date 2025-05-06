@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_05_06_143126) do
+ActiveRecord::Schema[8.0].define(version: 2025_05_06_151521) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -154,6 +154,23 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_06_143126) do
     t.index ["coach_id"], name: "index_events_on_coach_id"
     t.index ["school_id"], name: "index_events_on_school_id"
     t.index ["tenant_id"], name: "index_events_on_tenant_id"
+  end
+
+  create_table "incomes", force: :cascade do |t|
+    t.bigint "tenant_id", null: false
+    t.string "source_type"
+    t.bigint "source_id"
+    t.string "title", null: false
+    t.text "description"
+    t.decimal "amount", precision: 10, scale: 2, null: false
+    t.string "currency", default: "USD"
+    t.string "tag"
+    t.datetime "received_at", null: false
+    t.string "income_type", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["source_type", "source_id"], name: "index_incomes_on_source"
+    t.index ["tenant_id"], name: "index_incomes_on_tenant_id"
   end
 
   create_table "landings", force: :cascade do |t|
@@ -441,6 +458,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_06_143126) do
   add_foreign_key "events", "schools"
   add_foreign_key "events", "tenants"
   add_foreign_key "events", "users", column: "coach_id"
+  add_foreign_key "incomes", "tenants"
   add_foreign_key "landings", "tenants"
   add_foreign_key "line_ups", "call_up_players"
   add_foreign_key "line_ups", "matches"

@@ -213,3 +213,4 @@ MatchReport.create!(
   final_notes: "Game concluded without major issues.",
   reported_at: Time.zone.now
 )
+load Rails.root.join("db/seeds/incomes.rb")

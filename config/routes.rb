@@ -65,6 +65,7 @@ Rails.application.routes.draw do
         resources :training_attendances, only: [:index, :new, :create, :edit, :update]
       end
       resources :publications
+      resources :incomes
     end
   end
 
