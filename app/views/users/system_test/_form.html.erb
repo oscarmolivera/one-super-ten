@@ -1,0 +1,64 @@
+<%= form_with(model: user, local: true) do |f| %>
+  <% if user.errors.any? %>
+    <div class="alert alert-danger">
+      <h4><%= pluralize(user.errors.count, "error") %> prohibited this user from being saved:</h4>
+      <ul>
+        <% user.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="mb-3">
+    <%= f.label :email %>
+    <%= f.email_field :email, class: "form-control", required: true %>
+  </div>
+
+  <div class="mb-3">
+    <%= f.label :first_name %>
+    <%= f.text_field :first_name, class: "form-control", required: true %>
+  </div>
+
+  <div class="mb-3">
+    <%= f.label :last_name %>
+    <%= f.text_field :last_name, class: "form-control", required: true %>
+  </div>
+
+  <% if f.object.new_record? %>
+    <div class="mb-3">
+      <%= f.label :password %>
+      <%= f.password_field :password, class: "form-control", required: true %>
+    </div>
+
+    <div class="mb-3">
+      <%= f.label :password_confirmation %>
+      <%= f.password_field :password_confirmation, class: "form-control", required: true %>
+    </div>
+  <% end %>
+
+  <div class="mb-3">
+    <%= f.label :roles %>
+    <%= f.select :role_names, ActsAsTenant.current_tenant.roles.pluck(:name), {}, class: "form-control" %>
+  </div>
+
+  <div class="mb-3">
+    <%= f.label :categories, "Assign to Categories (if Team Assistant)" %>
+    <%= f.collection_select :category_ids, Category.all, :id, :name, {}, {class: "form-control" } %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit class: "btn btn-primary" %>
+    <%= link_to "Back", users_path, class: "btn btn-outline-secondary" %>
+
+  </div>
+<% end %>
+
+<% if policy(CategoryTeamAssistant).create? %>
+  <%= form_with model: @category_team_assistant do |f| %>
+    <%= f.hidden_field :user_id, value: @user.id %>
+    <%= f.collection_select :user_id, User.with_role(:team_assistant), :id, :full_name %>
+    <%= f.collection_select :category_id, Category.all, :id, :name %>
+    <%= f.submit "Assign Team Assistant" %>
+  <% end %>
+<% end %>
