@@ -19,6 +19,9 @@ class User < ApplicationRecord
   has_many :coaches, through: :coach_assignments, source: :coach
   has_many :authored_publications, class_name: "Publication", foreign_key: :author_id, dependent: :nullify
 
+    has_many :category_team_assistants
+    has_many :assigned_categories, through: :category_team_assistants, source: :category
+
   # Helper scopes
   scope :coaches, -> { with_role(:coach) }
 

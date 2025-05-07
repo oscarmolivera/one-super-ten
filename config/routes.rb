@@ -68,6 +68,8 @@ Rails.application.routes.draw do
       resources :incomes
       resources :expenses
       resources :exonerations
+      resources :users
+      resources :category_team_assistants, only: [:new, :create, :destroy]
     end
   end
 

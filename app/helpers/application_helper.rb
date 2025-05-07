@@ -91,6 +91,7 @@ module ApplicationHelper
               { label: "Publicaciones", icon: "icon-Commit", path: publications_path },
               { label: "Ingresos", icon: "icon-Commit", path: incomes_path },
               { label: "Gastos", icon: "icon-Commit", path: expenses_path },
+              { label: "Usuarios", icon: "icon-Commit", path: users_path },
             ]  
           }
         ]
