@@ -42,12 +42,6 @@
             </div>
 
             <div class="col-md-6">
-              <%= form.label :category_id, "Categoria" %>
-              <%= form.select :category_id, options_from_collection_for_select(Category.all, :id, :name), { prompt: "Select a Category" }, 
-                              class: "form-control", data: { school_select_target: "category" } %>
-            </div>
-
-            <div class="col-md-6">
               <%= form.label :first_name, class: 'form-label' %>
               <%= form.text_field :first_name, class: 'form-control' %>
             </div>

@@ -41,7 +41,7 @@ class ExonerationsController < ApplicationController
   end
 
   def authorize_exoneration
-    authorize(@exoneration || Exoneration)
+    authorize :exoneration, :index?
   end
 
   def exoneration_params
