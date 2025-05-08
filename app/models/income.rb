@@ -13,4 +13,5 @@ class Income < ApplicationRecord
   }
 
   validates :title, :amount, :income_type, :received_at, presence: true
+  encrypts :title, :description, :tag
 end

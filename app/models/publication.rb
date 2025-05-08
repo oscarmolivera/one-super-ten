@@ -16,4 +16,6 @@ class Publication < ApplicationRecord
   }
 
   validates :title, :body, :visibility, presence: true
+
+  encrypts :title, :body
 end

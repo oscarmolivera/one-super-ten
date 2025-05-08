@@ -1,5 +1,5 @@
 require 'faker'
-
+puts "Seeding tenants..."
 ActiveRecord::Base.connection.execute <<-SQL
   INSERT INTO tenants (name, subdomain, created_at, updated_at, parent_tenant_id)
   VALUES ('Main Tenant', 'main', '#{Time.current}', '#{Time.current}', NULL),
@@ -10,21 +10,23 @@ SQL
 root_tenant = Tenant.find_by(subdomain: "main")
 academia = Tenant.find_by(subdomain: "academia-margarita")
 deportivo = Tenant.find_by(subdomain: "deportivo-margarita")
-tenants = [academia, deportivo]
 
+puts "Seeding Schools..."
 fcampo = School.create!(tenant: academia, name:'Futbol Campo', description: 'Escuela de Valores')
 fsala = School.create!(tenant: academia, name:'Futbol Sala', description: 'Escuela de Valores')
-emas = School.create!(tenant: deportivo, name:'Escuela Masculina', description: 'Futbol Campo de Varones')
+emas= School.create!(tenant: deportivo, name:'Escuela Masculina', description: 'Futbol Campo de Varones')
 efem = School.create!(tenant: deportivo, name:'Escuela Femenina', description: 'Futbol Campo de Mujeres')
 
+puts "Seeding Categories..."
 cat_fs8a = Category.create!(tenant: academia, school: fsala, name: 'Categoria Sub 9', description: 'Niños o niñas con 7 o 8 años')
 cat_fs9a = Category.create!(tenant: academia, school: fsala, name: 'Categoria Sub 10', description: 'Niños o niñas con 8 o 9 años')
 cat_fc8a = Category.create!(tenant: academia, school: fcampo, name: 'Categoria Sub 9', description: 'Niños o niñas con 7 o 8 años')
-cat_fc9a = Category.create!(tenant: academia, school: fcampo, name: 'Categoria Sub 10', description: 'Niños o niñas con 8 o 9 años')
-cat_vr9a = Category.create!(tenant: deportivo, school: emas, name: 'Categoria Sub 10', description: 'Varones menores de 10 años')
-cat_hm9a = Category.create!(tenant: deportivo, school: efem, name: 'Categoria Sub 10', description: 'Hembras menores de 10 años')
-categorias = [cat_fc8a, cat_fs8a, cat_fs9a, cat_hm9a]
+cat_fc9a = Category.create!(tenant: academia, school: fcampo, name: 'Categoria Sub 9', description: 'Niños o niñas con 7 o 8 años')
+cat_hm9a = Category.create!(tenant: deportivo, school: emas, name: 'Categoria Sub 10', description: 'Hombres menores de 10 años')
+cat_mj9a = Category.create!(tenant: deportivo, school: efem, name: 'Categoria Sub 10', description: 'Hembras menores de 10 años')
+categorias = [cat_fs8a, cat_fc8a, cat_fs9a, cat_fc9a, cat_hm9a, cat_mj9a]
 
+puts "Seeding USers..."
 su = User.create!(email: "admin@nubbe.net", password: "s3cret.", first_name: "Super Admin", last_name: "Nubbe.Net", tenant: root_tenant)
 ta_aca =User.create!(email: "admin@academia.com", password: "s3cret.", first_name: "Luis", last_name: "TenantAdmin", tenant: academia)
 ta_dep = User.create!(email: "admin@deportivo.com", password: "s3cret.", first_name: "Gilberto", last_name: "TenantAdmin", tenant: deportivo)
@@ -38,6 +40,7 @@ td_aca =User.create!(email: "delegado1@academy1.com", password: "s3cret.", first
 td_dep =User.create!(email: "delegado1@academy2.com", password: "s3cret.", first_name: "Josefa", last_name: "Delegado", tenant: deportivo)
 
 
+puts "Seeding Roles..."
 # SuperAdmin for Tenants  
 Role.find_or_create_by(name: :super_admin, resource: root_tenant, tenant: su.tenant)
 
@@ -68,49 +71,9 @@ ju_dep.add_role(:player, deportivo)
 td_aca.add_role(:team_assistant, academia)
 td_dep.add_role(:team_assistant, deportivo)
 
-first_names = %w[Lucas Mateo Santiago Diego Gabriel Daniel Sebastian Tomas Nicolas Benjamin]
-last_names = %w[Rodriguez Gonzalez Hernandez Ramirez Diaz Torres Martinez Romero Alvarez Ruiz]
+load Rails.root.join("db/seeds/players.rb")
 
-# Create demo Players
-160.times do
-  tenant = tenants.sample
-  school = tenant.schools.sample
-  category = school.categories.sample
-  first_name = first_names.sample
-  last_name = last_names.sample
-  birthday = Date.new(rand(2007..2019), rand(1..12), rand(1..28))
-  position = %w[delantero mediocampo defensa portero].sample
-  email = "#{Faker::Internet.email}"
-
-  user = User.create!(
-    email: email,
-    password: 's3cret.',
-    tenant_id: tenant.id,
-    first_name: first_name,
-    last_name: last_name,
-  )
-  
-  user.add_role(:player, tenant)
-
-  dice = [true, true, true, false, true, true, true, true, true, true]
-  usuario_id = user.id if dice.sample
-
-  player = Player.create!(
-    tenant_id: tenant.id,
-    email: email,
-    first_name: first_name,
-    last_name: last_name,
-    date_of_birth: birthday,
-    position: position,
-    is_active: true,
-    user_id: usuario_id
-  )
-
-  PlayerSchool.find_or_create_by!(player: player, school: school)
-  CategoryPlayer.find_or_create_by!(player: player, category: category)
-  
-end
-
+puts "Seeding Coachs..."
 # Create demo Coaches
 10.times do |i|
   coach_name = Faker::Name.first_name_men
@@ -154,6 +117,7 @@ CoachProfile.all.each do |coach_profile|
   end
 end
 
+puts "Seeding Events..."
 events = [
   { title: "Amistoso vs Águilas", event_type: :friendly, allow_reinforcements: true },
   { title: "Torneo Estatal Sub14", event_type: :tournament, external_organizer: true, organizer_name: "Federación Regional" },
@@ -177,6 +141,7 @@ events.each do |attrs|
   event.categories << categorias.sample
 end
 
+puts "Seeding Sites..."
 Site.create!(
   school_id: fcampo.id,
   name: 'Pozo Viejo',
@@ -186,6 +151,8 @@ Site.create!(
   capacity: 150,
   description: 'Una descripcion del sitio'
 )
+
+puts "Seeding Training Sessions..."
 10.times do |i|
   category = categorias.sample
   coach = User.with_role(:coach, category.tenant).first
@@ -202,8 +169,10 @@ Site.create!(
   )
 end
 
+load Rails.root.join("db/seeds/matches-n-callups.rb")
+
 MatchReport.create!(
-  tenant: academy,
+  tenant: academia,
   match: Match.first,
   user:  CoachProfile.first.user,
   author_role: :coach,
@@ -213,5 +182,9 @@ MatchReport.create!(
   final_notes: "Game concluded without major issues.",
   reported_at: Time.zone.now
 )
+
+puts "Seeding Incomes..."
 load Rails.root.join("db/seeds/incomes.rb")
+
+puts "Seeding Expenses..."
 load Rails.root.join("db/seeds/expenses.rb")
