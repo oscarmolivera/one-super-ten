@@ -10,4 +10,5 @@ class MatchReport < ApplicationRecord
   validates :author_role, presence: true
   validates :general_observations, length: { maximum: 2000 }
   validates :reported_at, presence: true
+  encrypts :general_observations, :incidents, :team_claims, :final_notes
 end

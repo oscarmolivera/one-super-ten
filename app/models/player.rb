@@ -17,6 +17,7 @@ class Player < ApplicationRecord
   enum :dominant_side, {izquierdo: 'izquierdo', derecho: 'derecho', ambos: 'ambos'}
   enum :position, {portero: 'portero', mediocampo: 'mediocampo', lateral: 'lateral', defensa: 'defensa', delantero: 'delantero'  }
 
+  encrypts :first_name, :last_name, :email, :nationality, :document_number, :address, :bio, :notes
 
 
   def full_name

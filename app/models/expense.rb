@@ -18,4 +18,5 @@ class Expense < ApplicationRecord
   validates :amount, numericality: { greater_than: 0 }
 
   scope :recent, -> { order(spent_on: :desc) }
+  encrypts :title, :description, :reference_code, :payment_method
 end
