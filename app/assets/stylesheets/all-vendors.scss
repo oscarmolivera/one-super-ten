@@ -22,5 +22,5 @@
 @use './vendor/weather-icons';
 @use './vendor/iconmind';
 @use './vendor/icostyle';
-@import "vendor/fullcalendar";
-@import "vendor/actiontext";
+@use "vendor/fullcalendar";
+@use "vendor/actiontext";
