@@ -10,6 +10,7 @@ class Player < ApplicationRecord
   has_many :category_players, dependent: :destroy
   has_many :categories, through: :category_players
   has_many :exonerations, dependent: :destroy
+  has_many :match_performances, dependent: :destroy
 
   validates :first_name, :last_name, presence: true
 

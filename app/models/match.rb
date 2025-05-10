@@ -7,6 +7,7 @@ class Match < ApplicationRecord
   has_many :categories, through: :call_ups
   has_many :line_ups, dependent: :destroy
   has_many :match_reports, dependent: :destroy
+  has_many :match_performances, dependent: :destroy
 
   enum :match_type, { friendly: 0, tournament: 1 }
 

@@ -2,10 +2,12 @@ class CallUp < ApplicationRecord
   acts_as_tenant(:tenant)
 
   belongs_to :category
-  belongs_to :match, optional: true
+  belongs_to :match, touch: true, optional: true
   
   has_many :call_up_players, dependent: :destroy
   has_many :players, through: :call_up_players
+
+  has_many :line_ups, through: :call_up_players, dependent: :destroy
 
   enum :status, { draft: 0, finalized: 1, notified: 2, completed: 3 }
   
