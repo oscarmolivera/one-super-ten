@@ -5,6 +5,7 @@ gem "acts_as_tenant", "~> 1.0"
 gem "bootsnap", require: false
 gem "cssbundling-rails"
 gem "devise", "~> 4.9"
+gem 'faker'
 gem "jbuilder"
 gem "jsbundling-rails"
 gem "kamal", require: false
@@ -29,7 +30,6 @@ group :development, :test do
   gem "brakeman", require: false
   gem 'bullet'
   gem 'debug'
-  gem 'faker'
   gem 'meta_request'
   gem 'net-pop', '~> 0.1.2'
   gem 'net-protocol', '~> 0.2.2'

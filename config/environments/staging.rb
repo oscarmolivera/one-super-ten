@@ -73,6 +73,8 @@ config.active_job.verbose_enqueue_logs = true
   # Require master key for encrypted credentials
   config.require_master_key = true
   config.force_ssl = true
+  config.active_record.encryption.encrypt_fixtures = true
+  config.active_record.encryption.log_on_unencrypted_access = :warn
 
   if ENV["APP_DOMAIN"].present?
     domain = ENV["APP_DOMAIN"].gsub(".", '\.')
