@@ -1,0 +1,47 @@
+Entities:
+  CATEGORIA:
+    desc: "un grupo de jugadores agrupados por año de nacimiento *Equipo*"
+  JUGADOR:
+    desc: "Un usuario o no de la aplicacion que forma una categoria"
+  REFUERZO:
+    desc: "Un jugador invitado de otra categoria para participar en un torneo o partido determinado"
+  ENTRENADOR:
+    desc: "Un usuario de la aplicacion y que tiene a su cargo una o mas categorias, es responsable de los entrenamientos semanales y la alineacion de los partidos"
+  ENTRENAMIENTO:
+    desc: "un plan de ejecicios y actividades realizadas por una categoria a cargo de su entrenador"
+  ALINEACION:
+    desc: "Un grupo de jugadores convocados de una categoria con su posicion en cacha para el partido"
+  POSICION:
+    desc: "Es el espacio donde el jugador se va a desempeñar en un partido"
+  PARTIDO:
+    desc: "Evento en donde la alineacion se enfrenta a otra alineacion y que puede pertenecer a un torneo o ser amistoso"
+  DELEGADO:
+    desc: "Un usuario de la app con rol de 'delegado' y que es un asistente con funciones y responsabilidades de una categoria"
+  ASISTENTE:
+    desc: "Un usuario de la app con rol de 'asistente' y que es un asistente para un 'entrenador' con funciones y responsabilidades de una categoria"
+  TORNEO:
+    desc: "Es un evento con un numero determinado de partidos en los cuales una categoria se enfrentará a su misma categoria de otras academias por un premio"
+  ACTA:
+    desc: "Documento redactado sobre un partido determinado con obsevaciones"
+  CONVOCATORIA:
+    desc: "Acto de llamado a un jugador a integrarse a un partido"
+  PUBLICACION:
+    desc: "Una notificacion que se realiza dentro de la aplication para usuarios de la misma"
+  SEDE:
+    desc: "Un lugar fisico donde se realizan practicas o partidos"
+  INGRESO:
+    desc: "Cualquier recibimiento de dinero hacia la academia desde multiples personas"
+  Egreso:
+    desc: "Cualquier salida de dinero desde la academia desde multiples personas"
+  MESUALIDAD:
+    desc: "Cantidad de dinero que un representate debe pagar para que su representado este incrito durante el mes en la academia"
+  EXONERADO:
+    desc: "Estado de un jugador inscrito en la academia que lo exime de pagar la mensualidad por un tiempo determinado"
+  SERVICIO:
+    desc: "Utilidad que recibe la academia por mantenerla funcionando y que se cancela por periodos o unicos"
+  EMPLEADO:
+    desc: "Usuario de la aplicacion con un rol o no en la academia y que se le cancela un sueldo por ello"
+  SPONSORS:
+    desc: "Una persoja juridica que hace aportes a la academia a cambio o no de un bebeficio"
+  BENEFICIO:
+    desc: "Una actividad que la academia se compromente a realizar por un aporte realizado"

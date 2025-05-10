@@ -1,0 +1,48 @@
+<%= form_with(model: expense) do |f| %>
+  <div class="mb-3">
+    <%= f.label :title %>
+    <%= f.text_field :title, class: "form-control" %>
+  </div>
+
+  <div class="mb-3">
+    <%= f.label :description %>
+    <%= f.text_area :description, class: "form-control" %>
+  </div>
+
+  <div class="mb-3">
+    <%= f.label :amount %>
+    <%= f.number_field :amount, step: 0.01, class: "form-control" %>
+  </div>
+
+  <div class="mb-3">
+    <%= f.label :spent_on %>
+    <%= f.date_field :spent_on, class: "form-control" %>
+  </div>
+
+  <div class="mb-3">
+    <%= f.label :expense_type %>
+    <%= f.select :expense_type, Expense.expense_types.keys.map { |type| [type.humanize, type] }, {}, class: "form-control" %>
+  </div>
+
+  <div class="mb-3">
+    <%= f.label :payment_method %>
+    <%= f.text_field :payment_method, class: "form-control" %>
+  </div>
+
+  <div class="mb-3">
+    <%= f.label :reference_code %>
+    <%= f.text_field :reference_code, class: "form-control" %>
+  </div>
+
+  <div class="mb-3">
+    <%= f.label :expensable_type %>
+    <%= f.text_field :expensable_type, class: "form-control" %>
+  </div>
+
+  <div class="mb-3">
+    <%= f.label :expensable_id %>
+    <%= f.number_field :expensable_id, class: "form-control" %>
+  </div>
+
+  <%= f.submit class: "btn btn-success" %>
+<% end %>

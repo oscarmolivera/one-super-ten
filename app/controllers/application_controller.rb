@@ -29,6 +29,10 @@ class ApplicationController < ActionController::Base
     redirect_to main_root_path, alert: "Access Denied" unless current_user&.super_admin?
   end
 
+  def keepalive
+    head :ok
+  end
+
   private
 
   def ensure_tenant_user

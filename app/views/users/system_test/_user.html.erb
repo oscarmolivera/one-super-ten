@@ -1,0 +1,29 @@
+<h1>User List</h1>
+<%= link_to "➕ New User", new_user_path, class: "btn btn-success mb-3" %>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Nombre</th>
+      <th>Apellido</th>
+      <th>Email</th>
+      <th>Rol</th>
+      <th>Estatus</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @users.each do |user| %>
+      <tr>
+        <td><%= user.first_name %></td>
+        <td><%= user.last_name %></td>
+        <td><%= user.email %></td>
+        <td><%= user.role_name %></td>
+        <td><%= 1 %></td>
+        <td>
+          <%= link_to "Edit", edit_user_path(user), class: "btn btn-sm btn-outline-primary" %>
+          <%= link_to "Report", users_path, class: "btn btn-sm btn-info" %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

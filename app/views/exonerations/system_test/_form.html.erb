@@ -1,0 +1,23 @@
+<div class="container mt-4">
+  <h2>Exonerar Jugador</h2>
+  <%= form_with model: exoneration, local: true do |form| %>
+    <%= form.hidden_field :player_id, value: @player&.id || exoneration.player_id %>
+
+    <div class="mb-3">
+      <%= form.label :start_date, "Desde" %>
+      <%= form.date_field :start_date, class: "form-control" %>
+    </div>
+
+    <div class="mb-3">
+      <%= form.label :end_date, "Hasta" %>
+      <%= form.date_field :end_date, class: "form-control" %>
+    </div>
+
+    <div class="mb-3">
+      <%= form.label :reason, "Motivo" %>
+      <%= form.text_area :reason, class: "form-control" %>
+    </div>
+
+    <%= form.submit class: "btn btn-primary" %>
+  <% end %>
+</div>

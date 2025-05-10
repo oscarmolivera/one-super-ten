@@ -1,0 +1,10 @@
+<h1><%= @income.title %></h1>
+
+<p><strong>Tipo:</strong> <%= @income.income_type.humanize %></p>
+<p><strong>Monto:</strong> <%= number_to_currency(@income.amount, unit: @income.currency) %></p>
+<p><strong>Fecha:</strong> <%= l(@income.received_at) %></p>
+<p><strong>Descripción:</strong> <%= @income.description %></p>
+<p><strong>Etiqueta:</strong> <%= @income.tag %></p>
+
+<%= link_to "Editar", edit_income_path(@income), class: "btn btn-outline-warning" %>
+<%= link_to "Volver", incomes_path, class: "btn btn-outline-secondary" %>

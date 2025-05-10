@@ -1,0 +1,41 @@
+<div class="container mt-4">
+  <h1><%= action_name == "new" ? "New School" : "Edit School" %></h1>
+  <%= form_with model: [@match, @match_report], local: true do |f| %>
+    <div class="mb-3">
+      <%= f.label :author_role %>
+      <%= f.select :author_role, MatchReport.author_roles.keys.map { |r| [r.titleize, r] }, {}, class: "form-control" %>
+    </div>
+
+    <div class="mb-3">
+      <%= f.label :general_observations %>
+      <%= f.text_area :general_observations, class: "form-control", rows: 3 %>
+    </div>
+
+    <div class="mb-3">
+      <%= f.label :incidents %>
+      <%= f.text_area :incidents, class: "form-control", rows: 3 %>
+    </div>
+
+    <div class="mb-3">
+      <%= f.label :team_claims %>
+      <%= f.text_area :team_claims, class: "form-control", rows: 3 %>
+    </div>
+
+    <div class="mb-3">
+      <%= f.label :final_notes %>
+      <%= f.text_area :final_notes, class: "form-control", rows: 3 %>
+    </div>
+
+    <div class="mb-3">
+      <%= f.label :reported_at %>
+      <%= f.datetime_select :reported_at, class: "form-control" %>
+    </div>
+
+    <div class="mb-3">
+      <%= f.label :attachments %>
+      <%= f.file_field :attachments, multiple: true, class: "form-control" %>
+    </div>
+
+    <%= f.submit class: "btn btn-success" %>
+  <% end %>
+</div>

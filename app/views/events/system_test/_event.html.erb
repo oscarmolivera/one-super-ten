@@ -1,0 +1,30 @@
+<div class="container mt-4">
+  <h2>Events</h2>
+  <%= link_to 'New Event', new_event_path, class: "btn btn-primary mb-3" %>
+  <table class="table table-bordered table-striped">
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>Type</th>
+        <th>Date</th>
+        <th>Categories</th>
+        <th>School</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @events.each do |event| %>
+        <tr>
+          <td><%= link_to event.title, event_path(event) %></td>
+          <td><%= event.event_type %></td>
+          <td><%= event.start_time.strftime("%d/%m/%Y") %></td>
+          <td><%= event.categories.map(&:name).join(", ") %></td>
+          <td><%= event.school&.name || "External" %></td>
+          <td>
+            <%= link_to 'Edit', edit_event_path(event), class: "btn btn-sm btn-secondary" %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

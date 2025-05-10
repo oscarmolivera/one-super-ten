@@ -28,7 +28,8 @@ group :development, :test do
   gem 'binding_of_caller'
   gem "brakeman", require: false
   gem 'bullet'
-  gem "debug"
+  gem 'debug'
+  gem 'faker'
   gem 'meta_request'
   gem 'net-pop', '~> 0.1.2'
   gem 'net-protocol', '~> 0.2.2'
@@ -45,3 +46,5 @@ group :staging, :production do
   gem "rails_12factor", "~> 0.0.3"
   gem 'rack-rewrite'
 end
+
+gem "image_processing", "~> 1.14"
