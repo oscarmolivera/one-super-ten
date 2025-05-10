@@ -1,0 +1,41 @@
+<h1>Coaches</h1>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Email</th>
+      <th>Hire Date</th>
+      <th>Salary</th>
+      <th>Assistants</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @coaches.each do |coach| %>
+      <tr>
+        <td><%= coach.first_name %> <%= coach.last_name %></td>
+        <td><%= coach.email %></td>
+        <td><%= coach.coach_profile&.hire_date %></td>
+        <td><%= number_to_currency(coach.coach_profile&.salary || 0) %></td>
+        <td>
+          <% if coach.assistants.any? %>
+            <ul class="list-unstyled mb-0">
+              <% coach.assistants.each do |assistant| %>
+                <li><%= assistant.full_name %></li>
+              <% end %>
+            </ul>
+          <% else %>
+            <em>No assistants assigned</em>
+          <% end %>
+        </td>
+        <td>
+          <%= link_to 'Edit', edit_coach_path(coach), class: "btn btn-sm btn-warning" %>
+          <%= link_to "Manage Assistants", assistants_coach_path(coach), class: "btn btn-info" %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= link_to 'New Coach', new_coach_path, class: "btn btn-success" %>

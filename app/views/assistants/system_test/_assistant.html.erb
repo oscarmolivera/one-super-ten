@@ -1,0 +1,49 @@
+<h1>Assistant Coaches</h1>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Email</th>
+      <th>Action</th>
+      <th>Assigned Coaches</th>
+      <th>Assign New Coach</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @assistants.each do |assistant| %>
+      <tr>
+        <td><%= assistant.full_name %></td>
+        <td><%= assistant.email %></td>
+        <td><%= link_to "Edit", edit_assistant_path(assistant), class: "btn btn-sm btn-warning me-2" %></td>
+        <td>
+          <% if assistant.coaches.any? %>
+            <ul class="list-unstyled">
+              <% assistant.coaches.each do |coach| %>
+                <li>
+                  <%= coach.full_name %>
+                  <%= button_to "Remove", remove_coach_from_assistant_path(assistant_id: assistant.id, coach_id: coach.id),
+                      method: :delete, class: "btn btn-sm btn-danger", data: { confirm: "Remove this coach?" } %>
+                </li>
+              <% end %>
+            </ul>
+          <% else %>
+            <em>No assigned coaches</em>
+          <% end %>
+        </td>
+        <td>
+          <%= form_with url: assign_coach_to_assistant_path, method: :post, local: true do |f| %>
+            <%= hidden_field_tag :assistant_id, assistant.id %>
+            <div class="input-group">
+              <%= select_tag :coach_id,
+                    options_from_collection_for_select(@coaches, :id, :full_name),
+                    prompt: "Select coach", class: "form-select" %>
+              <button class="btn btn-primary" type="submit">Assign</button>
+            </div>
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+

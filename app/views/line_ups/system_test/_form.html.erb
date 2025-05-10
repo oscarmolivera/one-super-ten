@@ -1,0 +1,24 @@
+<!-- app/views/line_ups/_form.html.erb -->
+<%= form_with(model: [@match, @line_up], local: true) do |f| %>
+  <div class="mb-3">
+    <%= f.label :call_up_player_id, "Player" %>
+    <%= f.collection_select :call_up_player_id, @call_up_players, :id, ->(cup) { cup.player.full_name }, prompt: "Select a player", class: "form-select" %>
+  </div>
+
+  <div class="mb-3">
+    <%= f.label :position %>
+    <%= f.text_field :position, class: "form-control" %>
+  </div>
+
+  <div class="mb-3">
+    <%= f.label :jersey_number %>
+    <%= f.number_field :jersey_number, class: "form-control" %>
+  </div>
+
+  <div class="mb-3">
+    <%= f.label :role %>
+    <%= f.select :role, LineUp.roles.keys.map { |r| [r.titleize, r] }, prompt: "Select role", class: "form-select" %>
+  </div>
+
+  <%= f.submit class: "btn btn-primary" %>
+<% end %>

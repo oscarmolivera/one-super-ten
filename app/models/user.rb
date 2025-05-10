@@ -6,6 +6,32 @@ class User < ApplicationRecord
   belongs_to :tenant
   acts_as_tenant(:tenant)
 
+  has_one :coach_profile, dependent: :destroy
+
+  has_many :coach_categories, foreign_key: :user_id, class_name: 'CategoryCoach'
+  has_many :categories, through: :coach_categories
+
+  # Assistant coaches (could be other Users with a special role or attribute)
+  has_many :assistant_assignments, foreign_key: :coach_id, class_name: 'AssistantAssignment', dependent: :destroy
+  has_many :assistants, through: :assistant_assignments, source: :assistant
+
+  has_many :coach_assignments, foreign_key: :assistant_id, class_name: 'AssistantAssignment', dependent: :destroy
+  has_many :coaches, through: :coach_assignments, source: :coach
+  has_many :authored_publications, class_name: "Publication", foreign_key: :author_id, dependent: :nullify
+
+    has_many :category_team_assistants
+    has_many :assigned_categories, through: :category_team_assistants, source: :category
+
+  # Helper scopes
+  scope :coaches, -> { with_role(:coach) }
+
+  # Optional
+  accepts_nested_attributes_for :coach_profile
+
+  def full_name
+    "#{first_name} #{last_name}"
+  end
+
   def can_view_schedules?
     is_role_tenant_admin?
   end

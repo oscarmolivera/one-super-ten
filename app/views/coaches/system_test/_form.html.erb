@@ -1,0 +1,40 @@
+<div class="container mt-4">
+  <h1><%= action_name == "new" ? "Nuevo Entrenador" : "Editar Entrenador" %></h1>
+
+<%= form_with model: @coach, url: @coach.persisted? ? coach_path(@coach) : coaches_path, method: @coach.persisted? ? :patch : :post, local: true do |form| %>
+  <div class="mb-3">
+    <%= form.label :first_name %>
+    <%= form.text_field :first_name, class: "form-control" %>
+  </div>
+
+  <div class="mb-3">
+    <%= form.label :last_name %>
+    <%= form.text_field :last_name, class: "form-control" %>
+  </div>
+
+  <div class="mb-3">
+    <%= form.label :email %>
+    <%= form.email_field :email, class: "form-control" %>
+  </div>
+
+  <div class="mb-3">
+    <%= form.label :password %>
+    <%= form.password_field :password, class: "form-control" %>
+  </div>
+
+  <h4>Coach Profile</h4>
+  <%= form.fields_for :coach_profile do |profile_form| %>
+    <div class="mb-3">
+      <%= profile_form.label :hire_date %>
+      <%= profile_form.date_field :hire_date, class: "form-control" %>
+    </div>
+
+    <div class="mb-3">
+      <%= profile_form.label :salary %>
+      <%= profile_form.number_field :salary, class: "form-control" %>
+    </div>
+  <% end %>
+
+  <%= form.submit class: "btn btn-primary" %>
+<% end %>
+</div>

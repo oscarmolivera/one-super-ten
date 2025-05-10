@@ -1,0 +1,46 @@
+<div class="container mt-4">
+  <h1><%= action_name == "new" ? "New School" : "Edit School" %></h1>
+  <%= form_with(model: training_session) do |f| %>
+    <div>
+      <%= f.label :category %>
+      <%= f.collection_select :category_id, Category.all, :id, :name %>
+    </div>
+
+    <div>
+      <%= f.label :coach %>
+      <%= f.collection_select :coach_id, User.with_role(:coach, ActsAsTenant.current_tenant), :id, :full_name %>
+    </div>
+
+    <div>
+      <%= f.label :site %>
+      <%= f.collection_select :site_id, Site.all, :id, :name, include_blank: true %>
+    </div>
+
+    <div>
+      <%= f.label :scheduled_at %>
+      <%= f.datetime_select :scheduled_at %>
+    </div>
+
+    <div>
+      <%= f.label :duration_minutes %>
+      <%= f.number_field :duration_minutes %>
+    </div>
+
+    <div>
+      <%= f.label :objectives %>
+      <%= f.text_area :objectives %>
+    </div>
+
+    <div>
+      <%= f.label :activities %>
+      <%= f.text_area :activities %>
+    </div>
+
+    <div>
+      <%= f.label :notes %>
+      <%= f.text_area :notes %>
+    </div>
+
+    <%= f.submit %>
+  <% end %>
+</div>

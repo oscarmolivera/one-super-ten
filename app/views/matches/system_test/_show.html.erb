@@ -1,0 +1,98 @@
+<h2>Match Details</h2>
+<p><strong>Opponent:</strong> <%= @match.opponent_name %></p>
+<p><strong>Location:</strong> <%= @match.location %></p>
+<p><strong>Scheduled At:</strong> <%= l(@match.scheduled_at, format: :long) %></p>
+<p><strong>Type:</strong> <%= @match.match_type.titleize %></p>
+
+<hr>
+
+<div class="row">
+  <!-- Left Column: CallUps -->
+  <div class="col-md-6">
+    <h3>CallUps</h3>
+
+    <% if @match.call_ups.any? %>
+      <% @match.call_ups.each do |call_up| %>
+        <div class="card mb-3">
+          <div class="card-header d-flex justify-content-between align-items-center">
+            <div>
+              <strong><%= call_up.name %></strong> —
+              <span class="badge <%= status_badge_class(call_up.status) %>"><%= call_up.status.titleize %></span>
+              <small class="text-muted ms-2"><%= l(call_up.call_up_date, format: :short) %></small>
+            </div>
+            <div>
+              <%= link_to "➕ Add Players", edit_call_up_path(call_up), class: "btn btn-sm btn-outline-secondary" %>
+            </div>
+          </div>
+
+          <div class="card-body">
+            <h6>Players Called:</h6>
+            <ul class="list-group list-group-flush">
+              <% call_up.call_up_players.includes(:player).each do |cup| %>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                  <%= cup.player.full_name %>
+                  <span class="badge bg-<%= cup.attendance == 'present' ? 'success' : (cup.attendance == 'absent' ? 'danger' : 'secondary') %>">
+                    <%= cup.attendance.titleize %>
+                  </span>
+                </li>
+              <% end %>
+            </ul>
+          </div>
+        </div>
+      <% end %>
+    <% else %>
+      <p>No CallUps assigned yet.</p>
+    <% end %>
+
+    <%= link_to "➕ New CallUp for this Match", new_call_up_path(match_id: @match.id), class: "btn btn-primary mt-3" %>
+  </div>
+
+  <!-- Right Column: LineUp HERE -->
+  <div class="col-md-6">
+    <h3>LineUp</h3>
+
+    <% last_call_up = @match.call_ups.last %>
+    <% if last_call_up.present? && last_call_up.call_up_players.any? %>
+      <% if @match.line_ups.any? %>
+        <div class="card mb-3">
+          <div class="card-header d-flex justify-content-between align-items-center">
+            <div>
+              <strong>Alineacion</strong> —
+              <span class="badge"> algo</span>
+              <small class="text-muted ms-2">small</small>
+            </div>
+            <div>
+              <%= link_to "➕ Add Players", edit_match_line_up_path(@match), class: "btn btn-sm btn-outline-secondary" %>
+            </div>
+          </div>
+          <div class="card-body">
+            <h6>Starters:</h6>
+            <ul class="list-group list-group-flush mb-3">
+              <% @match.line_ups.includes(call_up_player: :player).where(role: :starter).each do |lineup| %>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                  <%= lineup.player.full_name %> - <em><%= lineup.position %></em>
+                  <span class="badge bg-primary">#<%= lineup.jersey_number %></span>
+                </li>
+              <% end %>
+            </ul>
+
+            <h6>Bench:</h6>
+            <ul class="list-group list-group-flush">
+              <% @match.line_ups.includes(call_up_player: :player).where(role: :bench).each do |lineup| %>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                  <%= lineup.player.full_name %> - <em><%= lineup.position %></em>
+                  <span class="badge bg-secondary">#<%= lineup.jersey_number %></span>
+                </li>
+              <% end %>
+            </ul>
+          </div>
+        </div>
+      <% else %>
+        <p>No LineUp created yet for this match.</p>
+        <%= link_to "📝 Create LineUp", new_match_line_up_path(@match), class: "btn btn-outline-success" %>
+      <% end %>
+    <% else %>
+      <p>No players available from the last CallUp to create a LineUp.</p>
+    <% end %>
+  </div>
+</div>

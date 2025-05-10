@@ -12,3 +12,6 @@ import PerfectScrollbar from 'perfect-scrollbar'
 window.PerfectScrollbar = PerfectScrollbar
 import "./vendor/template"
 import "./vendor/custom"
+import "./vendor/calender"
+import "trix"
+import "@rails/actiontext"

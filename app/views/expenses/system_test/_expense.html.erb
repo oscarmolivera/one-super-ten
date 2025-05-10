@@ -1,0 +1,46 @@
+<h1>Expenses</h1>
+
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Amount</th>
+      <th>Type</th>
+      <th>Spent On</th>
+      <th>Author</th>
+      <th>Expensable</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @expenses.each do |expense| %>
+      <tr>
+        <td><%= link_to expense.title, expense %></td>
+        <td><%= number_to_currency(expense.amount) %></td>
+        <td><%= expense.expense_type.humanize %></td>
+        <td><%= l(expense.spent_on) %></td>
+        <td><%= expense.author.full_name %></td>
+        <td>
+          <% if expense.expensable.present? %>
+            <% case expense.expensable_type %>
+            <% when "Event" %>
+              <%= link_to "Event ##{expense.expensable_id}", event_path(expense.expensable) %>
+            <% when "User" %>
+              <%= "#{expense.expensable.full_name} (User)" %>
+            <% else %>
+              <%= "#{expense.expensable_type} ##{expense.expensable_id}" %>
+            <% end %>
+          <% else %>
+            –
+          <% end %>
+        </td>
+        <td>
+          <%= link_to 'Edit', edit_expense_path(expense), class: "btn btn-sm btn-warning" %>
+          <%= link_to 'Delete', expense_path(expense), method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-sm btn-danger" %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= link_to "New Expense", new_expense_path, class: "btn btn-primary" %>

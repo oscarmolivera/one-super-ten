@@ -1,0 +1,25 @@
+<div class="container mt-4">
+  <h1><%= action_name == "new" ? "New School" : "Edit School" %></h1>
+  <%= form_with(model: [@training_session, @attendance], local: true) do |f| %>
+    <div class="mb-3">
+      <%= f.label :player_id, "Jugador" %>
+      <%= f.collection_select :player_id, 
+            Player.joins(:category_players).where(category_players: { category_id: @training_session.category_id }),
+            :id, :full_name, prompt: "Selecciona un jugador", class: "form-select" %>
+    </div>
+
+    <div class="mb-3">
+      <%= f.label :status, "Estado de Asistencia" %>
+      <%= f.select :status, 
+            [["Presente", "present"], ["Ausente", "absent"], ["Tarde", "late"], ["Justificado", "excused"]],
+            {}, class: "form-select" %>
+    </div>
+
+    <div class="mb-3">
+      <%= f.label :notes, "Notas adicionales" %>
+      <%= f.text_area :notes, rows: 3, class: "form-control" %>
+    </div>
+
+    <%= f.submit class: "btn btn-success" %>
+  <% end %>
+</div>
