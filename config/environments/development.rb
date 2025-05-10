@@ -22,6 +22,7 @@ Rails.application.configure do
 
 
   config.cache_store = :solid_cache_store
+  config.action_controller.perform_caching = true
 
   config.session_store :cache_store,
                         key: '_one_super_ten_session',

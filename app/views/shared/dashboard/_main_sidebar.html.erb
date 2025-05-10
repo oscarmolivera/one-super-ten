@@ -1,5 +1,8 @@
 <!-- sidebar-->
 <section class="sidebar position-relative">
+  <% if user_signed_in? %>
+    <meta name="current-user" content="<%= current_user.id %>">
+  <% end %>
   <div class="multinav">
     <div class="multinav-scroll dark-skin ps" style="height: 100%;">
       <ul class="sidebar-menu" data-widget="tree">
