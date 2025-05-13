@@ -2,6 +2,7 @@ source "https://rubygems.org"
 ruby '3.2.3'
 
 gem "acts_as_tenant", "~> 1.0"
+gem "aws-sdk-s3", require: false
 gem "bootsnap", require: false
 gem "cssbundling-rails"
 gem "devise", "~> 4.9"

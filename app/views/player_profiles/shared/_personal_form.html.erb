@@ -137,6 +137,19 @@
       </div>
     </div>
     <div class="row">
+      <div class="col-md-12">
+        <div class="form-group">
+          <%= form.label :profile_picture, class: 'form-label' %>
+          <div class="input-group">
+            <div class="input-group-addon">
+              <i class="fas fa-hand-point-right"></i>
+            </div>
+            <%= form.file_field :profile_picture, class: "form-control" %>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
       <div class="col-md-6">
         <div class="form-group">
           <%= form.label :address, class: 'form-label' %>
