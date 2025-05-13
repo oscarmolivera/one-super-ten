@@ -34,7 +34,9 @@ Rails.application.routes.draw do
         resources :call_ups, only: [:index, :new, :edit, :update ]
         resources :training_sessions, only: [:index]
       end
-      resources :players
+      resources :players do
+        resource :player_profile, only: [:show, :edit, :update]
+      end
       resources :tournaments
       resources :call_ups, only: [:new, :create, :edit, :update]
       resources :matches, only: [:new, :create, :show, :index, :update] do

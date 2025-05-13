@@ -6,6 +6,7 @@ class User < ApplicationRecord
   belongs_to :tenant
   acts_as_tenant(:tenant)
 
+  has_one :player, dependent: :nullify
   has_one :coach_profile, dependent: :destroy
 
   has_many :coach_categories, foreign_key: :user_id, class_name: 'CategoryCoach'

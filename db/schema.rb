@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_05_07_114400) do
+ActiveRecord::Schema[8.0].define(version: 2025_05_10_222206) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -285,6 +285,20 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_07_114400) do
     t.index ["tournament_id"], name: "index_matches_on_tournament_id"
   end
 
+  create_table "player_profiles", force: :cascade do |t|
+    t.bigint "player_id", null: false
+    t.integer "jersey_number"
+    t.string "nickname"
+    t.jsonb "social_links", default: {}
+    t.text "internal_notes"
+    t.integer "status", default: 0, null: false
+    t.boolean "disciplinary_flag", default: false
+    t.integer "skill_rating"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["player_id"], name: "index_player_profiles_on_player_id", unique: true
+  end
+
   create_table "player_schools", force: :cascade do |t|
     t.bigint "player_id", null: false
     t.bigint "school_id", null: false
@@ -515,6 +529,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_07_114400) do
   add_foreign_key "match_reports", "tenants"
   add_foreign_key "match_reports", "users"
   add_foreign_key "matches", "tournaments"
+  add_foreign_key "player_profiles", "players"
   add_foreign_key "player_schools", "players"
   add_foreign_key "player_schools", "schools"
   add_foreign_key "players", "tenants"

@@ -1,0 +1,121 @@
+<div class="container-full">
+  <!-- Content Header -->	  
+  <div class="content-header">
+    <div class="d-flex align-items-center">
+      <div class="me-auto">
+        <h3 class="page-title">Perfil de Jugador.</h3>
+        <div class="d-inline-block align-items-center">
+          <nav>
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="#"><i class="mdi mdi-home-outline"></i></a></li>
+              <li class="breadcrumb-item" aria-current="page">Extra</li>
+              <li class="breadcrumb-item active" aria-current="page">Perfil</li>
+            </ol>
+          </nav>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+
+  <!-- Main content -->
+  <section class="content">
+    <div class="row">
+      <div class="col-12 col-lg-7 col-xl-8">
+        <div class="nav-tabs-custom">
+          <ul class="nav nav-tabs">
+            <li><a class="active" href="#activity" data-bs-toggle="tab">Informacion</a></li>
+            <li><a href="#usertimeline" data-bs-toggle="tab">Documentos</a></li>
+            <li><a href="#settings" data-bs-toggle="tab">Padres</a></li>
+          </ul>
+          <div class="tab-content">
+            <div class="active tab-pane" id="activity">			
+              <div class="box">
+                <div class="box-header with-border">
+                  <h4 class="box-title"><i class="ti-user me-15"></i> Personal Info</h4>
+                </div>
+                <%= render 'player_profiles/shared/personal_form'%>
+              </div>
+              <div class="box no-shadow">
+              </div>
+            </div>
+            <!-- /.tab-pane -->
+            <div class="tab-pane" id="settings">
+            </div>
+            <!-- /.tab-pane -->
+          </div>
+          <!-- /.tab-content -->
+        </div>
+        <!-- /.nav-tabs-custom -->
+      </div>
+      <div class="col-12 col-lg-5 col-xl-4">
+        <div class="box box-widget widget-user">
+        <!-- Add the bg color to the header using any of the bg-* classes -->
+        <div class="widget-user-header bg-img bbsr-0 bber-0" style="background: url('<%= asset_path("vendor/10.jpg") %>') center center;" data-overlay="5">
+          <h3 class="widget-user-username text-white"><%= @player.public_full_name %></h3>
+          <h6 class="widget-user-desc text-white"><%= @player.position.capitalize %></h6>
+        </div>
+        <div class="widget-user-image">
+          <%= image_tag 'vendor/user3-128.jpg', class: "rounded-circle", alt: 'User Avatar' %>
+        </div>
+        <div class="box-footer">
+          <div class="row">
+          <div class="col-sm-4">
+            <div class="description-block">
+            <h5 class="description-header"><%= @player.player_profile.jersey_number %></h5>
+            <span class="description-text">DORSAL</span>
+            </div>
+            <!-- /.description-block -->
+          </div>
+          <!-- /.col -->
+          <div class="col-sm-4 be-1 bs-1">
+            <div class="description-block">
+            <h5 class="description-header"><%= @player.age %></h5>
+            <span class="description-text">Años</span>
+            </div>
+            <!-- /.description-block -->
+          </div>
+          <!-- /.col -->
+          <div class="col-sm-4">
+            <div class="description-block">
+            <h5 class="description-header">Categoria</h5>
+            <span class="description-text"><%= @player.categories.first.name %></span>
+            </div>
+            <!-- /.description-block -->
+          </div>
+          <!-- /.col -->
+          </div>
+          <!-- /.row -->
+        </div>
+        </div>
+        <div class="box">
+          <div class="box-body">
+            <div class="flexbox align-items-baseline mb-20">
+              <h6 class="text-uppercase ls-2">Friends</h6>
+              <small>20</small>
+            </div>
+            <div class="gap-items-2 gap-y">
+              <a class="avatar" href="#">
+                <%= image_tag 'vendor/1.jpg', alt: '' %>
+              </a>
+              <a class="avatar" href="#">
+                <%= image_tag 'vendor/4.jpg', alt: '' %>
+              </a>
+              <a class="avatar" href="#">
+                <%= image_tag 'vendor/3.jpg', alt: '' %>
+              </a>
+              <a class="avatar" href="#">
+                <%= image_tag 'vendor/2.jpg', alt: '' %>
+              </a>
+              <a class="avatar avatar-more" href="#">+15</a>
+            </div>
+          </div>
+          <div class="box-footer">
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- /.row -->
+  </section>
+  <!-- /.content -->
+</div>
