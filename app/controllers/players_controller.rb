@@ -2,11 +2,10 @@ class PlayersController < ApplicationController
   before_action :authenticate_user!
   before_action :set_player, only: [:show, :edit, :update, :destroy]
   before_action :set_school, only: [:new, :edit, :update]
-  before_action :set_category, only: []
 
   def index
     authorize :player, :index?
-    @players = policy_scope(Player)
+    @players = policy_scope(Player).order(updated_at: :desc)
   end
 
   def show
@@ -23,9 +22,10 @@ class PlayersController < ApplicationController
     authorize :player, :index?
     @player = Player.new(player_params)
     if @player.save
-      redirect_to players_path, notice: "Player created successfully."
+      assign_school(@player)
+      redirect_to players_path, notice: 'Player created successfully.'
     else
-      render :new
+      render :new, status: :unprocessable_entity
     end
   end
 
@@ -36,9 +36,10 @@ class PlayersController < ApplicationController
   def update
     authorize :player, :index?
     if @player.update(player_params)
-      redirect_to players_path, notice: "Player updated successfully."
+      assign_school(@player)
+      redirect_to players_path, notice: 'Player updated successfully.'
     else
-      render :edit
+      render :edit, status: :unprocessable_entity
     end
   end
 
@@ -73,11 +74,20 @@ end
     @categories = @schools.categories
   end
 
+  def assign_school(player)
+    school_id = params[:school_id]
+    return if school_id.blank?
+
+    player.player_schools.destroy_all
+
+    player.player_schools.create(school_id: school_id)
+  end
+
   def player_params
     params.require(:player).permit(
-      :email, :tenant_id, :category_id, :first_name, :last_name, :full_name,
-      :date_of_birth, :gender, :nationality, :document_number, :profile_picture,
-      :dominant_side, :position, :address, :is_active, :bio, :notes, :user_id
+      :email, :tenant_id, :first_name, :last_name, :full_name, :date_of_birth, 
+      :gender, :nationality, :document_number, :profile_picture, :dominant_side, 
+      :position, :address, :is_active, :bio, :notes, :user_id
     )
   end
 end

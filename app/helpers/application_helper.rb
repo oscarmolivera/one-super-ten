@@ -347,6 +347,7 @@ module ApplicationHelper
             icon: "icon-Library",
             children: [
               { label: "Perfil", icon: "icon-Commit", path: player_player_profile_path(current_user.player) },
+              { label: "Player", icon: "icon-Commit", path: players_path },
               { label: "Mi Categoría (listado con perfil publico de jugadores con informacion delegado y entrenadores)", icon: "icon-Commit", path: "#" },
               { label: "Palmarés en perfil", icon: "icon-Commit", path: "#" },
               { label: "Album de fotos en perfil", icon: "icon-Commit", path: "#" },

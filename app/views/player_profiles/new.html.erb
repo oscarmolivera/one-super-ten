@@ -10,9 +10,7 @@
   </aside>
 
   <div class="content-wrapper big-side-section">
-    <h1>New Match</h1>
-    <%= render "matches/system_test/form", match: @match, category: @category %>
-    <%= link_to "Back to Category Matches", category_matches_path(params[:category_id]), class: "btn btn-link mt-3" %>
+    <%= render 'player_profiles/shared/form' %>
   </div>
 
   <footer class="main-footer">

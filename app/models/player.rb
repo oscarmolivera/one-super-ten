@@ -22,7 +22,7 @@ class Player < ApplicationRecord
   enum :gender, { hombre: 'hombre', mujer: 'mujer' }
   enum :dominant_side, {izquierdo: 'izquierdo', derecho: 'derecho', ambos: 'ambos'}
   enum :nationality, {venezolano: 'venezolano', extranjero: 'extranjero', nacionalizado: 'nacionalizado'}
-  enum :position, {portero: 'portero', mediocampo: 'mediocampo', lateral: 'lateral', defensa: 'defensa', delantero: 'delantero'  }
+  enum :position, {portero: 'portero', mediocampo: 'mediocampo', lateral: 'lateral', defensa: 'defensa', delantero: 'delantero', por_definir: 'por_definir'  }
 
   encrypts :first_name, :last_name, :email, :nationality, :document_number, :address, :bio, :notes
 

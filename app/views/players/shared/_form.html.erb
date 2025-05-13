@@ -9,7 +9,7 @@
     </div>
   <% end %>
   <div class="box-body">
-    <div class="row">
+    <div class="row"><!-- FirstName LastName DateOfBirth -->
       <div class="col-md-4">
         <div class="form-group">
           <%= form.label :first_name, class: 'form-label' %>
@@ -18,20 +18,10 @@
       </div>
       <div class="col-md-4">
         <div class="form-group">
-          <%= form.fields_for :player_profile do |profile_fields| %>
-            <%= profile_fields.label :nickname, class: 'form-label' %>
-            <%= profile_fields.text_field :nickname, class: 'form-control', placeholder: "Apodo" %>
-          <% end %>
-        </div>
-      </div>
-      <div class="col-md-4">
-        <div class="form-group">
           <%= form.label :last_name, class: 'form-label' %>
           <%= form.text_field :last_name, class: 'form-control', placeholder: "Apellido" %>
         </div>
-      </div>      
-    </div>
-    <div class="row">
+      </div>
       <div class="col-md-4">
         <div class="form-group">
             <%= form.label :date_of_birth, class: 'form-label' %>
@@ -42,7 +32,9 @@
             <%= form.date_field :date_of_birth, class: "form-control", data: { inputmask: "'alias': 'dd/mm/yyyy'", mask: true } %>
           </div>
         </div>
-      </div>
+      </div>  
+    </div>
+    <div class="row"><!-- Email Gender Nationality -->
       <div class="col-md-4">
         <div class="form-group">
             <%= form.label :email, class: 'form-label' %>
@@ -65,8 +57,6 @@
           </div>
         </div>
       </div>
-    </div>
-    <div class="row">
       <div class="col-md-4">
         <div class="form-group">
           <%= form.label :nationality, class: 'form-label' %>
@@ -74,10 +64,12 @@
             <div class="input-group-addon">
               <i class="fas fa-globe-americas"></i>
             </div>
-            <%= form.select :nationality, Player.nationalities.keys.map { |g| [g.titleize, g] }, { include_blank: "Selecciona Nacionalidad" }, class: "form-control" %>
+            <%= form.select :nationality, Player.nationalities.keys.map { |g| [g.titleize, g] }, { include_blank: "Nacionalidad?" }, class: "form-control" %>
           </div>
         </div>
       </div>
+    </div>
+    <div class="row"><!-- DocumentNumber DominantSide Position-->
       <div class="col-md-4">
         <div class="form-group">
             <%= form.label :document_number, class: 'form-label' %>
@@ -91,36 +83,39 @@
       </div>
       <div class="col-md-4">
         <div class="form-group">
-            <%= form.label :email, class: 'form-label' %>
+          <%= form.label :dominant_side, class: 'form-label' %>
           <div class="input-group">
             <div class="input-group-addon">
-              <i class="ti-email"></i>
+              <i class="fas fa-globe-americas"></i>
             </div>
-            <%= form.email_field :email, class: "form-control", placeholder: 'Email' %>
+            <%= form.select :dominant_side, Player.dominant_sides.keys.map { |g| [g.titleize, g] }, { include_blank: "Lado dominante?" }, class: "form-control" %>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="form-group">
+          <%= form.label :position, class: 'form-label' %>
+          <div class="input-group">
+            <div class="input-group-addon">
+              <i class="fas fa-globe-americas"></i>
+            </div>
+            <%= form.select :position, Player.positions.keys.map { |g| [g.titleize, g] }, { include_blank: "Pocision Preferente?" }, class: "form-control" %>
           </div>
         </div>
       </div>
     </div>
-    <div class="row">
+    <div class="row"><!-- School IsActive ProfilePicture -->
       <div class="col-md-4">
         <div class="form-group">
-          <%= form.label :dominant_side, class: 'form-label' %>
+          <%= label_tag :school_id, "Escuela", class: 'form-label' %>
           <div class="input-group">
-            <div class="input-group-addon">
-              <i class="fas fa-hand-point-right"></i>
+            <div class="input-group-text">
+              <i class="fas fa-school"></i>
             </div>
-            <%= form.text_field :dominant_side, class: "form-control" %>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-4">
-        <div class="form-group">
-            <%= form.label :position, class: 'form-label' %>
-          <div class="input-group">
-            <div class="input-group-addon">
-              <i class="fa fa-id-card"></i>
-            </div>
-            <%= form.text_field :position, class: "form-control" %>
+            <%= select_tag :school_id,
+                  options_from_collection_for_select(School.all, :id, :name, @player.schools.first&.id),
+                  include_blank: "Selecciona escuela",
+                  class: "form-control" %>
           </div>
         </div>
       </div>
@@ -135,22 +130,31 @@
           </div>
         </div>
       </div>
-    </div>
-    <div class="row">
-      <div class="col-md-12">
-        <div class="form-group">
+      <div class="col-md-4">
+        <div class="form-group" data-controller="file-preview">
           <%= form.label :profile_picture, class: 'form-label' %>
           <div class="input-group">
-            <div class="input-group-addon">
+            <div class="input-group-text">
               <i class="fas fa-hand-point-right"></i>
             </div>
-            <%= form.file_field :profile_picture, class: "form-control" %>
+
+            <%= form.file_field :profile_picture,
+                class: "form-control",
+                data: {
+                  file_preview_target: "input",
+                  filename: (@player.profile_picture.attached? ? @player.profile_picture.filename.to_s : nil)
+                },
+                onchange: "this.dispatchEvent(new CustomEvent('change', { bubbles: true }))" %>
           </div>
+
+          <small data-file-preview-target="label" class="form-text text-muted mt-2">
+            <!-- This will be populated by Stimulus -->
+          </small>
         </div>
       </div>
     </div>
-    <div class="row">
-      <div class="col-md-6">
+    <div class="row"><!-- Address Notes Photo -->
+      <div class="col-md-4">
         <div class="form-group">
           <%= form.label :address, class: 'form-label' %>
           <div class="input-group">
@@ -161,7 +165,7 @@
           </div>
         </div>
       </div>
-      <div class="col-md-6">
+      <div class="col-md-4">
         <div class="form-group">
             <%= form.label :notes, class: 'form-label' %>
           <div class="input-group">
@@ -172,14 +176,24 @@
           </div>
         </div>
       </div>
+      <div class="col-md-4">
+        <div class="form-group">
+          <%= form.label 'Foto Actual', class: 'form-label' %>
+          <% if @player.profile_picture.attached? %>
+            <div class="text-center mt-3">
+              <%= image_tag @player.profile_picture.variant(resize_to_limit: [125, 125]).processed, class: "img-thumbnail" , alt: "Foto de perfil" %>
+            </div>
+          <% end %>
+        </div>
+      </div>
     </div>
   </div>
   <div class="box-footer">
-    <button type="button" class="btn btn-warning me-1">
-      <i class="ti-trash"></i> Cancel
-    </button>
-    <button type="submit" class="btn btn-primary">
+    <%= button_tag(type: 'submit', class: 'btn btn-primary') do %>
       <i class="ti-save-alt"></i> Save
-    </button>
+    <% end %>
+    <%= link_to players_path, class: 'btn btn-warning' do %>
+      <i class="ti-trash"></i> Cancel
+    <% end %>
   </div> 
 <% end %>
