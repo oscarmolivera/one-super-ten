@@ -76,6 +76,36 @@ end
     end
   end
 
+  def documents
+    authorize :player, :index?
+
+    @player = Player.find(params[:id])
+  
+    if params[:document].present?
+      @player.documents.attach(params[:document].values)
+      head :ok
+    else
+      render json: { error: "No document received" }, status: :unprocessable_entity
+    end
+  end
+
+  def erase_document
+    authorize :player, :index?
+    @player = Player.find(params[:id])
+    blob = ActiveStorage::Blob.find(params[:blob_id])
+  
+    attachment = @player.documents.find { |doc| doc.blob_id == blob.id }
+    if attachment
+      attachment.purge
+      respond_to do |format|
+        format.html { redirect_to edit_player_path(@player), notice: "Documento eliminado." }
+        format.turbo_stream
+      end
+    else
+      redirect_to edit_player_path(@player), alert: "No se encontró el documento."
+    end
+  end
+
   private
 
   def set_player
@@ -99,7 +129,7 @@ end
     params.require(:player).permit(
       :email, :tenant_id, :first_name, :last_name, :full_name, :date_of_birth, 
       :gender, :nationality, :document_number, :profile_picture, :dominant_side, 
-      :position, :address, :is_active, :bio, :notes, :user_id
+      :position, :address, :is_active, :bio, :notes, :user_id, documents: []
     )
   end
 

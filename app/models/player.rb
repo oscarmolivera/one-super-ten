@@ -15,7 +15,7 @@ class Player < ApplicationRecord
   
   accepts_nested_attributes_for :player_profile, update_only: true
   has_one_attached :profile_picture, dependent: :destroy
-  has_one_attached :document, dependent: :destroy
+  has_many_attached :documents, dependent: :destroy
 
   validates :first_name, :last_name, presence: true
 

@@ -37,9 +37,11 @@ Rails.application.routes.draw do
       end
       resources :players do
         resource :player_profile, only: [:new, :create, :show, :edit, :update]
+        post :documents, on: :member
         member do
           get :select_category
           post :assign_category
+          delete 'documents/:blob_id', to: 'players#erase_document', as: :erase_document
         end
       end
       resources :tournaments

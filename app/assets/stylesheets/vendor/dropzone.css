@@ -1,0 +1,48 @@
+.dropzone {
+  border: 2px dashed #6c757d;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  padding: 2rem;
+  text-align: center;
+  color: #6c757d;
+  transition: border-color 0.3s ease;
+}
+
+.dropzone:hover {
+  border-color: #007bff;
+  background-color: #e9ecef;
+}
+
+.dropzone .dz-preview {
+  margin-top: 1rem;
+  border: 1px solid #dee2e6;
+  border-radius: 6px;
+  padding: 0.5rem;
+  background-color: white;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.dropzone .dz-preview .dz-image img {
+  width: 100%;
+  height: auto;
+  border-radius: 4px;
+}
+
+.dropzone .dz-details {
+  font-size: 0.875rem;
+  color: #343a40;
+  margin-top: 0.5rem;
+}
+
+.dropzone .dz-success-mark,
+.dropzone .dz-error-mark {
+  display: inline-block;
+  margin-top: 0.5rem;
+  font-size: 1.2rem;
+}
+
+.dropzone .dz-success-mark svg,
+.dropzone .dz-error-mark svg,
+.dropzone .dz-button {
+  display: none;
+}

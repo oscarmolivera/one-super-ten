@@ -13,5 +13,6 @@ window.PerfectScrollbar = PerfectScrollbar
 import "./vendor/template"
 import "./vendor/custom"
 import "./vendor/calender"
+import "./vendor/dropzone_config";
 import "trix"
 import "@rails/actiontext"
