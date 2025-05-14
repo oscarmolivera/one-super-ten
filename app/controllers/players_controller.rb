@@ -2,6 +2,8 @@ class PlayersController < ApplicationController
   before_action :authenticate_user!
   before_action :set_player, only: [:show, :edit, :update, :destroy]
   before_action :set_school, only: [:new, :edit, :update]
+  before_action :select_category, only: [:edit, :update]
+  
 
   def index
     authorize :player, :index?
@@ -60,6 +62,20 @@ def destroy
   end
 end
 
+  def assign_category
+    authorize :player, :index?
+
+    binding.pry
+    @player = Player.find(params[:id])
+    category = Category.find(params[:category_id])
+
+    if @player.categories << category
+      redirect_to players_path, notice: "Categoría asignada correctamente."
+    else
+      redirect_to select_category_player_path(@player), alert: "No se pudo asignar la categoría."
+    end
+  end
+
   private
 
   def set_player
@@ -68,10 +84,6 @@ end
 
   def set_school
     @schools = ActsAsTenant.current_tenant.schools
-  end
-
-  def set_category
-    @categories = @schools.categories
   end
 
   def assign_school(player)
@@ -89,5 +101,11 @@ end
       :gender, :nationality, :document_number, :profile_picture, :dominant_side, 
       :position, :address, :is_active, :bio, :notes, :user_id
     )
+  end
+
+  def select_category
+    @player = Player.find(params[:id])
+    @school = @player.schools.first
+    @categories = @school.categories.order(id: :asc)
   end
 end

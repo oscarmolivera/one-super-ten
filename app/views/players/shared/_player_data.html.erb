@@ -3,20 +3,34 @@
       <div class="col-12">
         <div class="nav-tabs-custom">
           <ul class="nav nav-tabs">
-            <li><a class="active" href="#activity" data-bs-toggle="tab">Informacion</a></li>
-            <li><a href="#usertimeline" data-bs-toggle="tab">Documentos</a></li>
-            <li><a href="#settings" data-bs-toggle="tab">Padres</a></li>
+            <li><a class="active" href="#basicinformation" data-bs-toggle="tab">Informacion</a></li>
+            <li><a href="#playercategory" data-bs-toggle="tab">Categoría</a></li>
+            <li><a href="#documents" data-bs-toggle="tab">Documentos</a></li>
+            <li><a href="#parentsdata" data-bs-toggle="tab">Padres</a></li>
           </ul>
           <div class="tab-content">
-            <div class="active tab-pane" id="activity">			
+            <div class="active tab-pane" id="basicinformation">			
               <div class="box">
-                <%= render 'players/shared/form'%>
+                <%= render 'players/shared/basic_information'%>
               </div>
               <div class="box no-shadow">
               </div>
             </div>
             <!-- /.tab-pane -->
-            <div class="tab-pane" id="settings">
+            <div class="tab-pane" id="playercategory">
+              <div class="box">
+                <%= render 'players/shared/player_category'%>
+              </div>
+              <div class="box no-shadow">
+              </div>
+            </div>
+            <!-- /.tab-pane -->
+            <div class="tab-pane" id="documents">
+              <div class="box">
+                <%= render 'players/shared/documents'%>
+              </div>
+              <div class="box no-shadow">
+              </div>
             </div>
             <!-- /.tab-pane -->
           </div>

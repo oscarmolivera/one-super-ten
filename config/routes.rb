@@ -37,6 +37,10 @@ Rails.application.routes.draw do
       end
       resources :players do
         resource :player_profile, only: [:new, :create, :show, :edit, :update]
+        member do
+          get :select_category
+          post :assign_category
+        end
       end
       resources :tournaments
       resources :call_ups, only: [:new, :create, :edit, :update]

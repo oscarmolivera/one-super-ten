@@ -11,20 +11,13 @@ root_tenant = Tenant.find_by(subdomain: "main")
 academia = Tenant.find_by(subdomain: "academia-margarita")
 deportivo = Tenant.find_by(subdomain: "deportivo-margarita")
 
-puts "Seeding Schools..."
-fcampo = School.create!(tenant: academia, name:'Futbol Campo', description: 'Escuela de Valores')
-fsala = School.create!(tenant: academia, name:'Futbol Sala', description: 'Escuela de Valores')
-emas= School.create!(tenant: deportivo, name:'Escuela Masculina', description: 'Futbol Campo de Varones')
-efem = School.create!(tenant: deportivo, name:'Escuela Femenina', description: 'Futbol Campo de Mujeres')
+puts "Seeding categories..."
+load Rails.root.join("db/seeds/categories.rb")
 
-puts "Seeding Categories..."
-cat_fs8a = Category.create!(tenant: academia, school: fsala, name: 'Categoria Sub 9', description: 'Niños o niñas con 7 o 8 años')
-cat_fs9a = Category.create!(tenant: academia, school: fsala, name: 'Categoria Sub 10', description: 'Niños o niñas con 8 o 9 años')
-cat_fc8a = Category.create!(tenant: academia, school: fcampo, name: 'Categoria Sub 9', description: 'Niños o niñas con 7 o 8 años')
-cat_fc9a = Category.create!(tenant: academia, school: fcampo, name: 'Categoria Sub 9', description: 'Niños o niñas con 7 o 8 años')
-cat_hm9a = Category.create!(tenant: deportivo, school: emas, name: 'Categoria Sub 10', description: 'Hombres menores de 10 años')
-cat_mj9a = Category.create!(tenant: deportivo, school: efem, name: 'Categoria Sub 10', description: 'Hembras menores de 10 años')
-categorias = [cat_fs8a, cat_fc8a, cat_fs9a, cat_fc9a, cat_hm9a, cat_mj9a]
+categorias = []
+Category.all.each do |cat|
+  categorias << cat
+end
 
 puts "Seeding USers..."
 su = User.create!(email: "admin@nubbe.net", password: "s3cret.", first_name: "Super Admin", last_name: "Nubbe.Net", tenant: root_tenant)
@@ -125,6 +118,7 @@ events = [
 ]
 
 coach = Role.all.where(name: 'coach', tenant: academia).last.users.last
+fcampo = School.find(1)
 
 events.each do |attrs|
   event = Event.create!(
