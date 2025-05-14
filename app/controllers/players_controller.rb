@@ -129,7 +129,10 @@ end
     params.require(:player).permit(
       :email, :tenant_id, :first_name, :last_name, :full_name, :date_of_birth, 
       :gender, :nationality, :document_number, :profile_picture, :dominant_side, 
-      :position, :address, :is_active, :bio, :notes, :user_id, documents: []
+      :position, :address, :is_active, :bio, :notes, :user_id, documents: [],
+      guardians_attributes: [
+      :id, :first_name, :last_name, :email, :phone, :gender, :relationship, :address, :notes, :_destroy
+    ]
     )
   end
 

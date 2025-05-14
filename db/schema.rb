@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_05_10_222206) do
+ActiveRecord::Schema[8.0].define(version: 2025_05_14_163059) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -195,6 +195,23 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_10_222206) do
     t.index ["author_id"], name: "index_expenses_on_author_id"
     t.index ["expensable_type", "expensable_id"], name: "index_expenses_on_expensable"
     t.index ["tenant_id"], name: "index_expenses_on_tenant_id"
+  end
+
+  create_table "guardians", force: :cascade do |t|
+    t.bigint "tenant_id", null: false
+    t.bigint "player_id", null: false
+    t.string "first_name"
+    t.string "last_name"
+    t.string "email"
+    t.string "phone"
+    t.string "gender"
+    t.string "relationship"
+    t.string "address"
+    t.text "notes"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["player_id"], name: "index_guardians_on_player_id"
+    t.index ["tenant_id"], name: "index_guardians_on_tenant_id"
   end
 
   create_table "incomes", force: :cascade do |t|
@@ -519,6 +536,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_10_222206) do
   add_foreign_key "exonerations", "tenants"
   add_foreign_key "expenses", "tenants"
   add_foreign_key "expenses", "users", column: "author_id"
+  add_foreign_key "guardians", "players"
+  add_foreign_key "guardians", "tenants"
   add_foreign_key "incomes", "tenants"
   add_foreign_key "landings", "tenants"
   add_foreign_key "line_ups", "call_up_players"

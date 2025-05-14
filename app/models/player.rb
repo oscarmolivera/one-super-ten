@@ -11,9 +11,11 @@ class Player < ApplicationRecord
   has_many :categories, through: :category_players
   has_many :exonerations, dependent: :destroy
   has_many :match_performances, dependent: :destroy
+  has_many :guardians, dependent: :destroy
   has_one :player_profile, dependent: :destroy
   
   accepts_nested_attributes_for :player_profile, update_only: true
+  accepts_nested_attributes_for :guardians, allow_destroy: true
   has_one_attached :profile_picture, dependent: :destroy
   has_many_attached :documents, dependent: :destroy
 

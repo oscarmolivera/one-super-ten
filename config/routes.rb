@@ -37,6 +37,7 @@ Rails.application.routes.draw do
       end
       resources :players do
         resource :player_profile, only: [:new, :create, :show, :edit, :update]
+        resources :guardians, only: [:new, :create, :edit, :update, :destroy]
         post :documents, on: :member
         member do
           get :select_category
