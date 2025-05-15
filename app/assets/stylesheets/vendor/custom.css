@@ -68,6 +68,37 @@
 	justify-content: center;
 }
 
+	.image-crop-frame {
+		height: 240px;
+		overflow: hidden;
+		border-radius: 12px;
+		position: relative;
+	}
+
+	.cropped-image {
+		width: auto;
+		height: auto;
+		min-width: 100%;
+		min-height: 100%;
+		object-fit: cover;
+		object-position: center;
+		position: absolute;
+		top: 0;
+		left: 0;
+	}
+
+	.jersey-number-box {
+		position: relative;
+	}
+
+	.jersey-number-text {
+		font-size: 5rem;
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(50%, 15%);
+		color: #333;
+	}
 
 /*=================================*/
 @media only screen and (max-width: 1600px) {

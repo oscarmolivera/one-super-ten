@@ -9,7 +9,6 @@ class PlayerProfilesController < ApplicationController
     @profile.disciplinary_flag = :none
     @profile.skill_rating = :none
     @profile.social_links = {}
-    @profile.jersey_number = @player.players_count + 1
   end
   
   def create

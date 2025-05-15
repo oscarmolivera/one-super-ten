@@ -5,7 +5,6 @@ const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute
 
 document.addEventListener("turbo:load", () => {
   const dropzoneElement = document.querySelector("#player-files-dropzone");
-  console.log("Dropzone element:", dropzoneElement);
   if (dropzoneElement && !dropzoneElement.dropzone) {
     const dropzone = new Dropzone(dropzoneElement, {
       url: dropzoneElement.getAttribute("action"),
