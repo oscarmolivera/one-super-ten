@@ -175,6 +175,21 @@
 								</div>
 							</div>
 						</div>
+						<div class="row">
+							<div class="box">
+								<div id="splide" class="splide">
+									<div class="splide__track">
+										<ul class="splide__list">
+											<% 5.times do |i| %>
+												<li class="splide__slide">
+													<%= image_tag "https://picsum.photos/800/400?random=#{i}", class: "img-fluid", alt: "Placeholder Slide #{i + 1}" %>
+												</li>
+											<% end %>
+										</ul>
+									</div>
+								</div>
+							</div>
+						</div>
 					</div><!-- /.tab-pane publicprofile-->
 					<div class="tab-pane" id="private">			
 						<div class="box no-shadow">
