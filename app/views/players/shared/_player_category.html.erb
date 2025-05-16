@@ -1,0 +1,24 @@
+<h2>Selecciona una categoría para <%= @player.full_name %></h2>
+
+<div class="row row-cols-2 row-cols-sm-3 row-cols-md-4 g-3">
+  <% @categories.each do |category| %>
+    <div class="col">
+      <%= form_with url: assign_category_player_path(@player), method: :post, local: true do |f| %>
+        <%= hidden_field_tag :category_id, category.id %>
+        <div class="<%= category_card_class(@player, category) %> text-center small shadow-sm">
+          <div class="card-body p-2">
+            <h6 class="card-title mb-1"><%= category.name %></h6>
+            <p class="card-text text-muted"><%= category.description %></p>
+            <% if @player.categories.include?(category) %>
+              <span class="badge bg-light text-success mt-2">Asignada</span>
+            <% else %>
+              <%= button_tag type: "submit", class: "btn btn-sm btn-light mt-2" do %>
+                Asignar
+              <% end %>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+</div>

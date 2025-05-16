@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  mount ActiveStorage::Engine => "/rails/active_storage"
   # ------------------------------------ GLOBAL AUTH ROUTES -
   devise_for :users, controllers: { sessions: 'users/sessions' }, skip: [:registrations]
 
@@ -34,7 +35,16 @@ Rails.application.routes.draw do
         resources :call_ups, only: [:index, :new, :edit, :update ]
         resources :training_sessions, only: [:index]
       end
-      resources :players
+      resources :players do
+        resource :player_profile, only: [:new, :create, :show, :edit, :update]
+        resources :guardians, only: [:new, :create, :edit, :update, :destroy]
+        post :documents, on: :member
+        member do
+          get :select_category
+          post :assign_category
+          delete 'documents/:blob_id', to: 'players#erase_document', as: :erase_document
+        end
+      end
       resources :tournaments
       resources :call_ups, only: [:new, :create, :edit, :update]
       resources :matches, only: [:new, :create, :show, :index, :update] do
@@ -77,5 +87,7 @@ Rails.application.routes.draw do
   root to: "home#index", as: :fallback_root
   get '/keepalive', to: 'application#keepalive'
   get '/favicon.ico', to: redirect('/assets/favicon.png')
-  get '*path', to: 'errors#not_found', constraints: ->(req) { req.subdomain.present? }
+  get '*path', to: 'errors#not_found', constraints: ->(req) {
+    req.subdomain.present? && !req.path.start_with?('/rails/active_storage')
+  }
 end

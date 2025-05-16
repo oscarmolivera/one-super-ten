@@ -36,6 +36,8 @@ class ApplicationController < ActionController::Base
   private
 
   def ensure_tenant_user
+    return if active_storage_request?
+
     if current_user && ActsAsTenant.current_tenant
       if current_user.tenant_id != ActsAsTenant.current_tenant.id
         sign_out current_user
@@ -69,5 +71,9 @@ class ApplicationController < ActionController::Base
       parts = host.split('.')
       parts.first
     end
+  end
+
+  def active_storage_request?
+    request.path.start_with?('/rails/active_storage')
   end
 end

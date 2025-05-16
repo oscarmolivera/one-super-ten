@@ -2,10 +2,12 @@ source "https://rubygems.org"
 ruby '3.2.3'
 
 gem "acts_as_tenant", "~> 1.0"
+gem "aws-sdk-s3", require: false
 gem "bootsnap", require: false
 gem "cssbundling-rails"
 gem "devise", "~> 4.9"
 gem 'faker'
+gem "image_processing", "~> 1.14"
 gem "jbuilder"
 gem "jsbundling-rails"
 gem "kamal", require: false
@@ -47,4 +49,3 @@ group :staging, :production do
   gem 'rack-rewrite'
 end
 
-gem "image_processing", "~> 1.14"
