@@ -30,10 +30,26 @@ class PlayerProfilesController < ApplicationController
   def edit; end
 
   def update
-    if @profile.update(player_profile_params)
-      redirect_to player_profile_path(@player), notice: "Perfil actualizado correctamente."
+    @player = Player.find(params[:id])
+
+    profile_attrs = player_params[:player_profile_attributes]
+
+    if profile_attrs
+      social_links = {
+        "facebook" => profile_attrs.delete(:social_links_facebook),
+        "instagram" => profile_attrs.delete(:social_links_instagram),
+        "tiktok" => profile_attrs.delete(:social_links_tiktok)
+      }
+
+      profile_attrs[:social_links] = social_links
+      @player.build_player_profile unless @player.player_profile
+      @player.player_profile.assign_attributes(profile_attrs)
+    end
+    if @player.update(player_params.except(:player_profile_attributes))
+      @player.player_profile.save if profile_attrs
+      redirect_to @player, notice: "Jugador actualizado correctamente."
     else
-      render :edit, status: :unprocessable_entity
+      render :edit
     end
   end
 
@@ -54,7 +70,7 @@ class PlayerProfilesController < ApplicationController
   def player_profile_params
     params.require(:player_profile).permit(
       :jersey_number, :nickname, :internal_notes, :status,
-      :disciplinary_flag, :skill_rating,  social_links: {}
+      :disciplinary_flag, :skill_rating, social_links: %i[facebook instagram tiktok]
     )
   end
 end

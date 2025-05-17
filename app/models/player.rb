@@ -14,12 +14,16 @@ class Player < ApplicationRecord
   has_many :guardians, dependent: :destroy
   has_one :player_profile, dependent: :destroy
   
-  accepts_nested_attributes_for :player_profile, update_only: true
+  accepts_nested_attributes_for :player_profile
   accepts_nested_attributes_for :guardians, allow_destroy: true
   has_one_attached :profile_picture, dependent: :destroy
+  has_one_attached :hero_image, dependent: :destroy
   has_many_attached :documents, dependent: :destroy
+  has_many_attached :carousel_images, dependent: :destroy
 
   validates :first_name, :last_name, presence: true
+  validate :limit_carousel_images_count
+
 
   enum :gender, { hombre: 'hombre', mujer: 'mujer' }
   enum :dominant_side, {izquierdo: 'izquierdo', derecho: 'derecho', ambos: 'ambos'}
@@ -52,5 +56,27 @@ class Player < ApplicationRecord
     
   def exonerated_for?(date = Date.today)
     exonerations.any? { |e| e.active?(date) }
+  end
+
+def add_carousel_images(new_files)
+  files_to_attach = Array(new_files).reject(&:blank?)
+  return if files_to_attach.empty?
+
+  current_count = carousel_images.count
+  overflow_count = (current_count + files_to_attach.size) - 4
+
+  if overflow_count > 0
+    carousel_images.order(:created_at).limit(overflow_count).each(&:purge)
+  end
+
+  carousel_images.attach(files_to_attach)
+end
+
+    private
+
+  def limit_carousel_images_count
+    if carousel_images.attachments.count > 4
+      errors.add(:carousel_images, "Solo puedes tener hasta 4 imágenes.")
+    end
   end
 end

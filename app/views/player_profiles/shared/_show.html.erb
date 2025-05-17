@@ -115,13 +115,13 @@
 		<div class="col-12 col-lg-7 col-xl-8">
 			<div class="nav-tabs-custom">
 				<ul class="nav nav-tabs">
-					<li><a class="active" href="#publicprofile" data-bs-toggle="tab">Perfil Publico</a></li>
-					<li><a href="#private" data-bs-toggle="tab">Activity</a></li>
+					<li><a href="#publicprofile" data-bs-toggle="tab">Perfil Publico</a></li>
+					<li><a class="active" href="#editprofile" data-bs-toggle="tab">Editar Perfil</a></li>
 					<li><a href="#settings" data-bs-toggle="tab">Settings</a></li>
 				</ul>
 
 				<div class="tab-content">
-					<div class="active tab-pane" id="publicprofile">
+					<div class="tab-pane" id="publicprofile">
 						<div class="box"><!-- /Player Long Photo -->
 							<div class="fx-card-item">
 								<div class="fx-card-avatar fx-overlay-1">
@@ -137,7 +137,7 @@
 									<div class="box-body">	
 										<div class="flex-grow-1">	
 											<h4 class="mt-1 mb-1">MedioCampo</h4>
-											<p class="text-fade mb-0 fs-12">Pocision</p>
+											<p class="text-fade mb-0 fs-12">Posicion</p>
 										</div>	
 									</div>					
 								</div>
@@ -168,7 +168,7 @@
 								</div>
 							</div>
 						</div>
-						<div class="col-12"><!-- /Player Tournament List-->
+						<div class="row"><!-- /Player Tournament List-->
 							<div class="box bg-transparent no-shadow mb-0">
 								<div class="box-header no-border px-0">
 									<h4 class="box-title">Ultimos Torneos</h4>							
@@ -252,155 +252,10 @@
 							</div>
 						</div>
 					</div><!-- /.tab-pane publicprofile-->
-					<div class="tab-pane" id="private">			
-						<div class="box no-shadow">
-							<div class="post"><!-- Post -->
-								<div class="user-block">
-									<%= image_tag 'vendor/user1-128x128.jpg', class:"img-bordered-sm rounded-circle", alt: "user image" %>
-									<span class="username">
-										<a href="#">Brayden</a>
-										<a href="#" class="pull-right btn-box-tool"><i class="fa fa-times"></i></a>
-									</span>
-									<span class="description">5 minutes ago</span>
-								</div><!-- /.user-block -->
-								<div class="activitytimeline">
-								<p>
-									Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi. Nulla quis sem at nibh elementum imperdiet. Duis sagittis ipsum.
-								</p>
-								<ul class="list-inline">
-									<li><a href="#" class="link-black text-sm"><i class="fa fa-share margin-r-5"></i> Share</a></li>
-									<li><a href="#" class="link-black text-sm"><i class="fa fa-thumbs-o-up margin-r-5"></i> Like</a></li>
-									<li class="pull-right">
-										<a href="#" class="link-black text-sm"><i class="fa fa-comments-o margin-r-5"></i> Comments(5)</a>
-									</li>
-								</ul>
-								<form class="form-element">
-									<input class="form-control input-sm" type="text" placeholder="Type a comment">
-								</form>
-								</div>
-							</div><!-- /.post -->
-							<div class="post"><!-- Post -->
-								<div class="user-block">
-									<%= image_tag 'vendor/user6-128x128.jpg', class: 'img-bordered-sm rounded-circle', alt: 'user image' %>
-									<span class="username">
-										<a href="#">Photos</a>
-										<a href="#" class="pull-right btn-box-tool"><i class="fa fa-times"></i></a>
-									</span>
-									<span class="description">5 minutes ago</span>
-								</div><!-- /.user-block -->
-								<div class="activitytimeline">
-									<div class="row mb-20">
-										<div class="col-sm-6">
-											<%= image_tag 'vendor/photo1.png', class: 'img-fluid', alt: 'Photo' %>
-										</div><!-- /.col -->
-										<div class="col-sm-6">
-											<div class="row">
-												<div class="col-sm-6">
-													<%= image_tag 'vendor/photo2.png', class: 'img-fluid', alt: 'Photo' %>
-													<br><br>
-													<%= image_tag 'vendor/photo3.jpg', class: 'img-fluid', alt: 'Photo' %>
-												</div><!-- /.col -->
-												<div class="col-sm-6">
-													<%= image_tag 'vendor/photo4.jpg', class: 'img-fluid', alt: 'Photo' %>
-													<br><br>
-													<%= image_tag 'vendor/photo1.png', class: 'img-fluid', alt: 'Photo' %>
-												</div><!-- /.col -->
-											</div><!-- /.row -->
-										</div><!-- /.col -->
-									</div><!-- /.row -->
-									<ul class="list-inline">
-										<li><a href="#" class="link-black text-sm"><i class="fa fa-share margin-r-5"></i> Share</a></li>
-										<li><a href="#" class="link-black text-sm"><i class="fa fa-thumbs-o-up margin-r-5"></i> Like</a></li>
-										<li class="pull-right">
-											<a href="#" class="link-black text-sm"><i class="fa fa-comments-o margin-r-5"></i> Comments(5)</a>
-										</li>
-									</ul>
-									<form class="form-element">
-										<input class="form-control input-sm" type="text" placeholder="Type a comment">
-									</form>
-								</div>
-							</div><!-- /.post -->
-							<div class="post clearfix"><!-- Post -->
-								<div class="user-block">
-									<%= image_tag 'vendor/user7-128x128.jpg', class:'img-bordered-sm rounded-circle', alt: 'user image' %>
-									<span class="username">
-										<a href="#">Nicholas</a>
-										<a href="#" class="pull-right btn-box-tool"><i class="fa fa-times"></i></a>
-									</span>
-									<span class="description">5 minutes ago</span>
-								</div><!-- /.user-block -->
-								<div class="activitytimeline">
-									<p>
-										Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi. Nulla quis sem at nibh elementum imperdiet. Duis sagittis ipsum.
-									</p>
-									<form class="form-horizontal form-element">
-										<div class="form-group row g-0">
-											<div class="col-sm-9">
-												<input class="form-control input-sm" placeholder="Response">
-											</div>
-											<div class="col-sm-3">
-												<button type="submit" class="btn btn-danger pull-right w-p100">Send</button>
-											</div>
-										</div>
-									</form>
-								</div>
-							</div><!-- /.post -->
-						</div>
-					</div><!-- /.tab-pane private-->
-					<div class="tab-pane" id="settings">
-						<div class="box no-shadow">		
-							<form class="form-horizontal form-element col-12">
-								<div class="form-group row">
-								<label for="inputName" class="col-sm-2 form-label">Name</label>
-
-								<div class="col-sm-10">
-									<input type="email" class="form-control" id="inputName" placeholder="">
-								</div>
-								</div>
-								<div class="form-group row">
-								<label for="inputEmail" class="col-sm-2 form-label">Email</label>
-
-								<div class="col-sm-10">
-									<input type="email" class="form-control" id="inputEmail" placeholder="">
-								</div>
-								</div>
-								<div class="form-group row">
-								<label for="inputPhone" class="col-sm-2 form-label">Phone</label>
-
-								<div class="col-sm-10">
-									<input type="tel" class="form-control" id="inputPhone" placeholder="">
-								</div>
-								</div>
-								<div class="form-group row">
-								<label for="inputExperience" class="col-sm-2 form-label">Experience</label>
-
-								<div class="col-sm-10">
-									<textarea class="form-control" id="inputExperience" placeholder=""></textarea>
-								</div>
-								</div>
-								<div class="form-group row">
-								<label for="inputSkills" class="col-sm-2 form-label">Skills</label>
-
-								<div class="col-sm-10">
-									<input type="text" class="form-control" id="inputSkills" placeholder="">
-								</div>
-								</div>
-								<div class="form-group row">
-								<div class="ms-auto col-sm-10">
-									<div class="checkbox">
-									<input type="checkbox" id="basic_checkbox_1" checked="">
-									<label for="basic_checkbox_1"> I agree to the</label>
-										&nbsp;&nbsp;&nbsp;&nbsp;<a href="#">Terms and Conditions</a>
-									</div>
-								</div>
-								</div>
-								<div class="form-group row">
-								<div class="ms-auto col-sm-10">
-									<button type="submit" class="btn btn-success">Submit</button>
-								</div>
-								</div>
-							</form>
-						</div>			  
+					<div class="active tab-pane" id="editprofile">
+						<%= render 'player_profiles/shared/personal_form' %>
+					</div><!-- /.tab-pane editprofile-->
+					<div class="tab-pane" id="settings">	  
 					</div><!-- /.tab-pane settings-->
 				</div><!-- /.tab-content -->
 			</div><!-- /.nav-tabs-custom -->

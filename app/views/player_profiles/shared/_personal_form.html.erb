@@ -1,4 +1,64 @@
+<div class="box bg-transparent no-shadow mb-0"><!-- Player OnlyRead Data -->
+  <div class="box-header px-0">
+    <h4 class="box-title pb-5">
+      <span class="text-fade"><%= @player.full_name %></span>
+      <small class="sidetitle"><%= @player.email %></small>
+    </h4>
+    <ul class="box-controls pull-right d-md-flex d-none">
+      <li class="dropdown">
+      <button class="btn btn-success px-10 " data-bs-toggle="dropdown" href="#">Activo</button>
+      </li>
+    </ul>
+    <div class="row ">
+      <div class="col-md-3">
+        <div class="d-flex mb-2">
+          <div class="me-3 fw-bold">Teléfono:</div>
+          <div>+56 9 1234 5678</div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="d-flex mb-2">
+          <div class="me-3 fw-bold">
+            <i class="fa fa-id-card"></i>
+          </div>
+          <div><%= @player.document_number %></div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="d-flex mb-2">
+          <div class="me-3 fw-bold">
+            <i class="fas fa-birthday-cake"></i>
+          </div>
+          <div><%= @player.date_of_birth %></div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="d-flex mb-2">
+          <div class="me-3 fw-bold">
+            <i class="fas fa-venus-mars"></i>
+          </div>
+          <div><%= @player.gender.capitalize %></div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="d-flex mb-2">
+          <div class="me-3 fw-bold">Nacionalidad:</div>
+          <div><%= @player.nationality.capitalize %></div>
+        </div>
+      </div>
+      <div class="col-md-9">
+        <div class="d-flex mb-2">
+          <div class="me-3 fw-bold">
+            <i class="fas fa-home"></i>
+          </div>
+          <div><%= @player.address %></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 <%= form_with(model: @player, local: true) do |form| %>
+  <%= hidden_field_tag :redirect_to, player_player_profile_path(@player) %>
   <% if @player.errors.any? %>
     <div class="alert alert-danger">
       <ul>
@@ -9,16 +69,11 @@
     </div>
   <% end %>
   <div class="box-body">
-    <div class="row">
-      <div class="col-md-4">
-        <div class="form-group">
-          <%= form.label :first_name, class: 'form-label' %>
-          <%= form.text_field :first_name, class: 'form-control', placeholder: "Nombre" %>
-        </div>
-      </div>
+    <div class="row"><!-- Nickname DominantSide Position -->
       <div class="col-md-4">
         <div class="form-group">
           <%= form.fields_for :player_profile do |profile_fields| %>
+            <%= profile_fields.hidden_field :id %> 
             <%= profile_fields.label :nickname, class: 'form-label' %>
             <%= profile_fields.text_field :nickname, class: 'form-control', placeholder: "Apodo" %>
           <% end %>
@@ -26,90 +81,12 @@
       </div>
       <div class="col-md-4">
         <div class="form-group">
-          <%= form.label :last_name, class: 'form-label' %>
-          <%= form.text_field :last_name, class: 'form-control', placeholder: "Apellido" %>
-        </div>
-      </div>      
-    </div>
-    <div class="row">
-      <div class="col-md-4">
-        <div class="form-group">
-            <%= form.label :date_of_birth, class: 'form-label' %>
-          <div class="input-group">
-            <div class="input-group-addon">
-              <i class="fas fa-birthday-cake"></i>
-            </div>
-            <%= form.date_field :date_of_birth, class: "form-control", data: { inputmask: "'alias': 'dd/mm/yyyy'", mask: true }, disabled: true %>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-4">
-        <div class="form-group">
-            <%= form.label :email, class: 'form-label' %>
-          <div class="input-group">
-            <div class="input-group-addon">
-              <i class="ti-email"></i>
-            </div>
-            <%= form.email_field :email, class: "form-control", placeholder: 'Email', disabled: true %>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-4">
-        <div class="form-group">
-          <%= form.label :gender, class: 'form-label' %>
-          <div class="input-group">
-            <div class="input-group-addon">
-              <i class="fas fa-venus-mars"></i>
-            </div>
-            <%= form.select :gender, Player.genders.keys.map { |g| [g.titleize, g] }, { include_blank: "Selecciona género" }, class: "form-control", disabled: true %>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-md-4">
-        <div class="form-group">
-          <%= form.label :nationality, class: 'form-label' %>
-          <div class="input-group">
-            <div class="input-group-addon">
-              <i class="fas fa-globe-americas"></i>
-            </div>
-            <%= form.select :nationality, Player.nationalities.keys.map { |g| [g.titleize, g] }, { include_blank: "Selecciona Nacionalidad" }, class: "form-control", disabled: true %>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-4">
-        <div class="form-group">
-            <%= form.label :document_number, class: 'form-label' %>
-          <div class="input-group">
-            <div class="input-group-addon">
-              <i class="fa fa-id-card"></i>
-            </div>
-            <%= form.text_field :document_number, class: "form-control", data: { inputmask: "'alias': 'dd/mm/yyyy'", mask: true }, disabled: true %>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-4">
-        <div class="form-group">
-            <%= form.label :email, class: 'form-label' %>
-          <div class="input-group">
-            <div class="input-group-addon">
-              <i class="ti-email"></i>
-            </div>
-            <%= form.email_field :email, class: "form-control", placeholder: 'Email', disabled: true %>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-md-4">
-        <div class="form-group">
           <%= form.label :dominant_side, class: 'form-label' %>
           <div class="input-group">
             <div class="input-group-addon">
               <i class="fas fa-hand-point-right"></i>
             </div>
-            <%= form.text_field :dominant_side, class: "form-control", disabled: true %>
+            <%= form.text_field :dominant_side, class: "form-control" %>
           </div>
         </div>
       </div>
@@ -120,55 +97,135 @@
             <div class="input-group-addon">
               <i class="fa fa-id-card"></i>
             </div>
-            <%= form.text_field :position, class: "form-control", disabled: true %>
+            <%= form.text_field :position, class: "form-control" %>
           </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-4">
+        <div class="form-group">
+          <%= form.fields_for :player_profile do |profile_fields| %>
+            <%= profile_fields.label :jersey_number, class: 'form-label' %>
+            <%= profile_fields.text_field :jersey_number, class: 'form-control', placeholder: "Dorsal" %>
+          <% end %>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="form-group" data-controller="file-preview">
+          <%= form.label :profile_picture, class: 'form-label' %>
+          <div class="input-group">
+            <div class="input-group-text">
+              <i class="fas fa-hand-point-right"></i>
+            </div>
+
+            <%= form.file_field :profile_picture,
+                class: "form-control",
+                data: {
+                  file_preview_target: "input",
+                  filename: (@player.profile_picture.attached? ? @player.profile_picture.filename.to_s : nil)
+                },
+                onchange: "this.dispatchEvent(new CustomEvent('change', { bubbles: true }))" %>
+          </div>
+
+          <small data-file-preview-target="label" class="form-text text-muted mt-2">
+            <!-- This will be populated by Stimulus -->
+          </small>
         </div>
       </div>
       <div class="col-md-4">
         <div class="form-group">
-            <%= form.label :is_active, class: 'form-label' %>
-          <div class="input-group">
-            <div class="input-group-addon">
-              <i class="fas fa-globe-americas"></i>
-            </div>
-            <%= form.select :is_active, ['true', 'false'].map { |g| [g.titleize, g] }, { include_blank: "Estado" }, class: "form-control", disabled: true %>
+          <div class="text-center mt-25">
+            <% if @player.profile_picture.attached? %>
+              <%= image_tag @player.profile_picture.variant(resize_to_limit: [35, 35]).processed, class: "img-thumbnail" , alt: "Foto de perfil" %>
+            <% else %>
+              <div class="img-thumbnail" style="width: 35px; height: 35px; background-color: #f0f0f0; display: flex; align-items: center; justify-content: center;">
+                <i class="fas fa-user-slash"></i>
+                
+              </div>
+            <% end %>
           </div>
         </div>
       </div>
     </div>
-    <div class="row">
-      <div class="col-md-12">
-        <div class="form-group">
-          <%= form.label :profile_picture, class: 'form-label' %>
-          <div class="input-group">
-            <div class="input-group-addon">
-              <i class="fas fa-hand-point-right"></i>
-            </div>
-            <%= form.file_field :profile_picture, class: "form-control" %>
+    <div class="row mt-4">
+      <div class="col-md-6"><!-- Social Media Column -->
+        <div class="box">
+          <div class="box-header">
+            <h5 class="box-title"><i class="fas fa-rss-square me-2"></i>Redes Sociales</h5>
+          </div>
+          <div class="box-body">
+            <%= form.fields_for :player_profile do |profile_fields| %>
+              <div class="form-group mb-3">
+                <%= profile_fields.label :facebook, 'Facebook', class: 'form-label' %>
+                <%= profile_fields.text_field :social_links_facebook, value: profile_fields.object.social_links["facebook"], class: 'form-control', placeholder: 'https://facebook.com/...' %>
+              </div>
+
+              <div class="form-group mb-3">
+                <%= profile_fields.label :instagram, 'Instagram', class: 'form-label' %>
+                <%= profile_fields.text_field :social_links_instagram, value: profile_fields.object.social_links["instagram"], class: 'form-control', placeholder: 'https://instagram.com/...' %>
+              </div>
+
+              <div class="form-group mb-3">
+                <%= profile_fields.label :tiktok, 'TikTok', class: 'form-label' %>
+                <%= profile_fields.text_field :social_links_tiktok, value: profile_fields.object.social_links["tiktok"], class: 'form-control', placeholder: 'https://tiktok.com/@...' %>
+              </div>
+            <% end %>
           </div>
         </div>
       </div>
-    </div>
-    <div class="row">
-      <div class="col-md-6">
-        <div class="form-group">
-          <%= form.label :address, class: 'form-label' %>
-          <div class="input-group">
-            <div class="input-group-addon">
-              <i class="fas fa-home"></i>
-            </div>
-            <%= form.textarea :address, size: '70x5', class: "form-control", disabled: true %>
+
+      <div class="col-md-6"><!-- Photo Uploads Column -->
+        <div class="box">
+          <div class="box-header">
+            <h5 class="box-title"><i class="fas fa-image me-2"></i>Fotos del Jugador</h5>
           </div>
-        </div>
-      </div>
-      <div class="col-md-6">
-        <div class="form-group">
-            <%= form.label :notes, class: 'form-label' %>
-          <div class="input-group">
-            <div class="input-group-addon">
-              <i class="fas fa-book-open"></i>
+          <div class="box-body">
+            <!-- HERO IMAGE -->
+            <div class="form-group mb-4">
+              <%= form.label :hero_image, 'Imagen Principal (Hero)', class: 'form-label' %>
+              <%= form.file_field :hero_image, class: 'form-control' %>
+
+              <% if @player.hero_image.attached? %>
+                <div class="mt-2 d-flex align-items-center">
+                  <div class="me-3">
+                    <%= image_tag @player.hero_image.variant(resize_to_limit: [60, 60]).processed,
+                                  class: "img-thumbnail", alt: "Hero Image" %>
+                  </div>
+                  <div>
+                    <strong><%= @player.hero_image.filename.to_s %></strong>
+                    <br>
+                    <small><%= number_to_human_size(@player.hero_image.byte_size) %></small>
+                  </div>
+                </div>
+              <% end %>
             </div>
-            <%= form.textarea :notes, size: '70x5', class: "form-control", disabled: true %>
+
+            <!-- CAROUSEL IMAGES -->
+            <div class="form-group mb-2">
+              <%= form.label :carousel_images, 'Imágenes para el Carrusel (máx. 4)', class: 'form-label' %>
+              <%= form.file_field :carousel_images, multiple: true, class: 'form-control', accept: "image/*" %>
+              <small class="form-text text-muted">
+                Solo puedes tener 4 imágenes. Si agregas una nueva, la más antigua será reemplazada automáticamente.
+              </small>
+
+              <% if @player.carousel_images.attached? %>
+                <div class="mt-3 d-flex flex-wrap gap-2">
+                  <% @player.carousel_images.each do |img| %>
+                    <div class="text-center">
+                      <% if img.variable? %>
+                        <%= image_tag img.variant(resize_to_limit: [60, 60]).processed, class: "img-thumbnail mb-1", alt: "Carrusel" %>
+                      <% else %>
+                        <%= image_tag url_for(img), class: "img-thumbnail mb-1", alt: "Carrusel" %>
+                      <% end %>
+                      <div class="small text-muted" style="max-width: 70px; word-wrap: break-word;">
+                        <%= truncate(img.filename.to_s, length: 15) %>
+                      </div>
+                    </div>
+                  <% end %>
+                </div>
+              <% end %>
+            </div>
           </div>
         </div>
       </div>

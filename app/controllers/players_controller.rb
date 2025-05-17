@@ -37,30 +37,36 @@ class PlayersController < ApplicationController
 
   def update
     authorize :player, :index?
-    if @player.update(player_params)
+
+    permitted = player_params
+    new_carousel_images = permitted[:carousel_images]
+    permitted_without_images = permitted.except(:carousel_images)
+
+    if @player.update(permitted_without_images)
       assign_school(@player)
-      redirect_to players_path, notice: 'Player updated successfully.'
+      @player.add_carousel_images(new_carousel_images) if new_carousel_images.present?
+      redirect_to safe_redirect_path, notice: 'Player updated successfully.'
     else
       render :edit, status: :unprocessable_entity
     end
   end
 
-def destroy
-  authorize :player, :destroy?
-  if @player.destroy
-    respond_to do |format|
-      format.html { redirect_to players_path, notice: "Player deleted." }
-      format.turbo_stream
-    end
-  else
-    respond_to do |format|
-      format.html { redirect_to players_path, alert: "Failed to delete player: #{@player.errors.full_messages.join(', ')}" }
-      format.turbo_stream do
-        render turbo_stream: turbo_stream.append("messages", partial: "shared/flash", locals: { alert: "Failed to delete player: #{@player.errors.full_messages.join(', ')}" })
+  def destroy
+    authorize :player, :destroy?
+    if @player.destroy
+      respond_to do |format|
+        format.html { redirect_to players_path, notice: "Player deleted." }
+        format.turbo_stream
+      end
+    else
+      respond_to do |format|
+        format.html { redirect_to players_path, alert: "Failed to delete player: #{@player.errors.full_messages.join(', ')}" }
+        format.turbo_stream do
+          render turbo_stream: turbo_stream.append("messages", partial: "shared/flash", locals: { alert: "Failed to delete player: #{@player.errors.full_messages.join(', ')}" })
+        end
       end
     end
   end
-end
 
   def assign_category
     authorize :player, :index?
@@ -127,12 +133,25 @@ end
 
   def player_params
     params.require(:player).permit(
-      :email, :tenant_id, :first_name, :last_name, :full_name, :date_of_birth, 
-      :gender, :nationality, :document_number, :profile_picture, :dominant_side, 
-      :position, :address, :is_active, :bio, :notes, :user_id, documents: [],
+      :email, :tenant_id, :first_name, :last_name, :full_name, :date_of_birth,
+      :gender, :nationality, :document_number, :profile_picture, :dominant_side,
+      :position, :address, :is_active, :bio, :notes, :user_id, :hero_image,
+      documents: [], carousel_images: [], 
+      player_profile_attributes: [
+        :id,
+        :nickname,
+        :jersey_number,
+        :internal_notes,
+        :status,
+        :disciplinary_flag,
+        :skill_rating,
+        :social_links_facebook,
+        :social_links_instagram,
+        :social_links_tiktok
+      ],
       guardians_attributes: [
-      :id, :first_name, :last_name, :email, :phone, :gender, :relationship, :address, :notes, :_destroy
-    ]
+        :id, :first_name, :last_name, :email, :phone, :gender, :relationship, :address, :notes, :_destroy
+      ]
     )
   end
 
@@ -140,5 +159,11 @@ end
     @player = Player.find(params[:id])
     @school = @player.schools.first
     @categories = @school.categories.order(id: :asc)
+  end
+  
+  def safe_redirect_path
+    uri = URI.parse(params[:redirect_to]) rescue nil
+    return players_path unless uri&.path&.starts_with?("/")
+    uri.path
   end
 end
