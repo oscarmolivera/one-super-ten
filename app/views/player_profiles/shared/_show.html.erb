@@ -5,6 +5,13 @@
 				<div class="widget-user-header bg-img bbsr-0 bber-0" style="background: url(<%=asset_path('faviconbg.png')%>) center center;" data-overlay="5">
 					<h3 class="widget-user-username text-white"><%= @player.public_full_name %></h3>
 					<h6 class="widget-user-desc text-white"><%= @player.public_position %></h6>
+					<% if @player.schools.any? %>
+						<div class="ribbons-wrapper position-absolute top-0 end-0 p-2 d-flex flex-wrap justify-content-end gap-2">
+							<% @player.schools.each_with_index do |school, i| %>
+								<span class="badge-school badge-school-<%= i %>"><%= school.name %></span>
+							<% end %>
+						</div>
+					<% end %>
 				</div>
 				<div class="widget-user-image" style="position: relative; top: 30px; margin-top: -120px; z-index: 10;">
 					<%= player_profile_image(@player, class: 'rounded-circle' , alt: "Foto de perfil") %>
@@ -117,3 +124,33 @@
 		</div><!-- /.col-12 Right Side -->
 	</div><!-- /.row -->
 </section>
+<style>
+	.badge-school {
+		background-color: #fff;
+		color: #000;
+		padding: 6px 14px;
+		border-radius: 999px;
+		font-weight: bold;
+		font-size: 0.85rem;
+		box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+	}
+	.ribbons-wrapper {
+		z-index: 20;
+	}
+
+	.badge-school {
+		color: #fff;
+		font-weight: 600;
+		font-size: 0.75rem;
+		padding: 5px 12px;
+		border-radius: 999px;
+		white-space: nowrap;
+		box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+	}
+
+	/* Optional: Add vibrant colors per index */
+	.badge-school-0 { background-color: #ffc107; } /* yellow */
+	.badge-school-1 { background-color: #20c997; } /* teal */
+	.badge-school-2 { background-color: #d63384; } /* pink */
+	.badge-school-3 { background-color: #0dcaf0; } /* cyan */
+</style>

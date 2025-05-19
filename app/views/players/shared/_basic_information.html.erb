@@ -107,15 +107,14 @@
     <div class="row"><!-- School IsActive ProfilePicture -->
       <div class="col-md-4">
         <div class="form-group">
-          <%= label_tag :school_id, "Escuela", class: 'form-label' %>
+          <%= label_tag 'player[school_ids][]', "Escuelas", class: 'form-label' %>
           <div class="input-group">
             <div class="input-group-text">
               <i class="fas fa-school"></i>
             </div>
-            <%= select_tag :school_id,
-                  options_from_collection_for_select(School.all, :id, :name, @player.schools.first&.id),
-                  include_blank: "Selecciona escuela",
-                  class: "form-control" %>
+            <%= collection_select(:player, :school_ids, School.all, :id, :name,
+                  { selected: @player.school_ids, include_hidden: false },
+                  { multiple: true, class: "form-control", size: 4 }) %>
           </div>
         </div>
       </div>

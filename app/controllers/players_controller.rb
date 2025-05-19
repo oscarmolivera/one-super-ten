@@ -148,7 +148,7 @@ class PlayersController < ApplicationController
       :email, :tenant_id, :first_name, :last_name, :full_name, :date_of_birth,
       :gender, :nationality, :document_number, :profile_picture, :dominant_side,
       :position, :address, :is_active, :bio, :notes, :user_id, :hero_image,
-      documents: [], carousel_images: [], 
+      school_ids: [], documents: [], carousel_images: [], 
       player_profile_attributes: [
         :id,
         :nickname,
