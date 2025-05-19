@@ -86,28 +86,33 @@
             <div class="input-group-addon">
               <i class="fas fa-hand-point-right"></i>
             </div>
-            <%= form.text_field :dominant_side, class: "form-control" %>
+            <%= form.select :dominant_side, Player.dominant_sides.keys.map { |g| [g.titleize, g] }, { include_blank: "Lado?" }, class: "form-control" %>
           </div>
         </div>
       </div>
       <div class="col-md-4">
         <div class="form-group">
-            <%= form.label :position, class: 'form-label' %>
+          <%= form.label :position, class: 'form-label' %>
           <div class="input-group">
             <div class="input-group-addon">
-              <i class="fa fa-id-card"></i>
+              <i class="fas fa-futbol"></i>
             </div>
-            <%= form.text_field :position, class: "form-control" %>
+            <%= form.select :position, Player.positions.keys.map { |g| [g.titleize, g] }, { include_blank: "Posición?" }, class: "form-control" %>
           </div>
         </div>
       </div>
     </div>
-    <div class="row">
+    <div class="row"><!-- JerseyNumber ProfilePicture -->
       <div class="col-md-4">
         <div class="form-group">
           <%= form.fields_for :player_profile do |profile_fields| %>
             <%= profile_fields.label :jersey_number, class: 'form-label' %>
-            <%= profile_fields.text_field :jersey_number, class: 'form-control', placeholder: "Dorsal" %>
+            <div class="input-group">
+              <div class="input-group-addon">
+                <i class="fa-solid fa-shirt"></i>
+              </div>
+              <%= profile_fields.text_field :jersey_number, class: 'form-control', placeholder: "Dorsal" %>
+            </div>
           <% end %>
         </div>
       </div>
@@ -136,39 +141,48 @@
       <div class="col-md-4">
         <div class="form-group">
           <div class="text-center mt-25">
-            <% if @player.profile_picture.attached? %>
-              <%= image_tag @player.profile_picture.variant(resize_to_limit: [35, 35]).processed, class: "img-thumbnail" , alt: "Foto de perfil" %>
-            <% else %>
-              <div class="img-thumbnail" style="width: 35px; height: 35px; background-color: #f0f0f0; display: flex; align-items: center; justify-content: center;">
-                <i class="fas fa-user-slash"></i>
-                
-              </div>
-            <% end %>
+            <%= player_profile_image(@player, class: "img-thumbnail" , alt: "Foto de perfil", style: "width: 80px; height: 80px;") %>
           </div>
         </div>
       </div>
     </div>
-    <div class="row mt-4">
+    <div class="row mt-4"><!-- Social Media & UpLoad Photos -->
       <div class="col-md-6"><!-- Social Media Column -->
         <div class="box">
           <div class="box-header">
             <h5 class="box-title"><i class="fas fa-rss-square me-2"></i>Redes Sociales</h5>
+            <div><small>Solo coloca el usuario de la red</small></div>
           </div>
           <div class="box-body">
             <%= form.fields_for :player_profile do |profile_fields| %>
               <div class="form-group mb-3">
                 <%= profile_fields.label :facebook, 'Facebook', class: 'form-label' %>
-                <%= profile_fields.text_field :social_links_facebook, value: profile_fields.object.social_links["facebook"], class: 'form-control', placeholder: 'https://facebook.com/...' %>
+                <div class="input-group">
+                  <div class="input-group-addon">
+                    <i class="fa fa-facebook"></i>
+                  </div>
+                  <%= profile_fields.text_field :social_links_facebook, value: profile_fields.object.social_links["facebook"], class: 'form-control', placeholder: 'https://facebook.com/...' %>
+                </div>
               </div>
 
               <div class="form-group mb-3">
                 <%= profile_fields.label :instagram, 'Instagram', class: 'form-label' %>
-                <%= profile_fields.text_field :social_links_instagram, value: profile_fields.object.social_links["instagram"], class: 'form-control', placeholder: 'https://instagram.com/...' %>
+                <div class="input-group">
+                  <div class="input-group-addon">
+                    <i class="fa fa-instagram"></i>
+                  </div>
+                  <%= profile_fields.text_field :social_links_instagram, value: profile_fields.object.social_links["instagram"], class: 'form-control', placeholder: 'https://instagram.com/...' %>
+                </div>                
               </div>
 
               <div class="form-group mb-3">
                 <%= profile_fields.label :tiktok, 'TikTok', class: 'form-label' %>
-                <%= profile_fields.text_field :social_links_tiktok, value: profile_fields.object.social_links["tiktok"], class: 'form-control', placeholder: 'https://tiktok.com/@...' %>
+                <div class="input-group">
+                  <div class="input-group-addon">
+                    <i class="fa-brands fa-tiktok"></i>
+                  </div>
+                  <%= profile_fields.text_field :social_links_tiktok, value: profile_fields.object.social_links["tiktok"], class: 'form-control', placeholder: 'https://tiktok.com/@...' %>
+                </div> 
               </div>
             <% end %>
           </div>

@@ -100,6 +100,13 @@
 		color: #333;
 	}
 
+	.wui-profile-image{
+		position: relative;
+		top: 30px;
+		margin-top: -120px;
+		z-index: 10;
+	}
+
 /*=================================*/
 @media only screen and (max-width: 1600px) {
 	.group-section .accordion-body  a{

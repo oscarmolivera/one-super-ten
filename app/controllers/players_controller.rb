@@ -71,7 +71,6 @@ class PlayersController < ApplicationController
   def assign_category
     authorize :player, :index?
 
-    binding.pry
     @player = Player.find(params[:id])
     category = Category.find(params[:category_id])
 
@@ -79,6 +78,19 @@ class PlayersController < ApplicationController
       redirect_to players_path, notice: "Categoría asignada correctamente."
     else
       redirect_to select_category_player_path(@player), alert: "No se pudo asignar la categoría."
+    end
+  end
+  
+  def remove_category
+    authorize :player, :index?
+
+    @player = Player.find(params[:id])
+    category = Category.find(params[:category_id])
+
+    if @player.categories.destroy(category)
+      redirect_to select_category_player_path(@player), notice: "Categoría eliminada correctamente."
+    else
+      redirect_to select_category_player_path(@player), alert: "No se pudo eliminar la categoría."
     end
   end
 

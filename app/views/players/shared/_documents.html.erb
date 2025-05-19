@@ -5,51 +5,53 @@
       <h4 class="box-title">📁 Documentos</h4>
     </div>
     <div class="box-body">
-      <form action="<%= documents_player_path(@player) %>" 
-            class="dropzone"
-            id="player-files-dropzone"
-            method="post"
-            enctype="multipart/form-data">
-        <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
-        <p class="text-muted small mt-1">
-          Arrastra y suelta archivos aquí o haz clic para subir.<br>
-          <strong>Formatos permitidos:</strong> PDF, JPG, PNG &nbsp; | &nbsp; <strong>Tamaño máximo:</strong> 5MB
-        </p>
-      </form>
-      <% if @player.documents.attached? %>
-        <hr>
-        <h5 class="mt-4 mb-3 fw-bold">📎 Documentos subidos:</h5>
-        <div class="d-flex flex-wrap gap-3">
-          <% @player.documents.each do |doc| %>
-            <div style="width: 160px; height: 180px; border: 1px solid #eee2e6; border-radius: 6px; overflow: hidden; background: #fff; transition: box-shadow 0.2s;" onmouseover="this.style.boxShadow='0 0 10px rgba(0,0,0,0.2)'" onmouseout="this.style.boxShadow='none'">
-              <% if doc.image? %>
-                <div class="doc-preview border p-2 mb-2" 
-                  data-bs-toggle="modal"
-                  data-bs-target="#docModal"
-                  data-doc-url="<%= url_for(doc) %>"
-                  style="height: 100px; background-color: #f8f9fa;"
-                >
-                  <%= image_tag doc.variant(resize_to_fill: [160, 120]), class: "w-80 h-80", style: "object-fit: cover;" %>
+      <% if @player.persisted? %>
+        <form action="<%= documents_player_path(@player) %>" 
+              class="dropzone"
+              id="player-files-dropzone"
+              method="post"
+              enctype="multipart/form-data">
+          <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+          <p class="text-muted small mt-1">
+            Arrastra y suelta archivos aquí o haz clic para subir.<br>
+            <strong>Formatos permitidos:</strong> PDF, JPG, PNG &nbsp; | &nbsp; <strong>Tamaño máximo:</strong> 5MB
+          </p>
+        </form>
+        <% if @player.documents.attached? %>
+          <hr>
+          <h5 class="mt-4 mb-3 fw-bold">📎 Documentos subidos:</h5>
+          <div class="d-flex flex-wrap gap-3">
+            <% @player.documents.each do |doc| %>
+              <div style="width: 160px; height: 180px; border: 1px solid #eee2e6; border-radius: 6px; overflow: hidden; background: #fff; transition: box-shadow 0.2s;" onmouseover="this.style.boxShadow='0 0 10px rgba(0,0,0,0.2)'" onmouseout="this.style.boxShadow='none'">
+                <% if doc.image? %>
+                  <div class="doc-preview border p-2 mb-2" 
+                    data-bs-toggle="modal"
+                    data-bs-target="#docModal"
+                    data-doc-url="<%= url_for(doc) %>"
+                    style="height: 100px; background-color: #f8f9fa;"
+                  >
+                    <%= image_tag doc.variant(resize_to_fill: [160, 120]), class: "w-80 h-80", style: "object-fit: cover;" %>
+                  </div>
+                <% else %>
+                  <div class="d-flex justify-content-center align-items-center bg-light" style="height: 140px;">
+                    <i class="fas fa-file-alt fa-2x text-secondary"></i>
+                  </div>
+                <% end %>
+                <div class="px-2 py-2 text-center small bg-white">
+                  <%= link_to truncate(doc.filename.to_s, length: 25), "#", 
+                      class: "d-block text-decoration-none text-dark", 
+                      data: { bs_toggle: "modal", bs_target: "#docModal", doc_url: url_for(doc) } %>
+                  <div class="d-flex justify-content-between align-items-center mt-2">
+                    <span class="text-muted small"><%= distance_of_time_in_words_to_now(doc.created_at) %></span>
+                    <%= link_to "🗑", erase_document_player_path(@player, blob_id: doc.blob.id), 
+                        data: { turbo: true, turbo_method: :delete, turbo_confirm: "Are you sure?" },
+                        class: "btn btn-sm btn-outline-danger w-100 mt-1" %>
+                  </div>  
                 </div>
-              <% else %>
-                <div class="d-flex justify-content-center align-items-center bg-light" style="height: 140px;">
-                  <i class="fas fa-file-alt fa-2x text-secondary"></i>
-                </div>
-              <% end %>
-              <div class="px-2 py-2 text-center small bg-white">
-                <%= link_to truncate(doc.filename.to_s, length: 25), "#", 
-                    class: "d-block text-decoration-none text-dark", 
-                    data: { bs_toggle: "modal", bs_target: "#docModal", doc_url: url_for(doc) } %>
-                <div class="d-flex justify-content-between align-items-center mt-2">
-                  <span class="text-muted small"><%= distance_of_time_in_words_to_now(doc.created_at) %></span>
-                  <%= link_to "🗑", erase_document_player_path(@player, blob_id: doc.blob.id), 
-                      data: { turbo: true, turbo_method: :delete, turbo_confirm: "Are you sure?" },
-                      class: "btn btn-sm btn-outline-danger w-100 mt-1" %>
-                </div>  
               </div>
-            </div>
-          <% end %>
-        </div>
+            <% end %>
+          </div>
+        <% end %>
       <% end %>
     </div>
   </div>

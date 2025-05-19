@@ -29,7 +29,7 @@
             <div class="input-group-addon">
               <i class="fas fa-birthday-cake"></i>
             </div>
-            <%= form.date_field :date_of_birth, class: "form-control", data: { inputmask: "'alias': 'dd/mm/yyyy'", mask: true } %>
+            <%= form.date_field :date_of_birth, class: "form-control", data: { inputmask: "'alias': 'dd/mm/yyyy'", mask: true }, required: true%>
           </div>
         </div>
       </div>  
@@ -179,11 +179,9 @@
       <div class="col-md-4">
         <div class="form-group">
           <%= form.label 'Foto Actual', class: 'form-label' %>
-          <% if @player.profile_picture.attached? %>
             <div class="text-center mt-3">
-              <%= image_tag @player.profile_picture.variant(resize_to_limit: [125, 125]).processed, class: "img-thumbnail" , alt: "Foto de perfil" %>
+              <%= player_profile_image(@player, class: 'img-thumbnail' , alt: "Foto de perfil", style: "width: 100px; height: 100px; padding: 2rem") %>
             </div>
-          <% end %>
         </div>
       </div>
     </div>

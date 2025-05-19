@@ -1,76 +1,62 @@
 <section class="content">
 	<div class="row">
-		<div class="col-12 col-lg-5 col-xl-4">
-			<div class="box box-widget widget-user"><!-- Player Pic/Data -->
-				<!-- Add the bg color to the header using any of the bg-* classes -->
+		<div class="col-12 col-lg-5 col-xl-4"><!-- Profile Left Side -->
+			<div class="box box-widget widget-user"><!-- User Basic Information Card-->
 				<div class="widget-user-header bg-img bbsr-0 bber-0" style="background: url(<%=asset_path('faviconbg.png')%>) center center;" data-overlay="5">
-					<h3 class="widget-user-username text-white">Ignacio "Nacho" Olivo</h3>
-					<h6 class="widget-user-desc text-white">Mediocampo</h6>
+					<h3 class="widget-user-username text-white"><%= @player.public_full_name %></h3>
+					<h6 class="widget-user-desc text-white"><%= @player.public_position %></h6>
 				</div>
 				<div class="widget-user-image" style="position: relative; top: 30px; margin-top: -120px; z-index: 10;">
-					<%= image_tag 'nacho-pic.png', class: 'rounded-circle', alt: 'User Avatar' %>
+					<%= player_profile_image(@player, class: 'rounded-circle' , alt: "Foto de perfil") %>
 				</div>
-				<div class="box-footer">
-					<div class="row">
+				<div class="box-footer"><!-- Other Info  & Social Media -->
+					<div class="row"><!-- Age DominantSide Category -->
 						<div class="col-sm-4">
 							<div class="description-block">
 								<span class="description-text">Edad</span>
-								<h5 class="description-header">8 años</h5>
+								<h5 class="description-header"><%= "#{@player.age} años" %></h5>
 							</div><!-- /.description-block -->
 						</div><!-- /.col -->
 						<div class="col-sm-4 be-1 bs-1">
 							<div class="description-block">
 								<span class="description-text">Pie Dominante</span>
-								<h5 class="description-header">Derecho</h5>
+								<h5 class="description-header"><%= @player.preferent_side %></h5>
 							</div><!-- /.description-block -->
 						</div><!-- /.col -->
 						<div class="col-sm-4">
 							<div class="description-block">
 								<span class="description-text">Categoría</span>
-								<h5 class="description-header">Sub 9</h5>
+								<h5 class="description-header"><%= @player.categories.first.name %></h5>
 							</div><!-- /.description-block -->
 						</div><!-- /.col -->
 					</div><!-- /.row -->
-					<div class="row">
+					<div class="row"><!-- Social Media Links -->
 						<div class="col-12">
-							<div class="pb-15 text-center">						
-								<p class="mb-10">Redes Sociales</p>
-								<div class="user-social-acount d-flex justify-content-center gap-3">
-									<button class="btn btn-circle btn-social-icon btn-facebook">
-										<i class="fa fa-facebook"></i>
-									</button>
-									<button class="btn btn-circle btn-social-icon btn-twitter">
-										<i class="fa fa-twitter"></i>
-									</button>
-									<button class="btn btn-circle btn-social-icon btn-instagram">
-										<i class="fa fa-instagram"></i>
-									</button>
-								</div>
-							</div>
+							<%= render partial: "player_profiles/shared/social_links", locals: { player: @player } %>
 						</div>
 					</div>
-				</div><!-- /.box-footer -->
-			</div><!-- /.box box-widget widget-user -->
+				</div>
+			</div>
 			<div class="box box-body"><!-- Player Stadistics -->
 				<h6><span class="text-uppercase">Estadística de Temporada</span></h6>
 				<div class="box-group">
 					<div class="box overflow-hidden">
-					  <div class="vertical-align h-200">
+						<div class="vertical-align h-200">
 						<div class="vertical-align-middle fs-30 text-center w-p100">
 							<div class="text-center">
-								<h1 class="countnm fs-50 m-0">17</h1>
+								<h1 class="countnm fs-50 m-0"><%= rand(1..50) %></h1>
 								<div class="text-uppercase">Goles</div>
 							</div>
 						</div>
-					  </div>
+						</div>
 					</div>
 					<div class="box overflow-hidden bg-primary-light">
-					  <div class="vertical-align text-center p-30 h-200">
+						<div class="vertical-align text-center p-30 h-200">
 						<div class="vertical-align-middle fs-20">
-								<h1 class="countnm fs-50 m-0">29</h1>
+								<h1 class="countnm fs-50 m-0"><%= rand(1..50) %></h1>
 								<div class="text-uppercase">Asistencias</div>
 						</div>
-					  </div>
+						</div>
 					</div>
 				</div>
 				<div class="fs-12"><i class="ion-arrow-graph-down-right text-success me-1"></i> %18 decrease from last month</div>
@@ -110,155 +96,24 @@
 					<a class="text-uppercase d-blockls-1 text-fade" href="#">Otras Categorias</a>
 				</div>
 			</div><!-- /.box -->
-		</div><!-- /.col-12 col-lg-5 col-xl-4 -->
+		</div><!-- /.col-12 Left Side -->
 
-		<div class="col-12 col-lg-7 col-xl-8">
+		<div class="col-12 col-lg-7 col-xl-8"><!-- Profile Right Side -->
 			<div class="nav-tabs-custom">
 				<ul class="nav nav-tabs">
-					<li><a href="#publicprofile" data-bs-toggle="tab">Perfil Publico</a></li>
-					<li><a class="active" href="#editprofile" data-bs-toggle="tab">Editar Perfil</a></li>
-					<li><a href="#settings" data-bs-toggle="tab">Settings</a></li>
+					<li><a class="active" href="#publicprofile" data-bs-toggle="tab">Perfil Publico</a></li>
+					<li><a href="#editprofile" data-bs-toggle="tab">Editar Perfil</a></li>
 				</ul>
 
 				<div class="tab-content">
-					<div class="tab-pane" id="publicprofile">
-						<div class="box"><!-- /Player Long Photo -->
-							<div class="fx-card-item">
-								<div class="fx-card-avatar fx-overlay-1">
-									<div class="image-crop-frame"> 
-										<%= image_tag 'profile-placeholder.webp', alt:"user", class:"cropped-image" %>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="row"><!-- /Player Data -->
-							<div class="col-xl-4 col-md-6 col-12">
-								<div class="box bg-secondary-light pull-up" style="background-image: url(<%= asset_path('midfielder-2.png')%>); background-position: right bottom; background-repeat: no-repeat;">
-									<div class="box-body">	
-										<div class="flex-grow-1">	
-											<h4 class="mt-1 mb-1">MedioCampo</h4>
-											<p class="text-fade mb-0 fs-12">Posicion</p>
-										</div>	
-									</div>					
-								</div>
-							</div>
-							<div class="col-xl-4 col-md-6 col-12">
-								<div class="box bg-Warning-light pull-up" style="background-image: url(<%= asset_path('jersey-1.png')%>); background-position: right bottom; background-repeat: no-repeat;">
-									<div class="box-body">
-										<div class="flex-grow-1">	
-											<div class="d-flex align-items-center pe-2 justify-content-between">					
-											</div>
-											<h4 class="mt-1 mb-1">Dorsal</h4>
-											<p class="text-fade mb-0 fs-12">Temporada 2025</p>
-											<div class="jersey-number-box">
-												<span class="jersey-number-text">34</span>
-											</div>
-										</div>	
-									</div>					
-								</div>
-							</div>
-							<div class="col-xl-4 col-md-6 col-12">
-								<div class="box bg-secondary-light pull-up" style="background-image: url(<%= asset_path('coach-1.png')%>); background-position: right bottom; background-repeat: no-repeat;">
-									<div class="box-body">	
-										<div class="flex-grow-1">	
-											<h4 class="mt-1 mb-1">Luis Franco</h4>
-											<p class="text-fade mb-0 fs-12">Entrenador</p>
-										</div>	
-									</div>					
-								</div>
-							</div>
-						</div>
-						<div class="row"><!-- /Player Tournament List-->
-							<div class="box bg-transparent no-shadow mb-0">
-								<div class="box-header no-border px-0">
-									<h4 class="box-title">Ultimos Torneos</h4>							
-									<div class="box-controls pull-right d-md-flex d-none">
-										<a href="#">Ver Todos</a>
-									</div>
-								</div>
-							</div>
-							<div class="box">
-								<div class="box-body py-10">
-									<div class="table-responsive">
-										<table class="table no-border mb-0">
-											<tbody>
-												<tr>
-													<td>
-														<div class="bg-danger h-50 w-50 l-h-50 rounded text-center">
-															<%= image_tag 'tournament-logo-1.png' %>
-														</div>
-													</td>
-													<td class="fw-600">Estadal Apertura</td>
-													<td class="text-fade">Temporada 2024</td>
-													<td class="fw-500"><span class="badge badge-sm badge-dot badge-warning me-10"></span>12 victorias</td>
-													<td class="text-fade">26 Goles</td>
-													<td class="fw-600">CAMPEONES</td>
-												</tr>
-												<tr>
-													<td>
-														<div class="bg-info h-50 w-50 l-h-50 rounded text-center">
-															<%= image_tag 'tournament-logo-2.png' %>
-														</div>
-													</td>
-													<td class="fw-600">Copa Tricolor</td>
-													<td class="text-fade">Temporada 2024</td>
-													<td class="fw-500 text-warning"><span class="badge badge-sm badge-dot badge-warning me-10"></span>10 victorias</td>
-													<td class="text-fade">25 Goles</td>
-													<td class="fw-600">SUBCAMPEONES</td>
-												</tr>
-												<tr>
-													<td>
-														<div class="bg-primary h-50 w-50 l-h-50 rounded text-center">
-															<%= image_tag 'tournament-logo-3.png' %>
-														</div>
-													</td>
-													<td class="fw-600">Copa La Perla</td>
-													<td class="text-fade">Temporada 2024</td>
-													<td class="fw-500"><span class="badge badge-sm badge-dot badge-warning me-10"></span>14 Victorias</td>
-													<td class="text-fade">31 Goles</td>
-													<td class="fw-600">CAMPEONES</td>
-												</tr>
-												<tr>
-													<td>
-														<div class="bg-danger h-50 w-50 l-h-50 rounded text-center">
-															<%= image_tag 'tournament-logo-1.png' %>
-														</div>
-													</td>
-													<td class="fw-600">Estadal Clausura</td>
-													<td class="text-fade">Temporada 2024</td>
-													<td class="fw-500 text-warning"><span class="badge badge-sm badge-dot badge-warning me-10"></span>11 victorias</td>
-													<td class="text-fade">19 Goles</td>
-													<td class="fw-600">SUBCAMPEONES</td>
-												</tr>
-											</tbody>
-										</table>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="row"><!-- /Player Photo Carousel -->
-							<div class="box">
-								<div id="splide" class="splide">
-									<div class="splide__track">
-										<ul class="splide__list">
-											<% 5.times do |i| %>
-												<li class="splide__slide">
-													<%= image_tag "https://picsum.photos/800/400?random=#{i}", class: "img-fluid", alt: "Placeholder Slide #{i + 1}" %>
-												</li>
-											<% end %>
-										</ul>
-									</div>
-								</div>
-							</div>
-						</div>
+					<div class="active tab-pane" id="publicprofile">
+						<%= render 'player_profiles/shared/public_profile' %>
 					</div><!-- /.tab-pane publicprofile-->
-					<div class="active tab-pane" id="editprofile">
-						<%= render 'player_profiles/shared/personal_form' %>
+					<div class="tab-pane" id="editprofile">
+						<%= render 'player_profiles/shared/edit_profile' %>
 					</div><!-- /.tab-pane editprofile-->
-					<div class="tab-pane" id="settings">	  
-					</div><!-- /.tab-pane settings-->
 				</div><!-- /.tab-content -->
 			</div><!-- /.nav-tabs-custom -->
-		</div><!-- /.col-12 col-lg-7 col-xl-8 -->
+		</div><!-- /.col-12 Right Side -->
 	</div><!-- /.row -->
 </section>
