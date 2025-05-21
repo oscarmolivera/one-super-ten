@@ -1,141 +1,73 @@
-<div class="box"><!-- /Player Long Photo -->
+<div class="box mb-4"><!-- /Player Long Photo -->
   <div class="fx-card-item">
     <div class="fx-card-avatar fx-overlay-1">
       <div class="image-crop-frame"> 
-        <%= image_tag @player.hero_image_url, alt:"user", class:"cropped-image" %>
-        <%=  %>
+        <%= image_tag @player.hero_image_url, alt: "Foto del jugador", class: "cropped-image" %>
       </div>
     </div>
   </div>
 </div>
-<div class="row"><!-- /Player Data -->
-  <div class="col-xl-4 col-md-6 col-12">
-    <div class="box bg-secondary-light pull-up" style="background-image: url(<%= asset_path(position_background_image(@player))%>); background-position: right bottom; background-repeat: no-repeat;">
-      <div class="box-body">	
-        <div class="flex-grow-1">	
-          <h4 class="mt-1 mb-1"><%= @player.public_position %></h4>
-          <p class="text-fade mb-0 fs-12">Posición</p>
-        </div>	
-      </div>					
+
+<% if @player.schools.count > 1 %>
+  <div class="nav-pills-custom mb-4">
+    <ul class="nav nav-pills mb-3 gap-2" id="school-pills" role="tablist">
+      <% @player.schools.each_with_index do |school, index| %>
+        <li class="nav-item" role="presentation">
+          <a 
+            class="nav-link <%= 'active' if index == 0 %>" 
+            id="pill-<%= school.id %>-tab" 
+            data-bs-toggle="pill" 
+            href="#pill-<%= school.id %>" 
+            role="tab">
+            <%= school.name %>
+          </a>
+        </li>
+      <% end %>
+    </ul>
+
+    <div class="tab-content" id="school-pills-content">
+      <% @player.schools.each_with_index do |school, index| %>
+        <div 
+          class="tab-pane fade <%= 'show active' if index == 0 %>" 
+          id="pill-<%= school.id %>" 
+          role="tabpanel">
+          <%= render partial: "player_profiles/shared/school_summary", locals: { player: @player, school: school } %>
+        </div>
+      <% end %>
     </div>
   </div>
-  <div class="col-xl-4 col-md-6 col-12">
-    <div class="box bg-Warning-light pull-up" style="background-image: url(<%= asset_path('jersey-1.png')%>); background-position: right bottom; background-repeat: no-repeat;">
-      <div class="box-body">
-        <div class="flex-grow-1">	
-          <div class="d-flex align-items-center pe-2 justify-content-between">					
-          </div>
-          <h4 class="mt-1 mb-1">Dorsal</h4>
-          <p class="text-fade mb-0 fs-12">Temporada 2025</p>
-          <div class="jersey-number-box">
-            <span class="jersey-number-text"><%= @player.jersey_selection %></span>
-          </div>
-        </div>	
-      </div>					
-    </div>
-  </div>
-  <div class="col-xl-4 col-md-6 col-12">
-    <div class="box bg-secondary-light pull-up" style="background-image: url(<%= asset_path('coach-1.png')%>); background-position: right bottom; background-repeat: no-repeat;">
-      <div class="box-body">	
-        <div class="flex-grow-1">	
-          <h4 class="mt-1 mb-1">Luis Franco</h4>
-          <p class="text-fade mb-0 fs-12">Entrenador</p>
-        </div>	
-      </div>					
-    </div>
-  </div>
-</div>
-<div class="row"><!-- /Player Tournament List-->
-  <div class="box bg-transparent no-shadow mb-0">
-    <div class="box-header no-border px-0">
-      <h4 class="box-title">Ultimos Torneos</h4>							
-      <div class="box-controls pull-right d-md-flex d-none">
-        <a href="#">Ver Todos</a>
-      </div>
-    </div>
-  </div>
-  <div class="box">
-    <div class="box-body py-10">
-      <div class="table-responsive">
-        <table class="table no-border mb-0">
-          <tbody>
-            <tr>
-              <td>
-                <div class="bg-danger h-50 w-50 l-h-50 rounded text-center">
-                  <%= image_tag 'tournament-logo-1.png' %>
-                </div>
-              </td>
-              <td class="fw-600">Estadal Apertura</td>
-              <td class="text-fade">Temporada 2024</td>
-              <td class="fw-500"><span class="badge badge-sm badge-dot badge-warning me-10"></span>12 victorias</td>
-              <td class="text-fade">26 Goles</td>
-              <td class="fw-600">CAMPEONES</td>
-            </tr>
-            <tr>
-              <td>
-                <div class="bg-info h-50 w-50 l-h-50 rounded text-center">
-                  <%= image_tag 'tournament-logo-2.png' %>
-                </div>
-              </td>
-              <td class="fw-600">Copa Tricolor</td>
-              <td class="text-fade">Temporada 2024</td>
-              <td class="fw-500 text-warning"><span class="badge badge-sm badge-dot badge-warning me-10"></span>10 victorias</td>
-              <td class="text-fade">25 Goles</td>
-              <td class="fw-600">SUBCAMPEONES</td>
-            </tr>
-            <tr>
-              <td>
-                <div class="bg-primary h-50 w-50 l-h-50 rounded text-center">
-                  <%= image_tag 'tournament-logo-3.png' %>
-                </div>
-              </td>
-              <td class="fw-600">Copa La Perla</td>
-              <td class="text-fade">Temporada 2024</td>
-              <td class="fw-500"><span class="badge badge-sm badge-dot badge-warning me-10"></span>14 Victorias</td>
-              <td class="text-fade">31 Goles</td>
-              <td class="fw-600">CAMPEONES</td>
-            </tr>
-            <tr>
-              <td>
-                <div class="bg-danger h-50 w-50 l-h-50 rounded text-center">
-                  <%= image_tag 'tournament-logo-1.png' %>
-                </div>
-              </td>
-              <td class="fw-600">Estadal Clausura</td>
-              <td class="text-fade">Temporada 2024</td>
-              <td class="fw-500 text-warning"><span class="badge badge-sm badge-dot badge-warning me-10"></span>11 victorias</td>
-              <td class="text-fade">19 Goles</td>
-              <td class="fw-600">SUBCAMPEONES</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </div>
-</div>
+<% else %>
+  <%= render partial: "player_profiles/shared/school_summary", locals: { player: @player, school: @player.schools.first } %>
+<% end %>
+
 <div class="row"><!-- /Player Photo Carousel -->
-  <div class="box">
-    <div id="splide" class="splide">
-      <div class="splide__track">
-        <ul class="splide__list">
-          <% if @player.carousel_images.attached? %>
-            <% @player.carousel_images.each do |img| %>
-              <li class="splide__slide">
-                <%= image_tag img.variant(resize_to_limit: [800, 400]), class: "img-fluid rounded", alt: "Player Photo" %>
-              </li>
-            <% end %>
-          <% else %>
-            <% 5.times do |i| %>
-              <li class="splide__slide">
-                <%= image_tag "https://picsum.photos/800/400?random=#{i}", class: "img-fluid", alt: "Placeholder Slide #{i + 1}" %>
-              </li>
-            <% end %>
-          <% end %>
-        </ul>
+  <div class="col-md-12">
+    <div class="box bg-white rounded-4 shadow-sm">
+        <div class="box-body p-4">
+        <div id="splide" class="splide">
+          <div class="splide__track">
+            <ul class="splide__list">
+              <% if @player.carousel_images.attached? %>
+                <% @player.carousel_images.each do |img| %>
+                  <li class="splide__slide">
+                    <%= image_tag img.variant(resize_to_limit: [800, 400]), class: "img-fluid rounded", alt: "Player Photo" %>
+                  </li>
+                <% end %>
+              <% else %>
+                <% 5.times do |i| %>
+                  <li class="splide__slide">
+                    <%= image_tag "https://picsum.photos/800/400?random=#{i}", class: "img-fluid", alt: "Placeholder Slide #{i + 1}" %>
+                  </li>
+                <% end %>
+              <% end %>
+            </ul>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </div>
+
 <style>
   .splide__slide {
     display: flex;
@@ -150,5 +82,13 @@
     max-width: 100%;
     object-fit: contain; /* or use 'cover' if you prefer cropped but filled look */
     border-radius: 12px;
+  }
+  
+  .bg-primary-light { background-color: #eaf4ff; }
+  .bg-warning-light { background-color: #fff7e0; }
+  .bg-secondary-light { background-color: #f4f4f4; }
+
+  .nav-pills .nav-link {
+    padding: 0.5rem 1rem;
   }
 </style>

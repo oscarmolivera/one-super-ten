@@ -2,11 +2,10 @@
 	<div class="row">
 		<div class="col-12 col-lg-5 col-xl-4"><!-- Profile Left Side -->
 			<div class="box box-widget widget-user"><!-- User Basic Information Card-->
-				<div class="widget-user-header bg-img bbsr-0 bber-0" style="background: url(<%=asset_path('faviconbg.png')%>) center center;" data-overlay="5">
+				<div class="widget-user-header bg-img bbsr-0 bber-0 position-relative" style="background: url(<%= asset_path('faviconbg.png') %>) center center;" data-overlay="5">
 					<h3 class="widget-user-username text-white"><%= @player.public_full_name %></h3>
-					<h6 class="widget-user-desc text-white"><%= @player.public_position %></h6>
 					<% if @player.schools.any? %>
-						<div class="ribbons-wrapper position-absolute top-0 end-0 p-2 d-flex flex-wrap justify-content-end gap-2">
+						<div class="d-flex flex-wrap gap-2 mt-2">
 							<% @player.schools.each_with_index do |school, i| %>
 								<span class="badge-school badge-school-<%= i %>"><%= school.name %></span>
 							<% end %>
@@ -44,34 +43,42 @@
 					</div>
 				</div>
 			</div>
-			<div class="box box-body"><!-- Player Stadistics -->
-				<h6><span class="text-uppercase">Estadística de Temporada</span></h6>
-				<div class="box-group">
-					<div class="box overflow-hidden">
-						<div class="vertical-align h-200">
-						<div class="vertical-align-middle fs-30 text-center w-p100">
-							<div class="text-center">
-								<h1 class="countnm fs-50 m-0"><%= rand(1..50) %></h1>
-								<div class="text-uppercase">Goles</div>
+			<div class="box box-body px-3 px-md-4"><!-- Player Jersey & Position -->
+				<div class="box-group row g-3">
+					
+					<!-- Jersey Number Card -->
+					<div class="col-6">
+						<div class="box pull-up rounded-4 border-0 shadow-sm bg-secondary-subtle" style="background-image: url(<%= asset_path('jersey-1.png') %>); background-position: right bottom; background-repeat: no-repeat; background-size: 100px;">
+							<div class="box-body d-flex flex-column justify-content-between" style="min-height: 150px;">
+								<div class="text-start">
+									<h5 class="fw-bold text-dark mb-1">Dorsal</h5>
+									<p class="text-muted small mb-2">Temporada 2025</p>
+								</div>
+								<div class="jersey-number-box text-center bg-white text-dark fw-bold rounded-pill px-3 py-2 mx-auto" style="font-size: 2.5rem;">
+									<%= @player.jersey_selection.presence || "-" %>
+								</div>
 							</div>
 						</div>
+					</div>
+
+					<!-- Position Card -->
+					<div class="col-6">
+						<div class="box pull-up rounded-4 border-0 shadow-sm bg-warning-subtle" style="background-image: url(<%= asset_path(position_background_image(@player)) %>); background-position: right bottom; background-repeat: no-repeat; background-size: 100px;">
+							<div class="box-body d-flex flex-column justify-content-between" style="min-height: 150px;">
+								<div class="text-start">
+									<h5 class="fw-bold text-dark mb-1"><%= @player.public_position %></h5>
+									<p class="text-muted small mb-0">Posición</p>
+								</div>
+							</div>
 						</div>
 					</div>
-					<div class="box overflow-hidden bg-primary-light">
-						<div class="vertical-align text-center p-30 h-200">
-						<div class="vertical-align-middle fs-20">
-								<h1 class="countnm fs-50 m-0"><%= rand(1..50) %></h1>
-								<div class="text-uppercase">Asistencias</div>
-						</div>
-						</div>
-					</div>
+
 				</div>
-				<div class="fs-12"><i class="ion-arrow-graph-down-right text-success me-1"></i> %18 decrease from last month</div>
-			</div><!-- /.box -->
+			</div>
 			<div class="box"><!-- Player TeamMates -->
 				<div class="box-body">
 					<div class="flexbox align-items-baseline mb-20">
-						<h6 class="text-uppercase ls-2">Equipo</h6>
+						<h6 class="text-uppercase ls-2">Mi Categoría</h6>
 						<small>Num de Jugadores Categoria</small>
 					</div>
 					<div class="gap-items-2 gap-y">
@@ -107,9 +114,9 @@
 
 		<div class="col-12 col-lg-7 col-xl-8"><!-- Profile Right Side -->
 			<div class="nav-tabs-custom">
-				<ul class="nav nav-tabs">
-					<li><a class="active" href="#publicprofile" data-bs-toggle="tab">Perfil Publico</a></li>
-					<li><a href="#editprofile" data-bs-toggle="tab">Editar Perfil</a></li>
+				<ul class="nav nav-pills mb-20">
+					<li class=" nav-item"> <a href="#publicprofile" class="nav-link active" data-bs-toggle="tab" aria-expanded="false">Perfil Publico</a> </li>
+					<li class="nav-item"> <a href="#editprofile" class="nav-link" data-bs-toggle="tab" aria-expanded="false">Editar Perfil</a> </li>
 				</ul>
 
 				<div class="tab-content">
@@ -126,29 +133,17 @@
 </section>
 <style>
 	.badge-school {
-		background-color: #fff;
-		color: #000;
-		padding: 6px 14px;
-		border-radius: 999px;
-		font-weight: bold;
-		font-size: 0.85rem;
-		box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-	}
-	.ribbons-wrapper {
-		z-index: 20;
-	}
-
-	.badge-school {
-		color: #fff;
+		background-color: #f0f0f0;
+		color: #333;
 		font-weight: 600;
 		font-size: 0.75rem;
-		padding: 5px 12px;
+		padding: 6px 12px;
 		border-radius: 999px;
 		white-space: nowrap;
-		box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+		box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+		transition: all 0.2s ease-in-out;
 	}
 
-	/* Optional: Add vibrant colors per index */
 	.badge-school-0 { background-color: #ffc107; } /* yellow */
 	.badge-school-1 { background-color: #20c997; } /* teal */
 	.badge-school-2 { background-color: #d63384; } /* pink */

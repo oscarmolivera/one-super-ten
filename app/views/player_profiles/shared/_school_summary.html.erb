@@ -1,0 +1,273 @@
+<div class="row g-3">
+  <div class="col-md-4 d-flex">
+    <div class="box p-25 bg-info-subtle flex-fill w-100"
+        style="background-image: url(<%= asset_path('soccer-goal-2.svg') %>);
+          background-size: 90px auto;
+          background-position: right bottom;
+          background-repeat: no-repeat;">
+      <div class="text-center">
+        <h1 class="countnm fs-50 m-0">
+          <strong><%= rand(30..60) %></strong>
+        </h1>
+        <div class="text-uppercase">GOLES</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-4 d-flex">
+    <div class="box p-25 bg-secondary-subtle flex-fill w-100"
+        style="background-image: url(<%= asset_path('assistance-2.svg') %>);
+          background-size: 90px auto;
+          background-position: right bottom;
+          background-repeat: no-repeat;">
+      <div class="text-center">
+        <h1 class="countnm fs-50 m-0">
+          <strong><%= rand(30..60) %></strong>
+        </h1>
+        <div class="text-uppercase">ASISTENCIAS</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-4 d-flex">
+    <div class="box p-25 bg-warning-subtle flex-fill w-100"
+      style="background-image: url(<%= asset_path('coach-1.png') %>);
+            background-size: 48px auto;
+            background-position: right bottom;
+            background-repeat: no-repeat;">
+      <div class="text-center">
+        <h1 class="countnm fs-30 m-0">
+          <strong>Luis Franco</strong>
+        </h1>
+        <div class="text-uppercase">Entrenador</div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="px-10"><!-- /Player Tournament List-->
+  <div class="row">
+    <div class="box bg-transparent no-shadow mb-0">
+      <div class="box-header no-border px-0 d-flex justify-content-between align-items-center">
+        <h4 class="box-title pl-5">Últimos Torneos en <%= school.name %></h4>
+        <div class="box-controls">
+          <a href="#" class="btn btn-sm btn-primary">
+            <i class="fa fa-arrow-right me-1"></i> Ver Todos
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <% @tournaments = [
+      {
+        school_id: 1,
+        name: "Estadal Apertura",
+        season: "Temporada 2024",
+        victories: 12,
+        goals: 26,
+        result: "CAMPEONES",
+        logo: "tournament-logo-1.png",
+        bg_class: "bg-danger"
+      },
+      {
+        school_id: 1,
+        name: "Copa Tricolor",
+        season: "Temporada 2024",
+        victories: 10,
+        goals: 25,
+        result: "SUBCAMPEONES",
+        logo: "tournament-logo-2.png",
+        bg_class: "bg-info"
+      },
+      {
+        school_id: 1,
+        name: "Copa La Perla",
+        season: "Temporada 2024",
+        victories: 14,
+        goals: 31,
+        result: "3er Lugar",
+        logo: "tournament-logo-3.png",
+        bg_class: "bg-primary"
+      },
+      {
+        school_id: 1,
+        name: "Estadal Clausura",
+        season: "Temporada 2024",
+        victories: 11,
+        goals: 19,
+        result: "SUBCAMPEONES",
+        logo: "tournament-logo-1.png",
+        bg_class: "bg-danger"
+      }
+    ] %>
+
+    <div class="box">
+      <div class="box-body py-10">
+        <div class="table-responsive">
+          <table class="table align-middle mb-0">
+            <thead class="table-light">
+              <tr>
+                <th></th>
+                <th>Torneo</th>
+                <th>Temporada</th>
+                <th>Victorias</th>
+                <th>Goles</th>
+                <th>Resultado</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @tournaments.each do |tournament| %>
+                <tr>
+                  <td>
+                    <div class="<%= tournament[:bg_class] %> h-50 w-50 l-h-50 rounded text-center">
+                      <%= image_tag tournament[:logo] %>
+                    </div>
+                  </td>
+                  <td class="fw-semibold text-dark"><%= tournament[:name] %></td>
+                  <td class="text-muted"><%= tournament[:season] %></td>
+                  <td>
+                    <span class="badge bg-warning text-dark">
+                      <i class="fa-solid fa-diamond"></i> <%= pluralize(tournament[:victories], 'victoria') %>
+                    </span>
+                  </td>
+                  <td class="text-muted"><%= pluralize(tournament[:goals], 'Gol') %></td>
+                  <td class="fw-bold">
+                    <% case tournament[:result] %>
+                      <% when "CAMPEONES" %>
+                        <span class="text-warning">
+                          <i class="fa fa-trophy me-1"></i> <%= tournament[:result] %>
+                        </span>
+                      <% when "SUBCAMPEONES" %>
+                        <span class="text-muted">
+                          <i class="fa fa-medal me-1"></i> <%= tournament[:result] %>
+                        </span>
+                      <% else %>
+                        <span class="text-muted"><%= tournament[:result] %></span>
+                    <% end %>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="px-10"><!-- /Player Games List-->
+  <div class="row">
+    <div class="box bg-transparent no-shadow mb-0">
+      <div class="box-header no-border px-0">
+        <h4 class="box-title pl-5">Ultimos Juegos en <%= school.name %></h4>							
+        <div class="box-controls pull-right d-md-flex d-none">
+          <a href="#">Ver Todos</a>
+        </div>
+      </div>
+    </div>
+    <% @matches = 
+      [
+        {
+        final_score: "3-1",
+        player_team_name: "Los Tigres",
+        player_team_logo: "tigre.svg",
+        opponent_team_name: "Los Leones",
+        opponent_team_logo: "leon.svg",
+        location: "Estadio Universitario",
+        tournament: 'Torneo Apertura 2024',
+        minutes_played_by: 84,
+        total_minutes: 90
+        },
+        {
+          final_score: "2-2",
+          player_team_name: "Los Tigres",
+          player_team_logo: "tigre.svg",
+          opponent_team_name: "Panteras FC",
+          opponent_team_logo: "pantera.svg",
+          location: "Cancha Municipal Sur",
+          tournament: nil, # Friendly match
+          minutes_played_by: 67,
+          total_minutes: 90
+        },
+        {
+          final_score: "1-0",
+          player_team_name: "Los Tigres",
+          player_team_logo: "tigre.svg",
+          opponent_team_name: "Academia Roja",
+          opponent_team_logo: "roja.svg",
+          location: "Estadio Central",
+          tournament: "Copa La Perla 2024",
+          minutes_played_by: 90,
+          total_minutes: 90
+        },
+        {
+          final_score: "0-3",
+          player_team_name: "Los Tigres",
+          player_team_logo: "tigre.svg",
+          opponent_team_name: "Leones del Norte",
+          opponent_team_logo: "leonesnorte.svg",
+          location: "Complejo Deportivo Norte",
+          tournament: "Estadal Clausura 2024",
+          minutes_played_by: 45,
+          total_minutes: 90
+        },
+        {
+          final_score: "4-2",
+          player_team_name: "Los Tigres",
+          player_team_logo: "tigre.svg",
+          opponent_team_name: "Furia Azul",
+          opponent_team_logo: "furiaazul.svg",
+          location: "Campo Fútbol UCV",
+          tournament: "Copa Tricolor 2024",
+          minutes_played_by: 76,
+          total_minutes: 90
+        }
+      ] 
+    %>
+    <div class="card-body p-0">
+      <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+          <thead class="table-light text-center">
+            <tr>
+              <th class="text-center">Resultado</th>
+              <th class="text-start">Contendientes</th>
+              <th class="text-start">Lugar</th>
+              <th class="text-start">Torneo</th>
+              <th class="text-start">Minutos Jugados</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @matches.each do |match| %>
+              <tr>
+                <td class="fw-bold fs-5 text-center">
+                  <span class="badge bg-success px-3 py-2"><%= match[:final_score] %></span>
+                </td>
+                <td class="text-start">
+                  <div class="d-flex align-items-center">
+                    <%= image_tag match[:player_team_logo], class: "rounded-circle me-2", width: 32, height: 32, alt: match[:player_team_name] %>
+                    <span class="fw-semibold me-1"><%= match[:player_team_name] %></span>
+                    <span class="mx-1 text-muted">vs</span>
+                    <span class="fw-semibold me-2"><%= match[:opponent_team_name] %></span>
+                    <%= image_tag match[:opponent_team_logo], class: "rounded-circle", width: 32, height: 32, alt: match[:opponent_team_name] %>
+                  </div>
+                </td>
+                <td class="text-start">
+                  <i class="fa fa-map-marker-alt text-primary me-1"></i><%= match[:location] %>
+                </td>
+                <td class="text-start">
+                  <% if match[:tournament].present? %>
+                    <span class="badge bg-info text-dark"><%= match[:tournament] %></span>
+                  <% else %>
+                    <span class="badge bg-secondary">Amistoso</span>
+                  <% end %>
+                </td>
+                <td class="text-start">
+                  <i class="fa fa-stopwatch text-warning me-1"></i>
+                  <%= match[:minutes_played_by] %> / <%= match[:total_minutes] %> min
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
