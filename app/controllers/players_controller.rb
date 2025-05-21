@@ -75,7 +75,7 @@ class PlayersController < ApplicationController
     category = Category.find(params[:category_id])
 
     if @player.categories << category
-      redirect_to players_path, notice: "Categoría asignada correctamente."
+      redirect_to select_category_player_path(@player), notice: "Categoría asignada correctamente."
     else
       redirect_to select_category_player_path(@player), alert: "No se pudo asignar la categoría."
     end
@@ -92,6 +92,15 @@ class PlayersController < ApplicationController
     else
       redirect_to select_category_player_path(@player), alert: "No se pudo eliminar la categoría."
     end
+  end
+
+  def teammates
+    authorize :player, :index?
+    @player = Player.find(params[:id])
+
+    category = @player.categories.first
+
+    @teammates = category.players
   end
 
   def documents

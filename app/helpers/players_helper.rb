@@ -29,6 +29,26 @@ module PlayersHelper
     end
   end
 
+  def teammate_profile_picture(player)
+    if player.profile_picture.attached?
+      image_tag(
+        player.profile_picture.variant(resize_to_fill: [48, 48]),
+        {
+          class: "rounded-circle",
+          alt: player.full_name
+        }
+      )
+    else
+      content_tag(:div,
+        content_tag(:i, "", class: "fas fa-user-slash"),
+        {
+          class: "img-thumbnail d-flex align-items-center justify-content-center",
+          style: "width: 35px; height: 35px; background-color: #f0f0f0;"
+        }
+      )
+    end
+  end
+
   def position_background_image(player)
     return "position-1.svg" unless player&.position.present?
 

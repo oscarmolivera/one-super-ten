@@ -78,6 +78,10 @@ def hero_image_url
   end
 end
 
+def teammates_number
+  categories.first.category_players.count
+end
+
   def exonerated_for?(date = Date.today)
     exonerations.any? { |e| e.active?(date) }
   end

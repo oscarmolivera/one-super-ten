@@ -1,0 +1,74 @@
+<div class="card shadow-sm mb-4">
+  <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+    <h5 class="mb-0">
+      <i class="fa fa-users me-2"></i>Mi Categoria
+    </h5>
+  </div>
+
+  <div class="card-body p-0">
+    <div class="table-responsive">
+      <table class="table align-middle table-hover mb-0">
+        <thead class="table-light">
+          <tr>
+            <th scope="col">Foto</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Correo</th>
+            <th scope="col">Nacimiento</th>
+            <th scope="col">Posición</th>
+            <th scope="col">Apodo</th>
+            <th scope="col">Perfil</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @teammates.each do |teammate| %>
+            <tr style="cursor: pointer;">
+              <td>
+                <%= teammate_profile_picture(teammate) %>
+              </td>
+              <td class="fw-semibold">
+                <i class="fa fa-user text-primary me-1"></i>
+                <%= teammate.full_name %>
+              </td>
+              <td class="fw-semibold">
+                <i class="fa fa-mail text-primary me-1"></i>
+                <%= teammate.email %>
+              </td>
+              <td>
+                <i class="fa fa-calendar text-secondary me-1"></i>
+                <%= teammate.date_of_birth&.strftime('%d %b %Y') || 'Sin fecha' %>
+              </td>
+              <td>
+                <span class="badge bg-info text-dark">
+                  <%= teammate.public_position %>
+                </span>
+              </td>
+              <td>
+                <% if teammate.player_profile&.nickname.present? %>
+                  <span class="text-muted">
+                    <i class="fa fa-star text-warning me-1"></i>
+                    <%= teammate.player_profile.nickname %>
+                  </span>
+                <% else %>
+                  <span class="text-muted">—</span>
+                <% end %>
+              </td>
+              <td>
+                <i class="fa fa-user-circle text-secondary me-1"></i>
+                <%= link_to "Perfil", player_player_profile_path(teammate) %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<style>
+  .table-row-link {
+    display: contents;
+    &:hover {
+      background-color: #f8f9fa;
+    }
+  }
+</style>

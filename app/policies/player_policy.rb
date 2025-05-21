@@ -14,6 +14,10 @@ class PlayerPolicy < ApplicationPolicy
     index?
   end
 
+  def public_profile?
+    true
+  end
+
   def destroy?
     index?
   end

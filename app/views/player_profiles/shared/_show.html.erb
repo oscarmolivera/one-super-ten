@@ -78,32 +78,24 @@
 			<div class="box"><!-- Player TeamMates -->
 				<div class="box-body">
 					<div class="flexbox align-items-baseline mb-20">
-						<h6 class="text-uppercase ls-2">Mi Categoría</h6>
-						<small>Num de Jugadores Categoria</small>
+						<h6 class="text-uppercase ls-2 "><%= link_to 'Mi Categoría', teammates_player_path(@player), class: 'text-decoration-none' %></h6>
+						
+						<small><%= @player.teammates_number %></small>
 					</div>
 					<div class="gap-items-2 gap-y">
-						<a class="avatar" href="#">
-							<%= image_tag 'vendor/1.jpg', alt: '' %>
-						</a>
-						<a class="avatar" href="#">
-							<%= image_tag 'vendor/3.jpg', alt: '' %>
-						</a>
-						<a class="avatar" href="#">
-							<%= image_tag 'vendor/4.jpg', alt: '' %>
-						</a>
-						<a class="avatar" href="#">
-							<%= image_tag 'vendor/5.jpg', alt: '' %>
-						</a>
-						<a class="avatar" href="#">
-							<%= image_tag 'vendor/6.jpg', alt: '' %>
-						</a>
-						<a class="avatar" href="#">
-							<%= image_tag 'vendor/7.jpg', alt: '' %>
-						</a>
-						<a class="avatar" href="#">
-							<%= image_tag 'vendor/8.jpg', alt: '' %>
-						</a>
-						<a class="avatar avatar-more" href="#">+15</a>
+						<% @teammates.shuffle.first(10).each do |teammate| %>
+							<%= link_to player_player_profile_path(teammate), class: "avatar", title: teammate.full_name do %>
+								<% if teammate.profile_picture.attached? %>
+									<%= image_tag teammate.profile_picture.variant(resize_to_fill: [40, 40]), class: "rounded-circle", alt: teammate.full_name %>
+								<% else %>
+									<%= image_tag 'profile-placeholder.webp', class: "rounded-circle", width: 40, height: 40, alt: "Sin foto" %>
+								<% end %>
+							<% end %>
+						<% end %>
+
+						<% if @teammates.count > 7 %>
+							<%= link_to "+#{@teammates.count - 10}", teammates_player_path(@player), class: "avatar avatar-more", title: "Ver todos" %>
+						<% end %>
 					</div>
 				</div>
 				<div class="box-footer">

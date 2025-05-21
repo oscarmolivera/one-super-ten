@@ -42,6 +42,7 @@ Rails.application.routes.draw do
         member do
           get :select_category
           post :assign_category
+          get :teammates
           delete 'remove_category'
           delete 'documents/:blob_id', to: 'players#erase_document', as: :erase_document
         end

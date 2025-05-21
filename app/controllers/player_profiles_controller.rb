@@ -1,6 +1,7 @@
 class PlayerProfilesController < ApplicationController
   before_action :set_player
   before_action :set_profile
+  before_action :set_teammates, only: [:show]
   before_action :authorize_profile
 
   def new
@@ -65,6 +66,15 @@ class PlayerProfilesController < ApplicationController
 
   def authorize_profile
     authorize :player_profile, :index?
+  end
+
+  def set_teammates
+    authorize :player_profile, :index?
+    @player = Player.find(params[:player_id])
+
+    category = @player.categories.first
+
+    @teammates = category.players
   end
 
   def player_profile_params
