@@ -106,15 +106,27 @@
     </div>
     <div class="row"><!-- School IsActive ProfilePicture -->
       <div class="col-md-4">
-        <div class="form-group">
-          <%= label_tag 'player[school_ids][]', "Escuelas", class: 'form-label' %>
-          <div class="input-group">
-            <div class="input-group-text">
-              <i class="fas fa-school"></i>
-            </div>
-            <%= collection_select(:player, :school_ids, School.all, :id, :name,
-                  { selected: @player.school_ids, include_hidden: false },
-                  { multiple: true, class: "form-control", size: 4 }) %>
+        <div class="form-group" id="school-toggle-group" data-controller="school-toggles">
+          <label class="form-label mb-2">Escuelas (Selecciona una o más)</label>
+          <div class="d-flex flex-wrap gap-3">
+            <% School.where(tenant_id: ActsAsTenant.current_tenant.id).each_with_index do |school, i| %>
+              <% switch_color = %w[btn-primary btn-info btn-success btn-warning btn-danger btn-secondary][i % 6] %>
+              <div class="form-check form-switch text-center">
+                <input type="checkbox"
+                      name="player[school_ids][]"
+                      value="<%= school.id %>"
+                      id="switch_school_<%= school.id %>"
+                      class="form-check-input school-toggle <%= switch_color %>"
+                      <%= 'checked' if @player.school_ids.include?(school.id) %>
+                      data-school-toggles-target="input" />
+                <label for="switch_school_<%= school.id %>" class="form-check-label small mt-1">
+                  <%= school.name %>
+                </label>
+              </div>
+            <% end %>
+          </div>
+          <div class="invalid-feedback mt-2 d-block" data-school-toggles-target="feedback" style="display: none;">
+            Debes seleccionar al menos una escuela.
           </div>
         </div>
       </div>
