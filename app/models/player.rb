@@ -6,24 +6,33 @@ class Player < ApplicationRecord
 
   has_many :player_schools, dependent: :destroy
   has_many :schools, through: :player_schools
-
   has_many :category_players, dependent: :destroy
   has_many :categories, through: :category_players
   has_many :exonerations, dependent: :destroy
   has_many :match_performances, dependent: :destroy
   has_many :guardians, dependent: :destroy
+  
   has_one :player_profile, dependent: :destroy
   
   accepts_nested_attributes_for :player_profile
   accepts_nested_attributes_for :guardians, allow_destroy: true
+
   has_one_attached :profile_picture, dependent: :destroy
   has_one_attached :hero_image, dependent: :destroy
+  
   has_many_attached :documents, dependent: :destroy
   has_many_attached :carousel_images, dependent: :destroy
 
   validates :first_name, :last_name, presence: true
-  validate :limit_carousel_images_count
+  validates :handle,
+            uniqueness: { scope: :tenant_id },
+            format: { with: /\A[a-z0-9\-_]+\z/i, message: "solo puede contener letras, números, guiones y guiones bajos" },
+            allow_blank: true # Only required if profile is public
 
+  validate :limit_carousel_images_count
+  validate :permited_date_of_birth_for_players
+
+  after_create :assign_category_based_on_birth_year
 
   enum :gender, { hombre: 'hombre', mujer: 'mujer' }
   enum :dominant_side, {izquierdo: 'izquierdo', derecho: 'derecho', ambos: 'ambos'}
@@ -70,17 +79,17 @@ class Player < ApplicationRecord
     end
   end
 
-def hero_image_url
-  if hero_image&.attached?
-    Rails.application.routes.url_helpers.rails_blob_url(self.hero_image, only_path: true)
-  else
-    ActionController::Base.helpers.asset_path('profile-placeholder.webp')
+  def hero_image_url
+    if hero_image&.attached?
+      Rails.application.routes.url_helpers.rails_blob_url(self.hero_image, only_path: true)
+    else
+      ActionController::Base.helpers.asset_path('profile-placeholder.webp')
+    end
   end
-end
 
-def teammates_number
-  categories.first.category_players.count
-end
+  def teammates_number
+    categories.first.category_players.count
+  end
 
   def exonerated_for?(date = Date.today)
     exonerations.any? { |e| e.active?(date) }
@@ -113,6 +122,22 @@ end
   def limit_carousel_images_count
     if carousel_images.attachments.count > 4
       errors.add(:carousel_images, "Solo puedes tener hasta 4 imágenes.")
+    end
+  end
+
+  def assign_category_based_on_birth_year
+    Players::AssignCategory.new(self).call
+  end
+
+  def permited_date_of_birth_for_players
+    return if date_of_birth.blank?
+
+    current_year = Date.today.year
+    min_year = current_year - 17  # max age for players
+    max_year = current_year - 5   # min age for players
+
+    if date_of_birth.year < min_year || date_of_birth.year > max_year
+      errors.add(:date_of_birth, "No hay una categoría disponible para esta fecha de nacimiento")
     end
   end
 end

@@ -9,8 +9,6 @@ Rails.application.routes.draw do
   # -------------------------------------- MAIN PUBLIC SITE -
   constraints(lambda { |req| req.subdomain.blank? || req.subdomain == "www" }) do
     root to: "home#index", as: :main_root
-    get 'susudio', to: 'home#susudio'
-    get 'kamaly', to: 'home#kamaly'
     get 'contact', to: 'home#contact'
   end
 
@@ -25,7 +23,8 @@ Rails.application.routes.draw do
 
   # ------------------- TENANT PUBLIC LANDING + AUTH ROUTES -
   constraints(SubdomainConstraint) do
-    root to: "landings#index", as: :tenant_root      
+    root to: "landings#index", as: :tenant_root  
+    get 'players/:handle', to: 'players#public_show', as: :public_player
     authenticate :user do
       get 'dashboard', to: 'dashboard#index', as: :tenant_dashboard
       get 'show-test', to: 'dashboard#show', as: :tenant_show_dashboard

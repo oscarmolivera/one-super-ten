@@ -1,9 +1,8 @@
 class PlayersController < ApplicationController
-  before_action :authenticate_user!
+  before_action :authenticate_user!, except: [:public_show]
   before_action :set_player, only: [:show, :edit, :update, :destroy]
   before_action :set_school, only: [:new, :edit, :update]
-  before_action :select_category, only: [:edit, :update]
-  
+  rescue_from ActiveRecord::RecordNotFound, with: :render_404
 
   def index
     authorize :player, :index?
@@ -68,30 +67,17 @@ class PlayersController < ApplicationController
     end
   end
 
-  def assign_category
-    authorize :player, :index?
+  def public_show
+    @player = Player.find_by!(handle: params[:handle])
 
-    @player = Player.find(params[:id])
-    category = Category.find(params[:category_id])
+    raise ActiveRecord::RecordNotFound unless @player.public_profile?
 
-    if @player.categories << category
-      redirect_to select_category_player_path(@player), notice: "Categoría asignada correctamente."
-    else
-      redirect_to select_category_player_path(@player), alert: "No se pudo asignar la categoría."
-    end
-  end
-  
-  def remove_category
-    authorize :player, :index?
+    authorize @player, :public_show?
 
-    @player = Player.find(params[:id])
-    category = Category.find(params[:category_id])
-
-    if @player.categories.destroy(category)
-      redirect_to select_category_player_path(@player), notice: "Categoría eliminada correctamente."
-    else
-      redirect_to select_category_player_path(@player), alert: "No se pudo eliminar la categoría."
-    end
+    @player_profile = @player.player_profile
+    category = @player.categories.first
+    @teammates = category.players
+    render 'player_profiles/shared/_show'
   end
 
   def teammates
@@ -144,12 +130,27 @@ class PlayersController < ApplicationController
   end
 
   def assign_school(player)
-    school_id = params[:school_id]
-    return if school_id.blank?
+    return unless player_school_valid?(player)
 
     player.player_schools.destroy_all
 
-    player.player_schools.create(school_id: school_id)
+    school_ids = Array(params.dig(:player, :school_ids) || params[:school_id]).reject(&:blank?)
+    school_ids.each do |school_id|
+      player.player_schools.create(school_id: school_id)
+    end
+  end
+
+  def player_school_valid?(player)
+    school_ids = Array(params.dig(:player, :school_ids) || params[:school_id]).reject(&:blank?)
+
+    Rails.logger.warn "⚠️ school_ids param - #{school_ids.inspect}"
+
+    if school_ids.empty?
+      Rails.logger.warn "⚠️ Player #{player.id} - #{player.full_name.presence || 'Unnamed'} received blank school_ids array!"
+      return false
+    end
+
+    true
   end
 
   def player_params
@@ -157,7 +158,7 @@ class PlayersController < ApplicationController
       :email, :tenant_id, :first_name, :last_name, :full_name, :date_of_birth,
       :gender, :nationality, :document_number, :profile_picture, :dominant_side,
       :position, :address, :is_active, :bio, :notes, :user_id, :hero_image,
-      school_ids: [], documents: [], carousel_images: [], 
+      :public_profile, :handle, school_ids: [], documents: [], carousel_images: [], 
       player_profile_attributes: [
         :id,
         :nickname,
@@ -175,16 +176,14 @@ class PlayersController < ApplicationController
       ]
     )
   end
-
-  def select_category
-    @player = Player.find(params[:id])
-    @school = @player.schools.first
-    @categories = @school.categories.order(id: :asc)
-  end
   
   def safe_redirect_path
     uri = URI.parse(params[:redirect_to]) rescue nil
     return players_path unless uri&.path&.starts_with?("/")
     uri.path
+  end
+
+  def render_404
+    render 'errors/not_found', status: :not_found
   end
 end

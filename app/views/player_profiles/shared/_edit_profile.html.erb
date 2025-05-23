@@ -11,53 +11,27 @@
     </div>
   <% end %>
   <div class="box-body">
-    <div class="row"><!-- Nickname DominantSide Position -->
-      <div class="col-md-4">
-        <div class="form-group">
-          <%= form.fields_for :player_profile do |profile_fields| %>
+    <div class="row"><!-- JerseyNumber Nickname ProfilePicture -->
+      <%= form.fields_for :player_profile do |profile_fields| %>
+        <div class="col-md-4">
+          <div class="form-group">
+            <%= profile_fields.label :jersey_number, class: 'form-label' %>
+              <div class="input-group">
+                <div class="input-group-text">
+                  <i class="fa-solid fa-shirt"></i>
+                </div>
+                <%= profile_fields.text_field :jersey_number, class: 'form-control', placeholder: "Dorsal", id:"jersey-number-field"%>
+              </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
             <%= profile_fields.hidden_field :id %> 
             <%= profile_fields.label :nickname, class: 'form-label' %>
             <%= profile_fields.text_field :nickname, class: 'form-control', placeholder: "Apodo" %>
-          <% end %>
-        </div>
-      </div>
-      <div class="col-md-4">
-        <div class="form-group">
-          <%= form.label :dominant_side, class: 'form-label' %>
-          <div class="input-group">
-            <div class="input-group-addon">
-              <i class="fas fa-hand-point-right"></i>
-            </div>
-            <%= form.select :dominant_side, Player.dominant_sides.keys.map { |g| [g.titleize, g] }, { include_blank: "Lado?" }, class: "form-control" %>
           </div>
         </div>
-      </div>
-      <div class="col-md-4">
-        <div class="form-group">
-          <%= form.label :position, class: 'form-label' %>
-          <div class="input-group">
-            <div class="input-group-addon">
-              <i class="fas fa-futbol"></i>
-            </div>
-            <%= form.select :position, Player.positions.keys.map { |g| [g.titleize, g] }, { include_blank: "Posición?" }, class: "form-control" %>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="row"><!-- JerseyNumber ProfilePicture -->
-      <div class="col-md-4">
-        <div class="form-group">
-          <%= form.fields_for :player_profile do |profile_fields| %>
-            <%= profile_fields.label :jersey_number, class: 'form-label' %>
-            <div class="input-group">
-              <div class="input-group-addon">
-                <i class="fa-solid fa-shirt"></i>
-              </div>
-              <%= profile_fields.text_field :jersey_number, class: 'form-control', placeholder: "Dorsal" %>
-            </div>
-          <% end %>
-        </div>
-      </div>
+      <% end %>
       <div class="col-md-4">
         <div class="form-group" data-controller="file-preview">
           <%= form.label :profile_picture, class: 'form-label' %>
@@ -80,12 +54,64 @@
           </small>
         </div>
       </div>
+    </div>
+    <div class="row"><!-- DominantSide Position ProfilePicture -->
+      <div class="col-md-4">
+        <div class="form-group">
+          <%= form.label :dominant_side, class: 'form-label' %>
+          <div class="input-group">
+            <div class="input-group-text">
+              <i class="fas fa-hand-point-right"></i>
+            </div>
+            <%= form.select :dominant_side, Player.dominant_sides.keys.map { |g| [g.titleize, g] }, { include_blank: "Lado?" }, class: "form-control" %>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="form-group">
+          <%= form.label :position, class: 'form-label' %>
+          <div class="input-group">
+            <div class="input-group-text">
+              <i class="fas fa-futbol"></i>
+            </div>
+            <%= form.select :position, Player.positions.keys.map { |g| [g.titleize, g] }, { include_blank: "Posición?" }, class: "form-control" %>
+          </div>
+        </div>
+      </div>
       <div class="col-md-4">
         <div class="form-group">
           <div class="text-center mt-25">
             <%= player_profile_image(@player, class: "img-thumbnail" , alt: "Foto de perfil", style: "width: 80px; height: 80px;") %>
           </div>
         </div>
+      </div>
+    </div>
+    <div class="row"><!-- Public Handle -->
+      <div class="col-md-6">
+        <div class="form-group">
+          <%= form.label :handle, 'Nombre Público (handle)', class: 'form-label' %>
+          <div class="input-group">
+            <div class="input-group-text">
+              <i class="fas fa-link"></i>
+            </div>
+            <%= form.text_field :handle, class: 'form-control', placeholder: 'ej. mi-nombre-publico' %>
+          </div>
+          <small class="form-text text-muted">
+            Tu página pública será:<br>
+            <strong>https://<%= ActsAsTenant.current_tenant.subdomain %>.nubbe.net/players/<em>nombre-publico</em></strong>
+          </small>
+        </div>
+      </div>
+    </div>
+    <div class="row mt-4"><!-- Visibilidad pública -->
+      <div class="col-12">
+        <div class="form-check">
+          <%= form.check_box :public_profile, class: "form-check-input", id: "player_public_profile" %>
+          <%= form.label :public_profile, "Hacer mi perfil público", class: "form-check-label ms-2" %>
+        </div>
+        <small class="form-text text-muted">
+          Si marcas esta opción, tu perfil será accesible públicamente. También debes definir un nombre público único.
+        </small>
       </div>
     </div>
     <div class="row mt-4"><!-- Social Media & UpLoad Photos -->
@@ -100,7 +126,7 @@
               <div class="form-group mb-3">
                 <%= profile_fields.label :facebook, 'Facebook', class: 'form-label' %>
                 <div class="input-group">
-                  <div class="input-group-addon">
+                  <div class="input-group-text">
                     <i class="fa fa-facebook"></i>
                   </div>
                   <%= profile_fields.text_field :social_links_facebook, value: profile_fields.object.social_links["facebook"], class: 'form-control', placeholder: 'https://facebook.com/...' %>
@@ -110,7 +136,7 @@
               <div class="form-group mb-3">
                 <%= profile_fields.label :instagram, 'Instagram', class: 'form-label' %>
                 <div class="input-group">
-                  <div class="input-group-addon">
+                  <div class="input-group-text">
                     <i class="fa fa-instagram"></i>
                   </div>
                   <%= profile_fields.text_field :social_links_instagram, value: profile_fields.object.social_links["instagram"], class: 'form-control', placeholder: 'https://instagram.com/...' %>
@@ -120,7 +146,7 @@
               <div class="form-group mb-3">
                 <%= profile_fields.label :tiktok, 'TikTok', class: 'form-label' %>
                 <div class="input-group">
-                  <div class="input-group-addon">
+                  <div class="input-group-text">
                     <i class="fa-brands fa-tiktok"></i>
                   </div>
                   <%= profile_fields.text_field :social_links_tiktok, value: profile_fields.object.social_links["tiktok"], class: 'form-control', placeholder: 'https://tiktok.com/@...' %>
@@ -196,6 +222,9 @@
     </button>
   </div> 
 <% end %>
-
-
-
+<style>
+  #jersey-number-field {
+    position: relative;
+    z-index: 9999;
+  }
+</style>

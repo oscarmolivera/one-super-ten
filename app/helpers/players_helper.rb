@@ -48,6 +48,17 @@ module PlayersHelper
       )
     end
   end
+  def teammate_avatar(player)
+    if player.profile_picture.attached?
+      image_tag(player.profile_picture.variant(resize_to_fill: [40, 40]),
+      {class: "rounded-circle", alt: player.full_name}
+      )
+    else
+      image_tag( 'profile-placeholder.webp',
+      {class: "rounded-circle", width: 40, height: 40, alt: "Sin foto"}
+      )
+    end
+  end
 
   def position_background_image(player)
     return "position-1.svg" unless player&.position.present?

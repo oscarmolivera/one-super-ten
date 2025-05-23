@@ -2,7 +2,7 @@
 	<div class="row">
 		<div class="col-12 col-lg-5 col-xl-4"><!-- Profile Left Side -->
 			<div class="box box-widget widget-user"><!-- User Basic Information Card-->
-				<div class="widget-user-header bg-img bbsr-0 bber-0 position-relative" style="background: url(<%= asset_path('faviconbg.png') %>) center center;" data-overlay="5">
+				<div class="widget-user-header bg-img bbsr-0 bber-0 position-relative" style="background: url('<%= asset_path('faviconbg.png') %>') center center;" data-overlay="5">
 					<h3 class="widget-user-username text-white"><%= @player.public_full_name %></h3>
 					<% if @player.schools.any? %>
 						<div class="d-flex flex-wrap gap-2 mt-2">
@@ -32,7 +32,9 @@
 						<div class="col-sm-4">
 							<div class="description-block">
 								<span class="description-text">Categoría</span>
-								<h5 class="description-header"><%= @player.categories.first.name %></h5>
+								<h5 class="description-header">
+									<%= @player.categories.first&.name || "Sin categoría - Revisar" %>
+								</h5>
 							</div><!-- /.description-block -->
 						</div><!-- /.col -->
 					</div><!-- /.row -->
@@ -78,46 +80,70 @@
 			<div class="box"><!-- Player TeamMates -->
 				<div class="box-body">
 					<div class="flexbox align-items-baseline mb-20">
-						<h6 class="text-uppercase ls-2 "><%= link_to 'Mi Categoría', teammates_player_path(@player), class: 'text-decoration-none' %></h6>
+						<h6 class="text-uppercase ls-2 ">
+							<% if user_signed_in? %>
+								<%= link_to 'Mi Categoría', teammates_player_path(@player), class: 'text-decoration-none' %>
+							<% else %>
+								<span class="text-muted">Mi Categoría</span>
+							<% end %>
+						</h6>
 						
 						<small><%= @player.teammates_number %></small>
 					</div>
 					<div class="gap-items-2 gap-y">
-						<% @teammates.shuffle.first(10).each do |teammate| %>
-							<%= link_to player_player_profile_path(teammate), class: "avatar", title: teammate.full_name do %>
-								<% if teammate.profile_picture.attached? %>
-									<%= image_tag teammate.profile_picture.variant(resize_to_fill: [40, 40]), class: "rounded-circle", alt: teammate.full_name %>
+						<% if user_signed_in? %>
+							<% @teammates.shuffle.first(10).each do |teammate| %>
+								<%= link_to player_player_profile_path(teammate), class: "avatar", title: teammate.full_name do %>
+									<% if teammate.profile_picture.attached? %>
+										<%= image_tag teammate.profile_picture.variant(resize_to_fill: [40, 40]), class: "rounded-circle", alt: teammate.full_name %>
+									<% else %>
+										<%= image_tag 'profile-placeholder.webp', class: "rounded-circle", width: 40, height: 40, alt: "Sin foto" %>
+									<% end %>
+								<% end %>
+							<% end %>
+
+							<% if @teammates.count > 7 %>
+								<%= link_to "+#{@teammates.count - 10}", teammates_player_path(@player), class: "avatar avatar-more", title: "Ver todos" %>
+							<% end %>
+						<% else %>
+							<% @teammates.shuffle.first(10).each do |teammate| %>
+								<% if teammate.handle.present? && teammate.public_profile? %>
+									<%= link_to public_player_path(teammate.handle), class: "avatar", title: teammate.full_name do %>
+										<%= teammate_avatar(teammate) %>
+									<% end %>
+									<% if @teammates.count > 7 %>
+										<%= link_to "+#{@teammates.count - 10}", teammates_player_path(@player), class: "avatar avatar-more", title: "Ver todos" %>
+									<% end %>
 								<% else %>
-									<%= image_tag 'profile-placeholder.webp', class: "rounded-circle", width: 40, height: 40, alt: "Sin foto" %>
+									<span class="avatar" title="<%= teammate.public_full_name %>">
+										<%= teammate_avatar(teammate) %>
+									</span>
 								<% end %>
 							<% end %>
 						<% end %>
-
-						<% if @teammates.count > 7 %>
-							<%= link_to "+#{@teammates.count - 10}", teammates_player_path(@player), class: "avatar avatar-more", title: "Ver todos" %>
-						<% end %>
 					</div>
-				</div>
-				<div class="box-footer">
-					<a class="text-uppercase d-blockls-1 text-fade" href="#">Otras Categorias</a>
 				</div>
 			</div><!-- /.box -->
 		</div><!-- /.col-12 Left Side -->
 
 		<div class="col-12 col-lg-7 col-xl-8"><!-- Profile Right Side -->
 			<div class="nav-tabs-custom">
-				<ul class="nav nav-pills mb-20">
+				<ul class="nav nav-pills mb-5">
 					<li class=" nav-item"> <a href="#publicprofile" class="nav-link active" data-bs-toggle="tab" aria-expanded="false">Perfil Publico</a> </li>
-					<li class="nav-item"> <a href="#editprofile" class="nav-link" data-bs-toggle="tab" aria-expanded="false">Editar Perfil</a> </li>
+					<% if user_signed_in? && policy(@player).edit? %>
+						<li class="nav-item"> <a href="#editprofile" class="nav-link" data-bs-toggle="tab" aria-expanded="false">Editar Perfil</a> </li>
+					<% end %>
 				</ul>
 
 				<div class="tab-content">
 					<div class="active tab-pane" id="publicprofile">
 						<%= render 'player_profiles/shared/public_profile' %>
 					</div><!-- /.tab-pane publicprofile-->
-					<div class="tab-pane" id="editprofile">
-						<%= render 'player_profiles/shared/edit_profile' %>
-					</div><!-- /.tab-pane editprofile-->
+					<% if user_signed_in? && policy(@player).edit? %>
+						<div class="tab-pane" id="editprofile">
+							<%= render 'player_profiles/shared/edit_profile' %>
+						</div><!-- /.tab-pane editprofile-->
+					<% end %>
 				</div><!-- /.tab-content -->
 			</div><!-- /.nav-tabs-custom -->
 		</div><!-- /.col-12 Right Side -->
