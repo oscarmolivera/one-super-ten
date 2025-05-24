@@ -107,19 +107,20 @@
     <div class="row"><!-- School IsActive ProfilePicture -->
       <div class="col-md-4">
         <div class="form-group" id="school-toggle-group" data-controller="school-toggles">
-          <label class="form-label mb-2">Escuelas (Selecciona una o más)</label>
+          <label class="form-label mb-2">Escuelas</label>
           <div class="d-flex flex-wrap gap-3">
-            <% School.where(tenant_id: ActsAsTenant.current_tenant.id).each_with_index do |school, i| %>
-              <% switch_color = %w[btn-primary btn-info btn-success btn-warning btn-danger btn-secondary][i % 6] %>
+            <% School.where(tenant_id: ActsAsTenant.current_tenant.id).each do |school| %>
               <div class="form-check form-switch text-center">
                 <input type="checkbox"
                       name="player[school_ids][]"
                       value="<%= school.id %>"
                       id="switch_school_<%= school.id %>"
-                      class="form-check-input school-toggle <%= switch_color %>"
+                      class="form-check-input school-toggle"
                       <%= 'checked' if @player.school_ids.include?(school.id) %>
                       data-school-toggles-target="input" />
-                <label for="switch_school_<%= school.id %>" class="form-check-label small mt-1">
+                <label for="switch_school_<%= school.id %>"
+                      class="form-check-label small mt-1"
+                      data-school-toggles-target="label">
                   <%= school.name %>
                 </label>
               </div>
