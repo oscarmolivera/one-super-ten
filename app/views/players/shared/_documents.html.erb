@@ -22,18 +22,16 @@
           <h5 class="mt-4 mb-3 fw-bold">📎 Documentos subidos:</h5>
           <div class="d-flex flex-wrap gap-3">
             <% @player.documents.each do |doc| %>
-              <div style="width: 160px; height: 180px; border: 1px solid #eee2e6; border-radius: 6px; overflow: hidden; background: #fff; transition: box-shadow 0.2s;" onmouseover="this.style.boxShadow='0 0 10px rgba(0,0,0,0.2)'" onmouseout="this.style.boxShadow='none'">
+              <div class="player-doc-each" onmouseover="this.style.boxShadow='0 0 10px rgba(0,0,0,0.2)'" onmouseout="this.style.boxShadow='none'">
                 <% if doc.image? %>
-                  <div class="doc-preview border p-2 mb-2" 
+                  <div class="doc-preview border player-doc-img-preview p-2 mb-2" 
                     data-bs-toggle="modal"
                     data-bs-target="#docModal"
-                    data-doc-url="<%= url_for(doc) %>"
-                    style="height: 100px; background-color: #f8f9fa;"
-                  >
+                    data-doc-url="<%= url_for(doc) %>">
                     <%= image_tag doc.variant(resize_to_fill: [160, 120]), class: "w-80 h-80", style: "object-fit: cover;" %>
                   </div>
                 <% else %>
-                  <div class="d-flex justify-content-center align-items-center bg-light" style="height: 140px;">
+                  <div class="d-flex justify-content-center align-items-center bg-light h-140">
                     <i class="fas fa-file-alt fa-2x text-secondary"></i>
                   </div>
                 <% end %>
@@ -66,7 +64,7 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
       </div>
       <div class="modal-body text-center">
-        <img id="doc-preview-image" src="" alt="Documento" class="img-fluid rounded" style="max-height: 75vh;">
+        <img id="doc-preview-image" src="" alt="Documento" class="img-fluid rounded mhvh-75">
       </div>
     </div>
   </div>

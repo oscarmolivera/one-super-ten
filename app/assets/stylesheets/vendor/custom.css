@@ -1,46 +1,58 @@
 .group-section{
 	padding: 0px 30px;
 }
+
 .group-section .group-button{
 	position: relative;
 	top: 18px;
 	background-color: #c9d7f9;
 }
+
 .group-section .accordion-body  a{
 	padding: 20px;
 }
+
 .inbox-section{
 	height: 32.5rem;
 	overflow: auto;
 	scrollbar-width: thin;
 }
+
 .inbox-section::-webkit-scrollbar {
   width: 2px;
 }
+
 .inbox-section{
 	padding: 0px 30px;
 }
+
 .inbox-section p{
 		font-size: 16px;
-	}
+}
+
 .inbox-section-1{
 	padding: 0px 30px;
 }
+
 .accordion-button::after{
 	width: 1rem;
     height: 1rem;
     background-size: 1rem;
     margin-right: -6px;
 }
+
 .table-scroll-contant{
 	display: none;
 }
+
 .flex-grow-1{
 	padding: 30px 30px 100px 30px;
 }
+
 .flex-grow-1 p{
 		font-size: 20px;
 	}
+
 .full-page-bg{
 	background: url('vendor/bg-1.jpg') no-repeat center center fixed;
 	background-size: cover;
@@ -53,7 +65,7 @@
 	justify-content: center;
 }
 
-.treeview-menu {
+.dt-none {
 	display: none;
 }
 
@@ -105,6 +117,195 @@
 		top: 30px;
 		margin-top: -120px;
 		z-index: 10;
+	}
+
+	.player-carousel-images-size{
+		max-width: 70px;
+		word-wrap: break-word;
+	}
+
+	.school-goals-box-bg{
+		background-image: url('soccer-goal-2.svg') !important;
+    background-size: 90px auto;
+    background-position: right bottom;
+    background-repeat: no-repeat;
+	}
+	
+	.school-assist-box-bg{
+		background-image: url('assistance-2.svg') !important;
+    background-size: 90px auto;
+    background-position: right bottom;
+    background-repeat: no-repeat;
+	}
+
+	.school-coach-box-bg{
+		background-image: url('coach-1.png') !important;
+    background-size: 48px auto;
+    background-position: right bottom;
+    background-repeat: no-repeat;
+	}
+
+	.widget-user-player-image{
+		position: relative;
+		top: 80px;
+		margin-top: -120px;
+		z-index: 10;
+	}
+
+	.widget-player-name-bg{
+		background-image: url('faviconbg.png') !important;
+	}
+
+	.jersey-number-box-bg{
+		background-image: url('jersey-1.png') !important;
+		background-position: right bottom;
+		background-repeat: no-repeat;
+		background-size: 100px;
+	}
+	.position-card-bg-rule{
+		background-position: right bottom;
+		background-repeat: no-repeat;
+		background-size: 100px;
+	}
+
+	.player-doc-each{
+		width: 160px;
+		height: 180px;
+		border: 1px solid #eee2e6;
+		border-radius: 6px;
+		overflow: hidden;
+		background: #fff;
+		transition: box-shadow 0.2s;
+	}
+
+	.player-doc-img-preview{
+		height: 100px;
+		background-color: #f8f9fa;
+	}
+
+	.tenant-dashboard-bg{
+		background-position: right bottom;
+		background-size: auto 100%;
+		background-image: url('vendor/custom-1.svg')
+	}
+
+	.theme-box-bg-1{
+		background-image: url('vendor/custom-3.svg');
+		background-position: calc(100% + 0.5rem) bottom;
+		background-size: auto 100%;
+	}
+
+	.theme-box-bg-2{
+		background-image: url('vendor/custom-4.svg');
+		background-position: calc(100% + 0.5rem) bottom;
+		background-size: auto 100%;
+	}
+
+	#jersey-number-field {
+    position: relative;
+    z-index: 9999;
+  }
+
+  .splide__slide {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f9f9f9;
+    height: 600px;
+  }
+
+  .splide__slide img {
+    max-height: 100%;
+    max-width: 100%;
+    object-fit: contain;
+    border-radius: 12px;
+  }
+  
+  .bg-primary-light { background-color: #eaf4ff; }
+  .bg-warning-light { background-color: #fff7e0; }
+  .bg-secondary-light { background-color: #f4f4f4; }
+
+  .nav-pills .nav-link {
+    padding: 0.5rem 1rem;
+  }
+
+	.table-row-link {
+    display: contents;
+    &:hover {
+      background-color: #f8f9fa;
+    }
+  }
+
+	.badge-school {
+		background-color: #f0f0f0;
+		color: #333;
+		font-weight: 600;
+		font-size: 0.75rem;
+		padding: 6px 12px;
+		border-radius: 999px;
+		white-space: nowrap;
+		box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+		transition: all 0.2s ease-in-out;
+	}
+
+	.badge-school-0 { background-color: #ffc107; } /* yellow */
+	.badge-school-1 { background-color: #20c997; } /* teal */
+	.badge-school-2 { background-color: #d63384; } /* pink */
+	.badge-school-3 { background-color: #0dcaf0; } /* cyan */
+
+	.h-140{
+		height: 140px;
+	}
+	.mhvh-75{
+		max-height: 75vh;
+	}
+
+	.c-pointer{
+		cursor: pointer;
+	}
+
+	.w80-per{
+		width: 80%;
+	}
+
+	.w75-per{
+		width: 75%;
+	}
+
+	.w65-per{
+		width: 65%;
+	}
+
+	.w64-per{
+		width: 64%;
+	}
+
+	.w59-per{
+		width: 59%;
+	}
+
+	.w55-per{
+		width: 55%;
+	}
+	
+	.w45-per{
+		width: 45%;
+	}
+
+	.w40-per{
+		width: 40%;
+	}
+
+	.w30-per{
+		width: 30%;
+	}
+
+	.w20-per{
+		width: 20%;
+	}
+
+	.mlt-8n{
+		margin-left: -8px;
 	}
 
 /*=================================*/

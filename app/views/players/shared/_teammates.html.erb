@@ -21,7 +21,7 @@
         </thead>
         <tbody>
           <% @teammates.each do |teammate| %>
-            <tr style="cursor: pointer;">
+            <tr class="c-pointer">
               <td>
                 <%= teammate_profile_picture(teammate) %>
               </td>
@@ -63,12 +63,3 @@
     </div>
   </div>
 </div>
-
-<style>
-  .table-row-link {
-    display: contents;
-    &:hover {
-      background-color: #f8f9fa;
-    }
-  }
-</style>

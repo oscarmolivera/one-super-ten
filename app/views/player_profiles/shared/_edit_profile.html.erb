@@ -200,7 +200,7 @@
                       <% else %>
                         <%= image_tag url_for(img), class: "img-thumbnail mb-1", alt: "Carrusel" %>
                       <% end %>
-                      <div class="small text-muted" style="max-width: 70px; word-wrap: break-word;">
+                      <div class="small text-muted player-carousel-images-size" >
                         <%= truncate(img.filename.to_s, length: 15) %>
                       </div>
                     </div>
@@ -222,9 +222,3 @@
     </button>
   </div> 
 <% end %>
-<style>
-  #jersey-number-field {
-    position: relative;
-    z-index: 9999;
-  }
-</style>

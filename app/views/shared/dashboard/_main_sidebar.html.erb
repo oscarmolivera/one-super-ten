@@ -4,7 +4,7 @@
     <meta name="current-user" content="<%= current_user.id %>">
   <% end %>
   <div class="multinav">
-    <div class="multinav-scroll dark-skin ps" style="height: 100%;">
+    <div class="multinav-scroll dark-skin ps h-p100">
       <ul class="sidebar-menu" data-widget="tree">
         <% sidebar_menu_items.each do |section| %>
           <li class="header"><%= section[:header] %></li>
@@ -23,7 +23,7 @@
               </a>
 
               <% if item[:children].present? %>
-                <ul class="treeview-menu">
+                <ul class="treeview-menu dt-none">
                   <% item[:children].each do |child| %>
                     <li>
                       <%= link_to child[:path] do %>

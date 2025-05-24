@@ -2,7 +2,7 @@
 	<div class="row">
 		<div class="col-12 col-lg-5 col-xl-4"><!-- Profile Left Side -->
 			<div class="box box-widget widget-user"><!-- User Basic Information Card-->
-				<div class="widget-user-header bg-img bbsr-0 bber-0 position-relative" style="background: url('<%= asset_path('faviconbg.png') %>') center center;" data-overlay="5">
+				<div class="widget-user-header bg-img bbsr-0 bber-0 position-relative widget-player-name-bg" data-overlay="5">
 					<h3 class="widget-user-username text-white"><%= @player.public_full_name %></h3>
 					<% if @player.schools.any? %>
 						<div class="d-flex flex-wrap gap-2 mt-2">
@@ -12,8 +12,8 @@
 						</div>
 					<% end %>
 				</div>
-				<div class="widget-user-image" style="position: relative; top: 30px; margin-top: -120px; z-index: 10;">
-					<%= player_profile_image(@player, class: 'rounded-circle' , alt: "Foto de perfil") %>
+				<div class="widget-user-image">
+					<%= player_profile_image(@player, class: 'rounded-circle widget-user-player-image' , alt: "Foto de perfil") %>
 				</div>
 				<div class="box-footer"><!-- Other Info  & Social Media -->
 					<div class="row"><!-- Age DominantSide Category -->
@@ -50,13 +50,13 @@
 					
 					<!-- Jersey Number Card -->
 					<div class="col-6">
-						<div class="box pull-up rounded-4 border-0 shadow-sm bg-secondary-subtle" style="background-image: url(<%= asset_path('jersey-1.png') %>); background-position: right bottom; background-repeat: no-repeat; background-size: 100px;">
-							<div class="box-body d-flex flex-column justify-content-between" style="min-height: 150px;">
+						<div class="box pull-up rounded-4 border-0 shadow-sm bg-secondary-subtle">
+							<div class="box-body d-flex flex-column justify-content-between min-h-150">
 								<div class="text-start">
 									<h5 class="fw-bold text-dark mb-1">Dorsal</h5>
 									<p class="text-muted small mb-2">Temporada 2025</p>
 								</div>
-								<div class="jersey-number-box text-center bg-white text-dark fw-bold rounded-pill px-3 py-2 mx-auto" style="font-size: 2.5rem;">
+								<div class="jersey-number-box text-center bg-white text-dark fw-bold rounded-pill px-3 py-2 mx-auto h1">
 									<%= @player.jersey_selection.presence || "-" %>
 								</div>
 							</div>
@@ -65,8 +65,8 @@
 
 					<!-- Position Card -->
 					<div class="col-6">
-						<div class="box pull-up rounded-4 border-0 shadow-sm bg-warning-subtle" style="background-image: url(<%= asset_path(position_background_image(@player)) %>); background-position: right bottom; background-repeat: no-repeat; background-size: 100px;">
-							<div class="box-body d-flex flex-column justify-content-between" style="min-height: 150px;">
+						<div class="box pull-up rounded-4 border-0 shadow-sm bg-warning-subtle position-card-bg-rule" style="background-image: url('<%= asset_path(position_background_image(@player))%>');">
+							<div class="box-body d-flex flex-column justify-content-between min-h-150">
 								<div class="text-start">
 									<h5 class="fw-bold text-dark mb-1"><%= @player.public_position %></h5>
 									<p class="text-muted small mb-0">Posición</p>
@@ -149,21 +149,3 @@
 		</div><!-- /.col-12 Right Side -->
 	</div><!-- /.row -->
 </section>
-<style>
-	.badge-school {
-		background-color: #f0f0f0;
-		color: #333;
-		font-weight: 600;
-		font-size: 0.75rem;
-		padding: 6px 12px;
-		border-radius: 999px;
-		white-space: nowrap;
-		box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-		transition: all 0.2s ease-in-out;
-	}
-
-	.badge-school-0 { background-color: #ffc107; } /* yellow */
-	.badge-school-1 { background-color: #20c997; } /* teal */
-	.badge-school-2 { background-color: #d63384; } /* pink */
-	.badge-school-3 { background-color: #0dcaf0; } /* cyan */
-</style>
