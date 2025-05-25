@@ -88,17 +88,25 @@
     </div>
     <div class="row"><!-- Public Handle -->
       <div class="col-md-6">
-        <div class="form-group">
+        <div class="form-group" data-controller="handle-preview">
           <%= form.label :handle, 'Nombre Público (handle)', class: 'form-label' %>
           <div class="input-group">
             <div class="input-group-text">
               <i class="fas fa-link"></i>
             </div>
-            <%= form.text_field :handle, class: 'form-control', placeholder: 'ej. mi-nombre-publico' %>
+            <%= form.text_field :handle,
+                  class: 'form-control',
+                  placeholder: 'ej: nombre-publico',
+                  data: {
+                    "handle-preview-target": "input",
+                    action: "input->handle-preview#update"
+                  } %>
           </div>
           <small class="form-text text-muted">
             Tu página pública será:<br>
-            <strong>https://<%= ActsAsTenant.current_tenant.subdomain %>.nubbe.net/players/<em>nombre-publico</em></strong>
+            <strong>
+              <%=players_public_url%><em data-handle-preview-target="output"><%=@player.public_handler%></em>
+            </strong>
           </small>
         </div>
       </div>

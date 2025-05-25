@@ -48,6 +48,7 @@ module PlayersHelper
       )
     end
   end
+
   def teammate_avatar(player)
     if player.profile_picture.attached?
       image_tag(player.profile_picture.variant(resize_to_fill: [40, 40]),
@@ -77,5 +78,10 @@ module PlayersHelper
     else
       "position-1.svg"
     end
+  end
+
+  def players_public_url
+    tenant = ActsAsTenant.current_tenant.subdomain
+    "https://#{tenant}.nubbe.net/players/"    
   end
 end

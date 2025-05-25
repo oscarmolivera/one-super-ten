@@ -55,11 +55,7 @@ class Player < ApplicationRecord
   end
 
   def public_position
-    if position.present?
-      position.capitalize
-    else
-      "Por Definir"
-    end
+    position.present? ? position.capitalize : "Por Definir"
   end
 
   def age
@@ -110,11 +106,11 @@ class Player < ApplicationRecord
   end
 
   def preferent_side
-    if dominant_side.present?
-      dominant_side.capitalize
-    else
-      "Sin lado preferido"
-    end
+    dominant_side.present? ? dominant_side.capitalize :  "Sin lado preferido"
+  end
+
+  def public_handler
+    handle.present? ? handle : "nombre-publico"
   end
 
   private
