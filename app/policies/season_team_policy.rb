@@ -1,0 +1,32 @@
+class SeasonTeamPolicy < ApplicationPolicy
+  def index?
+    %i[tenant_admin staff_assistant coach player team_assistant]
+      .any? { |role| user.has_role?(role, ActsAsTenant.current_tenant) }
+  end
+
+  def new?
+    index?
+  end
+
+  def show?
+    record.tenant == user.tenant
+  end
+
+  def create?
+    user.has_role?(:coach) || user.has_role?(:admin)
+  end
+
+  def update?
+    create?
+  end
+
+  def destroy?
+    create?
+  end
+
+  class Scope < Scope
+    def resolve
+      scope.where(tenant: user.tenant)
+    end
+  end
+end

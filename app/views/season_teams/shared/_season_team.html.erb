@@ -1,0 +1,23 @@
+<h1>Equipos de Temporada</h1>
+<%= link_to 'Nuevo', new_season_team_path, class: 'btn btn-primary' %>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Nombre</th>
+      <th>Categoría</th>
+      <th>Activo</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @season_teams.each do |team| %>
+      <tr>
+        <td><%= team.name %></td>
+        <td><%= team.category.name %></td>
+        <td><%= team.active? ? 'Sí' : 'No' %></td>
+        <td><%= link_to 'Ver', team %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

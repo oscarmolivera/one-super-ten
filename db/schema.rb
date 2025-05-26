@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_05_23_023737) do
+ActiveRecord::Schema[8.0].define(version: 2025_05_26_202330) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -404,6 +404,32 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_23_023737) do
     t.index ["tenant_id"], name: "index_schools_on_tenant_id"
   end
 
+  create_table "season_team_players", force: :cascade do |t|
+    t.bigint "season_team_id", null: false
+    t.bigint "player_id", null: false
+    t.string "origin", null: false
+    t.boolean "starter", default: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["player_id"], name: "index_season_team_players_on_player_id"
+    t.index ["season_team_id", "player_id"], name: "index_season_team_players_on_season_team_id_and_player_id", unique: true
+    t.index ["season_team_id"], name: "index_season_team_players_on_season_team_id"
+  end
+
+  create_table "season_teams", force: :cascade do |t|
+    t.bigint "tenant_id", null: false
+    t.bigint "category_id", null: false
+    t.bigint "tournament_id", null: false
+    t.string "name", null: false
+    t.string "description"
+    t.boolean "active", default: true
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["category_id"], name: "index_season_teams_on_category_id"
+    t.index ["tenant_id"], name: "index_season_teams_on_tenant_id"
+    t.index ["tournament_id"], name: "index_season_teams_on_tournament_id"
+  end
+
   create_table "sites", force: :cascade do |t|
     t.bigint "school_id", null: false
     t.string "name", null: false
@@ -564,6 +590,11 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_23_023737) do
   add_foreign_key "publications", "users", column: "author_id"
   add_foreign_key "roles", "tenants"
   add_foreign_key "schools", "tenants"
+  add_foreign_key "season_team_players", "players"
+  add_foreign_key "season_team_players", "season_teams"
+  add_foreign_key "season_teams", "categories"
+  add_foreign_key "season_teams", "tenants"
+  add_foreign_key "season_teams", "tournaments"
   add_foreign_key "sites", "schools"
   add_foreign_key "tenants", "tenants", column: "parent_tenant_id"
   add_foreign_key "tournament_categories", "categories"
