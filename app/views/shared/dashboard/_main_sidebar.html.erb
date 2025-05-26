@@ -8,21 +8,19 @@
       <ul class="sidebar-menu" data-widget="tree">
         <% sidebar_menu_items.each do |section| %>
           <li class="header"><%= section[:header] %></li>
-
           <% section[:items].each do |item| %>
-            <li class="treeview">
-              <a href="#">
-                <i class="<%= item[:icon] %>">
-                  <span class="path1"></span>
-                  <span class="path2"></span>
-                </i>
-                <span><%= item[:label] %></span>
-                <span class="pull-right-container">
-                  <i class="fa fa-angle-right pull-right"></i>
-                </span>
-              </a>
-
+            <li class="<%= item[:children].present? ? 'treeview' : '' %>">
               <% if item[:children].present? %>
+                <a href="#">
+                  <i class="<%= item[:icon] %>">
+                    <span class="path1"></span>
+                    <span class="path2"></span>
+                  </i>
+                  <span><%= item[:label] %></span>
+                  <span class="pull-right-container">
+                    <i class="fa fa-angle-right pull-right"></i>
+                  </span>
+                </a>
                 <ul class="treeview-menu dt-none">
                   <% item[:children].each do |child| %>
                     <li>
@@ -36,6 +34,14 @@
                     </li>
                   <% end %>
                 </ul>
+              <% else %>
+                <%= link_to item[:path], class: "d-block px-15 py-10 #{'menu-item-active' if current_page?(item[:path])}" do %>
+                  <i class="<%= item[:icon] %>">
+                    <span class="path1"></span>
+                    <span class="path2"></span>
+                  </i>
+                  <span><%= item[:label] %></span>
+                <% end %>
               <% end %>
             </li>
           <% end %>

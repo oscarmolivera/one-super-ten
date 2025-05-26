@@ -1169,6 +1169,7 @@ $('.demo-panel-bx').slimScroll({
     var path = window.location.pathname.split("/").pop();
     var target = $('.sidebar-menu li a[href="'+path+'"]');
     target.parent().addClass('active');
+    console.log("asdasdasdjhalkshdkahsda")
     $('.sidebar-menu li.active').parents('li').addClass('active');
 
 }(jQuery) // End of use strict

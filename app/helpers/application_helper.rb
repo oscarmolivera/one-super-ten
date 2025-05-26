@@ -342,21 +342,16 @@ module ApplicationHelper
       {
         header: "JUGADOR",
         items: [
-          {
-            label: "Gestion",
-            icon: "icon-Library",
-            children: [
-              { label: "Perfil", icon: "icon-Commit", path: player_player_profile_path(current_user.player) },
-              { label: "Player", icon: "icon-Commit", path: players_path },
-              { label: "Mi Categoría", icon: "icon-Commit", path: teammates_player_path(current_user.player) }, #(listado con perfil publico de jugadores con informacion delegado y entrenadores)
-              { label: "Palmarés en perfil", icon: "icon-Commit", path: "#" },
-              { label: "Album de fotos en perfil", icon: "icon-Commit", path: "#" },
-            ]
-          },
+          # Previously nested under "Gestión" – now top-level items:
+          { label: "Perfil", icon: "fa fa-id-card-clip", path: player_player_profile_path(current_user.player) },
+          { label: "Mi Categoría", icon: "fa fa-users", path: teammates_player_path(current_user.player) },
+          { label: "Palmarés en perfil", icon: "fa fa-ranking-star", path: schools_path },
+          # Existing grouped items:
           {
             label: "Torneos",
-            icon: "icon-Layout-grid",
+            icon: "fa fa-trophy d-inline-block position-relative",
             children: [
+              { label: "Player", icon: "fa fa-user", path: players_path },
               { label: "solo ver listado Torneos Activo", icon: "icon-Commit", path: tenant_dashboard_path },
               { label: "solo ver listado historial torneos del pasado", icon: "icon-Commit", path: tenant_dashboard_path },
               { label: "solo ver Calendario de Partidos", icon: "icon-Commit", path: tenant_dashboard_path },
@@ -365,7 +360,7 @@ module ApplicationHelper
               { label: "solo ver Convocatorias", icon: "icon-Commit", path: tenant_dashboard_path },
               { label: "solo ver InformacionGeneral Reglas&Grupos", icon: "icon-Commit", path: tenant_dashboard_path },
               { label: "solo ver Publicaciones para Padres", icon: "icon-Commit", path: tenant_dashboard_path },
-              { label: "solo ver Relacion del Pote del Albitraje", icon: "icon-Commit", path: tenant_dashboard_path },
+              { label: "solo ver Relacion del Pote del Albitraje", icon: "icon-Commit", path: tenant_dashboard_path }
             ]
           },
           {
@@ -384,7 +379,7 @@ module ApplicationHelper
               { label: "Comprobante de  Pagos con impresion", icon: "icon-Commit", path: tenant_dashboard_path },
               { label: "Reporte de Pagos", icon: "icon-Commit", path: tenant_dashboard_path }
             ]
-          }          
+          }
         ]
       }
     ]

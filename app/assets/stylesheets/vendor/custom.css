@@ -393,6 +393,74 @@
 	}
 }
 
+	/* Sidebar general link style */
+	.sidebar-menu li a {
+		display: flex;
+		align-items: center;
+		gap: 10px;
+		font-size: 16px;
+		color: #dfe3e8; /* Light slate */
+		font-weight: 500;
+		padding: 10px 18px;
+		border-radius: 6px;
+		transition: all 0.2s ease-in-out;
+		text-decoration: none;
+	}
+
+	/* Sidebar icon inside link */
+	.sidebar-menu li a i {
+		min-width: 20px;
+		font-size: 16px;
+		color: #94a3b8; /* Muted icon */
+		transition: color 0.2s ease;
+	}
+
+	/* Hover behavior */
+	.sidebar-menu li a:hover {
+		background-color: #1e293b; /* slate-800 */
+		color: #ffffff;
+	}
+
+	.sidebar-menu li a:hover i {
+		color: #facc15; /* yellow-400 for highlight */
+	}
+
+	/* Active item */
+	.sidebar-menu li.active > a {
+		background-color: #0f172a; /* deeper slate */
+		color: #ffffff;
+		font-weight: 600;
+	}
+
+	.sidebar-menu li.active > a i {
+		color: #facc15; /* active icon highlight */
+	}
+
+	/* Treeview arrow override (if needed) */
+	.sidebar-menu li.treeview > a .pull-right-container > i {
+		transition: transform 0.3s ease;
+	}
+
+	.sidebar-menu li.treeview.menu-open > a .pull-right-container > i {
+		transform: rotate(90deg);
+	}
+	.sidebar-menu .header {
+		font-size: 11px;
+		color: #64748b;
+		padding: 10px 20px 5px;
+		text-transform: uppercase;
+		letter-spacing: 1px;
+	}
+	/* Sidebar active item (clicked / current page) */
+	.sidebar-menu li a.menu-item-active {
+		background-color: #1e293b; /* Same as hover */
+		color: #ffffff;
+		font-weight: 600;
+	}
+
+	.sidebar-menu li a.menu-item-active i {
+		color: #facc15; /* Highlight icon as well */
+	}
 /*================================Index-8========================================*/
 .left-side-section{
 	overflow: auto;
