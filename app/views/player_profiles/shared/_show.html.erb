@@ -132,6 +132,7 @@
 					<li class=" nav-item"> <a href="#publicprofile" class="nav-link active" data-bs-toggle="tab" aria-expanded="false">Perfil Publico</a> </li>
 					<% if user_signed_in? && policy(@player).edit? %>
 						<li class="nav-item"> <a href="#editprofile" class="nav-link" data-bs-toggle="tab" aria-expanded="false">Editar Perfil</a> </li>
+						<li class="nav-item"> <a href="#playerinfo" class="nav-link" data-bs-toggle="tab" aria-expanded="false">Ficha Jugador</a> </li>
 					<% end %>
 				</ul>
 
@@ -142,6 +143,9 @@
 					<% if user_signed_in? && policy(@player).edit? %>
 						<div class="tab-pane" id="editprofile">
 							<%= render 'player_profiles/shared/edit_profile' %>
+						</div><!-- /.tab-pane editprofile-->
+						<div class="tab-pane" id="playerinfo">
+							<%= render 'player_profiles/shared/player_info' %>
 						</div><!-- /.tab-pane editprofile-->
 					<% end %>
 				</div><!-- /.tab-content -->

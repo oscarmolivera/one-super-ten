@@ -91,14 +91,13 @@ class PlayersController < ApplicationController
 
   def documents
     authorize :player, :index?
-
     @player = Player.find(params[:id])
-  
+
     if params[:document].present?
-      @player.documents.attach(params[:document].values)
-      head :ok
+      @player.documents.attach(params[:document])
+      redirect_to player_path(@player), notice: "Documentos cargados exitosamente."
     else
-      render json: { error: "No document received" }, status: :unprocessable_entity
+      redirect_to player_path(@player), alert: "No se seleccionaron documentos."
     end
   end
 
