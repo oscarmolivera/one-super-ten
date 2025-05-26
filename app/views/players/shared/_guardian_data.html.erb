@@ -72,7 +72,7 @@
         </div>
         <div class="col-md-4">
           <%= g.label :relationship, class: 'form-label' %>
-          <%= g.text_field :relationship, class: 'form-control', placeholder: "Relación con el jugador" %>
+          <%= g.select :relationship, Guardian.relationships.keys.map { |g| [g.titleize, g] }, { include_blank: "Relación con el jugador" }, class: "form-control" %>
         </div>
       </div>
 

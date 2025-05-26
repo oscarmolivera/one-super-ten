@@ -10,7 +10,8 @@ class GuardiansController < ApplicationController
     if @guardian.save
       redirect_to edit_player_path(@player, anchor: 'guardiandata'), notice: "Responsable creado exitosamente."
     else
-      render 'players/shared/guardian_data', status: :unprocessable_entity
+      Rails.logger.error "Guardian creation failed: #{@guardian.errors.full_messages.join(', ')}"
+      redirect_to edit_player_path(@player, anchor: 'guardiandata'), notice: "No creado el responsable. Por favor, revisa los datos ingresados."
     end
   end
 
