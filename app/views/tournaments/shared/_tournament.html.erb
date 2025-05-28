@@ -1,0 +1,44 @@
+<div class="container mt-4">
+  <div class="d-flex align-items-center mb-3 gap-3">
+    <%= display_cup_logo(@cup, class: "rounded shadow-sm", style: "height: 48px; width: 48px; object-fit: contain;") %>
+    <h1 class="mb-0">
+      Torneos Copa <%= @cup.name %>
+      <small class="text-muted fs-6 d-block"><%= @cup.school.name %></small>
+    </h1>
+  </div>
+
+  <%= link_to "New Tournament", new_cup_tournament_path, class: "btn btn-primary mb-3" %>
+
+  <div class="card">
+    <div class="card-body">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>Descripción</th>
+            <th>Fechas</th>
+            <th>Estado</th>
+            <th>Público</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @tournaments.each do |tournament| %>
+            <tr>
+              <td><%= tournament.name %></td>
+              <td><%= tournament.description %></td>
+              <td><%= "#{tournament.start_date} al #{tournament.end_date}" %></td>
+              <td><%= tournament.status %></td>
+              <td><%= tournament.public? ? "Sí" : "No" %></td>
+              <td>
+                <%= link_to "Editar", edit_cup_tournament_path(tournament.cup_id, tournament), class: "btn btn-sm btn-secondary" %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+
+      <%= link_to "Volver", cups_path(anchor: "school-tab-#{@cup.school_id}"), class: "btn btn-sm btn-warning float-end" %>
+    </div>
+  </div>
+</div>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_05_26_202330) do
+ActiveRecord::Schema[8.0].define(version: 2025_05_28_013149) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -133,6 +133,16 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_26_202330) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_coach_profiles_on_user_id"
+  end
+
+  create_table "cups", force: :cascade do |t|
+    t.bigint "tenant_id", null: false
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "school_id", null: false
+    t.index ["school_id"], name: "index_cups_on_school_id"
+    t.index ["tenant_id"], name: "index_cups_on_tenant_id"
   end
 
   create_table "event_participations", force: :cascade do |t|
@@ -483,6 +493,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_26_202330) do
     t.integer "status", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "cup_id", null: false
+    t.index ["cup_id"], name: "index_tournaments_on_cup_id"
     t.index ["tenant_id"], name: "index_tournaments_on_tenant_id"
   end
 
@@ -557,6 +569,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_26_202330) do
   add_foreign_key "category_team_assistants", "categories"
   add_foreign_key "category_team_assistants", "users"
   add_foreign_key "coach_profiles", "users"
+  add_foreign_key "cups", "schools"
+  add_foreign_key "cups", "tenants"
   add_foreign_key "event_participations", "categories"
   add_foreign_key "event_participations", "events"
   add_foreign_key "events", "schools"
@@ -599,6 +613,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_26_202330) do
   add_foreign_key "tenants", "tenants", column: "parent_tenant_id"
   add_foreign_key "tournament_categories", "categories"
   add_foreign_key "tournament_categories", "tournaments"
+  add_foreign_key "tournaments", "cups"
   add_foreign_key "tournaments", "tenants"
   add_foreign_key "training_attendances", "players"
   add_foreign_key "training_attendances", "training_sessions"

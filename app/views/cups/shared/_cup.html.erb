@@ -1,0 +1,74 @@
+<div class="container-fluid px-4" data-controller="school-tab school-cup">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h3 class="fw-bold">Copas Registradas</h3>
+    <%= link_to 'Nueva Copa', new_cup_path(school_id: @selected_school.id), class: "btn btn-sm btn-primary", id: "new-cup-link", data: { school_cup_target: "newCupLink" } %>
+  </div>
+
+  <% if @schools.any? %>
+    <div class="row">
+      <div class="col-md-2">
+        <div class="nav flex-column nav-pills me-3" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+          <% @schools.each_with_index do |school, i| %>
+            <button class="nav-link <%= 'active' if school == @selected_school %>"
+                    id="school-tab-<%= school.id %>"
+                    data-bs-toggle="pill"
+                    data-bs-target="#school-pane-<%= school.id %>"
+                    type="button"
+                    role="tab"
+                    aria-controls="school-pane-<%= school.id %>"
+                    aria-selected="<%= school == @selected_school %>"
+                    data-school-cup-target="schoolTab"
+                    data-school-id="<%= school.id %>">
+              <%= school.name %>
+            </button>
+          <% end %>
+        </div>
+      </div>
+
+      <div class="col-md-10">
+        <div class="tab-content" id="v-pills-tabContent">
+          <% @schools.each do |school| %>
+            <div class="tab-pane fade <%= 'show active' if school == @selected_school %>"
+                 id="school-pane-<%= school.id %>"
+                 role="tabpanel"
+                 aria-labelledby="school-tab-<%= school.id %>">
+
+              <% cups = school.cups.where(tenant: ActsAsTenant.current_tenant) %>
+              <% if cups.any? %>
+                <div class="row row-cols-2 row-cols-sm-3 row-cols-md-4 g-3">
+                  <% cups.each do |cup| %>
+                  <div class="col">
+                    <div class="text-center">
+                      <%= link_to cup_tournaments_path(cup), class: "d-block ratio ratio-1x1 bg-white text-decoration-none" do %>
+                        <%= display_cup_logo(cup, class: "img-fluid p-2", style: "object-fit: contain; max-height: 100%; max-width: 100%;") %>
+                      <% end %>
+                      <div class="pt-2">
+                        <p class="card-text small text-truncate mb-1"><strong><%= cup.name %></strong></p>
+                        <div class="d-flex justify-content-center gap-1">
+                          <%= link_to 'Torneos', cup_tournaments_path(cup), class: 'btn btn-sm btn-outline-primary' %>
+                          <%= link_to 'Editar', edit_cup_path(cup), class: 'btn btn-sm btn-outline-secondary' %>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <% end %>
+                </div>
+              <% else %>
+                <div class="alert alert-info mt-4">No hay copas registradas para esta escuela.</div>
+              <% end %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  <% else %>
+    <div class="alert alert-info">No hay escuelas registradas para este tenant.</div>
+  <% end %>
+</div>
+
+<style>
+  a.d-block.ratio:hover {
+    background-color: #f8f9fa;
+    transition: background-color 0.2s ease-in-out;
+  }
+</style>

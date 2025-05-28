@@ -1,6 +1,8 @@
-<%= form_with model: [@tournament], local: true do |form| %>
+<%= form_with model: [@cup, @tournament], local: true do |form| %>
   <div class="card mb-3">
     <div class="card-body">
+      <%= form.collection_select :cup_id, Cup.all, :id, :name, { prompt: "Seleccione una copa" }, class: "form-control" %>
+      
       <%= form.label :name %>
       <%= form.text_field :name, class: "form-control" %>
 
@@ -30,7 +32,7 @@
       <%= form.submit class: "btn btn-success" %>
     </div>
     <div class="card-footer text-end">
-      <%= link_to "Back", tournaments_path, class: "btn btn-secondary mt-3" %>
+      <%= link_to "Back", cup_tournaments_path, class: "btn btn-secondary mt-3" %>
     </div>
   </div>
 <% end %>

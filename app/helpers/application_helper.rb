@@ -353,6 +353,7 @@ module ApplicationHelper
             children: [
               { label: "Player", icon: "fa fa-user", path: players_path },
               { label: "Season Teams", icon: "fa fa-users", path: season_teams_path },
+              { label: "Copas", icon: "fa fa-medal", path: cups_path },
               { label: "solo ver listado Torneos Activo", icon: "icon-Commit", path: tenant_dashboard_path },
               { label: "solo ver listado historial torneos del pasado", icon: "icon-Commit", path: tenant_dashboard_path },
               { label: "solo ver Calendario de Partidos", icon: "icon-Commit", path: tenant_dashboard_path },

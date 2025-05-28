@@ -1,5 +1,7 @@
 class Tournament < ApplicationRecord
   belongs_to :tenant
+  belongs_to :cup, optional: true
+  
   has_many :tournament_categories, dependent: :destroy
   has_many :categories, through: :tournament_categories
   has_many :matches, dependent: :destroy

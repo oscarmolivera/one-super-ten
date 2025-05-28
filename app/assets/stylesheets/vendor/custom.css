@@ -170,7 +170,7 @@
 
 	.player-doc-each{
 		width: 160px;
-		height: 180px;
+		height: 100px;
 		border: 1px solid #eee2e6;
 		border-radius: 6px;
 		overflow: hidden;
@@ -460,6 +460,14 @@
 
 	.sidebar-menu li a.menu-item-active i {
 		color: #facc15; /* Highlight icon as well */
+	}
+
+	.card img {
+		transition: transform 0.3s ease-in-out;
+	}
+
+	.card:hover img {
+		transform: scale(1.05);
 	}
 /*================================Index-8========================================*/
 .left-side-section{
