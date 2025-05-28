@@ -18,3 +18,6 @@ application.register("school-toggles", SchoolTogglesController)
 
 import SchoolTabController from "./school_tab_controller"
 application.register("school-tab", SchoolTabController)
+
+import CategoriesController from "./categories_controller"
+application.register("categories", CategoriesController)

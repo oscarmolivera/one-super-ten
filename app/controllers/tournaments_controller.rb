@@ -1,6 +1,7 @@
 class TournamentsController < ApplicationController
   before_action :set_tournament, only: %i[show edit update destroy]
   before_action :set_cup
+  before_action :set_school_categories, only: %i[new edit]
   before_action :authorize_tournament
 
   def index
@@ -54,6 +55,9 @@ class TournamentsController < ApplicationController
 
   def authorize_tournament
     authorize :tournament, :index?
+  end
+  def set_school_categories
+    @categories = School.find(@cup.school_id).categories.order(id: :asc)
   end
 
   def tournament_params
