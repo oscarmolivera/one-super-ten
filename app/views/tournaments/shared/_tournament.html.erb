@@ -25,6 +25,7 @@
                   <th>Victorias</th>
                   <th>Goles</th>
                   <th>Resultado</th>
+                  <th>Acciones</th>
                 </tr>
               </thead>
               <tbody>
@@ -32,7 +33,13 @@
                   <% place = ['CAMPEONES', 'SUBCAMPEONES', '3er Lugar', '4to Lugar'].sample %>
                   <tr>
                     <td class="fw-semibold text-dark"><%= tournament.name %></td>
-                    <td class="text-muted"><%= "#{tournament.start_date} al #{tournament.end_date}" %></td>
+                    <td>
+                      <span class="badge bg-primary text-white">
+                        <i class="fa fa-calendar-alt me-1"></i>
+                        <%= tournament.start_date.strftime('%b %d, %Y') %>
+                        <small class="d-block fw-semibold text-info">al <%= tournament.end_date.strftime('%d %b %Y') %></small>
+                      </span>
+                    </td>
                     <td>
                       <span class="badge bg-warning text-dark">
                         <i class="fa-solid fa-diamond"></i> <%= pluralize(rand(3..18), 'victoria') %>
@@ -53,6 +60,8 @@
                           <span class="text-muted"><%= place %></span>
                       <% end %>
                     </td>
+                    <td><%= link_to "Editar", edit_cup_tournament_path(tournament.cup_id, tournament), class: "btn btn-sm btn-warning" if current_user.is_role_tenant_admin? %>
+                    <%= link_to "Partidos", tenant_root_path, class: "btn btn-sm btn-danger" %></td>
                   </tr>
                 <% end %>
               </tbody>

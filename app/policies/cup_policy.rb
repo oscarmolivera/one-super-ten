@@ -1,7 +1,11 @@
 class CupPolicy < ApplicationPolicy
   class Scope < Scope
     def resolve
-      scope.where(tenant: ActsAsTenant.current_tenant)
+      if user.has_role?(:player, ActsAsTenant.current_tenant)
+        Cup.for_player(user.player)
+      else
+        scope.where(tenant: ActsAsTenant.current_tenant)
+      end
     end
   end
 

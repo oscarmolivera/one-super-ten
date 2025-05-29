@@ -16,4 +16,11 @@ class Tournament < ApplicationRecord
   validates :end_date, comparison: { greater_than_or_equal_to: :start_date }
 
   scope :publicly_visible, -> { where(public: true) }
+
+  scope :for_player, ->(player) {
+    joins(:categories)
+      .where(categories: { id: player.category_ids })
+      .where(tenant: player.tenant)
+      .distinct
+  }
 end
