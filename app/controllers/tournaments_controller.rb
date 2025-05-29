@@ -5,7 +5,7 @@ class TournamentsController < ApplicationController
   before_action :authorize_tournament
 
   def index
-    @tournaments = policy_scope(@cup.tournaments)
+    @tournaments = policy_scope(@cup.tournaments).order(start_date: :desc)
   end
 
   def show

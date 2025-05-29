@@ -50,6 +50,6 @@ class CupsController < ApplicationController
   end
 
   def cup_params
-    params.require(:cup).permit(:name, :logo, :school_id)
+    params.require(:cup).permit(:name, :logo, :school_id, :description, :location)
   end
 end

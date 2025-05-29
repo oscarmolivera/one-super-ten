@@ -116,6 +116,9 @@ events = [
 coach = Role.all.where(name: 'coach', tenant: academia).last.users.last
 fcampo = School.find(1)
 
+puts "Seeding Cups & Tournaments..."
+load Rails.root.join("db/seeds/cups_and_tournaments.rb")
+
 events.each do |attrs|
   event = Event.create!(
     school: fcampo,

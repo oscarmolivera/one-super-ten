@@ -1,44 +1,65 @@
 <div class="container mt-4">
-  <div class="d-flex align-items-center mb-3 gap-3">
-    <%= display_cup_logo(@cup, class: "rounded shadow-sm", style: "height: 48px; width: 48px; object-fit: contain;") %>
+  <div class="d-flex align-items-center justify-content-center mb-3 gap-3">
+    <%= display_cup_logo(@cup, class: "rounded shadow-sm", style: "height: 120px; width: 120px; object-fit: contain;") %>
     <h1 class="mb-0">
       Torneos Copa <%= @cup.name %>
-      <small class="text-muted fs-6 d-block"><%= @cup.school.name %></small>
+      <small class="text-muted fs-6 d-block">
+        <%= @cup.school.name %> | 
+        <%= @cup.description %> |
+        <%= @cup.location %>
+      </small>
     </h1>
   </div>
 
-  <%= link_to "New Tournament", new_cup_tournament_path, class: "btn btn-primary mb-3" %>
-
-  <div class="card">
-    <div class="card-body">
-      <table class="table table-striped">
-        <thead>
-          <tr>
-            <th>Nombre</th>
-            <th>Descripción</th>
-            <th>Fechas</th>
-            <th>Estado</th>
-            <th>Público</th>
-            <th>Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          <% @tournaments.each do |tournament| %>
-            <tr>
-              <td><%= tournament.name %></td>
-              <td><%= tournament.description %></td>
-              <td><%= "#{tournament.start_date} al #{tournament.end_date}" %></td>
-              <td><%= tournament.status %></td>
-              <td><%= tournament.public? ? "Sí" : "No" %></td>
-              <td>
-                <%= link_to "Editar", edit_cup_tournament_path(tournament.cup_id, tournament), class: "btn btn-sm btn-secondary" %>
-              </td>
-            </tr>
-          <% end %>
-        </tbody>
-      </table>
-
-      <%= link_to "Volver", cups_path(anchor: "school-tab-#{@cup.school_id}"), class: "btn btn-sm btn-warning float-end" %>
+  <%= link_to "New Tournament", new_cup_tournament_path, class: "btn btn-primary mb-3" if current_user.is_role_tenant_admin?%>
+  <div class="px-10"><!-- /Player Tournament List-->
+    <div class="row">
+      <div class="box">
+        <div class="box-body py-10">
+          <div class="table-responsive">
+            <table class="table align-middle mb-0">
+              <thead class="table-light">
+                <tr>
+                  <th>Torneo</th>
+                  <th>Periodo</th>
+                  <th>Victorias</th>
+                  <th>Goles</th>
+                  <th>Resultado</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% @tournaments.each do |tournament| %>
+                  <% place = ['CAMPEONES', 'SUBCAMPEONES', '3er Lugar', '4to Lugar'].sample %>
+                  <tr>
+                    <td class="fw-semibold text-dark"><%= tournament.name %></td>
+                    <td class="text-muted"><%= "#{tournament.start_date} al #{tournament.end_date}" %></td>
+                    <td>
+                      <span class="badge bg-warning text-dark">
+                        <i class="fa-solid fa-diamond"></i> <%= pluralize(rand(3..18), 'victoria') %>
+                      </span>
+                    </td>
+                    <td class="text-muted"><%= pluralize(rand(3..64), 'Gol') %></td>
+                    <td class="fw-bold">
+                      <% case place %>
+                        <% when "CAMPEONES" %>
+                          <span class="text-warning">
+                            <i class="fa fa-trophy me-1"></i> <%= place %>
+                          </span>
+                        <% when "SUBCAMPEONES" %>
+                          <span class="text-muted">
+                            <i class="fa fa-medal me-1"></i> <%= place %>
+                          </span>
+                        <% else %>
+                          <span class="text-muted"><%= place %></span>
+                      <% end %>
+                    </td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
