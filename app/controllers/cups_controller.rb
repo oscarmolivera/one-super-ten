@@ -4,7 +4,7 @@ class CupsController < ApplicationController
 
   def index
     authorize :cup, :index?
-    @schools = School.where(tenant: ActsAsTenant.current_tenant)
+    @schools = policy_scope(School)
     @selected_school = @schools.first
     @cups = policy_scope(Cup)
   end

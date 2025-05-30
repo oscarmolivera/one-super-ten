@@ -21,6 +21,7 @@ class Tournament < ApplicationRecord
     joins(:categories)
       .where(categories: { id: player.category_ids })
       .where(tenant: player.tenant)
+      .where(public: true)
       .distinct
   }
 end

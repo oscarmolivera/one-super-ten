@@ -348,7 +348,7 @@ module ApplicationHelper
           { label: "Palmarés en perfil", icon: "fa fa-ranking-star", path: schools_path },
           # Existing grouped items:
           {
-            label: "Torneos",
+            label: "Mis Torneos",
             icon: "fa fa-trophy d-inline-block position-relative",
             children: [
               { label: "Player", icon: "fa fa-user", path: players_path },
