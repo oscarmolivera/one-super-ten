@@ -1,7 +1,7 @@
 <div class="container-fluid px-4" data-controller="school-tab school-cup">
   <div class="d-flex justify-content-between align-items-center mb-3">
     <h3 class="fw-bold">Copas Registradas</h3>
-    <%= link_to 'Nueva Copa', new_cup_path(school_id: @selected_school.id), class: "btn btn-sm btn-primary", id: "new-cup-link", data: { school_cup_target: "newCupLink" } if current_user.is_role_tenant_admin? %>
+    <%= link_to 'Nueva Copa', new_cup_path(school_id: @selected_school.id), class: "btn btn-sm btn-primary", id: "new-cup-link", data: { school_cup_target: "newCupLink" } if current_user.has_role_tenant_admin? %>
   </div>
 
   <% if @schools.any? %>
@@ -45,7 +45,7 @@
                       <div class="pt-2">
                         <p class="card-text small text-truncate mb-1"><strong><%= cup.name %></strong></p>
                         <div class="d-flex justify-content-center gap-1">
-                          <%= link_to 'Editar', edit_cup_path(cup), class: 'btn btn-sm btn-outline-secondary' if current_user.is_role_tenant_admin? %>
+                          <%= link_to 'Editar', edit_cup_path(cup), class: 'btn btn-sm btn-outline-secondary' if current_user.has_role_tenant_admin? %>
                         </div>
                       </div>
                     </div>

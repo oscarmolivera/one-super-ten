@@ -8,6 +8,7 @@ class CoachesController < ApplicationController
   end
 
   def show
+    authorize :coach, :show?
   end
 
   def new

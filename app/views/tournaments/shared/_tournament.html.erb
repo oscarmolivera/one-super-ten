@@ -11,7 +11,8 @@
     </h1>
   </div>
 
-  <%= link_to "New Tournament", new_cup_tournament_path, class: "btn btn-primary mb-3" if current_user.is_role_tenant_admin?%>
+  <%= link_to "New Tournament", new_cup_tournament_path, class: "btn btn-primary mb-3" if current_user.has_role_tenant_admin?%>
+  <%= link_to "Volver", cups_path, class: "btn btn-secondary mb-3" if current_user.has_role_tenant_admin?%>
   <div class="px-10"><!-- /Player Tournament List-->
     <div class="row">
       <div class="box">
@@ -60,8 +61,8 @@
                           <span class="text-muted"><%= place %></span>
                       <% end %>
                     </td>
-                    <td><%= link_to "Editar", edit_cup_tournament_path(tournament.cup_id, tournament), class: "btn btn-sm btn-warning" if current_user.is_role_tenant_admin? %>
-                    <%= link_to "Partidos", tenant_root_path, class: "btn btn-sm btn-danger" %></td>
+                    <td><%= link_to "Editar", edit_cup_tournament_path(tournament.cup_id, tournament), class: "btn btn-sm btn-warning" if current_user.has_role_tenant_admin? %>
+                    <%= link_to "SHOW", cup_tournament_path(tournament.cup_id, tournament), class: "btn btn-sm btn-danger" %></td>
                   </tr>
                 <% end %>
               </tbody>
