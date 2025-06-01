@@ -1,0 +1,14 @@
+class CreateSeasonTeamPlayers < ActiveRecord::Migration[8.0]
+  def change
+    create_table :season_team_players do |t|
+      t.references :season_team, null: false, foreign_key: true
+      t.references :player, null: false, foreign_key: true
+      t.string :origin, null: false # :main_category, :below_category, :above_category, :external
+      t.boolean :starter, default: false
+
+      t.timestamps
+    end
+
+    add_index :season_team_players, [:season_team_id, :player_id], unique: true
+  end
+end

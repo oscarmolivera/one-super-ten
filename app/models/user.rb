@@ -34,26 +34,30 @@ class User < ApplicationRecord
   end
 
   def can_view_schedules?
-    is_role_tenant_admin?
+    has_role_tenant_admin?
   end
 
   def can_manage_appointments?
-    is_role_staff_assistant?
+    has_role_staff_assistant?
   end
 
   def super_admin?
     has_role?(:super_admin)
   end
 
-  def is_role_tenant_admin?
+  def has_role_tenant_admin?
     has_role?(:tenant_admin, ActsAsTenant.current_tenant)  
   end
   
-  def is_role_staff_assistant?
+  def has_role_staff_assistant?
     has_role?(:staff_assistant, ActsAsTenant.current_tenant)  
   end
 
-  def is_role_coach?
+  def has_role_player?
+    has_role?(:player, ActsAsTenant.current_tenant)  
+  end
+
+  def has_role_coach?
     has_role?(:coach, ActsAsTenant.current_tenant)  
   end
 

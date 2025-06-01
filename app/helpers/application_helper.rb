@@ -196,7 +196,7 @@ module ApplicationHelper
   def coach_sidebar
     [
       {
-        header: "ACADEMIA",
+        header: "ENTRENADOR:",
         items: [
           {
             label: "Mis Categorías",
@@ -340,23 +340,20 @@ module ApplicationHelper
   def player_sidebar
     [
       {
-        header: "JUGADOR",
+        header: "JUGADOR: ",
         items: [
+          # Previously nested under "Gestión" – now top-level items:
+          { label: "Perfil", icon: "fa fa-id-card-clip", path: player_player_profile_path(current_user.player) },
+          { label: "Mi Categoría", icon: "fa fa-users", path: teammates_player_path(current_user.player) },
+          { label: "Palmarés en perfil", icon: "fa fa-ranking-star", path: schools_path },
+          # Existing grouped items:
           {
-            label: "Gestion",
-            icon: "icon-Library",
+            label: "Mis Torneos",
+            icon: "fa fa-trophy d-inline-block position-relative",
             children: [
-              { label: "Perfil", icon: "icon-Commit", path: player_player_profile_path(current_user.player) },
-              { label: "Player", icon: "icon-Commit", path: players_path },
-              { label: "Mi Categoría (listado con perfil publico de jugadores con informacion delegado y entrenadores)", icon: "icon-Commit", path: "#" },
-              { label: "Palmarés en perfil", icon: "icon-Commit", path: "#" },
-              { label: "Album de fotos en perfil", icon: "icon-Commit", path: "#" },
-            ]
-          },
-          {
-            label: "Torneos",
-            icon: "icon-Layout-grid",
-            children: [
+              { label: "Player", icon: "fa fa-user", path: players_path },
+              { label: "Season Teams", icon: "fa fa-users", path: season_teams_path },
+              { label: "Copas", icon: "fa fa-medal", path: cups_path },
               { label: "solo ver listado Torneos Activo", icon: "icon-Commit", path: tenant_dashboard_path },
               { label: "solo ver listado historial torneos del pasado", icon: "icon-Commit", path: tenant_dashboard_path },
               { label: "solo ver Calendario de Partidos", icon: "icon-Commit", path: tenant_dashboard_path },
@@ -365,7 +362,7 @@ module ApplicationHelper
               { label: "solo ver Convocatorias", icon: "icon-Commit", path: tenant_dashboard_path },
               { label: "solo ver InformacionGeneral Reglas&Grupos", icon: "icon-Commit", path: tenant_dashboard_path },
               { label: "solo ver Publicaciones para Padres", icon: "icon-Commit", path: tenant_dashboard_path },
-              { label: "solo ver Relacion del Pote del Albitraje", icon: "icon-Commit", path: tenant_dashboard_path },
+              { label: "solo ver Relacion del Pote del Albitraje", icon: "icon-Commit", path: tenant_dashboard_path }
             ]
           },
           {
@@ -384,7 +381,7 @@ module ApplicationHelper
               { label: "Comprobante de  Pagos con impresion", icon: "icon-Commit", path: tenant_dashboard_path },
               { label: "Reporte de Pagos", icon: "icon-Commit", path: tenant_dashboard_path }
             ]
-          }          
+          }
         ]
       }
     ]

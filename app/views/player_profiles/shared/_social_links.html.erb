@@ -1,0 +1,26 @@
+<% return unless player&.player_profile&.social_links.present? %>
+
+<div class="pb-15 text-center">
+  <p class="mb-10">REDES SOCIALES</p>
+  <div class="user-social-acount d-flex justify-content-center gap-3">
+    <% profile = player.player_profile.social_links %>
+
+    <% if profile["facebook"].present? %>
+      <%= link_to "https://www.facebook.com/#{profile["facebook"]}", target: "_blank", rel: "noopener", class: "btn btn-circle btn-social-icon btn-facebook" do %>
+        <i class="fa fa-facebook"></i>
+      <% end %>
+    <% end %>
+
+    <% if profile["instagram"].present? %>
+      <%= link_to "https://www.instagram.com/#{profile["instagram"]}", target: "_blank", rel: "noopener", class: "btn btn-circle btn-social-icon btn-instagram" do %>
+        <i class="fa fa-instagram"></i>
+      <% end %>
+    <% end %>
+
+    <% if profile["tiktok"].present? %>
+      <%= link_to "https://www.tiktok.com/@#{profile["tiktok"]}", target: "_blank", rel: "noopener", class: "btn btn-circle btn-social-icon btn-twitter" do %>
+        <i class="fa-brands fa-tiktok"></i>
+      <% end %>
+    <% end %>
+  </div>
+</div>

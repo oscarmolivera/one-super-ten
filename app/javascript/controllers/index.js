@@ -4,5 +4,29 @@
 
 import { application } from "./application"
 
+import CategoriesController from "./categories_controller"
+application.register("categories", CategoriesController)
+
+import ClickableRowController from "./clickable_row_controller"
+application.register("clickable-row", ClickableRowController)
+
+import HandlePreviewController from "./handle_preview_controller"
+application.register("handle-preview", HandlePreviewController)
+
 import HelloController from "./hello_controller"
 application.register("hello", HelloController)
+
+import ImageCropperController from "./image_cropper_controller"
+application.register("image-cropper", ImageCropperController)
+
+import ImagePreviewController from "./image_preview_controller"
+application.register("image-preview", ImagePreviewController)
+
+import SchoolCupController from "./school_cup_controller"
+application.register("school-cup", SchoolCupController)
+
+import SchoolTabController from "./school_tab_controller"
+application.register("school-tab", SchoolTabController)
+
+import SchoolTogglesController from "./school_toggles_controller"
+application.register("school-toggles", SchoolTogglesController)

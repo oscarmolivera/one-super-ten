@@ -1,5 +1,7 @@
 class Tournament < ApplicationRecord
   belongs_to :tenant
+  belongs_to :cup, optional: true
+  
   has_many :tournament_categories, dependent: :destroy
   has_many :categories, through: :tournament_categories
   has_many :matches, dependent: :destroy
@@ -14,4 +16,12 @@ class Tournament < ApplicationRecord
   validates :end_date, comparison: { greater_than_or_equal_to: :start_date }
 
   scope :publicly_visible, -> { where(public: true) }
+
+  scope :for_player, ->(player) {
+    joins(:categories)
+      .where(categories: { id: player.category_ids })
+      .where(tenant: player.tenant)
+      .where(public: true)
+      .distinct
+  }
 end

@@ -14,6 +14,16 @@ class PlayerPolicy < ApplicationPolicy
     index?
   end
 
+  def edit?
+    return true if user == record.user 
+    
+    false
+  end
+
+def public_show?
+  record.public_profile? # Only allow access if marked public
+end
+
   def destroy?
     index?
   end

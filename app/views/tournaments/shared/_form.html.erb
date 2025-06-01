@@ -1,0 +1,76 @@
+<%= form_with model: [@cup, @tournament], local: true, data: { controller: "categories" } do |form| %>
+  <div class="card mb-3">
+    <div class="card-body">
+      <!-- Cup and School Display -->
+      <div class="mb-3">
+        <label class="form-label">Copa: <span class="fw-bold"><%= @cup.name %> - </span><span class="text-warning"><%= @cup.school.name %></span> </label>
+      </div>
+      <div class="row">
+        <div class="col-4">
+          <!-- Tournament Name -->
+          <div class="mb-3">
+            <%= form.label :name, class: "form-label" %>
+            <%= form.text_field :name, class: "form-control" %>
+          </div>
+        </div>
+        <div class="col-8">
+          <!-- Dates -->
+          <div class="row">
+            <div class="col-md-3 mb-3">
+              <%= form.label :start_date, class: "form-label" %>
+              <%= form.date_field :start_date, class: "form-control" %>
+            </div>
+            <div class="col-md-3 mb-3">
+              <%= form.label :end_date, class: "form-label" %>
+              <%= form.date_field :end_date, class: "form-control" %>
+            </div>
+            <div class="col-md-3 mb-3">
+              <%= form.label :status, class: "form-label" %>
+              <%= form.select :status, Tournament.statuses.keys.map { |s| [s.titleize, s] }, {}, class: "form-select" %>
+            </div>
+            <div class="col-md-3 mt-4">
+              <!-- Public -->
+              <div class="form-check form-switch mb-3">
+                <%= form.check_box :public, class: "form-check-input", id: "tournament_public" %>
+                <%= form.label :public, class: "form-check-label", for: "tournament_public" %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Description -->
+      <div class="mb-3">
+        <%= form.label :description, class: "form-label" %>
+        <%= form.text_area :description, class: "form-control" %>
+      </div>
+
+      <!-- Rules -->
+      <div class="mb-3">
+        <%= form.label :rules, class: "form-label" %>
+        <%= form.rich_text_area :rules %>
+      </div>
+
+      <!-- Categories Selection -->
+      <div class="mb-3">
+        <label class="form-label d-flex justify-content-between">
+          Categorías
+          <button type="button" class="btn btn-sm btn-outline-primary" data-action="categories#toggleAll">Seleccionar Todas</button>
+        </label>
+
+        <div class="d-flex flex-wrap gap-2" data-categories-target="container">
+          <% @categories.each do |category| %>
+            <div class="form-check me-3">
+              <%= check_box_tag "tournament[category_ids][]", category.id, @tournament.category_ids.include?(category.id), class: "form-check-input", id: "category_#{category.id}", data: { categories_target: "checkbox" } %>
+              <%= label_tag "category_#{category.id}", category.name, class: "form-check-label" %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+
+    <div class="card-footer text-end d-flex justify-content-between">
+      <%= link_to "Volver", cup_tournaments_path, class: "btn btn-secondary" %>
+      <%= form.submit "Guardar", class: "btn btn-success" %>
+    </div>
+  </div>
+<% end %>

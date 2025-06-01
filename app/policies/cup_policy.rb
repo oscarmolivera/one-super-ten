@@ -1,0 +1,36 @@
+class CupPolicy < ApplicationPolicy
+  class Scope < Scope
+    def resolve
+      if user.has_role?(:player, ActsAsTenant.current_tenant)
+        Cup.for_player(user.player)
+      else
+        scope.where(tenant: ActsAsTenant.current_tenant)
+      end
+    end
+  end
+
+  def index?
+    %i[tenant_admin staff_assistant coach player team_assistant]
+      .any? { |role| user.has_role?(role, ActsAsTenant.current_tenant) }
+  end
+
+  def show?
+    index?
+  end
+  
+  def new?
+    index?
+  end
+  
+  def create?
+    index?
+  end
+
+  def update?
+    index?
+  end
+
+  def destroy?
+    index?
+  end
+end

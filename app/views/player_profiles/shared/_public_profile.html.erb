@@ -1,0 +1,69 @@
+<div class="box mb-4"><!-- /Player Hero Image-->
+  <div class="fx-card-item">
+    <div class="fx-card-avatar fx-overlay-1">
+      <div class="image-crop-frame"> 
+        <%= image_tag @player.hero_image_url, alt: "Foto del jugador", class: "cropped-image" %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<% if @player.schools.count > 1 %>
+  <div class="nav-pills-custom mb-4">
+    <ul class="nav nav-pills mb-3 gap-2" id="school-pills" role="tablist">
+      <% @player.schools.each_with_index do |school, index| %>
+        <li class="nav-item" role="presentation">
+          <a 
+            class="nav-link <%= 'active' if index == 0 %>" 
+            id="pill-<%= school.id %>-tab" 
+            data-bs-toggle="pill" 
+            href="#pill-<%= school.id %>" 
+            role="tab">
+            <%= school.name %>
+          </a>
+        </li>
+      <% end %>
+    </ul>
+
+    <div class="tab-content" id="school-pills-content">
+      <% @player.schools.each_with_index do |school, index| %>
+        <div 
+          class="tab-pane fade <%= 'show active' if index == 0 %>" 
+          id="pill-<%= school.id %>" 
+          role="tabpanel">
+          <%= render partial: "player_profiles/shared/school_summary", locals: { player: @player, school: school } %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+<% else %>
+  <%= render partial: "player_profiles/shared/school_summary", locals: { player: @player, school: @player.schools.first } %>
+<% end %>
+
+<div class="row"><!-- /Player Photo Carousel -->
+  <div class="col-md-12">
+    <div class="box bg-white rounded-4 shadow-sm">
+        <div class="box-body p-4">
+        <div id="splide" class="splide">
+          <div class="splide__track">
+            <ul class="splide__list">
+              <% if @player.carousel_images.attached? %>
+                <% @player.carousel_images.each do |img| %>
+                  <li class="splide__slide">
+                    <%= image_tag img.variant(resize_to_limit: [800, 400]), class: "img-fluid rounded", alt: "Player Photo" %>
+                  </li>
+                <% end %>
+              <% else %>
+                <% 5.times do |i| %>
+                  <li class="splide__slide">
+                    <%= image_tag "https://picsum.photos/800/400?random=#{i}", class: "img-fluid", alt: "Placeholder Slide #{i + 1}" %>
+                  </li>
+                <% end %>
+              <% end %>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

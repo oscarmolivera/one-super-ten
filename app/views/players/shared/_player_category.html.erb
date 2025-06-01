@@ -1,24 +1,31 @@
 <h2>Selecciona una categoría para <%= @player.full_name %></h2>
 
 <div class="row row-cols-2 row-cols-sm-3 row-cols-md-4 g-3">
-  <% @categories.each do |category| %>
-    <div class="col">
-      <%= form_with url: assign_category_player_path(@player), method: :post, local: true do |f| %>
-        <%= hidden_field_tag :category_id, category.id %>
+  <% if @player.persisted? %>
+    <% @categories.each do |category| %>
+      <div class="col">
         <div class="<%= category_card_class(@player, category) %> text-center small shadow-sm">
           <div class="card-body p-2">
             <h6 class="card-title mb-1"><%= category.name %></h6>
             <p class="card-text text-muted"><%= category.description %></p>
             <% if @player.categories.include?(category) %>
-              <span class="badge bg-light text-success mt-2">Asignada</span>
+              <%= form_with url: remove_category_player_path(@player), method: :delete, local: true do %>
+                <%= hidden_field_tag :category_id, category.id %>
+                <button type="submit" class="btn btn-sm btn-danger mt-2">
+                  Remover
+                </button>
+              <% end %>
             <% else %>
-              <%= button_tag type: "submit", class: "btn btn-sm btn-light mt-2" do %>
-                Asignar
+              <%= form_with url: assign_category_player_path(@player), method: :post, local: true do %>
+                <%= hidden_field_tag :category_id, category.id %>
+                <button type="submit" class="btn btn-sm btn-light mt-2">
+                  Asignar
+                </button>
               <% end %>
             <% end %>
           </div>
         </div>
-      <% end %>
-    </div>
+      </div>
+    <% end %>
   <% end %>
 </div>

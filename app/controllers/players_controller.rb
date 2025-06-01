@@ -1,9 +1,8 @@
 class PlayersController < ApplicationController
-  before_action :authenticate_user!
+  before_action :authenticate_user!, except: [:public_show]
   before_action :set_player, only: [:show, :edit, :update, :destroy]
   before_action :set_school, only: [:new, :edit, :update]
-  before_action :select_category, only: [:edit, :update]
-  
+  rescue_from ActiveRecord::RecordNotFound, with: :render_404
 
   def index
     authorize :player, :index?
@@ -37,55 +36,68 @@ class PlayersController < ApplicationController
 
   def update
     authorize :player, :index?
-    if @player.update(player_params)
+
+    permitted = player_params
+    new_carousel_images = permitted[:carousel_images]
+    permitted_without_images = permitted.except(:carousel_images)
+
+    if @player.update(permitted_without_images)
       assign_school(@player)
-      redirect_to players_path, notice: 'Player updated successfully.'
+      @player.add_carousel_images(new_carousel_images) if new_carousel_images.present?
+      redirect_to safe_redirect_path, notice: 'Player updated successfully.'
     else
       render :edit, status: :unprocessable_entity
     end
   end
 
-def destroy
-  authorize :player, :destroy?
-  if @player.destroy
-    respond_to do |format|
-      format.html { redirect_to players_path, notice: "Player deleted." }
-      format.turbo_stream
-    end
-  else
-    respond_to do |format|
-      format.html { redirect_to players_path, alert: "Failed to delete player: #{@player.errors.full_messages.join(', ')}" }
-      format.turbo_stream do
-        render turbo_stream: turbo_stream.append("messages", partial: "shared/flash", locals: { alert: "Failed to delete player: #{@player.errors.full_messages.join(', ')}" })
+  def destroy
+    authorize :player, :destroy?
+    if @player.destroy
+      respond_to do |format|
+        format.html { redirect_to players_path, notice: "Player deleted." }
+        format.turbo_stream
+      end
+    else
+      respond_to do |format|
+        format.html { redirect_to players_path, alert: "Failed to delete player: #{@player.errors.full_messages.join(', ')}" }
+        format.turbo_stream do
+          render turbo_stream: turbo_stream.append("messages", partial: "shared/flash", locals: { alert: "Failed to delete player: #{@player.errors.full_messages.join(', ')}" })
+        end
       end
     end
   end
-end
 
-  def assign_category
+  def public_show
+    @player = Player.find_by!(handle: params[:handle])
+
+    raise ActiveRecord::RecordNotFound unless @player.public_profile?
+
+    authorize @player, :public_show?
+
+    @player_profile = @player.player_profile
+    category = @player.categories.first
+    @teammates = category.players
+    render 'player_profiles/shared/_show'
+  end
+
+  def teammates
     authorize :player, :index?
-
-    binding.pry
     @player = Player.find(params[:id])
-    category = Category.find(params[:category_id])
 
-    if @player.categories << category
-      redirect_to players_path, notice: "Categoría asignada correctamente."
-    else
-      redirect_to select_category_player_path(@player), alert: "No se pudo asignar la categoría."
-    end
+    category = @player.categories.first
+
+    @teammates = category.players
   end
 
   def documents
     authorize :player, :index?
-
     @player = Player.find(params[:id])
-  
+
     if params[:document].present?
-      @player.documents.attach(params[:document].values)
-      head :ok
+      @player.documents.attach(params[:document])
+      redirect_to player_path(@player), notice: "Documentos cargados exitosamente."
     else
-      render json: { error: "No document received" }, status: :unprocessable_entity
+      redirect_to player_path(@player), alert: "No se seleccionaron documentos."
     end
   end
 
@@ -117,28 +129,60 @@ end
   end
 
   def assign_school(player)
-    school_id = params[:school_id]
-    return if school_id.blank?
+    return unless player_school_valid?(player)
 
     player.player_schools.destroy_all
 
-    player.player_schools.create(school_id: school_id)
+    school_ids = Array(params.dig(:player, :school_ids) || params[:school_id]).reject(&:blank?)
+    school_ids.each do |school_id|
+      player.player_schools.create(school_id: school_id)
+    end
+  end
+
+  def player_school_valid?(player)
+    school_ids = Array(params.dig(:player, :school_ids) || params[:school_id]).reject(&:blank?)
+
+    Rails.logger.warn "⚠️ school_ids param - #{school_ids.inspect}"
+
+    if school_ids.empty?
+      Rails.logger.warn "⚠️ Player #{player.id} - #{player.full_name.presence || 'Unnamed'} received blank school_ids array!"
+      return false
+    end
+
+    true
   end
 
   def player_params
     params.require(:player).permit(
-      :email, :tenant_id, :first_name, :last_name, :full_name, :date_of_birth, 
-      :gender, :nationality, :document_number, :profile_picture, :dominant_side, 
-      :position, :address, :is_active, :bio, :notes, :user_id, documents: [],
+      :email, :tenant_id, :first_name, :last_name, :full_name, :date_of_birth,
+      :gender, :nationality, :document_number, :profile_picture, :dominant_side,
+      :position, :address, :is_active, :bio, :notes, :user_id, :hero_image,
+      :public_profile, :handle, school_ids: [], documents: [], carousel_images: [], 
+      player_profile_attributes: [
+        :id,
+        :nickname,
+        :jersey_number,
+        :internal_notes,
+        :status,
+        :disciplinary_flag,
+        :skill_rating,
+        :social_links_facebook,
+        :social_links_instagram,
+        :social_links_tiktok
+      ],
       guardians_attributes: [
-      :id, :first_name, :last_name, :email, :phone, :gender, :relationship, :address, :notes, :_destroy
-    ]
+        :id, :first_name, :last_name, :email, :phone, :gender, :relationship, :address, :notes, :_destroy
+      ]
     )
   end
+  
+  def safe_redirect_path
+    uri = URI.parse(params[:redirect_to]) rescue nil
+    return players_path unless uri&.path&.starts_with?("/")
+    uri.path
+  end
 
-  def select_category
-    @player = Player.find(params[:id])
-    @school = @player.schools.first
-    @categories = @school.categories.order(id: :asc)
+  def render_404
+    render 'errors/not_found', status: :not_found
   end
 end

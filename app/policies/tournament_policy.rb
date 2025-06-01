@@ -1,7 +1,32 @@
 class TournamentPolicy < ApplicationPolicy
   class Scope < Scope
+    attr_reader :user, :scope, :cup
+
+    def initialize(user, scope)
+      @user = user
+      @scope = scope
+      @cup = scope.is_a?(ActiveRecord::Relation) ? nil : scope # fallback if needed
+    end
+
     def resolve
-      scope.where(tenant: ActsAsTenant.current_tenant)
+      if user.has_role?(:player, ActsAsTenant.current_tenant)
+        Tournament
+          .for_player(user.player)
+          .where(cup_id: cup_id)
+          .order(start_date: :desc)
+      else
+        scope.where(tenant: ActsAsTenant.current_tenant)
+      end
+    end
+
+    private
+
+    def cup_id
+      if scope.respond_to?(:proxy_association) && scope.proxy_association&.owner.is_a?(Cup)
+        scope.proxy_association.owner.id
+      else
+        nil
+      end
     end
   end
 

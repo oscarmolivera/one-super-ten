@@ -9,8 +9,6 @@ Rails.application.routes.draw do
   # -------------------------------------- MAIN PUBLIC SITE -
   constraints(lambda { |req| req.subdomain.blank? || req.subdomain == "www" }) do
     root to: "home#index", as: :main_root
-    get 'susudio', to: 'home#susudio'
-    get 'kamaly', to: 'home#kamaly'
     get 'contact', to: 'home#contact'
   end
 
@@ -25,16 +23,19 @@ Rails.application.routes.draw do
 
   # ------------------- TENANT PUBLIC LANDING + AUTH ROUTES -
   constraints(SubdomainConstraint) do
-    root to: "landings#index", as: :tenant_root      
+    root to: "landings#index", as: :tenant_root
+
     authenticate :user do
       get 'dashboard', to: 'dashboard#index', as: :tenant_dashboard
       get 'show-test', to: 'dashboard#show', as: :tenant_show_dashboard
+
       resources :schools
       resources :categories do
         resources :matches, only: [:index]
         resources :call_ups, only: [:index, :new, :edit, :update ]
         resources :training_sessions, only: [:index]
       end
+
       resources :players do
         resource :player_profile, only: [:new, :create, :show, :edit, :update]
         resources :guardians, only: [:new, :create, :edit, :update, :destroy]
@@ -42,28 +43,35 @@ Rails.application.routes.draw do
         member do
           get :select_category
           post :assign_category
+          get :teammates
+          delete 'remove_category'
           delete 'documents/:blob_id', to: 'players#erase_document', as: :erase_document
         end
       end
-      resources :tournaments
+
+      resources :season_teams
+      resources :cups do
+        resources :tournaments
+      end
       resources :call_ups, only: [:new, :create, :edit, :update]
       resources :matches, only: [:new, :create, :show, :index, :update] do
         resources :line_ups, only: [:index, :new, :create, :edit, :update ]
         resources :match_reports
         patch :update_performances, on: :member
       end
+
       resources :coaches do
         member do
-          get :assistants           # admin/coaches/:id/assistants
-          post :assign_assistant    # admin/coaches/:id/assign_assistant
+          get :assistants
+          post :assign_assistant
           delete 'remove_assistant/:assistant_id', to: 'coaches#remove_assistant', as: :remove_assistant
         end
       end
+
       resources :events do
-        collection do
-          get :calendar
-        end
+        collection { get :calendar }
       end
+
       get 'assistants', to: 'assistants#index', as: :assistants
       post 'assistants/assign_coach', to: 'assistants#assign_coach', as: :assign_coach_to_assistant
       delete 'assistants/remove_coach', to: 'assistants#remove_coach', as: :remove_coach_from_assistant
@@ -81,6 +89,11 @@ Rails.application.routes.draw do
       resources :users
       resources :category_team_assistants, only: [:new, :create, :destroy]
     end
+
+    # Move this **after** `resources :players`, with constraint
+    get 'players/:handle', to: 'players#public_show', as: :public_player, constraints: lambda { |req|
+      !%w[new edit create update destroy index].include?(req.params[:handle])
+    }
   end
 
   # ----------------------------------- CATCH-ALL + FALLBACK -

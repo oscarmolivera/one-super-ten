@@ -27,8 +27,6 @@ sa_aca =User.create!(email: "administrador@academy1.com", password: "s3cret.", f
 sa_dep =User.create!(email: "administrador@academy2.com", password: "s3cret.", first_name: "Alberto", last_name: "StaffAdmin", tenant: deportivo)
 co_aca =User.create!(email: "entrenador@academy1.com", password: "s3cret.", first_name: "Rodrigo", last_name: "Coach", tenant: academia)
 co_dep =User.create!(email: "entrenador@academy2.com", password: "s3cret.", first_name: "Samuel", last_name: "Coach", tenant: deportivo)
-ju_aca =User.create!(email: "jugador1@academy1.com", password: "s3cret.", first_name: "Julian", last_name: "Jugador", tenant: academia)
-ju_dep =User.create!(email: "jugador1@academy2.com", password: "s3cret.", first_name: "Enrique", last_name: "Jugaror", tenant: deportivo)
 td_aca =User.create!(email: "delegado1@academy1.com", password: "s3cret.", first_name: "María", last_name: "Delegado", tenant: academia)
 td_dep =User.create!(email: "delegado1@academy2.com", password: "s3cret.", first_name: "Josefa", last_name: "Delegado", tenant: deportivo)
 
@@ -44,25 +42,23 @@ Role.find_or_create_by(name: :staff_assistant, resource: academia, tenant: sa_ac
 Role.find_or_create_by(name: :staff_assistant, resource: deportivo, tenant: sa_dep.tenant)
 Role.find_or_create_by(name: :coach, resource: academia, tenant: co_aca.tenant)
 Role.find_or_create_by(name: :coach, resource: deportivo, tenant: co_dep.tenant)
-Role.find_or_create_by(name: :player, resource: academia, tenant: ju_aca.tenant)
-Role.find_or_create_by(name: :player, resource: deportivo, tenant: ju_dep.tenant)
+Role.find_or_create_by(name: :player, resource: academia, tenant: academia)
+Role.find_or_create_by(name: :player, resource: deportivo, tenant: deportivo)
 Role.find_or_create_by(name: :team_assistant, resource: academia, tenant: td_aca.tenant)
 Role.find_or_create_by(name: :team_assistant, resource: deportivo, tenant: td_dep.tenant)
 Role.find_or_create_by(name: :player, resource: academia, tenant: academia)
 Role.find_or_create_by(name: :player, resource: deportivo, tenant: deportivo)
 
 # Role Assignments
-su.add_role(:super_admin, root_tenant)
-ta_aca.add_role(:tenant_admin, academia)
-ta_dep.add_role(:tenant_admin, deportivo)
-sa_aca.add_role(:staff_assistant, academia)
-sa_dep.add_role(:staff_assistant, deportivo)
-co_aca.add_role(:coach, academia)
-co_dep.add_role(:coach, deportivo)
-ju_aca.add_role(:player, academia)
-ju_dep.add_role(:player, deportivo)
-td_aca.add_role(:team_assistant, academia)
-td_dep.add_role(:team_assistant, deportivo)
+su.add_role_with_tenant(:super_admin, root_tenant)
+ta_aca.add_role_with_tenant(:tenant_admin, academia)
+ta_dep.add_role_with_tenant(:tenant_admin, deportivo)
+sa_aca.add_role_with_tenant(:staff_assistant, academia)
+sa_dep.add_role_with_tenant(:staff_assistant, deportivo)
+co_aca.add_role_with_tenant(:coach, academia)
+co_dep.add_role_with_tenant(:coach, deportivo)
+td_aca.add_role_with_tenant(:team_assistant, academia)
+td_dep.add_role_with_tenant(:team_assistant, deportivo)
 
 load Rails.root.join("db/seeds/players.rb")
 
@@ -119,6 +115,9 @@ events = [
 
 coach = Role.all.where(name: 'coach', tenant: academia).last.users.last
 fcampo = School.find(1)
+
+puts "Seeding Cups & Tournaments..."
+load Rails.root.join("db/seeds/cups_and_tournaments.rb")
 
 events.each do |attrs|
   event = Event.create!(

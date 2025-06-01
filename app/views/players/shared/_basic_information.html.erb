@@ -29,7 +29,7 @@
             <div class="input-group-addon">
               <i class="fas fa-birthday-cake"></i>
             </div>
-            <%= form.date_field :date_of_birth, class: "form-control", data: { inputmask: "'alias': 'dd/mm/yyyy'", mask: true } %>
+            <%= form.date_field :date_of_birth, class: "form-control", data: { inputmask: "'alias': 'dd/mm/yyyy'", mask: true }, required: true%>
           </div>
         </div>
       </div>  
@@ -106,16 +106,28 @@
     </div>
     <div class="row"><!-- School IsActive ProfilePicture -->
       <div class="col-md-4">
-        <div class="form-group">
-          <%= label_tag :school_id, "Escuela", class: 'form-label' %>
-          <div class="input-group">
-            <div class="input-group-text">
-              <i class="fas fa-school"></i>
-            </div>
-            <%= select_tag :school_id,
-                  options_from_collection_for_select(School.all, :id, :name, @player.schools.first&.id),
-                  include_blank: "Selecciona escuela",
-                  class: "form-control" %>
+        <div class="form-group" id="school-toggle-group" data-controller="school-toggles">
+          <label class="form-label mb-2">Escuelas</label>
+          <div class="d-flex flex-wrap gap-3">
+            <% School.where(tenant_id: ActsAsTenant.current_tenant.id).each do |school| %>
+              <div class="form-check form-switch text-center">
+                <input type="checkbox"
+                      name="player[school_ids][]"
+                      value="<%= school.id %>"
+                      id="switch_school_<%= school.id %>"
+                      class="form-check-input school-toggle"
+                      <%= 'checked' if @player.school_ids.include?(school.id) %>
+                      data-school-toggles-target="input" />
+                <label for="switch_school_<%= school.id %>"
+                      class="form-check-label small mt-1"
+                      data-school-toggles-target="label">
+                  <%= school.name %>
+                </label>
+              </div>
+            <% end %>
+          </div>
+          <div class="invalid-feedback mt-2 d-block dt-none" data-school-toggles-target="feedback">
+            Debes seleccionar al menos una escuela.
           </div>
         </div>
       </div>
@@ -179,11 +191,9 @@
       <div class="col-md-4">
         <div class="form-group">
           <%= form.label 'Foto Actual', class: 'form-label' %>
-          <% if @player.profile_picture.attached? %>
             <div class="text-center mt-3">
-              <%= image_tag @player.profile_picture.variant(resize_to_limit: [125, 125]).processed, class: "img-thumbnail" , alt: "Foto de perfil" %>
+              <%= player_profile_image(@player, class: 'img-thumbnail' , alt: "Foto de perfil", style: "width: 100px; height: 100px; padding: 2rem") %>
             </div>
-          <% end %>
         </div>
       </div>
     </div>

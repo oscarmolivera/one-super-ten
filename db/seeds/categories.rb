@@ -12,7 +12,8 @@ School.where(tenant: academia).each do |school|
       tenant: academia,
       school: school,
       name: "Sub #{i + 5}",
-      description: "Niños o niñas de #{i + 6} a #{i + 7} años",
+      slug: "sub_#{i + 5}",
+      description: "Niños, Niñas o jovenes y señoritas menores de #{i + 5} años",
     )
   end
 end
@@ -23,7 +24,9 @@ School.where(id: emas.id).each do |school|
       tenant: deportivo,
       school: school,
       name: "Chamos_Sub #{i + 5}",
-      description: "Niños de #{i + 6} a #{i + 7} años",
+      slug: "sub_#{i + 5}",
+      description: "Niños menores de #{i + 5} años",
+
     )
   end
 end
@@ -34,7 +37,8 @@ School.where(id: efem.id).each do |school|
       tenant: deportivo,
       school: school,
       name: "Chamas_Sub #{i + 5}",
-      description: "Niños de #{i + 6} a #{i + 7} años",
+      slug: "sub_#{i + 5}",
+      description: "Niñas menores de #{i + 5} años",
     )
   end
 end
