@@ -196,7 +196,7 @@ module ApplicationHelper
   def coach_sidebar
     [
       {
-        header: "ACADEMIA",
+        header: "ENTRENADOR:",
         items: [
           {
             label: "Mis Categorías",
@@ -340,7 +340,7 @@ module ApplicationHelper
   def player_sidebar
     [
       {
-        header: "JUGADOR",
+        header: "JUGADOR: ",
         items: [
           # Previously nested under "Gestión" – now top-level items:
           { label: "Perfil", icon: "fa fa-id-card-clip", path: player_player_profile_path(current_user.player) },

@@ -7,7 +7,7 @@
     <div class="multinav-scroll dark-skin ps h-p100">
       <ul class="sidebar-menu" data-widget="tree">
         <% sidebar_menu_items.each do |section| %>
-          <li class="header"><%= section[:header]%> | <span class="text-warning fw-semibold me-1"><%= current_user.full_name %></span></li>
+          <li class="header"><%= section[:header]%> <span class="text-warning fw-semibold me-1"><%= current_user.full_name %></span></li>
           <% section[:items].each do |item| %>
             <li class="<%= item[:children].present? ? 'treeview' : '' %>">
               <% if item[:children].present? %>
