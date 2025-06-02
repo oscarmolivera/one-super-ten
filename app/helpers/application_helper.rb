@@ -345,16 +345,16 @@ module ApplicationHelper
           # Previously nested under "Gestión" – now top-level items:
           { label: "Perfil", icon: "fa fa-id-card-clip", path: player_player_profile_path(current_user.player) },
           { label: "Mi Categoría", icon: "fa fa-users", path: teammates_player_path(current_user.player) },
-          { label: "Palmarés en perfil", icon: "fa fa-ranking-star", path: schools_path },
+          { label: "Palmarés en perfil", icon: "fa fa-medal", path: schools_path },
           # Existing grouped items:
           {
             label: "Mis Torneos",
-            icon: "fa fa-trophy d-inline-block position-relative",
+            icon: "fa fa-ranking-star d-inline-block position-relative",
             children: [
               { label: "Player", icon: "fa fa-user", path: players_path },
               { label: "Season Teams", icon: "fa fa-users", path: season_teams_path },
-              { label: "Copas", icon: "fa fa-medal", path: cups_path },
-              { label: "solo ver listado Torneos Activo", icon: "icon-Commit", path: tenant_dashboard_path },
+              { label: "Copas", icon: "fa fa-trophy", path: cups_path },
+              { label: "Torneos Activos", icon: "fa fa-star", path: active_tournaments_player_path(current_user.player) },
               { label: "solo ver listado historial torneos del pasado", icon: "icon-Commit", path: tenant_dashboard_path },
               { label: "solo ver Calendario de Partidos", icon: "icon-Commit", path: tenant_dashboard_path },
               { label: "solo ver Resultados de Partidos", icon: "icon-Commit", path: tenant_dashboard_path },

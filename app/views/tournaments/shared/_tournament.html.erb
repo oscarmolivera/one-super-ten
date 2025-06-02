@@ -72,6 +72,7 @@
                     <% if current_user.has_role_tenant_admin? %>
                       <td>
                         <%= link_to "Editar", edit_cup_tournament_path(tournament.cup_id, tournament), class: "btn btn-sm btn-warning" %>
+                        <%= link_to "Inscripciones", cup_tournament_inscriptions_path(tournament.cup_id, tournament), class: "btn btn-sm btn-info" %>
                       </td>
                     <% end %>
                   </tr>

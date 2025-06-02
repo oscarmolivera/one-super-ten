@@ -89,6 +89,11 @@ class PlayersController < ApplicationController
     @teammates = category.players
   end
 
+  def active_tournaments
+    authorize :player, :index?
+    
+  end
+
   def documents
     authorize :player, :index?
     @player = Player.find(params[:id])

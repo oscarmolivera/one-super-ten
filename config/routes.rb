@@ -44,6 +44,7 @@ Rails.application.routes.draw do
           get :select_category
           post :assign_category
           get :teammates
+          get :active_tournaments
           delete 'remove_category'
           delete 'documents/:blob_id', to: 'players#erase_document', as: :erase_document
         end
@@ -51,7 +52,9 @@ Rails.application.routes.draw do
 
       resources :season_teams
       resources :cups do
-        resources :tournaments
+        resources :tournaments do
+          get :categories_inscriptions, to: "tournaments#categories_inscriptions", as: :inscriptions
+        end
       end
       resources :call_ups, only: [:new, :create, :edit, :update]
       resources :matches, only: [:new, :create, :show, :index, :update] do
@@ -90,7 +93,6 @@ Rails.application.routes.draw do
       resources :category_team_assistants, only: [:new, :create, :destroy]
     end
 
-    # Move this **after** `resources :players`, with constraint
     get 'players/:handle', to: 'players#public_show', as: :public_player, constraints: lambda { |req|
       !%w[new edit create update destroy index].include?(req.params[:handle])
     }
