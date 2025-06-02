@@ -73,7 +73,7 @@ module ApplicationHelper
   def tenant_admin_sidebar
     [
       {
-        header: "SYSTEM TEST",
+        header: "Admin",
         items: [
           {
             label: "Modelos",
@@ -86,7 +86,7 @@ module ApplicationHelper
               { label: "Entrenadores", icon: "icon-Commit", path: coaches_path },
               { label: "Asistentes", icon: "icon-Commit", path: assistants_path },
               { label: "Eventos", icon: "icon-Commit", path: events_path },
-              { label: "Torneos", icon: "icon-Commit", path: tournaments_path },
+              { label: "Torneos", icon: "icon-Commit", path: tenant_dashboard_path },
               { label: "Sedes", icon: "icon-Commit", path: sites_path },
               { label: "Publicaciones", icon: "icon-Commit", path: publications_path },
               { label: "Ingresos", icon: "icon-Commit", path: incomes_path },
@@ -113,6 +113,7 @@ module ApplicationHelper
             label: "Torneos",
             icon: "icon-Layout-grid",
             children: [ #Menu multiplicado por las categorias existentes en la academia
+              { label: "Copas", icon: "fa fa-trophy", path: cups_path },
               { label: "Listado Torneos Activos", icon: "icon-Commit", path: tenant_dashboard_path },
               { label: "listado historial torneos del pasado", icon: "icon-Commit", path: tenant_dashboard_path },              
               { label: "Creacion de Torneos", icon: "icon-Commit", path: tenant_dashboard_path },

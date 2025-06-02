@@ -43,10 +43,6 @@ class TournamentsController < ApplicationController
     redirect_to cup_tournaments_path, notice: 'Tournament deleted.'
   end
 
-  def categories_inscriptions
-    
-  end
-
   private
 
   def set_cup
