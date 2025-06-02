@@ -16,9 +16,6 @@ application.register("handle-preview", HandlePreviewController)
 import HelloController from "./hello_controller"
 application.register("hello", HelloController)
 
-import ImageCropperController from "./image_cropper_controller"
-application.register("image-cropper", ImageCropperController)
-
 import ImagePreviewController from "./image_preview_controller"
 application.register("image-preview", ImagePreviewController)
 
