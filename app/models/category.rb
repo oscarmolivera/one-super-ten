@@ -15,4 +15,9 @@ class Category < ApplicationRecord
 
   has_many :call_ups, dependent: :destroy
   has_many :matches, -> { distinct }, through: :call_ups
+
+  def sub_name
+    category_year = Date.today.year - slug.gsub('sub_','').to_i  + 1
+    "#{name}(#{category_year})"
+  end
 end
