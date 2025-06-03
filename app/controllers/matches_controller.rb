@@ -3,8 +3,7 @@ class MatchesController < ApplicationController
   
   def index
     @category = Category.find(params[:category_id])
-    authorize @category, :show?  # This is for access control to the category
-
+    authorize @category, :show?
     matches = @category.matches.includes(:call_ups).order(scheduled_at: :desc)
     @matches = policy_scope(matches)
   end
@@ -39,7 +38,6 @@ class MatchesController < ApplicationController
 
     if @match.save
       if params[:category_id].present?
-        # Create a default CallUp linked to this match and category
         CallUp.create!(
           tenant: ActsAsTenant.current_tenant,
           match: @match,

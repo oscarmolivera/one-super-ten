@@ -6,5 +6,8 @@ class SeasonTeam < ApplicationRecord
   has_many :season_team_players, dependent: :destroy
   has_many :players, through: :season_team_players
 
+  has_one :inscription
+
   validates :name, presence: true
+  validates :category_id, uniqueness: { scope: :tournament_id }
 end

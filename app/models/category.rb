@@ -3,6 +3,9 @@ class Category < ApplicationRecord
 
   belongs_to :school
   belongs_to :tenant
+
+  has_many :inscriptions
+  has_many :tournaments, through: :inscriptions
   
   has_many :category_players, dependent: :destroy
   has_many :players, through: :category_players
@@ -16,8 +19,10 @@ class Category < ApplicationRecord
   has_many :call_ups, dependent: :destroy
   has_many :matches, -> { distinct }, through: :call_ups
 
+  validates :name, uniqueness: { scope: :school_id }
+
   def sub_name
     category_year = Date.today.year - slug.gsub('sub_','').to_i  + 1
-    "#{name}(#{category_year})"
+    "#{name} (#{category_year})"
   end
 end

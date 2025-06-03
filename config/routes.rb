@@ -53,7 +53,7 @@ Rails.application.routes.draw do
       resources :season_teams
       resources :cups do
         resources :tournaments do
-          get :categories_inscriptions, to: "tournaments#categories_inscriptions", as: :inscriptions
+          resources :inscriptions
         end
       end
       resources :call_ups, only: [:new, :create, :edit, :update]

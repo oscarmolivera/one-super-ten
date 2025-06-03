@@ -1,0 +1,96 @@
+<h4>Equipo a Disputar el torneo</h4>
+<%= form_with(model: @inscription, url: cup_tournament_inscriptions_path(@tournament.cup, @tournament), local: true) do |f| %>
+  <% if @season_team.persisted? && @season_team.players.any? %>
+    <div class="card mb-3">
+      <div class="card-body">
+        <p class="mb-2">Jugadores seleccionados en el último equipo:</p>
+        <ul class="mb-0">
+          <% @season_team.players.each do |player| %>
+            <li><%= player.full_name %> (<%= player.category.name %>)</li>
+          <% end %>
+        </ul>
+      </div>
+    </div>
+  <% else %>
+    <div class="alert alert-info">No hay equipo previo registrado.</div>
+  <% end %>
+
+  <div class="accordion mb-4" id="accordionPlayers">
+    <!-- Category Players -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="headingCat">
+        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseCat">
+          Jugadores de la categoría <%= @category.sub_name %>
+        </button>
+      </h2>
+      <div id="collapseCat" class="accordion-collapse collapse show">
+        <div class="accordion-body">
+          <% if @category_players.any? %>
+            <% @category_players.each do |player| %>
+              <div class="form-check">
+                <%= check_box_tag "inscription[player_ids][]", player.id, @previous_team_player_ids.include?(player.id), class: "form-check-input", id: "player_#{player.id}" %>
+                <%= label_tag "player_#{player.id}", player.full_name, class: "form-check-label" %>
+              </div>
+            <% end %>
+          <% else %>
+            <div class="alert alert-warning">No hay jugadores registrados en esta categoría.</div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+
+    <!-- Reinforcements -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="headingReinf">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseReinf">
+          Refuerzos: Categoría superior (solo mujeres) y categoría inferior
+        </button>
+      </h2>
+      <div id="collapseReinf" class="accordion-collapse collapse">
+        <div class="accordion-body">
+          <% if @lower_players.any? %>
+            <p class="fw-bold">Categoría Inferior (<%= @lower_category.name %>):</p>
+            <% @lower_players.each do |player| %>
+              <div class="form-check">
+                <%= check_box_tag "inscription[reinforcement_player_ids][]", player.id, @previous_team_player_ids.include?(player.id), class: "form-check-input", id: "lower_player_#{player.id}" %>
+                <%= label_tag "lower_player_#{player.id}", player.full_name, class: "form-check-label" %>
+              </div>
+            <% end %>
+          <% else %>
+            <p>No hay jugadores en la categoría inferior.</p>
+          <% end %>
+
+          <% if @upper_players.any? %>
+            <p class="fw-bold mt-3">Categoría Superior (<%= @upper_category.name %>):</p>
+            <% @upper_players.each do |player| %>
+              <div class="form-check">
+                <%= check_box_tag "inscription[reinforcement_player_ids][]", player.id, @previous_team_player_ids.include?(player.id), class: "form-check-input", id: "upper_player_#{player.id}" %>
+                <%= label_tag "upper_player_#{player.id}", player.full_name, class: "form-check-label" %>
+              </div>
+            <% end %>
+          <% else %>
+            <p>No hay jugadoras mujeres en la categoría superior.</p>
+          <% end %>
+        </div>
+      </div>
+    </div>
+
+    <!-- External Invites -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="headingInvites">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseInvites">
+          Agregar jugadoras invitadas externas
+        </button>
+      </h2>
+      <div id="collapseInvites" class="accordion-collapse collapse">
+        <div class="accordion-body">
+          <%= label_tag :invited_player_names, "Nombres de jugadoras invitadas (una por línea)" %>
+          <%= text_area_tag "inscription[invited_player_names][]", "", rows: 4, class: "form-control", placeholder: "Ejemplo:\nIsabel González\nCamila Rojas" %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <%= f.hidden_field :category_id, value: @category.id %>
+  <%= f.submit "Guardar Inscripción", class: "btn btn-success" %>
+<% end %>
