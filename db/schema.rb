@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_06_05_191329) do
+ActiveRecord::Schema[8.0].define(version: 2025_06_02_133206) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -90,9 +90,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_05_191329) do
     t.bigint "school_id", null: false
     t.string "name", null: false
     t.text "description"
+    t.string "slug", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "slug", null: false
     t.index ["school_id"], name: "index_categories_on_school_id"
     t.index ["tenant_id"], name: "index_categories_on_tenant_id"
   end
@@ -138,11 +138,11 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_05_191329) do
   create_table "cups", force: :cascade do |t|
     t.bigint "tenant_id", null: false
     t.string "name"
+    t.string "description"
+    t.string "location"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "school_id", null: false
-    t.string "description"
-    t.string "location"
     t.index ["school_id"], name: "index_cups_on_school_id"
     t.index ["tenant_id"], name: "index_cups_on_tenant_id"
   end
@@ -357,9 +357,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_05_191329) do
 
   create_table "players", force: :cascade do |t|
     t.string "email"
-    t.bigint "tenant_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
     t.string "first_name", null: false
     t.string "last_name", null: false
     t.string "full_name"
@@ -369,14 +366,18 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_05_191329) do
     t.string "document_number"
     t.string "profile_picture"
     t.string "dominant_side"
+    t.string "jersey_number"
     t.string "position"
+    t.string "handle"
     t.text "address"
-    t.boolean "is_active", default: true, null: false
     t.text "bio"
     t.text "notes"
-    t.bigint "user_id"
-    t.string "handle"
+    t.boolean "is_active", default: true, null: false
     t.boolean "public_profile"
+    t.bigint "tenant_id", null: false
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["email"], name: "index_players_on_email"
     t.index ["handle"], name: "index_players_on_handle", unique: true
     t.index ["tenant_id"], name: "index_players_on_tenant_id"
@@ -436,10 +437,10 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_05_191329) do
     t.bigint "player_id", null: false
     t.string "origin", null: false
     t.boolean "starter", default: false
+    t.string "jersey_number"
+    t.string "position"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "position"
-    t.integer "jersey_number"
     t.index ["player_id"], name: "index_season_team_players_on_player_id"
     t.index ["season_team_id", "player_id"], name: "index_season_team_players_on_season_team_id_and_player_id", unique: true
     t.index ["season_team_id"], name: "index_season_team_players_on_season_team_id"

@@ -5,6 +5,8 @@ class CreateSeasonTeamPlayers < ActiveRecord::Migration[8.0]
       t.references :player, null: false, foreign_key: true
       t.string :origin, null: false # :main_category, :below_category, :above_category, :external
       t.boolean :starter, default: false
+      t.string :jersey_number, null: true
+      t.string :position, null: true      
 
       t.timestamps
     end

@@ -5,6 +5,7 @@ class CreateCategories < ActiveRecord::Migration[8.0]
       t.references :school, null: false, foreign_key: true
       t.string :name, null: false
       t.text :description
+      t.string :slug, null: false
 
       t.timestamps
     end
