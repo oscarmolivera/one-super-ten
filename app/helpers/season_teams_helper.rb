@@ -5,10 +5,10 @@ module SeasonTeamsHelper
                 .order(created_at: :desc).first
 
     # Determine jersey number
-    jersey_number = last_stp&.jersey_number || player.player_profile.jersey_number || ""
+    jersey_number = last_stp&.jersey_number || player.jersey_number || ""
     jersey_source = if last_stp&.jersey_number.present?
                       "Último equipo"
-                    elsif player.player_profile.jersey_number.present?
+                    elsif player.jersey_number.present?
                       "Perfil jugador"
                     else
                       "Aleatorio"
