@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_06_02_193849) do
+ActiveRecord::Schema[8.0].define(version: 2025_06_05_191329) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -438,6 +438,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_02_193849) do
     t.boolean "starter", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "position"
+    t.integer "jersey_number"
     t.index ["player_id"], name: "index_season_team_players_on_player_id"
     t.index ["season_team_id", "player_id"], name: "index_season_team_players_on_season_team_id_and_player_id", unique: true
     t.index ["season_team_id"], name: "index_season_team_players_on_season_team_id"
@@ -453,9 +455,15 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_02_193849) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "created_by_id"
+    t.bigint "coach_id"
+    t.bigint "assistant_coach_id"
+    t.bigint "team_assistant_id"
+    t.index ["assistant_coach_id"], name: "index_season_teams_on_assistant_coach_id"
     t.index ["category_id", "tournament_id"], name: "index_season_teams_on_category_id_and_tournament_id", unique: true
     t.index ["category_id"], name: "index_season_teams_on_category_id"
+    t.index ["coach_id"], name: "index_season_teams_on_coach_id"
     t.index ["created_by_id"], name: "index_season_teams_on_created_by_id"
+    t.index ["team_assistant_id"], name: "index_season_teams_on_team_assistant_id"
     t.index ["tenant_id"], name: "index_season_teams_on_tenant_id"
     t.index ["tournament_id"], name: "index_season_teams_on_tournament_id"
   end
@@ -633,7 +641,10 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_02_193849) do
   add_foreign_key "season_teams", "categories"
   add_foreign_key "season_teams", "tenants"
   add_foreign_key "season_teams", "tournaments"
+  add_foreign_key "season_teams", "users", column: "assistant_coach_id"
+  add_foreign_key "season_teams", "users", column: "coach_id"
   add_foreign_key "season_teams", "users", column: "created_by_id"
+  add_foreign_key "season_teams", "users", column: "team_assistant_id"
   add_foreign_key "sites", "schools"
   add_foreign_key "tenants", "tenants", column: "parent_tenant_id"
   add_foreign_key "tournament_categories", "categories"

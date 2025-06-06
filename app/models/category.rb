@@ -25,4 +25,24 @@ class Category < ApplicationRecord
     category_year = Date.today.year - slug.gsub('sub_','').to_i  + 1
     "#{name} (#{category_year})"
   end
+
+  def category_number
+    slug.match(/sub_(\d+)/)&.captures&.first&.to_i
+  end
+
+  def lower_category
+    return nil unless category_number
+
+    school.categories
+          .where.not(id: id)
+          .find { |cat| cat.category_number == category_number - 1 }
+  end
+
+  def upper_category
+    return nil unless category_number
+
+    school.categories
+          .where.not(id: id)
+          .find { |cat| cat.category_number == category_number + 1 }
+  end
 end

@@ -28,7 +28,7 @@ class SeasonTeamsController < ApplicationController
   end
 
   def edit
-    @recommendations = SeasonTeamRecommendationService.new(@season_team).recommended_players
+    @season_team = SeasonTeam.find(params[:id])
   end
 
   def update
@@ -55,7 +55,10 @@ class SeasonTeamsController < ApplicationController
   end
 
   def season_team_params
-    params.require(:season_team).permit(:name, :description, :category_id, :tournament_id, :active)
+    params.require(:season_team).permit(
+      :name, :description, :category_id, :tournament_id, :active,
+      :coach_id, :assistant_coach_id, :team_assistant_id
+    )
   end
 
 end

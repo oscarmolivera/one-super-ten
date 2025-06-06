@@ -10,6 +10,9 @@ application.register("categories", CategoriesController)
 import ClickableRowController from "./clickable_row_controller"
 application.register("clickable-row", ClickableRowController)
 
+import EditToggleController from "./edit_toggle_controller"
+application.register("edit-toggle", EditToggleController)
+
 import HandlePreviewController from "./handle_preview_controller"
 application.register("handle-preview", HandlePreviewController)
 

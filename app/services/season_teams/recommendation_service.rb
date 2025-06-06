@@ -1,4 +1,4 @@
-module SeasonTeam
+module SeasonTeams
   class RecommendationService
     def initialize(season_team)
       @season_team = season_team

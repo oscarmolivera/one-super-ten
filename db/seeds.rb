@@ -81,20 +81,20 @@ puts "Seeding Coachs..."
     hire_date: rand(2..5).years.ago,
     salary: rand(1500..3000)
   )
-end
 
-coach_assist_name = Faker::Name.first_name_men
-coach_assist_surname = Faker::Name.last_name
-# Create demo Assistant Coaches
-10.times do |i|
-  user = User.create!(
-    email: "#{(coach_assist_name).downcase}.#{(coach_assist_surname).downcase}#{i}@academia.com",
-    password: "s3cret.",
-    first_name: coach_assist_name,
-    last_name: coach_assist_surname,
-    tenant_id: academia.id
-  )
-  user.add_role(:assistant_coach, academia) # Use a different role for assistants
+  # Create demo Assistant Coaches
+  3.times do |i|
+    coach_assist_name = Faker::Name.first_name_men
+    coach_assist_surname = Faker::Name.last_name
+    user = User.create!(
+      email: "#{(coach_assist_name).downcase}.#{(coach_assist_surname).downcase}#{i}@academia.com",
+      password: "s3cret.",
+      first_name: coach_assist_name,
+      last_name: coach_assist_surname,
+      tenant_id: academia.id
+    )
+    user.add_role(:assistant_coach, academia) # Use a different role for assistants
+  end
 end
 
 # Assign Assistants to Coaches randomly

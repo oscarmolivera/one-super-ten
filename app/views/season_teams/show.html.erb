@@ -1,2 +1,24 @@
-<h1>SeasonTeams#show</h1>
-<p>Find me in app/views/season_teams/show.html.erb</p>
+<div class="wrapper">
+  <div id="loader"></div>
+
+  <header class="main-header">
+    <%= render 'shared/dashboard/main_header' %>
+  </header>
+
+  <aside class="main-sidebar left-side-section bg-dark text-white">
+    <%= render 'shared/dashboard/main_sidebar' %>
+  </aside>
+
+  <div class="content-wrapper big-side-section">
+    <%= render 'season_teams/shared/show' %>
+  </div>
+
+  <footer class="main-footer">
+    <%= render 'shared/dashboard/main_footer' %>
+  </footer>
+
+  <aside class="control-sidebar">
+    <%= render 'shared/dashboard/control_sidebar' %>
+  </aside>
+</div>
+

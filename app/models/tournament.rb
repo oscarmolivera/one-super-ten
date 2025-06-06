@@ -35,4 +35,12 @@ class Tournament < ApplicationRecord
   scope :inscribed_by_player, ->(player) {
     joins(:inscriptions).where(inscriptions: { category_id: player.category_ids })
   }
+
+    def selected_category_count
+      categories.distinct.count
+    end
+
+    def season_team_category_count
+      inscriptions.where.not(season_team_id: nil).select(:category_id).distinct.count
+    end
 end

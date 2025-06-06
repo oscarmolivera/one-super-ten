@@ -9,6 +9,7 @@ class TournamentsController < ApplicationController
   end
 
   def show
+    @inscriptions_by_category = @tournament.inscriptions.includes(:season_team).index_by(&:category_id)
   end
 
   def new

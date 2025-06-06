@@ -1,0 +1,94 @@
+<div class="container mt-4">
+  <!-- Header Section -->
+  <div class="card shadow-sm border-primary mb-4">
+    <div class="card-body d-flex justify-content-between align-items-center">
+      <div>
+        <h3 class="mb-0 text-primary">
+          <%= display_cup_logo(@cup, class: "rounded shadow-sm", style: "height: 120px; width: 120px; object-fit: contain;") %> <%= @tournament.name %>
+        </h3>
+        <small class="text-muted">
+          Copa <strong><%= @cup.name %></strong> — <%= @cup.school.name %>
+        </small>
+      </div>
+      <div>
+        <% if @tournament.public? %>
+          <span class="badge bg-success">Público</span>
+        <% else %>
+          <span class="badge bg-secondary">Privado</span>
+        <% end %>
+        <span class="badge bg-info text-dark"><%= @tournament.status.titleize %></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Dates and Description -->
+  <div class="row mb-4">
+    <div class="col-md-6">
+      <div class="card border-0 shadow-sm h-100">
+        <div class="card-body">
+          <h5 class="card-title text-primary">Fechas del Torneo</h5>
+          <div class="row">
+            <div class="col-md-6">
+              <strong>Inicio:</strong> <%= l @tournament.start_date, format: :long %>
+            </div>
+            <div class="col-md-6">
+              <strong>Fin:</strong> <%= l @tournament.end_date, format: :long %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="card border-0 shadow-sm h-100">
+        <div class="card-body">
+          <h5 class="card-title text-primary">Descripción</h5>
+          <p><%= @tournament.description.presence || content_tag(:em, "Sin descripción") %></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Rich Text Rules -->
+  <div class="card shadow-sm border-0 mb-4">
+    <div class="card-body">
+      <h5 class="text-primary">Reglamento</h5>
+      <%= @tournament.rules.body.present? ? @tournament.rules.body.to_s.html_safe : content_tag(:em, "Reglamento no disponible") %>
+    </div>
+  </div>
+
+  <!-- Categorías Participantes con Estado -->
+  <div class="card shadow-sm border-0 mb-4">
+    <div class="card-body">
+      <h5 class="text-primary mb-3">Categorías Participantes</h5>
+
+      <% if @tournament.categories.any? %>
+        <div class="d-flex flex-wrap gap-3">
+          <% @tournament.categories.order(id: :asc).each do |category| %>
+            <% inscription = @inscriptions_by_category[category.id] %>
+            <% if inscription.nil? %>
+              <%= link_to "Inscribir #{category.sub_name}",
+                new_cup_tournament_inscription_path(@cup, @tournament, category_id: category.id),
+                class: "btn btn-sm btn-secondary" %>
+            <% elsif inscription.season_team.present? %>
+              <%= link_to "#{category.sub_name}: Equipo creado",
+                season_team_path(inscription.season_team),
+                class: "btn btn-sm btn-success" %>
+            <% else %>
+              <%= link_to "#{category.sub_name}: Pendiente",
+                new_cup_tournament_inscription_path(@cup, @tournament, category_id: category.id),
+                class: "btn btn-sm btn-warning" %>
+            <% end %>
+          <% end %>
+        </div>
+      <% else %>
+        <p class="text-muted">No hay categorías asignadas.</p>
+      <% end %>
+    </div>
+  </div>
+
+  <!-- Action Buttons -->
+  <div class="d-flex justify-content-between mt-4">
+    <%= link_to "← Volver a los Torneos", cup_tournaments_path(@cup), class: "btn btn-outline-secondary" %>
+    <%= link_to "Editar Torneo", edit_cup_tournament_path(@cup, @tournament), class: "btn btn-warning" %>
+  </div>
+</div>

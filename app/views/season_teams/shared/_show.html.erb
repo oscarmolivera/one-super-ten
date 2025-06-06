@@ -1,0 +1,102 @@
+<div class="d-flex align-items-center justify-content-center mb-3 gap-3">
+  <%= display_cup_logo(@season_team.tournament.cup, class: "rounded shadow-sm", style: "height: 120px; width: 120px; object-fit: contain;") %>
+  <h1 class="mb-0">
+    <%= @season_team.tournament.name %>
+    <small class="text-muted fs-6 d-block">
+      <strong>Copa <%= @season_team.tournament.cup.name %></strong> *<%= @season_team.tournament.cup.school.name %>* |
+      <%= @season_team.tournament.description %> | 
+      <%= @season_team.tournament.cup.location %>
+    </small>
+  </h1>
+
+</div>
+<div class="d-flex align-items-center justify-content-center">
+  <h3>
+    Jugadores de la categoría seleccionados para el torneo
+  </h3>
+</div>
+<div class="container mt-4">
+  <div class="card mb-4 shadow-sm">
+    <div class="card-header bg-primary text-white">
+      <%= @season_team.category.sub_name %>
+    </div>
+    <div class="card-body">
+      <% category_players = @season_team.season_team_players.includes(:player).select { |stp| stp.origin == "main_category" } %>
+      <% if category_players.any? %>
+        <ul class="list-group list-group-flush">
+          <% category_players.each do |stp| %>
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+              <%= stp.player.full_name %>
+              <span class="badge bg-secondary"><%= stp.jersey_number %></span>
+              <span class="badge bg-secondary"><%= stp.position %></span>
+            </li>
+          <% end %>
+        </ul>
+      <% else %>
+        <div class="alert alert-info">No hay jugadores seleccionados de la categoría.</div>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="card mb-4 shadow-sm">
+    <div class="card-header bg-warning">
+      <strong>Refuerzos</strong>
+    </div>
+    <div class="card-body">
+      <% reinforcements = @season_team.season_team_players.includes(:player).select { |stp| stp.origin != "main_category" } %>
+      <% if reinforcements.any? %>
+        <ul class="list-group list-group-flush">
+          <% reinforcements.each do |stp| %>
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+              <%= stp.player.full_name %>
+              <span class="badge bg-light text-dark">
+                <%= stp.origin.humanize %> - <%= stp.jersey_number %> - <%= stp.position %>
+              </span>
+            </li>
+          <% end %>
+        </ul>
+      <% else %>
+        <div class="alert alert-info">No hay refuerzos seleccionados.</div>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="card mb-3 shadow-sm">
+    <div class="card-header bg-info text-white">
+      <strong>Equipo Tecnico Seleccionado</strong>
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-4">
+          <strong>Entrenador</strong>
+          <% if @season_team.coach.present? %>
+            <p><%= @season_team.coach.full_name %></p>
+          <% else %>
+            <div class="alert alert-info">No se ha asignado entrenador.</div>
+          <% end %>
+        </div>
+        <div class="col-md-4">
+          <strong>Asistente del Entrenador</strong>
+          <% if @season_team.assistant_coach.present? %>
+            <p><%= @season_team.assistant_coach.full_name %></p>
+          <% else %>
+            <div class="alert alert-info">No se han asignado asistentes de equipo.</div>
+          <% end %>
+        </div>
+        <div class="col-md-4">
+          <strong>Delegado Categoría</strong>
+          <% if @season_team.team_assistant.present? %>
+            <p><%= @season_team.team_assistant.full_name %></p>
+          <% else %>
+            <div class="alert alert-info">No se han asignado asistentes de equipo.</div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+    <!-- Action Buttons -->
+  <div class="d-flex justify-content-between mt-4">
+    <%= link_to "← Volver a Datos de Torneo", cup_tournament_path(@season_team.tournament.cup_id, @season_team.tournament), class: "btn btn-outline-secondary" %>
+    <%= link_to "Editar Equipo", edit_cup_tournament_inscription_path(@season_team.tournament.cup, @season_team.tournament, category_id: @season_team.category_id), class: "btn btn-danger" %>
+  </div>
+</div>
