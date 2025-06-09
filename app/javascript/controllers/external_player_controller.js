@@ -1,30 +1,45 @@
+// app/javascript/controllers/external_player_controller.js
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
   static targets = ["form", "table"]
 
+  connect() {
+    // Ensure form is appended only once
+    const placeholder = document.getElementById("external-player-form-container-placeholder")
+    const formWrapper = document.getElementById("external-player-form-wrapper")
+    if (placeholder && formWrapper && !placeholder.hasChildNodes()) {
+      placeholder.appendChild(formWrapper)
+      formWrapper.style.display = "block"
+    }
+  }
+
   submit(event) {
     event.preventDefault()
 
-    const formData = new FormData(this.formTarget)
+    console.log("Submitting external player form...")
 
-    fetch("/external_players", {
+    const form = this.formTarget
+    const formData = new FormData(form)
+
+    fetch(form.action, {
       method: "POST",
       headers: {
         "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]').content
       },
       body: formData
     })
-    .then(response => response.json())
-    .then(data => {
-      if (data.id) {
-        this.appendPlayerRow(data)
-        this.formTarget.reset()
-        this.formTarget.closest('#new-external-player-form').style.display = "none"
-      } else {
-        alert("Error al guardar el refuerzo externo.")
-      }
-    })
+      .then(response => response.json())
+      .then(data => {
+        if (data.id) {
+          this.appendPlayerRow(data)
+          form.reset()
+          form.closest("#new-external-player-form").style.display = "none"
+          document.querySelector(".btn.btn-outline-primary").style.display = "block"
+        } else {
+          alert("Error al guardar el refuerzo externo.")
+        }
+      })
   }
 
   appendPlayerRow(player) {
