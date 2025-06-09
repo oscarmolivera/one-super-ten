@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_06_02_133206) do
+ActiveRecord::Schema[8.0].define(version: 2025_06_08_161559) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -208,6 +208,19 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_02_133206) do
     t.index ["author_id"], name: "index_expenses_on_author_id"
     t.index ["expensable_type", "expensable_id"], name: "index_expenses_on_expensable"
     t.index ["tenant_id"], name: "index_expenses_on_tenant_id"
+  end
+
+  create_table "external_players", force: :cascade do |t|
+    t.string "first_name"
+    t.string "last_name"
+    t.string "document_number"
+    t.date "date_of_birth"
+    t.string "gender"
+    t.string "position"
+    t.string "jersey_number"
+    t.text "notes"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "guardians", force: :cascade do |t|
@@ -441,6 +454,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_02_133206) do
     t.string "position"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "external_player_id"
+    t.index ["external_player_id"], name: "index_season_team_players_on_external_player_id"
     t.index ["player_id"], name: "index_season_team_players_on_player_id"
     t.index ["season_team_id", "player_id"], name: "index_season_team_players_on_season_team_id_and_player_id", unique: true
     t.index ["season_team_id"], name: "index_season_team_players_on_season_team_id"
@@ -637,6 +652,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_02_133206) do
   add_foreign_key "publications", "users", column: "author_id"
   add_foreign_key "roles", "tenants"
   add_foreign_key "schools", "tenants"
+  add_foreign_key "season_team_players", "external_players"
   add_foreign_key "season_team_players", "players"
   add_foreign_key "season_team_players", "season_teams"
   add_foreign_key "season_teams", "categories"

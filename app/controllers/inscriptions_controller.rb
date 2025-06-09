@@ -21,6 +21,7 @@ class InscriptionsController < ApplicationController
       .where(category: @category, tenant: ActsAsTenant.current_tenant)
       .order(created_at: :desc)
       .first || SeasonTeam.new
+    @external_players = ExternalPlayer.all
 
     @previous_team_player_ids = @season_team.players.pluck(:id)
 

@@ -1,6 +1,9 @@
 class SeasonTeamPlayer < ApplicationRecord
   belongs_to :season_team
-  belongs_to :player
+  belongs_to :player, optional: true
+  belongs_to :external_player, optional: true
+
+  validates :origin, presence: true
 
   validates :jersey_number, numericality: { only_integer: true }, allow_nil: true
   validates :position, presence: true, allow_blank: true
@@ -11,6 +14,4 @@ class SeasonTeamPlayer < ApplicationRecord
     above_category: "above_category",
     external: "external" 
   }
-
-  validates :origin, presence: true
 end

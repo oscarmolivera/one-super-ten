@@ -13,6 +13,9 @@ application.register("clickable-row", ClickableRowController)
 import EditToggleController from "./edit_toggle_controller"
 application.register("edit-toggle", EditToggleController)
 
+import ExternalPlayerController from "./external_player_controller"
+application.register("external-player", ExternalPlayerController)
+
 import HandlePreviewController from "./handle_preview_controller"
 application.register("handle-preview", HandlePreviewController)
 
