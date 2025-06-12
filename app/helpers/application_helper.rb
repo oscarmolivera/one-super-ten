@@ -103,6 +103,7 @@ module ApplicationHelper
             label: "Categorías",
             icon: "icon-Layout-grid",
             children: [
+              { label: "Refuerzos", icon: "fa-solid fa-shield-halved", path: external_players_path },              
               { label: "Listado de Categorias", icon: "icon-Commit", path: tenant_dashboard_path },
               { label: "Listado de Refuerzo por categorias", icon: "icon-Commit", path: tenant_dashboard_path },
               { label: "Informacion de Entrenadores, Delegados & Asistentes x Categorias", icon: "icon-Commit", path: tenant_dashboard_path },

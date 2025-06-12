@@ -8,87 +8,133 @@
       <%= @season_team.tournament.cup.location %>
     </small>
   </h1>
-
 </div>
 <div class="d-flex align-items-center justify-content-center">
   <h3>
     Jugadores de la categoría seleccionados para el torneo
   </h3>
 </div>
+<div class="d-flex flex-wrap justify-content-center gap-4 mb-4">
+  <!-- Entrenador -->
+  <div class="d-flex align-items-center gap-2 px-3 py-2 bg-secondary text-black shadow-sm">
+    <i class="fas fa-chalkboard-teacher"></i>
+    <span><strong>Entrenador:</strong> 
+      <%= @season_team.coach&.full_name || "No asignado" %>
+    </span>
+  </div>
+
+  <!-- Asistente del Entrenador -->
+  <div class="d-flex align-items-center gap-2 px-3 py-2 bg-secondary-subtle text-black shadow-sm">
+    <i class="fas fa-user-friends"></i>
+    <span><strong>Asistente:</strong> 
+      <%= @season_team.assistant_coach&.full_name || "No asignado" %>
+    </span>
+  </div>
+
+  <!-- Delegado de Categoría -->
+  <div class="d-flex align-items-center gap-2 px-3 py-2 bg-secondary-subtle text-black shadow-sm">
+    <i class="fas fa-id-badge"></i>
+    <span><strong>Delegado:</strong> 
+      <%= @season_team.team_assistant&.full_name || "No asignado" %>
+    </span>
+  </div>
+</div>
 <div class="container mt-4">
-  <div class="card mb-4 shadow-sm">
-    <div class="card-header bg-primary text-white">
-      <%= @season_team.category.sub_name %>
-    </div>
-    <div class="card-body">
-      <% category_players = @season_team.season_team_players.includes(:player).select { |stp| stp.origin == "main_category" } %>
-      <% if category_players.any? %>
-        <ul class="list-group list-group-flush">
-          <% category_players.each do |stp| %>
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-              <%= stp.player.full_name %>
-              <span class="badge bg-secondary"><%= stp.jersey_number %></span>
-              <span class="badge bg-secondary"><%= stp.position %></span>
-            </li>
-          <% end %>
-        </ul>
-      <% else %>
-        <div class="alert alert-info">No hay jugadores seleccionados de la categoría.</div>
-      <% end %>
-    </div>
-  </div>
-
-  <div class="card mb-4 shadow-sm">
-    <div class="card-header bg-warning">
-      <strong>Refuerzos</strong>
-    </div>
-    <div class="card-body">
-      <% reinforcements = @season_team.season_team_players.includes(:player).select { |stp| stp.origin != "main_category" } %>
-      <% if reinforcements.any? %>
-        <ul class="list-group list-group-flush">
-          <% reinforcements.each do |stp| %>
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-              <%= stp.player.full_name %>
-              <span class="badge bg-light text-dark">
-                <%= stp.origin.humanize %> - <%= stp.jersey_number %> - <%= stp.position %>
-              </span>
-            </li>
-          <% end %>
-        </ul>
-      <% else %>
-        <div class="alert alert-info">No hay refuerzos seleccionados.</div>
-      <% end %>
-    </div>
-  </div>
-
-  <div class="card mb-3 shadow-sm">
-    <div class="card-header bg-info text-white">
-      <strong>Equipo Tecnico Seleccionado</strong>
-    </div>
-    <div class="card-body">
-      <div class="row">
-        <div class="col-md-4">
-          <strong>Entrenador</strong>
-          <% if @season_team.coach.present? %>
-            <p><%= @season_team.coach.full_name %></p>
+  <div class="row">
+    <div class="col-md-6">
+      <div class="card mb-4 shadow-sm">
+        <div class="card-header bg-primary text-white">
+          <%= @season_team.category.sub_name %>
+        </div>
+        <div class="card-body">
+          <% category_players = @season_team.season_team_players.includes(:player).select { |stp| stp.origin == "main_category" } %>
+          <% if category_players.any? %>
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item">
+                <div class="row text-center fw-semibold">
+                  <div class="col-6 text-start">Nombre</div>
+                  <div class="col-3">Dorsal</div>
+                  <div class="col-3">Posición</div>
+                </div>
+              </li>
+              <% category_players.each do |stp| %>
+                <li class="list-group-item">
+                  <div class="row text-center align-items-center">
+                    <div class="col-6 text-start">
+                      <%= stp.player&.full_name %>
+                    </div>
+                    <div class="col-3">
+                      <span class="badge text-dark px-3 py-2 fw-bold"><%= stp.jersey_number %></span>
+                    </div>
+                    <div class="col-3">
+                      <span class="badge text-dark px-3 py-2"><%= stp.position.capitalize %></span>
+                    </div>
+                  </div>
+                </li>
+              <% end %>
+            </ul>
           <% else %>
-            <div class="alert alert-info">No se ha asignado entrenador.</div>
+            <div class="alert alert-info">No hay jugadores seleccionados de la categoría.</div>
           <% end %>
         </div>
-        <div class="col-md-4">
-          <strong>Asistente del Entrenador</strong>
-          <% if @season_team.assistant_coach.present? %>
-            <p><%= @season_team.assistant_coach.full_name %></p>
-          <% else %>
-            <div class="alert alert-info">No se han asignado asistentes de equipo.</div>
-          <% end %>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="card mb-4 shadow-sm">
+        <div class="card-header bg-warning text-dark">
+          <strong>Refuerzos</strong>
         </div>
-        <div class="col-md-4">
-          <strong>Delegado Categoría</strong>
-          <% if @season_team.team_assistant.present? %>
-            <p><%= @season_team.team_assistant.full_name %></p>
+        <div class="card-body">
+          <% reinforcements = @season_team.season_team_players.includes(:player).select { |stp| stp.origin != "main_category" } %>
+          <% if reinforcements.any? %>
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item">
+                <div class="row text-center fw-semibold">
+                  <div class="col-3 text-start">Nombre</div>
+                  <div class="col-2">Dorsal</div>
+                  <div class="col-2">Posición</div>
+                  <div class="col-2">Categoria</div>
+                  <div class="col-3">Club Origen</div>
+                  
+                </div>
+              </li>
+              <% reinforcements.each do |stp| %>
+                <li class="list-group-item">
+                  <div class="row text-center align-items-center">
+                    <div class="col-3 text-start">
+                      <%= stp.player&.full_name || ExternalPlayer.find(stp.external_player_id).full_name %>
+                    </div>
+                    <div class="col-2">
+                      <span class="badge text-dark px-3 py-2 fw-bold"><%= stp.jersey_number %></span>
+                    </div>
+                    <div class="col-2">
+                      <span class="badge text-dark px-3 py-2"><%= stp.position.capitalize %></span>
+                    </div>
+                    <div class="col-2">
+                      <% stp_player_category = st_player_category(stp) %>
+                      <% if stp_player_category.present? %>
+                        <span class="badge bg-secondary text-dark px-3 py-2">
+                          <strong>
+                            <%= stp_player_category %>
+                          </strong>
+                        </span> 
+                      <% end %>
+                    </div>
+                    <div class="col-3">
+                      <% st_player_origin_lable = st_player_origin_lable(stp)  %>
+                      <% if st_player_origin_lable.present? %>
+                        <span class="badge bg-secondary-subtle text-dark px-3 py-2">
+                          <strong>
+                            <%= st_player_origin_lable(stp)  %>
+                          </strong>
+                        </span> 
+                      <% end %>
+                  </div>
+                </li>
+              <% end %>
+            </ul>
           <% else %>
-            <div class="alert alert-info">No se han asignado asistentes de equipo.</div>
+            <div class="alert alert-info">No hay refuerzos seleccionados.</div>
           <% end %>
         </div>
       </div>

@@ -31,4 +31,20 @@ module SeasonTeamsHelper
       position_source: position_source
     }
   end
+  
+  def st_player_origin_lable(player)
+    if player.external_player_id.present?
+      ExternalPlayer.find(player.external_player_id).notes
+    else
+      ''
+    end
+  end
+
+  def st_player_category(player)
+    if player.origin == "external"
+      nil
+    else
+      Category.find(player.category_id).sub_name
+    end
+  end
 end

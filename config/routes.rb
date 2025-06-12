@@ -49,7 +49,7 @@ Rails.application.routes.draw do
           delete 'documents/:blob_id', to: 'players#erase_document', as: :erase_document
         end
       end
-      resources :external_players, only: [:create]
+      resources :external_players
 
       resources :season_teams
       resources :cups do

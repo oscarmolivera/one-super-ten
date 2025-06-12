@@ -1,0 +1,70 @@
+<%= form_with(model: external_player, local: true, class: "card shadow-lg") do |f| %>
+  <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+    <h5 class="mb-0">
+      <i class="fas fa-user-plus me-2"></i>
+      <%= external_player.new_record? ? "Nuevo Refuerzo Externo" : "Editar Refuerzo Externo" %>
+    </h5>
+  </div>
+
+  <div class="card-body row g-3">
+
+    <div class="col-md-3">
+      <%= f.label :first_name, "Nombre", class: "form-label" %>
+      <%= f.text_field :first_name, class: "form-control", required: true %>
+    </div>
+
+    <div class="col-md-3">
+      <%= f.label :last_name, "Apellido", class: "form-label" %>
+      <%= f.text_field :last_name, class: "form-control", required: true %>
+    </div>
+
+    <div class="col-md-3">
+      <%= f.label :document_number, "Documento", class: "form-label" %>
+      <%= f.text_field :document_number, class: "form-control" %>
+    </div>
+
+    <div class="col-md-3">
+      <%= f.label :date_of_birth, "Fecha de Nacimiento", class: "form-label" %>
+      <%= f.date_field :date_of_birth, class: "form-control" %>
+    </div>
+
+    <div class="col-md-3">
+      <%= f.label :gender, "Género", class: "form-label" %>
+      <%= f.select :gender, [["Hombre", "hombre"], ["Mujer", "mujer"], ["Otro", "otro"]], {}, class: "form-select" %>
+    </div>
+
+    <div class="col-md-3">
+      <%= f.label :position, "Posición", class: "form-label" %>
+      <%= f.text_field :position, class: "form-control" %>
+    </div>
+
+    <div class="col-md-3">
+      <%= f.label :jersey_number, "N° Camiseta", class: "form-label" %>
+      <%= f.text_field :jersey_number, class: "form-control" %>
+    </div>
+
+    <div class="col-md-3">
+      <%= f.label :notes, "Origen", class: "form-label" %>
+      <%= f.text_area :notes, rows: 2, class: "form-control" %>
+    </div>
+
+    <div class="col-md-4">
+      <label class="form-label d-block">¿Activo?</label>
+      <div class="form-check form-check-inline">
+        <%= f.radio_button :is_active, true, id: "active_true", class: "form-check-input" %>
+        <%= f.label :is_active, "Sí", value: true, class: "form-check-label", for: "active_true" %>
+      </div>
+      <div class="form-check form-check-inline">
+        <%= f.radio_button :is_active, false, id: "active_false", class: "form-check-input" %>
+        <%= f.label :is_active, "No", value: false, class: "form-check-label", for: "active_false" %>
+      </div>
+    </div>
+  </div>
+
+  <div class="card-footer d-flex justify-content-between">
+    <%= f.hidden_field :tenant_id, value: ActsAsTenant.current_tenant.id %>
+    <%= f.hidden_field :user_id, value: current_user.id %>
+    <%= link_to "<i class='fas fa-chevron-left'></i> Volver".html_safe, external_players_path, class: "btn btn-secondary" %>
+    <%= f.submit external_player.new_record? ? "Crear Jugador" : "Actualizar Jugador", class: "btn btn-success" %>
+  </div>
+<% end %>

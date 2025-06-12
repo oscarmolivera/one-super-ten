@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_06_08_161559) do
+ActiveRecord::Schema[8.0].define(version: 2025_06_02_133206) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -211,6 +211,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_08_161559) do
   end
 
   create_table "external_players", force: :cascade do |t|
+    t.bigint "tenant_id", null: false
+    t.bigint "user_id", null: false
     t.string "first_name"
     t.string "last_name"
     t.string "document_number"
@@ -219,8 +221,11 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_08_161559) do
     t.string "position"
     t.string "jersey_number"
     t.text "notes"
+    t.boolean "is_active", default: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["tenant_id"], name: "index_external_players_on_tenant_id"
+    t.index ["user_id"], name: "index_external_players_on_user_id"
   end
 
   create_table "guardians", force: :cascade do |t|
@@ -447,14 +452,15 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_08_161559) do
 
   create_table "season_team_players", force: :cascade do |t|
     t.bigint "season_team_id", null: false
-    t.bigint "player_id", null: false
+    t.bigint "player_id"
+    t.bigint "external_player_id"
     t.string "origin", null: false
+    t.bigint "category_id"
     t.boolean "starter", default: false
     t.string "jersey_number"
     t.string "position"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "external_player_id"
     t.index ["external_player_id"], name: "index_season_team_players_on_external_player_id"
     t.index ["player_id"], name: "index_season_team_players_on_player_id"
     t.index ["season_team_id", "player_id"], name: "index_season_team_players_on_season_team_id_and_player_id", unique: true
@@ -624,6 +630,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_08_161559) do
   add_foreign_key "exonerations", "tenants"
   add_foreign_key "expenses", "tenants"
   add_foreign_key "expenses", "users", column: "author_id"
+  add_foreign_key "external_players", "tenants"
+  add_foreign_key "external_players", "users"
   add_foreign_key "guardians", "players"
   add_foreign_key "guardians", "tenants"
   add_foreign_key "incomes", "tenants"
