@@ -9,6 +9,7 @@ module SeasonTeams
         tournament: @season_team.tournament,
         category: @season_team.category,
         players: @season_team.players,
+        cup: @season_team.tournament.cup,
         #call_ups: @season_team.call_ups,
         #matches: @season_team.matches,
         top_scorers: top_scorers,

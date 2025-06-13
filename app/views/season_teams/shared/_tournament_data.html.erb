@@ -1,3 +1,71 @@
-<h1>
-  <%= @tournament_data.inspect %>
-</h1>
+<div class="container mt-4">
+  <div class="d-flex align-items-center justify-content-center mb-3 gap-3">
+    <%= display_cup_logo(@tournament_data[:cup], class: "rounded shadow-sm", style: "height: 120px; width: 120px; object-fit: contain;") %>
+    <h1 class="mb-0">
+      Torneos Copa <%= @tournament_data[:cup].name %>
+      <small class="text-muted fs-6 d-block">
+        <%= @tournament_data[:cup].school.name %> | 
+        <%= @tournament_data[:cup].description %> |
+        <%= @tournament_data[:cup].location %>
+      </small>
+    </h1>
+  </div>
+</div>
+<div class="col-12">
+    <ul class="nav nav-tabs nav-fill" role="tablist">
+      <li class="nav-item"> <a class="nav-link active" data-bs-toggle="tab" href="#home11" role="tab"><span><i class="ion-home"></i></span> <span class="hidden-xs-down ms-15">Home</span></a> </li>
+      <li class="nav-item"> <a class="nav-link" data-bs-toggle="tab" href="#profile11" role="tab"><span><i class="ion-person"></i></span> <span class="hidden-xs-down ms-15">Profile</span></a> </li>
+      <li class="nav-item"> <a class="nav-link" data-bs-toggle="tab" href="#messages11" role="tab"><span><i class="ion-email"></i></span> <span class="hidden-xs-down ms-15">Messages</span></a> </li>
+      <li class="nav-item"> <a class="nav-link" data-bs-toggle="tab" href="#setting11" role="tab"><span><i class="ion-settings"></i></span> <span class="hidden-xs-down ms-15">Setting</span></a> </li>
+      <li class="nav-item"> <a class="nav-link" data-bs-toggle="tab" href="#about11" role="tab"><span><i class="ion-person"></i></span> <span class="hidden-xs-down ms-15">About</span></a> </li>
+      <li class="nav-item"> <a class="nav-link" data-bs-toggle="tab" href="#contact11" role="tab"><span><i class="ion-camera"></i></span> <span class="hidden-xs-down ms-15">Contact</span></a> </li>
+    </ul>
+    <!-- Tab panes -->
+    <div class="tab-content tabcontent-border">
+      <div class="tab-pane active" id="home11" role="tabpanel">
+        <div class="p-15">
+          <h4>Fusce porta eros a nisl varius, non molestie metus mollis. Pellentesque tincidunt ante sit amet ornare lacinia.</h4>
+          <p>Duis cursus eros lorem, pretium ornare purus tincidunt eleifend. Etiam quis justo vitae erat faucibus pharetra. Morbi in ullamcorper diam. Morbi lacinia, sem vitae dignissim cursus, massa nibh semper magna, nec pellentesque lorem nisl quis ex.</p>
+          <h3>Donec vitae laoreet neque, id convallis ante.</h3>
+        </div>
+      </div>
+      <div class="tab-pane" id="profile11" role="tabpanel">
+        <div class="p-15">
+          <p>Duis cursus eros lorem, pretium ornare purus tincidunt eleifend. Etiam quis justo vitae erat faucibus pharetra. Morbi in ullamcorper diam. Morbi lacinia, sem vitae dignissim cursus, massa nibh semper magna, nec pellentesque lorem nisl quis ex.</p>
+          <h4>Fusce porta eros a nisl varius, non molestie metus mollis. Pellentesque tincidunt ante sit amet ornare lacinia.</h4>
+          <h3>Donec vitae laoreet neque, id convallis ante.</h3>
+        </div>
+      </div>
+      <div class="tab-pane" id="messages11" role="tabpanel">
+        <div class="p-15">
+          <h4>Fusce porta eros a nisl varius, non molestie metus mollis. Pellentesque tincidunt ante sit amet ornare lacinia.</h4>
+          <h3>Donec vitae laoreet neque, id convallis ante.</h3>
+          <p>Duis cursus eros lorem, pretium ornare purus tincidunt eleifend. Etiam quis justo vitae erat faucibus pharetra. Morbi in ullamcorper diam. Morbi lacinia, sem vitae dignissim cursus, massa nibh semper magna, nec pellentesque lorem nisl quis ex.</p>
+        </div>
+      </div>
+      <div class="tab-pane" id="setting11" role="tabpanel">
+        <div class="p-15">
+          <h4>Fusce porta eros a nisl varius, non molestie metus mollis. Pellentesque tincidunt ante sit amet ornare lacinia.</h4>
+          <p>Duis cursus eros lorem, pretium ornare purus tincidunt eleifend. Etiam quis justo vitae erat faucibus pharetra. Morbi in ullamcorper diam. Morbi lacinia, sem vitae dignissim cursus, massa nibh semper magna, nec pellentesque lorem nisl quis ex.</p>
+          <h3>Donec vitae laoreet neque, id convallis ante.</h3>
+        </div>
+      </div>
+      <div class="tab-pane" id="about11" role="tabpanel">
+        <div class="p-15">
+          <p>Duis cursus eros lorem, pretium ornare purus tincidunt eleifend. Etiam quis justo vitae erat faucibus pharetra. Morbi in ullamcorper diam. Morbi lacinia, sem vitae dignissim cursus, massa nibh semper magna, nec pellentesque lorem nisl quis ex.</p>
+          <h3>Donec vitae laoreet neque, id convallis ante.</h3>
+          <h4>Fusce porta eros a nisl varius, non molestie metus mollis. Pellentesque tincidunt ante sit amet ornare lacinia.</h4>
+        </div>
+      </div>
+      <div class="tab-pane" id="contact11" role="tabpanel">
+        <div class="p-15">
+          <h3>Donec vitae laoreet neque, id convallis ante.</h3>
+          <p>Duis cursus eros lorem, pretium ornare purus tincidunt eleifend. Etiam quis justo vitae erat faucibus pharetra. Morbi in ullamcorper diam. Morbi lacinia, sem vitae dignissim cursus, massa nibh semper magna, nec pellentesque lorem nisl quis ex.</p>
+          <h4>Fusce porta eros a nisl varius, non molestie metus mollis. Pellentesque tincidunt ante sit amet ornare lacinia.</h4>
+        </div>
+      </div>
+    </div>
+</div>
+<div class="d-flex justify-content-between mt-4">
+  <%= link_to "← Volver a Datos de Torneo", tenant_dashboard_path, class: "btn btn-outline-secondary" %>
+</div>

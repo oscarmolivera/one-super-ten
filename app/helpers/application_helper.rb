@@ -115,7 +115,7 @@ module ApplicationHelper
             icon: "icon-Layout-grid",
             children: [ #Menu multiplicado por las categorias existentes en la academia
               { label: "Copas", icon: "fa fa-trophy", path: cups_path },
-              { label: "Listado Torneos Activos", icon: "icon-Commit", path: tenant_dashboard_path },
+              { label: "Torneos Activos", icon: "fa-solid fa-clipboard", path: public_actives_season_teams_path },
               { label: "listado historial torneos del pasado", icon: "icon-Commit", path: tenant_dashboard_path },              
               { label: "Creacion de Torneos", icon: "icon-Commit", path: tenant_dashboard_path },
               { label: "Creacion de Partidos", icon: "icon-Commit", path: tenant_dashboard_path },

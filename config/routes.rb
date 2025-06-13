@@ -55,6 +55,9 @@ Rails.application.routes.draw do
         member do
           get :tournament_data
         end
+        collection do
+          get :public_actives
+        end
       end
       resources :cups do
         resources :tournaments do
