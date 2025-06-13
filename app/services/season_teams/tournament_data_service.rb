@@ -8,8 +8,11 @@ module SeasonTeams
       {
         tournament: @season_team.tournament,
         category: @season_team.category,
-        players: @season_team.players,
         cup: @season_team.tournament.cup,
+        players: @season_team.season_team_players.includes(:player),
+        coach: @season_team.coach,
+        assistant: @season_team.assistant_coach,
+        team_assistant: @season_team.team_assistant,
         #call_ups: @season_team.call_ups,
         #matches: @season_team.matches,
         top_scorers: top_scorers,

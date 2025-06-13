@@ -13,8 +13,8 @@
 </div>
 <div class="col-12">
     <ul class="nav nav-tabs nav-fill" role="tablist">
-      <li class="nav-item"> <a class="nav-link active" data-bs-toggle="tab" href="#home11" role="tab"><span><i class="ion-home"></i></span> <span class="hidden-xs-down ms-15">Home</span></a> </li>
-      <li class="nav-item"> <a class="nav-link" data-bs-toggle="tab" href="#profile11" role="tab"><span><i class="ion-person"></i></span> <span class="hidden-xs-down ms-15">Profile</span></a> </li>
+      <li class="nav-item"> <a class="nav-link active" data-bs-toggle="tab" href="#players" role="tab"><span><i class="fas fa-users"></i></span> <span class="hidden-xs-down ms-15">Jugadores</span></a> </li>
+      <li class="nav-item"> <a class="nav-link" data-bs-toggle="tab" href="#teams" role="tab"><span><i class="fa-solid fa-people-group"></i></span> <span class="hidden-xs-down ms-15">Equipo Participantes</span></a> </li>
       <li class="nav-item"> <a class="nav-link" data-bs-toggle="tab" href="#messages11" role="tab"><span><i class="ion-email"></i></span> <span class="hidden-xs-down ms-15">Messages</span></a> </li>
       <li class="nav-item"> <a class="nav-link" data-bs-toggle="tab" href="#setting11" role="tab"><span><i class="ion-settings"></i></span> <span class="hidden-xs-down ms-15">Setting</span></a> </li>
       <li class="nav-item"> <a class="nav-link" data-bs-toggle="tab" href="#about11" role="tab"><span><i class="ion-person"></i></span> <span class="hidden-xs-down ms-15">About</span></a> </li>
@@ -22,46 +22,95 @@
     </ul>
     <!-- Tab panes -->
     <div class="tab-content tabcontent-border">
-      <div class="tab-pane active" id="home11" role="tabpanel">
-        <div class="p-15">
-          <h4>Fusce porta eros a nisl varius, non molestie metus mollis. Pellentesque tincidunt ante sit amet ornare lacinia.</h4>
-          <p>Duis cursus eros lorem, pretium ornare purus tincidunt eleifend. Etiam quis justo vitae erat faucibus pharetra. Morbi in ullamcorper diam. Morbi lacinia, sem vitae dignissim cursus, massa nibh semper magna, nec pellentesque lorem nisl quis ex.</p>
-          <h3>Donec vitae laoreet neque, id convallis ante.</h3>
+      <div class="tab-pane active" id="players" role="tabpanel">
+        <div class="p-5">
+          <div class="container mt-4">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="card mb-4 shadow-sm">
+                  <div class="card-body">
+                    <% if @tournament_data[:players].any? %>
+                      <ul class="list-group list-group-flush">
+                        <li class="list-group-item">
+                          <div class="row text-center fw-semibold">
+                            <div class="col-3 text-start">Nombre</div>
+                            <div class="col-3">Dorsal</div>
+                            <div class="col-3">Posición</div>
+                            <div class="col-3">Origen</div>
+                          </div>
+                        </li>
+                        <% @tournament_data[:players].each do |stp| %>
+                          <li class="list-group-item">
+                            <div class="row text-center align-items-center">
+                              <div class="col-3 text-start">
+                                <%= stp.player&.full_name || ExternalPlayer.find(stp.external_player_id).full_name %>
+                              </div>
+                              <div class="col-3">
+                                <span class="badge text-dark px-3 py-2 fw-bold"><%= stp.jersey_number %></span>
+                              </div>
+                              <div class="col-3">
+                                <span class="badge text-dark px-3 py-2"><%= stp.position.capitalize %></span>
+                              </div>
+                              <div class="col-3">
+                                <% stp_player_category = st_player_category(stp) %>
+                                <% if stp_player_category.present? %>
+                                  <span class="badge bg-secondary text-dark px-3 py-2">
+                                    <strong>
+                                      <%= stp_player_category %>
+                                    </strong>
+                                  </span>
+                                <% else %>
+                                  <span class="badge bg-secondary text-dark px-3 py-2">
+                                    <strong>
+                                      <%= st_player_origin_lable(stp)  %>
+                                    </strong>
+                                  </span>                              
+                                <% end %>
+                              </div>
+                            </div>
+                          </li>
+                        <% end %>
+                      </ul>
+                    <% else %>
+                      <div class="alert alert-info">No hay jugadores seleccionados de la categoría.</div>
+                    <% end %>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="card mb-4 shadow-sm">
+                  <div class="card-body">
+                    <h5 class="card-title">Personal Técnico</h5>
+                    <p class="card-text">
+                      <strong>Entrenador:</strong> <%= @tournament_data[:coach].full_name %><br>
+                      <strong>Asistente:</strong> <%= @tournament_data[:assistant].full_name %><br>
+                      <strong>Delegado:</strong> <%= @tournament_data[:team_assistant].full_name %><br>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-      <div class="tab-pane" id="profile11" role="tabpanel">
+      <div class="tab-pane" id="teams" role="tabpanel">
         <div class="p-15">
-          <p>Duis cursus eros lorem, pretium ornare purus tincidunt eleifend. Etiam quis justo vitae erat faucibus pharetra. Morbi in ullamcorper diam. Morbi lacinia, sem vitae dignissim cursus, massa nibh semper magna, nec pellentesque lorem nisl quis ex.</p>
-          <h4>Fusce porta eros a nisl varius, non molestie metus mollis. Pellentesque tincidunt ante sit amet ornare lacinia.</h4>
-          <h3>Donec vitae laoreet neque, id convallis ante.</h3>
         </div>
       </div>
       <div class="tab-pane" id="messages11" role="tabpanel">
         <div class="p-15">
-          <h4>Fusce porta eros a nisl varius, non molestie metus mollis. Pellentesque tincidunt ante sit amet ornare lacinia.</h4>
-          <h3>Donec vitae laoreet neque, id convallis ante.</h3>
-          <p>Duis cursus eros lorem, pretium ornare purus tincidunt eleifend. Etiam quis justo vitae erat faucibus pharetra. Morbi in ullamcorper diam. Morbi lacinia, sem vitae dignissim cursus, massa nibh semper magna, nec pellentesque lorem nisl quis ex.</p>
         </div>
       </div>
       <div class="tab-pane" id="setting11" role="tabpanel">
         <div class="p-15">
-          <h4>Fusce porta eros a nisl varius, non molestie metus mollis. Pellentesque tincidunt ante sit amet ornare lacinia.</h4>
-          <p>Duis cursus eros lorem, pretium ornare purus tincidunt eleifend. Etiam quis justo vitae erat faucibus pharetra. Morbi in ullamcorper diam. Morbi lacinia, sem vitae dignissim cursus, massa nibh semper magna, nec pellentesque lorem nisl quis ex.</p>
-          <h3>Donec vitae laoreet neque, id convallis ante.</h3>
         </div>
       </div>
       <div class="tab-pane" id="about11" role="tabpanel">
         <div class="p-15">
-          <p>Duis cursus eros lorem, pretium ornare purus tincidunt eleifend. Etiam quis justo vitae erat faucibus pharetra. Morbi in ullamcorper diam. Morbi lacinia, sem vitae dignissim cursus, massa nibh semper magna, nec pellentesque lorem nisl quis ex.</p>
-          <h3>Donec vitae laoreet neque, id convallis ante.</h3>
-          <h4>Fusce porta eros a nisl varius, non molestie metus mollis. Pellentesque tincidunt ante sit amet ornare lacinia.</h4>
         </div>
       </div>
       <div class="tab-pane" id="contact11" role="tabpanel">
         <div class="p-15">
-          <h3>Donec vitae laoreet neque, id convallis ante.</h3>
-          <p>Duis cursus eros lorem, pretium ornare purus tincidunt eleifend. Etiam quis justo vitae erat faucibus pharetra. Morbi in ullamcorper diam. Morbi lacinia, sem vitae dignissim cursus, massa nibh semper magna, nec pellentesque lorem nisl quis ex.</p>
-          <h4>Fusce porta eros a nisl varius, non molestie metus mollis. Pellentesque tincidunt ante sit amet ornare lacinia.</h4>
         </div>
       </div>
     </div>
