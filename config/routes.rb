@@ -51,7 +51,11 @@ Rails.application.routes.draw do
       end
       resources :external_players
 
-      resources :season_teams
+      resources :season_teams do
+        member do
+          get :tournament_data
+        end
+      end
       resources :cups do
         resources :tournaments do
           resources :inscriptions

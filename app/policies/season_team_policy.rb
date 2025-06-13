@@ -24,6 +24,10 @@ class SeasonTeamPolicy < ApplicationPolicy
     create?
   end
 
+  def tournament_data?
+    index?
+  end
+
   class Scope < Scope
     def resolve
       scope.where(tenant: user.tenant)

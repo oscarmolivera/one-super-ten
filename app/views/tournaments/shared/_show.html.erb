@@ -23,7 +23,7 @@
 
   <!-- Dates and Description -->
   <div class="row mb-4">
-    <div class="col-md-6">
+    <div class="col-md-4"><!-- Fechas del Torneo< -->
       <div class="card border-0 shadow-sm h-100">
         <div class="card-body">
           <h5 class="card-title text-primary">Fechas del Torneo</h5>
@@ -38,7 +38,7 @@
         </div>
       </div>
     </div>
-    <div class="col-md-6">
+    <div class="col-md-4"><!-- Descripción -->
       <div class="card border-0 shadow-sm h-100">
         <div class="card-body">
           <h5 class="card-title text-primary">Descripción</h5>
@@ -46,20 +46,20 @@
         </div>
       </div>
     </div>
-  </div>
-
-  <!-- Rich Text Rules -->
-  <div class="card shadow-sm border-0 mb-4">
-    <div class="card-body">
-      <h5 class="text-primary">Reglamento</h5>
-      <%= @tournament.rules.body.present? ? @tournament.rules.body.to_s.html_safe : content_tag(:em, "Reglamento no disponible") %>
+    <div class="col-md-4"><!-- Rich Text Rules -->
+      <div class="card shadow-sm border-0 mb-4">
+        <div class="card-body">
+          <h5 class="text-primary">Reglamento</h5>
+          <%= @tournament.rules.body.present? ? @tournament.rules.body.to_s.html_safe : content_tag(:em, "Reglamento no disponible") %>
+        </div>
+      </div>
     </div>
   </div>
 
   <!-- Categorías Participantes con Estado -->
   <div class="card shadow-sm border-0 mb-4">
     <div class="card-body">
-      <h5 class="text-primary mb-3">Categorías Participantes</h5>
+      <h5 class="text-primary mb-3">Inscripción y Revision de Categorias Participantes</h5>
 
       <% if @tournament.categories.any? %>
         <div class="d-flex flex-wrap gap-3">
@@ -77,6 +77,32 @@
               <%= link_to "#{category.sub_name}: Pendiente",
                 new_cup_tournament_inscription_path(@cup, @tournament, category_id: category.id),
                 class: "btn btn-sm btn-warning" %>
+            <% end %>
+          <% end %>
+        </div>
+      <% else %>
+        <p class="text-muted">No hay categorías asignadas.</p>
+      <% end %>
+    </div>
+  </div>
+
+  <!-- Participacion de Categoria en Torneo -->
+  <div class="card shadow-sm border-0 mb-4">
+    <div class="card-body">
+      <h5 class="text-primary mb-3">Participación en el Torneo</h5>
+
+      <% if @tournament.categories.any? %>
+        <div class="d-flex flex-wrap gap-3">
+          <% @tournament.categories.order(id: :asc).each do |category| %>
+            <% inscription = @tournament.inscriptions.find_by(category_id: category.id) %>
+            <% if inscription&.season_team.present? %>
+              <%= link_to "Detalles #{category.sub_name} en Torneo",
+                  tournament_data_season_team_path(inscription.season_team),
+                  class: "btn btn-sm bg-warning text-dark" %>
+            <% else %>
+              <span class="badge btn-sm btn-outline-dark text-dark align-self-center">
+                <%= category.sub_name %> Sin Equipo.
+              </span>
             <% end %>
           <% end %>
         </div>

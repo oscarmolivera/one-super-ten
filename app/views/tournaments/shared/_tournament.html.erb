@@ -41,7 +41,7 @@
                   <% place = ['CAMPEONES', 'SUBCAMPEONES', '3er Lugar', '4to Lugar'].sample %>
                   <tr
                     data-controller="clickable-row"
-                    data-clickable-row-url-value="<%= cup_tournament_inscriptions_path(tournament.cup_id, tournament) %>"
+                    data-clickable-row-url-value="<%= cup_tournament_path(tournament.cup_id, tournament) %>"
                     data-action="click->clickable-row#goToShow"
                     style="cursor: pointer;">
                     <td class="fw-semibold text-dark"><%= tournament.name %></td>

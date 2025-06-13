@@ -1,6 +1,6 @@
 class SeasonTeamsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_season_team, only: %i[show edit update destroy]
+  before_action :set_season_team, only: %i[show edit update destroy tournament_data]
   before_action :authorize_season_team, except: %i[index new create]
 
   def index
@@ -42,6 +42,11 @@ class SeasonTeamsController < ApplicationController
   def destroy
     @season_team.destroy
     redirect_to season_teams_path, notice: 'Equipo de temporada eliminado.'
+  end
+
+  def tournament_data
+    service = SeasonTeams::TournamentDataService.new(@season_team)
+    @tournament_data = service.data
   end
 
   private
