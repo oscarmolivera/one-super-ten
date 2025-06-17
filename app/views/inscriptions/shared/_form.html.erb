@@ -13,8 +13,7 @@
   <h3>Creación de Equipo: <%= @category.sub_name %></h3>
 </div>
 
-<% form_url = @inscription.persisted? ? cup_tournament_inscription_path(@tournament.cup, @tournament, @inscription) : cup_tournament_inscriptions_path(@tournament.cup, @tournament) %>
-<%= form_with(model: @inscription, url: form_url, local: true) do |f| %>
+<%= form_with( model: @inscription, local: true , **inscription_form_options(@inscription, @tournament)) do |f| %>
   <div class="row">
     <div class="col-md-6">
       <% if @season_team.persisted? && @season_team.players.any? %>

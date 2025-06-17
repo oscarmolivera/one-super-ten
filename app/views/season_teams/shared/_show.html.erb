@@ -143,6 +143,8 @@
     <!-- Action Buttons -->
   <div class="d-flex justify-content-between mt-4">
     <%= link_to "← Volver a Datos de Torneo", cup_tournament_path(@season_team.tournament.cup_id, @season_team.tournament), class: "btn btn-outline-secondary" %>
-    <%= link_to "Editar Equipo", edit_cup_tournament_inscription_path(@season_team.tournament.cup, @season_team.tournament, category_id: @season_team.category_id), class: "btn btn-danger" %>
+    <%= link_to "Editar Equipo", 
+      edit_cup_tournament_inscription_path(@season_team.tournament.cup, @season_team.tournament, category_id: @season_team.category_id, inscription: @season_team.inscription), 
+      class: "btn btn-danger" %>
   </div>
 </div>

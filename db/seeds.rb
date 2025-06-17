@@ -106,6 +106,9 @@ CoachProfile.all.each do |coach_profile|
   end
 end
 
+puts "Seeding ExternalPlayers..."
+load Rails.root.join("db/seeds/external_players.rb")
+
 puts "Seeding Events..."
 events = [
   { title: "Amistoso vs Águilas", event_type: :friendly, allow_reinforcements: true },

@@ -34,17 +34,16 @@ class InscriptionsController < ApplicationController
     if @inscription&.persisted?
       redirect_to cup_tournament_path(@tournament.cup, @tournament), notice: "Inscripción realizada correctamente."
     else
-      @categories = @tournament.categories
       render :new, status: :unprocessable_entity
     end
   end
 
   def edit
-    @inscription = @tournament.inscriptions.find_by!(category_id: params[:category_id])
+    @inscription = Inscription.find(params[:inscription])
     @category = @inscription.category
   
     form_data = Inscriptions::FormDataLoader.new(
-      tournament: @tournament,
+      tournament: @tournament,  
       category: @category,
       season_team: @inscription.season_team || @inscription.build_season_team
     ).call

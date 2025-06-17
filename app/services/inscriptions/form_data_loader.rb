@@ -9,8 +9,9 @@ module Inscriptions
     end
 
     def call
+      inscription = find_or_build_inscription
       {
-        inscription: @tournament.inscriptions.build(category: @category),
+        inscription: inscription,
         season_team: @season_team,
         previous_team_player_ids: @season_team.players.pluck(:id),
         previous_external_player_ids: @season_team.season_team_players.where.not(external_player_id: nil).pluck(:external_player_id),
@@ -24,6 +25,11 @@ module Inscriptions
     end
 
     private
+    def find_or_build_inscription
+      @tournament
+        .inscriptions
+        .find_or_initialize_by(category: @category) { |insc|  insc.season_team ||= @season_team }
+    end
 
     def default_season_team
       SeasonTeam

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_06_02_133206) do
+ActiveRecord::Schema[8.0].define(version: 2025_06_14_170604) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -429,6 +429,14 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_02_133206) do
     t.index ["tenant_id"], name: "index_publications_on_tenant_id"
   end
 
+  create_table "rivals", force: :cascade do |t|
+    t.string "name"
+    t.string "location"
+    t.boolean "active"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "roles", force: :cascade do |t|
     t.string "name"
     t.string "resource_type"
@@ -465,6 +473,17 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_02_133206) do
     t.index ["player_id"], name: "index_season_team_players_on_player_id"
     t.index ["season_team_id", "player_id"], name: "index_season_team_players_on_season_team_id_and_player_id", unique: true
     t.index ["season_team_id"], name: "index_season_team_players_on_season_team_id"
+  end
+
+  create_table "season_team_rivals", force: :cascade do |t|
+    t.bigint "tenant_id", null: false
+    t.bigint "season_team_id", null: false
+    t.bigint "rival_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["rival_id"], name: "index_season_team_rivals_on_rival_id"
+    t.index ["season_team_id"], name: "index_season_team_rivals_on_season_team_id"
+    t.index ["tenant_id"], name: "index_season_team_rivals_on_tenant_id"
   end
 
   create_table "season_teams", force: :cascade do |t|
@@ -663,6 +682,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_02_133206) do
   add_foreign_key "season_team_players", "external_players"
   add_foreign_key "season_team_players", "players"
   add_foreign_key "season_team_players", "season_teams"
+  add_foreign_key "season_team_rivals", "rivals"
+  add_foreign_key "season_team_rivals", "season_teams"
+  add_foreign_key "season_team_rivals", "tenants"
   add_foreign_key "season_teams", "categories"
   add_foreign_key "season_teams", "tenants"
   add_foreign_key "season_teams", "tournaments"

@@ -10,6 +10,9 @@ class SeasonTeam < ApplicationRecord
   has_many :season_team_players, dependent: :destroy
   has_many :players, through: :season_team_players
 
+  has_many :season_team_rivals, dependent: :destroy
+  has_many :rivals, through: :season_team_rivals
+
   has_one :inscription
 
   validates :name, presence: true
