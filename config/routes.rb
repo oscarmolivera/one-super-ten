@@ -53,7 +53,9 @@ Rails.application.routes.draw do
 
       resources :season_teams do
         member do
+          patch :upload_regulations
           get :tournament_data
+          resources :matches, controller: "season_team/matches"
           resources :rivals, controller: "season_team/rivals", except: [:show]
         end
         collection do

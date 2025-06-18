@@ -335,8 +335,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_14_170604) do
   create_table "matches", force: :cascade do |t|
     t.bigint "tenant_id", null: false
     t.bigint "tournament_id"
+    t.bigint "home_team_id", null: false
+    t.bigint "away_team_id", null: false
     t.integer "match_type", default: 0
-    t.string "opponent_name"
     t.string "location"
     t.datetime "scheduled_at"
     t.integer "home_score"
@@ -344,6 +345,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_14_170604) do
     t.text "notes"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["away_team_id"], name: "index_matches_on_away_team_id"
+    t.index ["home_team_id"], name: "index_matches_on_home_team_id"
     t.index ["tenant_id"], name: "index_matches_on_tenant_id"
     t.index ["tournament_id"], name: "index_matches_on_tournament_id"
   end
@@ -666,6 +669,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_14_170604) do
   add_foreign_key "match_reports", "matches"
   add_foreign_key "match_reports", "tenants"
   add_foreign_key "match_reports", "users"
+  add_foreign_key "matches", "season_teams", column: "away_team_id"
+  add_foreign_key "matches", "season_teams", column: "home_team_id"
   add_foreign_key "matches", "tournaments"
   add_foreign_key "player_profiles", "players"
   add_foreign_key "player_schools", "players"

@@ -28,6 +28,10 @@ class SeasonTeamPolicy < ApplicationPolicy
     index?
   end
 
+  def upload_regulations?
+    index?
+  end
+
   class Scope < Scope
     def resolve
       scope.where(tenant: user.tenant)

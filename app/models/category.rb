@@ -19,6 +19,8 @@ class Category < ApplicationRecord
   has_many :call_ups, dependent: :destroy
   has_many :matches, -> { distinct }, through: :call_ups
 
+  has_many :matches, ->(category) { Match.for_category(category.id) }, class_name: 'Match'
+
   validates :name, uniqueness: { scope: :school_id }
 
   def sub_name

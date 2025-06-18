@@ -5,7 +5,7 @@ class SeasonTeam::RivalsController < ApplicationController
 
   def index
     @rivals = @season_team.rivals
-    @rival  = Rival.new                  # for inline “new” modal/form
+    @rival  = Rival.new
   end
 
   def create
@@ -44,7 +44,7 @@ class SeasonTeam::RivalsController < ApplicationController
   end
 
   def rival_params
-    params.require(:rival).permit(:name, :location, :logo)
+    params.require(:rival).permit(:name, :location, :team_logo)
   end
 
   def authorize_rivals

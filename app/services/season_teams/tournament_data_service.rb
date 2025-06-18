@@ -14,7 +14,8 @@ module SeasonTeams
         assistant: @season_team.assistant_coach,
         team_assistant: @season_team.team_assistant,
         #call_ups: @season_team.call_ups,
-        #matches: @season_team.matches,
+        matches: @season_team.matches.includes(:home_team, :away_team),
+        rivals: @season_team.rivals,
         top_scorers: top_scorers,
         standings: standings
       }

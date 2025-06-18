@@ -1,6 +1,6 @@
 class SeasonTeamsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_season_team, only: %i[show edit update destroy tournament_data]
+  before_action :set_season_team, only: %i[show edit update destroy tournament_data upload_regulations]
   before_action :authorize_season_team, except: %i[index new create public_actives]
 
   def index
@@ -45,7 +45,6 @@ class SeasonTeamsController < ApplicationController
   end
 
   def tournament_data
-    @rivals = @season_team.rivals
     @rival  = Rival.new
     service = SeasonTeams::TournamentDataService.new(@season_team)
     @tournament_data = service.data
@@ -54,6 +53,17 @@ class SeasonTeamsController < ApplicationController
   def public_actives
     authorize :season_team, :index?
     @season_teams = SeasonTeam.all
+  end
+
+  def upload_regulations
+    authorize @season_team, :upload_regulations?
+    if params[:season_team][:regulation_files]
+      @season_team.regulation_files.attach(params[:season_team][:regulation_files])
+      flash[:notice] = "Documentos subidos correctamente."
+    else
+      flash[:alert] = "Debes seleccionar al menos un archivo."
+    end
+    redirect_to season_team_path(@season_team, anchor: 'regulations')
   end
 
   private
@@ -69,7 +79,7 @@ class SeasonTeamsController < ApplicationController
   def season_team_params
     params.require(:season_team).permit(
       :name, :description, :category_id, :tournament_id, :active,
-      :coach_id, :assistant_coach_id, :team_assistant_id
+      :team_logo, :coach_id, :assistant_coach_id, :team_assistant_id
     )
   end
 

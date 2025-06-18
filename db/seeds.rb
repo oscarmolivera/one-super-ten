@@ -165,19 +165,6 @@ puts "Seeding Training Sessions..."
   )
 end
 
-load Rails.root.join("db/seeds/matches-n-callups.rb")
-
-MatchReport.create!(
-  tenant: academia,
-  match: Match.first,
-  user:  CoachProfile.first.user,
-  author_role: :coach,
-  general_observations: "Game was played under fair weather. Good discipline.",
-  incidents: "Minor altercation at 45'. Yellow card to #9.",
-  team_claims: "Home team claimed an offside was missed.",
-  final_notes: "Game concluded without major issues.",
-  reported_at: Time.zone.now
-)
 
 puts "Seeding Incomes..."
 load Rails.root.join("db/seeds/incomes.rb")
