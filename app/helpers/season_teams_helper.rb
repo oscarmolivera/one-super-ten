@@ -47,4 +47,42 @@ module SeasonTeamsHelper
       Category.find(player.category_id).sub_name
     end
   end
+
+  def player_origin(player)
+    return :external if player.external_player_id.present?
+  
+    return :same_category if player.category_id == player.season_team.category_id
+  
+    :other_category
+  end
+
+  def row_class_for(origin)
+    case origin
+      when :external       then 'list-group-item-warning'
+      when :other_category then 'list-group-item-info'
+    else '' 
+    end
+  end
+
+  def icon_for(origin)
+    case origin
+    when :external       then 'fa-user-plus'
+    when :other_category then 'fa-arrows-turn-to-dots'
+    else nil
+    end
+  end
+
+  def st_list_lable(player)
+    return 'Refuerzo: ' if player_origin(player) == :other_category
+    return 'EXTERNO*' if player_origin(player) == :external
+    ''
+  end
+
+  def badge_class_for(origin)
+    case origin
+    when :external       then 'badge bg-warning text-dark px-3 py-2'
+    when :other_category then 'badge bg-info text-muted px-3 py-2'
+    else 'badge bg-secondary text-dark px-3 py-2'
+    end
+  end
 end

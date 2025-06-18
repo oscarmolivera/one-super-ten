@@ -1,4 +1,4 @@
-  <div class="container mt-4">
+    <div class="container mt-4">
   <div class="d-flex align-items-center justify-content-center mb-3 gap-3">
     <%= display_cup_logo(@tournament_data[:cup], class: "rounded shadow-sm", style: "height: 120px; width: 120px; object-fit: contain;") %>
     <h1 class="mb-0">
@@ -23,76 +23,11 @@
     <!-- Tab panes -->
     <div class="tab-content tabcontent-border">
       <div class="tab-pane active" id="players" role="tabpanel"><!-- SeasonTeam List -->
-        <div class="p-5">
-          <div class="container mt-4">
-            <div class="row">
-              <div class="col-md-6">
-                <div class="card mb-4 shadow-sm">
-                  <div class="card-body">
-                    <% if @tournament_data[:players].any? %>
-                      <ul class="list-group list-group-flush">
-                        <li class="list-group-item">
-                          <div class="row text-center fw-semibold">
-                            <div class="col-3 text-start">Nombre</div>
-                            <div class="col-3">Dorsal</div>
-                            <div class="col-3">Posición</div>
-                            <div class="col-3">Origen</div>
-                          </div>
-                        </li>
-                        <% @tournament_data[:players].each do |stp| %>
-                          <li class="list-group-item">
-                            <div class="row text-center align-items-center">
-                              <div class="col-3 text-start">
-                                <%= stp.player&.full_name || ExternalPlayer.find(stp.external_player_id).full_name %>
-                              </div>
-                              <div class="col-3">
-                                <span class="badge text-dark px-3 py-2 fw-bold"><%= stp.jersey_number %></span>
-                              </div>
-                              <div class="col-3">
-                                <span class="badge text-dark px-3 py-2"><%= stp.position.capitalize %></span>
-                              </div>
-                              <div class="col-3">
-                                <% stp_player_category = st_player_category(stp) %>
-                                <% if stp_player_category.present? %>
-                                  <span class="badge bg-secondary text-dark px-3 py-2">
-                                    <strong>
-                                      <%= stp_player_category %>
-                                    </strong>
-                                  </span>
-                                <% else %>
-                                  <span class="badge bg-secondary text-dark px-3 py-2">
-                                    <strong>
-                                      <%= st_player_origin_lable(stp)  %>
-                                    </strong>
-                                  </span>                              
-                                <% end %>
-                              </div>
-                            </div>
-                          </li>
-                        <% end %>
-                      </ul>
-                    <% else %>
-                      <div class="alert alert-info">No hay jugadores seleccionados de la categoría.</div>
-                    <% end %>
-                  </div>
-                </div>
-              </div>
-              <div class="col-md-6">
-                <div class="card mb-4 shadow-sm">
-                  <div class="card-body">
-                    <h5 class="card-title">Personal Técnico</h5>
-                    <p class="card-text">
-                      <strong>Entrenador:</strong> <%= @tournament_data[:coach].full_name %><br>
-                      <strong>Asistente:</strong> <%= @tournament_data[:assistant].full_name %><br>
-                      <strong>Delegado:</strong> <%= @tournament_data[:team_assistant].full_name %><br>
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        <%= render partial: 'season_teams/tabs/team_list', tournament_data: @tournament_data %>
       </div>
+      <div class="tab-pane" id="regulations" role="tabpanel"><!-- Norms & Regulations Area -->
+        <%= render partial: 'season_teams/tabs/regulations', season_team: @season_team %>
+      </div>      
       <div class="tab-pane" id="rivals" role="tabpanel"><!-- SeasonTeam Rivals List -->
         <div class="p-15">
           <h4 class="mb-3">Rivales de <%= @season_team.category.sub_name %></h4>
@@ -135,44 +70,6 @@
             <div class="col-12">
               <%= f.submit "Agregar Rival", class: "btn btn-primary" %>
             </div>
-          <% end %>
-        </div>
-      </div>
-      <div class="tab-pane" id="regulations" role="tabpanel"><!-- Norms & Regulations Area -->
-        <div class="p-4">
-          <h5 class="mb-4">Normas y Reglamentos del Torneo</h5>
-
-          <% if @season_team.regulation_files.attached? %>
-            <div class="row row-cols-1 row-cols-md-3 g-4 mb-4">
-              <% @season_team.regulation_files.each do |file| %>
-                <div class="col">
-                  <div class="card shadow-sm border-0 vh-20">
-                    <% if file.content_type.starts_with?('image/') %>
-                      <%= image_tag file.variant(resize_to_limit: [300, 300]), class: "card-img-top", alt: "Reglamento" %>
-                    <% else %>
-                      <div class="card-body d-flex flex-column justify-content-center align-items-center text-center">
-                        <i class="fas fa-file-pdf fa-4x text-danger mb-3"></i>
-                        <p class="mb-2"><%= file.filename.to_s %></p>
-                        <%= link_to "Ver documento", url_for(file), class: "btn btn-outline-primary btn-sm", target: "_blank", rel: "noopener" %>
-                      </div>
-                    <% end %>
-                  </div>
-                </div>
-              <% end %>
-            </div>
-          <% else %>
-            <div class="alert alert-info">Aún no se han subido archivos de normas o reglamentos.</div>
-          <% end %>
-
-          <hr class="my-4">
-
-          <h6 class="mb-3">Subir Nuevo Documento</h6>
-          <%= form_with model: @season_team, url: upload_regulations_season_team_path(@season_team), method: :patch, html: { multipart: true }, local: true do |f| %>
-            <div class="mb-3">
-              <%= f.label :regulation_files, "Seleccionar archivos (PDF o imágenes)", class: "form-label" %>
-              <%= f.file_field :regulation_files, multiple: true, direct_upload: true, class: "form-control", accept: "image/*,application/pdf" %>
-            </div>
-            <%= f.submit "Subir Documentos", class: "btn btn-success" %>
           <% end %>
         </div>
       </div>
