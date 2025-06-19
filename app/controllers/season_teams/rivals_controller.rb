@@ -56,7 +56,7 @@ class SeasonTeams::RivalsController < ApplicationController
   end
 
   def rival_params
-    params.require(:rival).permit(:name, :location, :team_logo, :tenant_id)
+    params.require(:rival).permit(:name, :location, :team_logo, :tenant_id, :is_favorite)
   end
 
   def authorize_rivals

@@ -437,6 +437,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_14_170604) do
     t.string "name"
     t.string "location"
     t.boolean "active"
+    t.boolean "is_favorite", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["tenant_id"], name: "index_rivals_on_tenant_id"

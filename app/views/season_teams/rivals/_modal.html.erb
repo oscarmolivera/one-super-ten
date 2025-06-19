@@ -78,6 +78,11 @@
                   <%= f.file_field :team_logo, class: "form-control" %>
                 </div>
 
+                <div class="form-check mb-3">
+                  <%= f.check_box :is_favorite, class: "form-check-input" %>
+                  <%= f.label :is_favorite, "Favorito?", class: "form-check-label" %>
+                </div>
+
                 <div class="text-end">
                   <%= f.submit "Crear y agregar", class: "btn btn-primary" %>
                 </div>

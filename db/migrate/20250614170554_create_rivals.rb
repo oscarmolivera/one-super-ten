@@ -5,6 +5,7 @@ class CreateRivals < ActiveRecord::Migration[8.0]
       t.string :name
       t.string :location
       t.boolean :active
+      t.boolean :is_favorite, default: false
 
       t.timestamps
     end
