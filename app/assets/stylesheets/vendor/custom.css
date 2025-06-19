@@ -254,8 +254,13 @@
 	.badge-school-3 { background-color: #0dcaf0; } /* cyan */
 
 	.h-140{
-		height: 140px;
+		height: 140px important; 
 	}
+
+	.h-170 {
+		height: 170px important; 
+	}
+
 	.mhvh-75{
 		max-height: 75vh;
 	}

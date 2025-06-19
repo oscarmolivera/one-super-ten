@@ -87,10 +87,24 @@ module SeasonTeamsHelper
   end
 
   def rival_team_logo(rival, options = {})
+    default_classes = "rounded-circle shadow-sm"
+    style = options[:style] || "width: 60px; height: 60px;"
+    classes = [options[:class], default_classes].compact.join(" ")
+
     if rival.team_logo.attached?
-      image_tag rival.team_logo.variant(resize_to_limit: [60, 60]), options.merge(alt: "#{rival.name} logo", class: 'rounded-circle shadow-sm')
+      image_tag rival.team_logo.variant(resize_to_limit: [60, 60]),
+                options.merge(alt: "#{rival.name} logo", class: classes, style: style)
     else
-      image_tag "placeholder-logo.png", options.merge(alt: "No logo", class: 'rounded-circle shadow-sm', style: 'width: 60px; height: 60px;')
+      image_tag "placeholder-logo.png",
+                options.merge(alt: "No logo", class: classes, style: style)
+    end
+  end
+
+  def rival_card_height(authorized)
+    if authorized
+      "h-170"
+    else
+      "h-140"
     end
   end
 end
