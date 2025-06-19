@@ -1,15 +1,25 @@
 <%= turbo_stream.append "rivals_row",
       partial: "season_teams/rivals/rival",
-      locals: { rival: @rival } %>
+      locals:  { rival: @rival } %>
 
+<!-- reset the form so user can add another rival -->
 <%= turbo_stream.replace "new_rival_form",
-      partial: "shared/flash_stream",
-      locals: { message: "¡Rival agregado!", kind: :success } %>
+      partial: "season_teams/rivals/form",
+      locals:  { rival: Rival.new, season_team: @season_team } %>
 
-<turbo-stream action="append" target="body">
-  <template>
-    <script>
-      setTimeout(() => window.dispatchEvent(new CustomEvent("modal:close")), 1200)
-    </script>
-  </template>
-</turbo-stream>
+<%= turbo_stream.update "modal_control" do %>
+  <turbo-frame id="modal_frame"
+               data-controller="modal-close"
+               data-action="turbo:frame-load->modal-close#close"
+               data-modal-close-selector-value="#rivalModal">
+  </turbo-frame>
+<% end %>
+<%= turbo_stream.append "modal_control" do %>
+  <script>
+    setTimeout(() => {
+      const el = document.querySelector("#rivalModal");
+      const modal = bootstrap.Modal.getInstance(el) || new bootstrap.Modal(el);
+      modal.hide();
+    }, 100);
+  </script>
+<% end %>

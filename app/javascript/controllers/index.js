@@ -25,8 +25,8 @@ application.register("hello", HelloController)
 import ImagePreviewController from "./image_preview_controller"
 application.register("image-preview", ImagePreviewController)
 
-import ModalController from "./modal_controller"
-application.register("modal", ModalController)
+import ModalCloseController from "./modal_close_controller"
+application.register("modal-close", ModalCloseController)
 
 import SchoolCupController from "./school_cup_controller"
 application.register("school-cup", SchoolCupController)
