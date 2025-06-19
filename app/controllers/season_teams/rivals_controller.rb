@@ -11,7 +11,7 @@ class SeasonTeams::RivalsController < ApplicationController
   def create
     @rival =
     if params[:existing_rival_id].present?
-      @rival = Rival.find(params[:id])
+      @rival = Rival.find(params[:existing_rival_id])
     else
       Rival.new(rival_params.merge(tenant: ActsAsTenant.current_tenant))
     end

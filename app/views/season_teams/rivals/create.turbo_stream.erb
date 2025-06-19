@@ -1,11 +1,15 @@
-<%= turbo_stream.append "rivals_list",
+<%= turbo_stream.append "rivals_row",
       partial: "season_teams/rivals/rival",
-      locals:  { rival: @rival } %>
+      locals: { rival: @rival } %>
 
 <%= turbo_stream.replace "new_rival_form",
       partial: "shared/flash_stream",
-      locals:  { message: "¡Rival agregado!", kind: :success } %>
+      locals: { message: "¡Rival agregado!", kind: :success } %>
 
-<turbo-stream action="dispatch_event" target="body">
-  <template>{"name":"modal:close"}</template>
+<turbo-stream action="append" target="body">
+  <template>
+    <script>
+      setTimeout(() => window.dispatchEvent(new CustomEvent("modal:close")), 1200)
+    </script>
+  </template>
 </turbo-stream>
