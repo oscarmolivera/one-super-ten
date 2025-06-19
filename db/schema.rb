@@ -433,11 +433,13 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_14_170604) do
   end
 
   create_table "rivals", force: :cascade do |t|
+    t.bigint "tenant_id"
     t.string "name"
     t.string "location"
     t.boolean "active"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["tenant_id"], name: "index_rivals_on_tenant_id"
   end
 
   create_table "roles", force: :cascade do |t|
@@ -682,6 +684,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_14_170604) do
   add_foreign_key "publications", "categories"
   add_foreign_key "publications", "tenants"
   add_foreign_key "publications", "users", column: "author_id"
+  add_foreign_key "rivals", "tenants"
   add_foreign_key "roles", "tenants"
   add_foreign_key "schools", "tenants"
   add_foreign_key "season_team_players", "external_players"

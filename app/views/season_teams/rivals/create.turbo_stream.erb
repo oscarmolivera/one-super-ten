@@ -1,0 +1,11 @@
+<%= turbo_stream.append "rivals_list",
+      partial: "season_teams/rivals/rival",
+      locals:  { rival: @rival } %>
+
+<%= turbo_stream.replace "new_rival_form",
+      partial: "shared/flash_stream",
+      locals:  { message: "¡Rival agregado!", kind: :success } %>
+
+<turbo-stream action="dispatch_event" target="body">
+  <template>{"name":"modal:close"}</template>
+</turbo-stream>

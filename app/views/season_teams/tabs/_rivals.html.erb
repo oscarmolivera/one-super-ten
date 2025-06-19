@@ -1,0 +1,15 @@
+<div class="d-flex justify-content-end mb-3">
+  <button class="btn btn-primary"
+          data-bs-toggle="modal"
+          data-bs-target="#rivalModal">
+    <i class="fa-solid fa-plus me-1"></i> Nuevo rival
+  </button>
+</div>
+
+<turbo-frame id="rivals_list">
+  <%= render partial: "season_teams/rivals/rival",
+             collection: @season_team.rivals.order(:name),
+             as: :rival %>
+</turbo-frame>
+
+<%= render "season_teams/rivals/modal", tournament_data: @tournament_data, season_team: @season_team%>

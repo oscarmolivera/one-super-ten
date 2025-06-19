@@ -1,4 +1,4 @@
-class SeasonTeam::MatchesController < ApplicationController
+class SeasonTeams::MatchesController < ApplicationController
   before_action :set_match, only: %i[show update_performances]
   
   def index

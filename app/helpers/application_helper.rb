@@ -1,4 +1,8 @@
 module ApplicationHelper
+  
+  def close_modal(selector)
+    tag.script("document.querySelector('[data-controller=\"modal\"][data-modal-selector-value=\"#{selector}\"]').dispatchEvent(new CustomEvent('close'))".html_safe)
+  end
 
   def sidebar_menu_items
     return [] unless current_user
