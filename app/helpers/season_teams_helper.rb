@@ -85,4 +85,12 @@ module SeasonTeamsHelper
     else 'badge bg-secondary text-dark px-3 py-2'
     end
   end
+
+  def rival_team_logo(rival, options = {})
+    if rival.team_logo.attached?
+      image_tag rival.team_logo.variant(resize_to_limit: [60, 60]), options.merge(alt: "#{rival.name} logo", class: 'rounded-circle shadow-sm')
+    else
+      image_tag "placeholder-logo.png", options.merge(alt: "No logo", class: 'rounded-circle shadow-sm', style: 'width: 60px; height: 60px;')
+    end
+  end
 end
