@@ -28,6 +28,9 @@ application.register("image-preview", ImagePreviewController)
 import ModalCloseController from "./modal_close_controller"
 application.register("modal-close", ModalCloseController)
 
+import RemoteModalController from "./remote_modal_controller";
+application.register("remote-modal", RemoteModalController);
+
 import SchoolCupController from "./school_cup_controller"
 application.register("school-cup", SchoolCupController)
 

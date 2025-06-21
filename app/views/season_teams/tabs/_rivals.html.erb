@@ -14,7 +14,7 @@
     <turbo-frame id="rivals_list">
       <div id="rivals_row" class="row row-cols-2 row-cols-sm-3 row-cols-md-4 row-cols-lg-5 row-cols-xl-6 g-3">
         <% if @season_team.rivals.any? %>
-            <%= render partial: "season_teams/rivals/rival", collection: @season_team.rivals.order(:name), as: :rival %>
+          <%= render partial: "season_teams/rivals/rival", collection: @season_team.rivals.order(:name), as: :rival %>
         <% else %>
           <div class="alert alert-info text-center">
             Aún no se han agregado equipos rivales.

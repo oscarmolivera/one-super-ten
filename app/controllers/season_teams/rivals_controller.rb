@@ -31,12 +31,56 @@ class SeasonTeams::RivalsController < ApplicationController
     end
   end
 
+  def edit
+    render turbo_stream: turbo_stream.replace(
+      "editRivalModal-#{@rival.id}",
+      partial: "season_teams/rivals/edit_modal_frame",
+      locals: { rival: @rival, season_team: @season_team }
+    )
+  end
+
   def update
     if @rival.update(rival_params)
-      redirect_to tournament_data_season_team_path(@season_team), notice: "Rival actualizado."
+      respond_to do |format|
+        format.turbo_stream do
+          render turbo_stream: [
+            turbo_stream.replace(
+              "rival_flash",
+              partial: "shared/flash_stream",
+              locals: { message: "Rival actualizado", kind: :success }
+            ),
+  
+            # Update only the card of this rival
+            turbo_stream.replace(
+              dom_id(@rival),
+              partial: "season_teams/rivals/rival",
+              locals: { rival: @rival }
+            ),
+  
+            turbo_stream.append(
+              "turbo_stream_events",
+              partial: "shared/close_modal",
+              locals: {
+                modal_id: "editRivalModalContent-#{@rival.id}",
+                frame_id: "editRivalModal-#{@rival.id}"
+              }
+            ),
+  
+            turbo_stream.remove("editRivalModal-#{@rival.id}")
+          ]
+        end
+  
+        format.html do
+          redirect_to tournament_data_season_team_path(@season_team),
+                      notice: "Rival actualizado."
+        end
+      end
     else
-      @rivals = @season_team.rivals
-      render :index, status: :unprocessable_entity
+      render turbo_stream: turbo_stream.replace(
+        "editRivalModal-#{@rival.id}",
+        partial: "season_teams/rivals/edit_modal_frame",
+        locals: { rival: @rival, season_team: @season_team }
+      ), status: :unprocessable_entity
     end
   end
 
@@ -48,7 +92,7 @@ class SeasonTeams::RivalsController < ApplicationController
   private
 
   def set_season_team
-    @season_team = SeasonTeam.find(params[:id])
+    @season_team = SeasonTeam.find(params[:season_team_id] || params[:id])
   end
 
   def set_rival
