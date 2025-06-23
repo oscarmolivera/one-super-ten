@@ -7,10 +7,15 @@
       </div>
       <div class="modal-body">
         <%= form_with model: rival,
-                      url: rival_path(rival, season_team_id: @season_team.id),
-                      method: :patch,
-                      data: { turbo_frame: "rivals_list" },
-                      html: { multipart: true } do |f| %>
+              url: rival_path(rival, season_team_id: @season_team.id),
+              method: :patch,
+              data: {
+                controller: "remote-modal",
+                remote_modal_modal_id_value: "editRivalModalContent-#{rival.id}",
+                action: "turbo:submit-end->remote-modal#onSubmitEnd"
+              },
+              turbo_frame: "rivals_list",
+              html: { multipart: true } do |f| %>
 
           <div class="mb-3">
             <%= f.label :name, "Nombre" %>
