@@ -1,0 +1,13 @@
+<div class="container mt-4">
+  <div class="d-flex align-items-center justify-content-center mb-3 gap-3">
+    <%= display_cup_logo(tournament_data[:cup], class: "rounded shadow-sm", style: "height: 120px; width: 120px; object-fit: contain;") %>
+    <h1 class="mb-0">
+      Torneos Copa <%= tournament_data[:cup].name %>
+      <small class="text-muted fs-6 d-block">
+        <%= tournament_data[:cup].school.name %> | 
+        <%= tournament_data[:cup].description %> |
+        <%= tournament_data[:cup].location %>
+      </small>
+    </h1>
+  </div>
+</div>
