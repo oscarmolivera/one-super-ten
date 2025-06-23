@@ -46,7 +46,8 @@ class SeasonTeamsController < ApplicationController
 
   def tournament_data
     @rival  = Rival.new
-    service = SeasonTeams::TournamentDataService.new(@season_team)
+    @pagy, pagy_rivals = pagy(@season_team.rivals.order(:name), items: 12)
+    service = SeasonTeams::TournamentDataService.new(@season_team, @pagy, pagy_rivals)
     @tournament_data = service.data
   end
 

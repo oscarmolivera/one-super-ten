@@ -1,7 +1,9 @@
 module SeasonTeams
   class TournamentDataService
-    def initialize(season_team)
+    def initialize(season_team, pagy, pagy_rivals)
       @season_team = season_team
+      @pagy = pagy
+      @rivals = pagy_rivals
     end
   
     def data
@@ -17,6 +19,8 @@ module SeasonTeams
         matches: @season_team.matches.includes(:home_team, :away_team),
         favorite_rivals: Rival.tenant_favorites,
         top_scorers: top_scorers,
+        pagy: @pagy,
+        rivals: @rivals,
         standings: standings
       }
     end

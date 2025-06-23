@@ -12,10 +12,13 @@ class SeasonTeams::RivalsController < ApplicationController
   
   def create
     @season_team = SeasonTeam.find(params[:season_team_id])
+  
+    rival_attributes = params[:existing_rival_id].present? ? {} : rival_params
+  
     service = Rivals::CreateService.new(
       season_team: @season_team,
       existing_rival_id: params[:existing_rival_id],
-      rival_params: rival_params
+      rival_params: rival_attributes
     ).call
   
     @rival = service.data[:rival]
