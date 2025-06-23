@@ -32,10 +32,10 @@
         <div class="tab-content">
           <!-- 5.1 PREDEFINED LIST -->
           <div class="tab-pane fade show active" id="tab-existing" role="tabpanel">
-            <turbo-frame id="existing_rivals">
-              <% if @tournament_data[:rivals].any? %>
+            <turbo-frame id="favorite_rivals">
+              <% if @tournament_data[:favorite_rivals].any? %>
                 <div class="list-group">
-                  <% @tournament_data[:rivals].each do |rival| %>
+                  <% @tournament_data[:favorite_rivals].each do |rival| %>
                     <%= button_to season_team_rivals_path(season_team),
                                   method: :post,
                                   params: { existing_rival_id: rival.id },
