@@ -33,7 +33,7 @@
       <% end %>
 
       <% if policy(rival).destroy? %>
-        <%= button_to rival_path(rival),
+        <%= button_to rival_path(rival, season_team_id: @season_team.id),
             method: :delete,
             class: "btn btn-sm btn-outline-danger",
             form: { data: { turbo_confirm: "¿Eliminar rival?" } } do %>

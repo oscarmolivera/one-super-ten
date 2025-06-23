@@ -1,4 +1,6 @@
 class SeasonTeams::RivalsController < ApplicationController
+  include ActionView::RecordIdentifier # This module provides the `dom_id` helper method for Turbo Streams
+
   before_action :set_season_team, except: %i[index create]
   before_action :authorize_rivals
   before_action :set_rival, only: %i[edit update destroy]
@@ -61,14 +63,32 @@ class SeasonTeams::RivalsController < ApplicationController
   end
 
   def destroy
-    @season_team.rivals.destroy(@rival)
-    redirect_to tournament_data_season_team_path(@season_team), notice: "Rival eliminado."
+    @season_team.rivals.delete(@rival)
+    respond_to do |format|
+      format.turbo_stream do
+        streams = [
+          # flash message (re-uses the same partial you already have)
+          turbo_stream.replace(
+            "rival_flash",
+            partial: "shared/flash_stream",
+            locals: { message: "Rival eliminado", kind: :success }
+          ),
+          turbo_stream.remove(dom_id(@rival))
+        ]
+
+        render turbo_stream: streams
+      end
+
+      format.html { redirect_to tournament_data_season_team_path(@season_team), notice: "Rival eliminado." }
+    end
   end
 
   private
 
   def set_season_team
-    @season_team = SeasonTeam.find(params[:season_team_id] || params[:id])
+    # When the request comes from the delete button we receive both ids.
+    @season_team = SeasonTeam.find(params[:season_team_id] || params[:season_team]&.dig(:id))
+      
   end
 
   def set_rival
