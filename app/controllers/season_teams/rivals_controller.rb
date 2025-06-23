@@ -9,21 +9,18 @@ class SeasonTeams::RivalsController < ApplicationController
   end
   
   def create
-    @rival =
-    if params[:existing_rival_id].present?
-      @rival = Rival.find(params[:existing_rival_id])
-    else
-      Rival.new(rival_params.merge(tenant: ActsAsTenant.current_tenant))
-    end
-    
     @season_team = SeasonTeam.find(params[:season_team_id])
-    if @rival.save
-      @season_team.rivals << @rival unless @season_team.rivals.exists?(@rival.id)
+    service = Rivals::CreateService.new(
+      season_team: @season_team,
+      existing_rival_id: params[:existing_rival_id],
+      rival_params: rival_params
+    ).call
   
+    @rival = service.data[:rival]
+  
+    if service.success?
       respond_to do |format|
-        format.turbo_stream do
-          render template: "season_teams/rivals/create"
-        end
+        format.turbo_stream { render template: "season_teams/rivals/create" }
         format.html { redirect_back fallback_location: tournament_data_season_team_path(@season_team) }
       end
     else
@@ -40,47 +37,25 @@ class SeasonTeams::RivalsController < ApplicationController
   end
 
   def update
-    if @rival.update(rival_params)
+    service = Rivals::UpdateService.new(rival: @rival, params: rival_params).call
+  
+    if service.success?
       respond_to do |format|
         format.turbo_stream do
           render turbo_stream: [
-            # flash
-            turbo_stream.replace(
-              "rival_flash",
-              partial: "shared/flash_stream",
-              locals: { message: "Rival actualizado", kind: :success }
-            ),
-  
-            # replace just the edited card
-            turbo_stream.replace(
-              view_context.dom_id(@rival),
-              partial: "season_teams/rivals/rival",
-              locals:  { rival: @rival }
-            ),
-  
-            # close the modal + remove backdrop
-            turbo_stream.append(
-              "turbo_stream_events",
-              partial: "shared/close_modal",
-              locals: {
-                modal_id:  "editRivalModalContent-#{@rival.id}",
-                frame_id:  "editRivalModal-#{@rival.id}"
-              }
-            ),
-  
-            # (optional) drop the frame node
+            turbo_stream.replace("rival_flash", partial: "shared/flash_stream", locals: { message: "Rival actualizado", kind: :success }),
+            turbo_stream.replace(view_context.dom_id(@rival), partial: "season_teams/rivals/rival", locals: { rival: @rival }),
+            turbo_stream.append("turbo_stream_events", partial: "shared/close_modal", locals: { modal_id: "editRivalModalContent-#{@rival.id}", frame_id: "editRivalModal-#{@rival.id}" }),
             turbo_stream.remove("editRivalModal-#{@rival.id}")
           ]
         end
-  
-        format.html { redirect_to tournament_data_season_team_path(@season_team),
-                      notice: "Rival actualizado." }
+        format.html { redirect_to tournament_data_season_team_path(@season_team), notice: "Rival actualizado." }
       end
     else
       render turbo_stream: turbo_stream.replace(
         "editRivalModal-#{@rival.id}",
         partial: "season_teams/rivals/edit_modal_frame",
-        locals:  { rival: @rival, season_team: @season_team }
+        locals: { rival: @rival, season_team: @season_team }
       ), status: :unprocessable_entity
     end
   end
