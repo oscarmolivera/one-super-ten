@@ -5,11 +5,6 @@ class SeasonTeams::RivalsController < ApplicationController
   before_action :authorize_rivals
   before_action :set_rival, only: %i[edit update destroy]
 
-  def index
-    @rivals = @season_team.rivals
-    @rival  = Rival.new
-  end
-  
   def create
     @season_team = SeasonTeam.find(params[:season_team_id])
   

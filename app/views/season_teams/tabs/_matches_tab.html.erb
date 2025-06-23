@@ -2,7 +2,7 @@
   <div class="card shadow-sm border-0 mb-4">
     <div class="card-header bg-light d-flex justify-content-between align-items-center">
       <h5 class="mb-0">
-        <i class="fa-solid fa-trophy me-2"></i></i> Partidos del Torneo
+        <i class="fa-solid fa-trophy me-2"></i> Partidos del Torneo
       </h5>
       <button class="waves-effect waves-light btn btn-success mb-0"
               data-bs-toggle="modal"
@@ -13,8 +13,52 @@
 
     <div class="card-body px-4 py-3">
       <turbo-frame id="matches_list">
-        <div id="match_row" class="row row-cols-2 row-cols-sm-3 row-cols-md-4 row-cols-lg-5 row-cols-xl-6 g-3">
-        </div>
+        <% if @season_team.matches.any? %>
+          <div class="table-responsive">
+            <table class="table table-bordered table-hover align-middle text-center">
+              <thead class="table-light">
+                <tr>
+                  <th>Fecha y Hora</th>
+                  <th>Equipo Local</th>
+                  <th>Equipo Visitante</th>
+                  <th>Ubicación</th>
+                  <th>Tipo</th>
+                  <th>Marcador</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% @season_team.matches.order(scheduled_at: :asc).each do |match| %>
+                  <tr id="<%= dom_id(match) %>">
+                    <td><%= l(match.scheduled_at, format: :short) if match.scheduled_at %></td>
+                    <td><%= match.home_team.name %></td>
+                    <td><%= match.away_team.name %></td>
+                    <td><%= match.location %></td>
+                    <td><%= match.match_type.humanize %></td>
+                    <td>
+                      <% if match.home_score && match.away_score %>
+                        <span><strong><%= match.home_score %></strong> - <strong><%= match.away_score %></strong></span>
+                      <% else %>
+                        <span class="text-muted">Pendiente</span>
+                      <% end %>
+                    </td>
+                    <td>
+                      <%= link_to edit_match_path(match), class: "btn btn-sm btn-outline-primary me-1" do %>
+                        <i class="fa-solid fa-pen-to-square"></i>
+                      <% end %>
+
+                      <%= link_to match_path(match), method: :delete, data: { turbo_confirm: "¿Eliminar este partido?" }, class: "btn btn-sm btn-outline-danger" do %>
+                        <i class="fa-solid fa-trash-can"></i>
+                      <% end %>
+                    </td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+          </div>
+        <% else %>
+          <div class="alert alert-info text-center">No hay partidos registrados aún.</div>
+        <% end %>
 
         <% if @tournament_data[:pagy].pages > 1 %>
           <div class="d-flex justify-content-center mt-3">
@@ -24,5 +68,6 @@
       </turbo-frame>
     </div>
   </div>
+
   <%= render "season_teams/matches/modal", tournament_data: @tournament_data, season_team: @season_team %>
 </div>

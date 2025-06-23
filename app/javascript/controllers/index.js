@@ -25,6 +25,9 @@ application.register("hello", HelloController)
 import ImagePreviewController from "./image_preview_controller"
 application.register("image-preview", ImagePreviewController)
 
+import MatchFormController from "./match_form_controller"
+application.register("match-form", MatchFormController)
+
 import ModalCloseController from "./modal_close_controller"
 application.register("modal-close", ModalCloseController)
 

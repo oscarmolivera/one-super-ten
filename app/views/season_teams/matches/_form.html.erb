@@ -1,0 +1,67 @@
+<%= form_with(model: match, local: true, id: "match_form", data: { controller: "match-form", action: "submit->match-form#submit" }) do |f| %>
+  <div class="card shadow-sm border-0">
+    <div class="card-body">
+      <%= f.hidden_field :season_team_id, value: @season_team.id, data: { match_form_target: "seasonTeamInput" } %>
+
+      <div class="row g-3">
+        <div class="col-12">
+          <%= label_tag :home_or_away, "Condición del Equipo", class: "form-label d-block" %>
+          <div class="form-check form-check-inline">
+            <%= radio_button_tag :home_or_away, 'home', true, class: "form-check-input", id: "play_home", data: { match_form_target: "homeRadio" } %>
+            <%= label_tag :play_home, "Jugar como Local", class: "form-check-label" %>
+          </div>
+          <div class="form-check form-check-inline">
+            <%= radio_button_tag :home_or_away, 'away', false, class: "form-check-input", id: "play_away" %>
+            <%= label_tag :play_away, "Jugar como Visitante", class: "form-check-label" %>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <%= label_tag :opponent_id, "Equipo Rival", class: "form-label" %>
+          <%= select_tag :opponent_id,
+                options_from_collection_for_select(@season_team.rivals, :id, :name),
+                prompt: "Seleccionar rival",
+                class: "form-select",
+                data: { match_form_target: "opponentSelect" } %>
+        </div>
+
+        <%= f.hidden_field :home_team_id, id: "match_home_team_id", data: { match_form_target: "homeTeamInput" } %>
+        <%= f.hidden_field :away_team_id, id: "match_away_team_id", data: { match_form_target: "awayTeamInput" } %>
+
+        <div class="col-md-6">
+          <%= f.label :match_type, "Tipo de Partido", class: "form-label" %>
+          <%= f.select :match_type, options_for_select([["Amistoso", "friendly"], ["Torneo", "tournament"], ["Práctica", "practice"]], match.match_type), { prompt: "Seleccionar tipo" }, class: "form-select" %>
+        </div>
+
+        <div class="col-md-6">
+          <%= f.label :location, "Ubicación", class: "form-label" %>
+          <%= f.text_field :location, class: "form-control", placeholder: "Ej: Estadio Central" %>
+        </div>
+
+        <div class="col-md-6">
+          <%= f.label :scheduled_at, "Fecha y Hora", class: "form-label" %>
+          <%= f.datetime_select :scheduled_at, { default: Time.zone.now }, { class: "form-control" } %>
+        </div>
+
+        <div class="col-md-3">
+          <%= f.label :home_score, "Goles Local", class: "form-label" %>
+          <%= f.number_field :home_score, class: "form-control", min: 0 %>
+        </div>
+
+        <div class="col-md-3">
+          <%= f.label :away_score, "Goles Visitante", class: "form-label" %>
+          <%= f.number_field :away_score, class: "form-control", min: 0 %>
+        </div>
+
+        <div class="col-12">
+          <%= f.label :notes, "Notas del Partido", class: "form-label" %>
+          <%= f.text_area :notes, class: "form-control", rows: 3 %>
+        </div>
+      </div>
+    </div>
+
+    <div class="card-footer text-end">
+      <%= f.submit "Guardar Partido", class: "btn btn-primary" %>
+    </div>
+  </div>
+<% end %>

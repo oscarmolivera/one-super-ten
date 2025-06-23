@@ -57,7 +57,7 @@ Rails.application.routes.draw do
           get :tournament_data
         end
         resources :matches, controller: "season_teams/matches", except: [:show], shallow: true
-        resources :rivals, controller: "season_teams/rivals", except: [:show], shallow: true
+        resources :rivals, controller: "season_teams/rivals", except: [:index, :show], shallow: true
         collection do
           get :public_actives
         end
