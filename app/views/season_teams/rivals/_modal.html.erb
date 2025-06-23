@@ -30,8 +30,7 @@
         </ul>
 
         <div class="tab-content">
-          <!-- 5.1 PREDEFINED LIST -->
-          <div class="tab-pane fade show active" id="tab-existing" role="tabpanel">
+          <div class="tab-pane fade show active" id="tab-existing" role="tabpanel"><!-- Favorite Rivals -->
             <turbo-frame id="favorite_rivals">
               <% if @tournament_data[:favorite_rivals].any? %>
                 <div class="list-group">
@@ -51,8 +50,7 @@
             </turbo-frame>
           </div>
 
-          <!-- 5.2 NEW RIVAL FORM -->
-          <div class="tab-pane fade" id="tab-new" role="tabpanel">
+          <div class="tab-pane fade" id="tab-new" role="tabpanel"><!-- New Rival Form -->
             <div id="rival_flash"></div>
             <turbo-frame id="new_rival_form">
               <%= render "season_teams/rivals/form", rival: Rival.new, season_team: season_team %>
