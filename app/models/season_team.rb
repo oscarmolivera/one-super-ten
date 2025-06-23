@@ -13,19 +13,14 @@ class SeasonTeam < ApplicationRecord
   has_many :season_team_rivals, dependent: :destroy
   has_many :rivals, through: :season_team_rivals
 
-  has_many :home_matches, class_name: 'Match', foreign_key: :home_team_id, dependent: :nullify
-  has_many :away_matches, class_name: 'Match', foreign_key: :away_team_id, dependent: :nullify
+  has_many :matches, class_name: "Match", foreign_key: :team_of_interest_id, dependent: :nullify
+  has_many :as_rival_matches, class_name: 'Match', foreign_key: :rival_season_team_id, dependent: :nullify
 
   has_one_attached :team_logo, dependent: :destroy
   has_many_attached :regulation_files
-
 
   has_one :inscription
 
   validates :name, presence: true
   validates :category_id, uniqueness: { scope: :tournament_id }
-
-  def matches
-    Match.for_category(category_id, tournament_id: tournament_id)
-  end
 end

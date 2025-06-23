@@ -16,25 +16,10 @@ module SeasonTeams
         assistant: @season_team.assistant_coach,
         team_assistant: @season_team.team_assistant,
         #call_ups: @season_team.call_ups,
-        matches: @season_team.matches.includes(:home_team, :away_team),
         favorite_rivals: Rival.tenant_favorites,
-        top_scorers: top_scorers,
         pagy: @pagy,
-        rivals: @rivals,
-        standings: standings
+        rivals: @rivals
       }
-    end
-  
-    private
-  
-    def top_scorers
-      #@season_team.players.order(goals: :desc).limit(10)
-      false
-    end
-  
-    def standings
-      #TournamentStanding.for_category(@season_team.category, @season_team.tournament)
-      true
     end
   end
 end

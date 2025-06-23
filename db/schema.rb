@@ -334,19 +334,24 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_14_170604) do
 
   create_table "matches", force: :cascade do |t|
     t.bigint "tenant_id", null: false
-    t.bigint "tournament_id"
-    t.bigint "home_team_id", null: false
-    t.bigint "away_team_id", null: false
-    t.integer "match_type", default: 0
-    t.string "location"
+    t.bigint "tournament_id", null: false
+    t.bigint "team_of_interest_id", null: false
+    t.bigint "rival_season_team_id"
+    t.bigint "rival_id"
+    t.integer "plays_as", default: 0, null: false
+    t.integer "match_type", default: 1, null: false
+    t.string "location", null: false
+    t.integer "location_type", default: 0, null: false
+    t.integer "status", default: 0
     t.datetime "scheduled_at"
     t.integer "home_score"
     t.integer "away_score"
     t.text "notes"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["away_team_id"], name: "index_matches_on_away_team_id"
-    t.index ["home_team_id"], name: "index_matches_on_home_team_id"
+    t.index ["rival_id"], name: "index_matches_on_rival_id"
+    t.index ["rival_season_team_id"], name: "index_matches_on_rival_season_team_id"
+    t.index ["team_of_interest_id"], name: "index_matches_on_team_of_interest_id"
     t.index ["tenant_id"], name: "index_matches_on_tenant_id"
     t.index ["tournament_id"], name: "index_matches_on_tournament_id"
   end
@@ -672,8 +677,10 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_14_170604) do
   add_foreign_key "match_reports", "matches"
   add_foreign_key "match_reports", "tenants"
   add_foreign_key "match_reports", "users"
-  add_foreign_key "matches", "season_teams", column: "away_team_id"
-  add_foreign_key "matches", "season_teams", column: "home_team_id"
+  add_foreign_key "matches", "rivals"
+  add_foreign_key "matches", "season_teams", column: "rival_season_team_id"
+  add_foreign_key "matches", "season_teams", column: "team_of_interest_id"
+  add_foreign_key "matches", "tenants"
   add_foreign_key "matches", "tournaments"
   add_foreign_key "player_profiles", "players"
   add_foreign_key "player_schools", "players"

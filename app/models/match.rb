@@ -1,28 +1,33 @@
 class Match < ApplicationRecord
   acts_as_tenant(:tenant)
 
-  belongs_to :tournament, optional: true
+  belongs_to :tournament
+  belongs_to :team_of_interest, class_name: 'SeasonTeam'
+  belongs_to :rival_season_team, class_name: 'SeasonTeam', optional: true
+  belongs_to :rival, optional: true
 
-  belongs_to :home_team, class_name: 'SeasonTeam'
-  belongs_to :away_team, class_name: 'SeasonTeam'
-  
   has_many :call_ups, dependent: :destroy
   has_many :categories, through: :call_ups
   has_many :line_ups, dependent: :destroy
   has_many :match_reports, dependent: :destroy
   has_many :match_performances, dependent: :destroy
 
-  enum :match_type, { friendly: 0, tournament: 1 }
+  enum :match_type, { friendly: 0, tournament: 1, practice: 2 }
+  enum :plays_as, { home: 0, away: 1 }
+  enum :location_type, {home_field: 0, away_field: 1, neutral: 2 }
+  enum :status, { created: 0, scheduled: 1, played: 2, cancelled: 3 }
 
-  validates :location, presence: true
+  validates :match_type, :plays_as, presence: true
 
-  scope :for_team, ->(team_id) { where('home_team_id = ? OR away_team_id = ?', team_id, team_id) }
+  def opponent_name
+    rival&.name || rival_season_team&.name || "Desconocido"
+  end
 
-  scope :for_category, ->(category_id, tournament_id: nil) do
-    teams = SeasonTeam.where(category_id: category_id)
-    teams = teams.where(tournament_id: tournament_id) if tournament_id.present?
-    team_ids = teams.pluck(:id)
-  
-    where(home_team_id: team_ids).or(where(away_team_id: team_ids))
+  def home_team_name
+    plays_as == "home" ? team_of_interest.name : opponent_name
+  end
+
+  def away_team_name
+    plays_as == "away" ? team_of_interest.name : opponent_name
   end
 end
