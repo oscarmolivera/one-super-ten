@@ -45,8 +45,14 @@ class SeasonTeamsController < ApplicationController
   end
 
   def tournament_data
-    @rival  = Rival.new
-    @pagy, pagy_rivals = pagy(@season_team.rivals.order(:name), items: 12)
+    @rival = Rival.new
+  
+    begin
+      @pagy, pagy_rivals = pagy(@season_team.rivals.with_attached_team_logo.order(:name), items: 2)
+    rescue Pagy::OverflowError
+      redirect_to season_team_tournament_data_path(@season_team, page: 1) and return
+    end
+  
     service = SeasonTeams::TournamentDataService.new(@season_team, @pagy, pagy_rivals)
     @tournament_data = service.data
   end
