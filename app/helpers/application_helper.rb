@@ -1,4 +1,5 @@
 module ApplicationHelper
+  include Pagy::Frontend
   
   def close_modal(selector)
     tag.script("document.querySelector('[data-controller=\"modal\"][data-modal-selector-value=\"#{selector}\"]').dispatchEvent(new CustomEvent('close'))".html_safe)

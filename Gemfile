@@ -11,6 +11,7 @@ gem "image_processing", "~> 1.14"
 gem "jbuilder"
 gem "jsbundling-rails"
 gem "kamal", require: false
+gem "pagy", "~> 9.3"
 gem "propshaft"
 gem "pg", "~> 1.1"
 gem "puma", ">= 5.0"
@@ -48,4 +49,5 @@ group :staging, :production do
   gem "rails_12factor", "~> 0.0.3"
   gem 'rack-rewrite'
 end
+
 
