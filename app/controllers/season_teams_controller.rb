@@ -1,6 +1,6 @@
 class SeasonTeamsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_season_team, only: %i[show edit update destroy upload_regulations]
+  before_action :set_season_team, only: %i[show edit update destroy upload_regulations lazy_rival_modal favorite_rivals]
   before_action :authorize_season_team, except: %i[index new create public_actives tournament_data]
 
   def index
@@ -69,11 +69,14 @@ class SeasonTeamsController < ApplicationController
     authorize @season_team
     @pagy, @favorite_rivals = pagy(Rival.tenant_favorites.includes(team_logo_attachment: :blob).order(:name))
   
-    render partial: "season_teams/rivals/favorite_rivals", locals: { season_team: @season_team, favorite_rivals: @favorite_rivals, pagy: @pagy }
+    render partial: "season_teams/rivals/favorite_rivals", locals: {
+      season_team: @season_team,
+      favorite_rivals: @favorite_rivals,
+      pagy: @pagy
+    }
   end
 
   def lazy_rival_modal
-    authorize @season_team
     @tournament_data = {
       favorite_rivals: [],
       rivals: @season_team.rivals, # Exclude this if heavy

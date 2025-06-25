@@ -32,6 +32,13 @@ class SeasonTeamPolicy < ApplicationPolicy
     index?
   end
 
+  def lazy_rival_modal?
+    index?
+  end
+
+  def favorite_rivals?
+    index?
+  end
   class Scope < Scope
     def resolve
       scope.where(tenant: user.tenant)

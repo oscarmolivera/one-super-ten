@@ -6,11 +6,18 @@ export default class extends Controller {
   static values = { selector: String }
 
   close() {
-    console.log("Closing modal now") // debug
-    const modalEl = document.querySelector(this.selectorValue)
-    if (modalEl?.contains(document.activeElement)) document.activeElement.blur()
+    const selector = this.selectorValue
 
-    const instance = bootstrap.Modal.getInstance(modalEl) || new bootstrap.Modal(modalEl)
-    instance.hide()
+    const modalEl =
+      document.querySelector(selector) ||
+      window.parent.document.querySelector(selector)
+
+    if (!modalEl) {
+      console.warn("Modal not found:", selector)
+      return
+    }
+
+    const modal = bootstrap.Modal.getInstance(modalEl) || new bootstrap.Modal(modalEl)
+    modal.hide()
   }
 }

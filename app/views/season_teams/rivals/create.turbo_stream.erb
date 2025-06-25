@@ -2,7 +2,6 @@
       partial: "season_teams/rivals/rival",
       locals:  { rival: @rival } %>
 
-<!-- reset the form so user can add another rival -->
 <%= turbo_stream.replace "new_rival_form",
       partial: "season_teams/rivals/form",
       locals:  { rival: Rival.new, season_team: @season_team } %>
@@ -13,13 +12,4 @@
                data-action="turbo:frame-load->modal-close#close"
                data-modal-close-selector-value="#rivalModal">
   </turbo-frame>
-<% end %>
-<%= turbo_stream.append "modal_control" do %>
-  <script>
-    setTimeout(() => {
-      const el = document.querySelector("#rivalModal");
-      const modal = bootstrap.Modal.getInstance(el) || new bootstrap.Modal(el);
-      modal.hide();
-    }, 100);
-  </script>
 <% end %>

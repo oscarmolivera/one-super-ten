@@ -6,17 +6,35 @@ export default class extends Controller {
     targetModal: String
   }
 
-  load() {
-    const frame = document.getElementById("rival_modal_frame")
 
-    if (!frame.src) {
-      frame.src = this.urlValue
+  connect() {
+   }
+
+  load() {
+    const frame = document.getElementById("rival_modal_frame");
+
+    // Set the frame's src attribute (not .src)
+    if (!frame.hasAttribute("src")) {
+      frame.setAttribute("src", this.urlValue)
     }
 
-    // Wait for the Turbo Frame to load before showing the modal
-    frame.addEventListener("turbo:frame-load", () => {
-      const modal = new bootstrap.Modal(document.querySelector(this.targetModalValue))
-      modal.show()
-    }, { once: true })
+    // Reset the frame to force reload
+    frame.removeAttribute("src");
+
+    // Set the frame's src attribute again
+    frame.setAttribute("src", this.urlValue);
+
+
+    // When Turbo finishes loading the frame, show the modal
+    frame.addEventListener(
+      "turbo:frame-load",
+      () => {
+        const modal = new bootstrap.Modal(
+          document.querySelector(this.targetModalValue)
+        );
+        modal.show();
+      },
+      { once: true }
+    );
   }
 }
