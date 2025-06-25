@@ -109,62 +109,11 @@ end
 puts "Seeding ExternalPlayers..."
 load Rails.root.join("db/seeds/external_players.rb")
 
-puts "Seeding Events..."
-events = [
-  { title: "Amistoso vs Águilas", event_type: :friendly, allow_reinforcements: true },
-  { title: "Torneo Estatal Sub14", event_type: :tournament, external_organizer: true, organizer_name: "Federación Regional" },
-  { title: "Partido de práctica", event_type: :match }
-]
-
-coach = Role.all.where(name: 'coach', tenant: academia).last.users.last
-fcampo = School.find(1)
-
 puts "Seeding Cups & Tournaments..."
 load Rails.root.join("db/seeds/cups_and_tournaments.rb")
 
-events.each do |attrs|
-  event = Event.create!(
-    school: fcampo,
-    coach: coach,
-    tenant: academia,
-    description: "#{attrs[:title]} en cancha sintética",
-    start_time: Time.now + rand(1..10).days,
-    end_time: Time.now + rand(11..15).days,
-    location_name: "Estadio Olímpico",
-    location_address: "Calle Fútbol, Caracas",
-    **attrs
-  )
-  event.categories << categorias.sample
-end
-
-puts "Seeding Sites..."
-Site.create!(
-  school_id: fcampo.id,
-  name: 'Pozo Viejo',
-  address: 'Av Principal Pozo Viejo',
-  city: 'Porlamar',
-  map_url: '',
-  capacity: 150,
-  description: 'Una descripcion del sitio'
-)
-
-puts "Seeding Training Sessions..."
-10.times do |i|
-  category = categorias.sample
-  coach = User.with_role(:coach, category.tenant).first
-
-  TrainingSession.create!(
-    category: category,
-    coach: coach,
-    site: Site.first,
-    scheduled_at: 2.days.from_now,
-    duration_minutes: 90,
-    objectives: "#{i} - Improve passing and stamina",
-    activities: "#{i} -Warm-up, cone drills, 5v5 mini-game",
-    notes: "#{i} - All players must bring water"
-  )
-end
-
+puts "Seeding SeasonTeams..."
+load Rails.root.join("db/seeds/season_teams.rb")
 
 puts "Seeding Incomes..."
 load Rails.root.join("db/seeds/incomes.rb")
