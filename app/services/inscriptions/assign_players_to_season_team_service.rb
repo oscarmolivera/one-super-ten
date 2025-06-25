@@ -1,4 +1,3 @@
-# app/services/inscriptions/assign_players_to_season_team_service.rb
 module Inscriptions
   class AssignPlayersToSeasonTeamService
     def initialize(season_team, params)

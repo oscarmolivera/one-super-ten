@@ -93,7 +93,7 @@ module SeasonTeamsHelper
 
     if rival.team_logo.attached?
       image_tag rival.team_logo.variant(resize_to_limit: [60, 60]),
-                options.merge(alt: "#{rival.name} logo", class: classes, style: style)
+                options.merge(alt: "#{rival.name} logo", class: classes, style: style, loading: "lazy")
     else
       image_tag "placeholder-logo.png",
                 options.merge(alt: "No logo", class: classes, style: style)

@@ -25,14 +25,20 @@ application.register("hello", HelloController)
 import ImagePreviewController from "./image_preview_controller"
 application.register("image-preview", ImagePreviewController)
 
+import LazyLoaderController from "./lazy_loader_controller"
+application.register("lazy-loader", LazyLoaderController)
+
 import MatchFormController from "./match_form_controller"
 application.register("match-form", MatchFormController)
 
 import ModalCloseController from "./modal_close_controller"
 application.register("modal-close", ModalCloseController)
 
-import RemoteModalController from "./remote_modal_controller";
-application.register("remote-modal", RemoteModalController);
+import ModalLoaderController from "./modal_loader_controller"
+application.register("modal-loader", ModalLoaderController)
+
+import RemoteModalController from "./remote_modal_controller"
+application.register("remote-modal", RemoteModalController)
 
 import SchoolCupController from "./school_cup_controller"
 application.register("school-cup", SchoolCupController)

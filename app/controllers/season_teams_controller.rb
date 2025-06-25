@@ -1,7 +1,7 @@
 class SeasonTeamsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_season_team, only: %i[show edit update destroy tournament_data upload_regulations]
-  before_action :authorize_season_team, except: %i[index new create public_actives]
+  before_action :set_season_team, only: %i[show edit update destroy upload_regulations]
+  before_action :authorize_season_team, except: %i[index new create public_actives tournament_data]
 
   def index
     @season_teams = policy_scope(SeasonTeam).where(tenant: ActsAsTenant.current_tenant)
@@ -45,16 +45,45 @@ class SeasonTeamsController < ApplicationController
   end
 
   def tournament_data
+    authorize :season_team, :index?
     @rival = Rival.new
   
+    @season_team = SeasonTeam
+      .includes(:category, :coach, :assistant_coach, :team_assistant, tournament: :cup)
+      .find(params[:id])
+
     begin
-      @pagy, pagy_rivals = pagy(@season_team.rivals.with_attached_team_logo.order(:name), items: 2)
+      @pagy, @pagy_rivals = pagy(@season_team.rivals.with_attached_team_logo.order(:name), items: 2)
     rescue Pagy::OverflowError
       redirect_to season_team_tournament_data_path(@season_team, page: 1) and return
     end
   
-    service = SeasonTeams::TournamentDataService.new(@season_team, @pagy, pagy_rivals)
+  
+    start = Time.now
+    service = SeasonTeams::TournamentDataService.new(@season_team, @pagy, @pagy_rivals)
     @tournament_data = service.data
+    Rails.logger.debug ">>> TournamentDataService took #{Time.now - start} seconds"
+  end
+
+  def favorite_rivals
+    authorize @season_team
+    @pagy, @favorite_rivals = pagy(Rival.tenant_favorites.includes(team_logo_attachment: :blob).order(:name))
+  
+    render partial: "season_teams/rivals/favorite_rivals", locals: { season_team: @season_team, favorite_rivals: @favorite_rivals, pagy: @pagy }
+  end
+
+  def lazy_rival_modal
+    authorize @season_team
+    @tournament_data = {
+      favorite_rivals: [],
+      rivals: @season_team.rivals, # Exclude this if heavy
+      pagy: nil
+    }
+  
+    render partial: "season_teams/rivals/modal", locals: {
+      tournament_data: @tournament_data,
+      season_team: @season_team
+    }
   end
 
   def public_actives

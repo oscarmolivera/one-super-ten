@@ -55,6 +55,8 @@ Rails.application.routes.draw do
         member do
           patch :upload_regulations
           get :tournament_data
+          get :favorite_rivals
+          get :lazy_rival_modal
         end
         resources :matches, controller: "season_teams/matches", except: [:show], shallow: true
         resources :rivals, controller: "season_teams/rivals", except: [:index, :show], shallow: true

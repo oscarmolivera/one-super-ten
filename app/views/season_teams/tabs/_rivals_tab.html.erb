@@ -4,11 +4,13 @@
       <h5 class="mb-0">
         <i class="fa-solid fa-people-group me-2"></i> Equipos Participantes
       </h5>
-      <button class="waves-effect waves-light btn btn-success mb-0"
-              data-bs-toggle="modal"
-              data-bs-target="#rivalModal">
-        <i class="fa fa-check me-1"></i> Agregar Equipo
-      </button>
+        <button type="button"
+                class="waves-effect waves-light btn btn-success mb-0"
+                data-action="click->modal-loader#load"
+                data-modal-loader-url-value="<%= lazy_rival_modal_season_team_path(@season_team) %>"
+                data-modal-loader-target-modal="#rivalModal">
+          <i class="fa fa-check me-1"></i> Agregar Equipo
+        </button>
     </div>
 
     <div class="card-body px-4 py-3">
@@ -31,5 +33,5 @@
       </turbo-frame>
     </div>
   </div>
-  <%= render "season_teams/rivals/modal", tournament_data: @tournament_data, season_team: @season_team %>
+  <turbo-frame id="rival_modal_frame"></turbo-frame>
 </div>

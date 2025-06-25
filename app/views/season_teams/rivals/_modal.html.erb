@@ -31,22 +31,10 @@
 
         <div class="tab-content">
           <div class="tab-pane fade show active" id="tab-existing" role="tabpanel"><!-- Favorite Rivals -->
-            <turbo-frame id="favorite_rivals">
-              <% if @tournament_data[:favorite_rivals].any? %>
-                <div class="list-group">
-                  <% @tournament_data[:favorite_rivals].each do |rival| %>
-                    <%= button_to season_team_rivals_path(season_team),
-                                  method: :post,
-                                  params: { existing_rival_id: rival.id },
-                                  class: "list-group-item list-group-item-action d-flex justify-content-between align-items-center" do %>
-                      <span><%= rival.name %></span>
-                      <%= rival_team_logo(rival) %>
-                    <% end %>
-                  <% end %>
-                </div>
-              <% else %>
-                <div class="alert alert-info">No hay rivales comunes registrados.</div>
-              <% end %>
+            <turbo-frame id="favorite_rivals" src="<%= favorite_rivals_season_team_path(season_team) %>">
+              <div class="text-center p-3">
+                <div class="spinner-border text-primary" role="status"></div>
+              </div>
             </turbo-frame>
           </div>
 
