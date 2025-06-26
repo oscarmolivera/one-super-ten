@@ -3,38 +3,36 @@ import { Controller } from "@hotwired/stimulus"
 export default class extends Controller {
   static values = {
     url: String,
-    targetModal: String
+    targetModal: String,
+    targetFrame: String
   }
 
-
-  connect() {
-   }
+  connect() { }
 
   load() {
-    const frame = document.getElementById("rival_modal_frame");
+    console.log(`CLICKED: ${this.targetModalValue}`)
 
-    // Set the frame's src attribute (not .src)
-    if (!frame.hasAttribute("src")) {
-      frame.setAttribute("src", this.urlValue)
+    const frameId = this.targetFrameValue?.replace('#', '')
+    const frame = document.getElementById(frameId)
+
+    if (!frame) {
+      console.warn(`No frame found with id '${this.targetFrameValue}'`)
+      return
     }
 
-    // Reset the frame to force reload
-    frame.removeAttribute("src");
+    // Reset and reload the Turbo Frame
+    frame.removeAttribute("src")
+    frame.setAttribute("src", this.urlValue)
 
-    // Set the frame's src attribute again
-    frame.setAttribute("src", this.urlValue);
-
-
-    // When Turbo finishes loading the frame, show the modal
     frame.addEventListener(
       "turbo:frame-load",
       () => {
         const modal = new bootstrap.Modal(
           document.querySelector(this.targetModalValue)
-        );
-        modal.show();
+        )
+        modal.show()
       },
       { once: true }
-    );
+    )
   }
 }

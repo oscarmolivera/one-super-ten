@@ -4,108 +4,28 @@
       <h5 class="mb-0">
         <i class="fa-solid fa-trophy me-2"></i> Partidos del Torneo
       </h5>
-      <button class="waves-effect waves-light btn btn-success mb-0"
-              data-bs-toggle="modal"
-              data-bs-target="#rivalModal">
-        <i class="fa-solid fa-square-plus me-1"></i> Agregar Partido 
-      </button>
+        <button type="button"
+                class="waves-effect waves-light btn btn-success mb-0"
+                data-controller="modal-loader"
+                data-action="click->modal-loader#load"
+                data-modal-loader-url-value="<%= matches_modal_season_team_path(@season_team) %>"
+                data-modal-loader-target-frame-value="#match_modal_frame"
+                data-modal-loader-target-modal-value="#matchModal">
+                
+          <i class="fa-solid fa-square-plus me-1"></i> Agregar Partido
+        </button>      
     </div>
 
     <div class="card-body px-4 py-3">
       <turbo-frame id="matches_list">
-        <% if @season_team.matches.any? %>
-          <div class="table-responsive">
-            <table class="table table-hover table-bordered align-middle text-center">
-              <thead class="table-dark text-white">
-                <tr>
-                  <th>Fecha</th>
-                  <th>Rival</th>
-                  <th>Condición</th>
-                  <th>Tipo</th>
-                  <th>Ubicación</th>
-                  <th>Marcador</th>
-                  <th>Estado</th>
-                  <th>Acciones</th>
-                </tr>
-              </thead>
-              <tbody>
-                <% @season_team.matches.order(scheduled_at: :asc).each do |match| %>
-                  <tr id="<%= dom_id(match) %>">
-                    <td>
-                      <% if match.scheduled_at.present? %>
-                        <%= l(match.scheduled_at, format: :short) %>
-                      <% else %>
-                        <span class="text-muted">Sin definir</span>
-                      <% end %>
-                    </td>
-
-                    <td>
-                      <%= match.opponent_name %>
-                    </td>
-
-                    <td>
-                      <span class="badge bg-<%= match.plays_as == "home" ? "primary" : "warning" %> text-white">
-                        <%= match.plays_as == "home" ? "Local" : "Visitante" %>
-                      </span>
-                    </td>
-
-                    <td>
-                      <span class="badge bg-secondary">
-                        <%= match.match_type.humanize %>
-                      </span>
-                    </td>
-
-                    <td><%= match.location %></td>
-
-                    <td>
-                      <% if match.home_score && match.away_score %>
-                        <span class="fw-bold">
-                          <%= match.home_score %> - <%= match.away_score %>
-                        </span>
-                      <% else %>
-                        <span class="text-muted">Pendiente</span>
-                      <% end %>
-                    </td>
-
-                    <td>
-                      <span class="badge bg-<%= {
-                          "created" => "secondary",
-                          "scheduled" => "info",
-                          "played" => "success",
-                          "cancelled" => "danger"
-                        }[match.status] %>">
-                        <%= match.status.humanize %>
-                      </span>
-                    </td>
-
-                    <td>
-                      <%= link_to match_path(match), class: "btn btn-sm btn-outline-info me-1" do %>
-                        <i class="fa-solid fa-eye"></i>
-                      <% end %>
-                      <%= link_to edit_match_path(match), class: "btn btn-sm btn-outline-primary me-1" do %>
-                        <i class="fa-solid fa-pen-to-square"></i>
-                      <% end %>
-                      <%= link_to match_path(match), method: :delete, data: { turbo_confirm: "¿Eliminar este partido?" }, class: "btn btn-sm btn-outline-danger" do %>
-                        <i class="fa-solid fa-trash-can"></i>
-                      <% end %>
-                    </td>
-                  </tr>
-                <% end %>
-              </tbody>
-            </table>
-          </div>
+        <% if @tournament_data[:matches].any? %>
+          <%= render partial: "season_teams/matches/match_table", season_team: @tournament_data[:matches] %>
         <% else %>
           <div class="alert alert-info text-center">No hay partidos registrados aún.</div>
-        <% end %>
-
-        <% if @tournament_data[:pagy].pages > 1 %>
-          <div class="d-flex justify-content-center mt-3">
-            <%= pagy_bootstrap_nav(@tournament_data[:pagy]).html_safe %>
-          </div>
         <% end %>
       </turbo-frame>
     </div>
   </div>
 
-  <%= render "season_teams/matches/modal", tournament_data: @tournament_data, season_team: @season_team %>
+    <turbo-frame id="match_modal_frame"></turbo-frame>
 </div>

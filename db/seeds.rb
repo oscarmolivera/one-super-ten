@@ -115,8 +115,5 @@ load Rails.root.join("db/seeds/cups_and_tournaments.rb")
 puts "Seeding SeasonTeams..."
 load Rails.root.join("db/seeds/season_teams.rb")
 
-puts "Seeding Incomes..."
-load Rails.root.join("db/seeds/incomes.rb")
-
-puts "Seeding Expenses..."
-load Rails.root.join("db/seeds/expenses.rb")
+puts "Seeding Matches..."
+load Rails.root.join("db/seeds/matches.rb")
