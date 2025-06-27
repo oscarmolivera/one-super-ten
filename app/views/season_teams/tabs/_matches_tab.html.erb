@@ -19,7 +19,7 @@
     <div class="card-body px-4 py-3">
       <turbo-frame id="matches_list">
         <% if @tournament_data[:matches].any? %>
-          <%= render partial: "season_teams/matches/match_table", season_team: @tournament_data[:matches] %>
+          <%= render partial: "season_teams/matches/match_table", locals: { tournament_data: @tournament_data } %>
         <% else %>
           <div class="alert alert-info text-center">No hay partidos registrados aún.</div>
         <% end %>

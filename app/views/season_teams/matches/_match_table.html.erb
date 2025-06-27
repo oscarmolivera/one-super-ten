@@ -1,7 +1,8 @@
-<div class="table-responsive">
+<div id="matches_table" class="table-responsive">
   <table class="table table-hover table-bordered align-middle text-center">
     <thead class="table-dark text-white">
       <tr>
+        <th>Match ID</th>
         <th>Fecha</th>
         <th>Rival</th>
         <th>Condición</th>
@@ -13,8 +14,9 @@
       </tr>
     </thead>
     <tbody>
-      <% @season_team.matches.order(scheduled_at: :asc).each do |match| %>
+      <% tournament_data[:matches].order(id: :desc).each do |match| %>
         <tr id="<%= dom_id(match) %>">
+          <td><%= match.id %></td>
           <td>
             <% if match.scheduled_at.present? %>
               <%= l(match.scheduled_at, format: :short) %>
@@ -22,46 +24,35 @@
               <span class="text-muted">Sin definir</span>
             <% end %>
           </td>
-
-          <td>
-            <%= match.opponent_name %>
-          </td>
-
+          <td><%= match.opponent_name %></td>
           <td>
             <span class="badge bg-<%= match.plays_as == "home" ? "primary" : "warning" %> text-white">
               <%= match.plays_as == "home" ? "Local" : "Visitante" %>
             </span>
           </td>
-
           <td>
             <span class="badge bg-secondary">
               <%= match.match_type.humanize %>
             </span>
           </td>
-
           <td><%= match.location %></td>
-
           <td>
             <% if match.home_score && match.away_score %>
-              <span class="fw-bold">
-                <%= match.home_score %> - <%= match.away_score %>
-              </span>
+              <span class="fw-bold"><%= match.home_score %> - <%= match.away_score %></span>
             <% else %>
               <span class="text-muted">Pendiente</span>
             <% end %>
           </td>
-
           <td>
             <span class="badge bg-<%= {
-                "created" => "secondary",
-                "scheduled" => "info",
-                "played" => "success",
-                "cancelled" => "danger"
-              }[match.status] %>">
+              "created" => "secondary",
+              "scheduled" => "info",
+              "played" => "success",
+              "cancelled" => "danger"
+            }[match.status] %>">
               <%= match.status.humanize %>
             </span>
           </td>
-
           <td>
             <%= link_to match_path(match), class: "btn btn-sm btn-outline-info me-1" do %>
               <i class="fa-solid fa-eye"></i>

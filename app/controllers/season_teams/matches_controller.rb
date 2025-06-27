@@ -1,8 +1,8 @@
 class SeasonTeams::MatchesController < ApplicationController
   before_action :set_match, only: %i[show update_performances]
+  before_action :set_season_team, only: [:create]
   
   def index
-    authorize @category, :show?
     @category = Category.find(params[:category_id])
     matches = @category.matches.includes(:call_ups).order(scheduled_at: :desc)
     @matches = policy_scope(matches)
@@ -31,35 +31,54 @@ class SeasonTeams::MatchesController < ApplicationController
   end
 
   def create
+    authorize :match, :index?
+    @season_team = SeasonTeam.find(params[:season_team_id])
     @match = Match.new(match_params)
     @match.tenant = ActsAsTenant.current_tenant
-    authorize :match, :index?
-
-
+  
     if @match.save
-      if params[:category_id].present?
-        CallUp.create!(
-          tenant: ActsAsTenant.current_tenant,
-          match: @match,
-          category_id: params[:category_id],
-          name: "Auto CallUp for #{@match.opponent_name}",
-          call_up_date: Time.current
-        )
+      # ✅ Load your fresh tournament data, so you have the matches list
+      service = SeasonTeams::TournamentDataService.new(@season_team, nil, nil)
+      @tournament_data = service.data
+  
+      respond_to do |format|
+        format.turbo_stream do
+          render turbo_stream: turbo_stream.replace(
+            "matches_table",
+            partial: "season_teams/matches/match_table",
+            locals: { tournament_data: @tournament_data }
+          )
+        end
+  
+        format.html do
+          redirect_back fallback_location: tournament_data_season_team_path(@season_team)
+        end
       end
-
-      redirect_to match_path(@match), notice: "Match created successfully."
     else
-      render :new, status: :unprocessable_entity
+      respond_to do |format|
+        format.html do
+          redirect_back fallback_location: tournament_data_season_team_path(@season_team),
+                        alert: "Error saving match."
+        end
+      end
     end
   end
 
   private
 
   def match_params
-    params.require(:match).permit(:opponent_name, :location, :scheduled_at, :match_type, :tournament_id, :home_score, :away_score, :notes)
+    params.require(:match).permit(
+      :tenant_id, :tournament_id, :team_of_interest_id, :rival_season_team_id, 
+      :rival_id, :plays_as, :match_type, :location, :location_type, :status, 
+      :scheduled_at, :home_score, :away_score, :notes, 
+    )
   end
 
   def set_match
     @match = Match.find(params[:id])
+  end
+
+  def set_season_team
+    @season_team = SeasonTeam.find(params[:season_team_id])
   end
 end

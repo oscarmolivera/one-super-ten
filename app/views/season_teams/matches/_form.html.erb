@@ -3,8 +3,28 @@
               data: { turbo_frame: "new_match_form" },
               html: { multipart: true }) do |f| %>
   <div class="card shadow-sm border-0">
-
-
+    <div class="card-body">
+      <div class="row g-3">
+        <div class="col-12">
+          <%= f.label :plays_as, "Selecciona condición de juego", class: "form-label d-block" %>
+          <div class="form-check form-check-inline">
+            <%= f.radio_button :plays_as, 'home', class: "form-check-input", id: "play_home", data: { match_form_target: "homeRadio" } %>
+            <%= f.label :plays_as, "Jugar como Local", value: 'home', class: "form-check-label", for: "play_home" %>
+          </div>
+          <div class="form-check form-check-inline">
+            <%= f.radio_button :plays_as, 'away', class: "form-check-input", id: "play_away" %>
+            <%= f.label :plays_as, "Jugar como Visitante", value: 'away', class: "form-check-label", for: "play_away" %>
+            <%= f.hidden_field :tournament_id, value: 29 %>
+            <%= f.hidden_field :team_of_interest_id, value: 170 %>
+            <%= f.hidden_field :rival_id, value: 1706 %>
+            <%= f.hidden_field :match_type, value: 'tournament' %>
+            <%= f.hidden_field :status, value: 'created'%>
+            <%= f.hidden_field :location, value: 'Location Place
+            '%>
+          </div>
+        </div>
+      </div>
+    </div>
     <div class="card-footer text-end">
       <%= f.submit "Guardar Partido", class: "btn btn-primary" %>
     </div>
