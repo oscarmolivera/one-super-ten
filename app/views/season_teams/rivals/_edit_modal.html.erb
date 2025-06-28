@@ -32,6 +32,11 @@
             <%= f.file_field :team_logo, class: "form-control" %>
           </div>
 
+          <div class="mb-3">
+            <%= f.check_box :is_favorite, class: "form-check-input", id: "rival_is_favorite_#{rival.id}" %>
+            <%= f.label :is_favorite, "Favorito?", for: "rival_is_favorite_#{rival.id}", class: "form-check-label" %>
+          </div>
+
           <div class="text-end">
             <%= f.submit "Actualizar", class: "btn btn-primary" %>
           </div>

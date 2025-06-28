@@ -15,8 +15,7 @@ academia_coaches = User.where(tenant: academia).select {|u| u.has_role?(:coach, 
 user = User.find(2)
 logos_id = %W[1 2 3 4 5 6 7 8]
 @positions = %W[ portero defensa defensa defensa defensa mediocampo mediocampo mediocampo mediocampo mediocampo lateral lateral lateral lateral delantero delantero delantero]
-dice = [true, true, true, false, true, true, true, true, true, true,true, true, true, true, false, true, true, true, true, true]
-number_teams = [5, 7, 9, 11, 15, 23, 35,]
+number_teams = [3, 5, 7, 9, 11]
 
 def player_hash(season_team)
   jersey_numbers = {}
@@ -57,7 +56,6 @@ tenant_all_tournaments.each do |tournament|
 
     Inscriptions::AssignPlayersToSeasonTeamService.new(season_team, player_hash(season_team)).call
 
-    fav = dice.sample ? false : true
     number_teams.sample.times do |i|
       logo_file = "rival-logo-#{logos_id.sample}.png"
       rival = Rival.create(
@@ -65,7 +63,7 @@ tenant_all_tournaments.each do |tournament|
         name: [Faker::App.name, Faker::Bank.name, Faker::Beer.name, "#{Faker::Adjective.positive} F.C."].sample.capitalize,
         location: [Faker::Address.state, Faker::Commerce.material, Faker::Hipster.words.first].sample.capitalize,
         active: true,
-        is_favorite: fav
+        is_favorite: false
       ).tap do |rival|
         rival.team_logo.attach(
           io: File.open(Rails.root.join("app/assets/images/#{logo_file}")),

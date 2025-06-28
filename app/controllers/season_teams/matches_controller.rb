@@ -36,30 +36,15 @@ class SeasonTeams::MatchesController < ApplicationController
     @match = Match.new(match_params)
     @match.tenant = ActsAsTenant.current_tenant
   
-    if @match.save
-      # ✅ Load your fresh tournament data, so you have the matches list
-      service = SeasonTeams::TournamentDataService.new(@season_team, nil, nil)
-      @tournament_data = service.data
+    respond_to do |format|
+      if @match.save
+        @tournament_data = SeasonTeams::TournamentDataService.new(@season_team, nil, nil).data
   
-      respond_to do |format|
-        format.turbo_stream do
-          render turbo_stream: turbo_stream.replace(
-            "matches_table",
-            partial: "season_teams/matches/match_table",
-            locals: { tournament_data: @tournament_data }
-          )
-        end
-  
-        format.html do
-          redirect_back fallback_location: tournament_data_season_team_path(@season_team)
-        end
-      end
-    else
-      respond_to do |format|
-        format.html do
-          redirect_back fallback_location: tournament_data_season_team_path(@season_team),
-                        alert: "Error saving match."
-        end
+        format.turbo_stream
+        format.html { redirect_back fallback_location: tournament_data_season_team_path(@season_team), notice: "Partido creado." }
+      else
+        format.turbo_stream
+        format.html { redirect_back fallback_location: tournament_data_season_team_path(@season_team), alert: "Error al crear partido." }
       end
     end
   end

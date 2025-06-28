@@ -6,10 +6,10 @@
       partial: "season_teams/rivals/form",
       locals:  { rival: Rival.new, season_team: @season_team } %>
 
-<%= turbo_stream.update "modal_control" do %>
-  <turbo-frame id="modal_frame"
-               data-controller="modal-close"
-               data-action="turbo:frame-load->modal-close#close"
-               data-modal-close-selector-value="#rivalModal">
+<%= turbo_stream.append "modal_control" do %>
+  <turbo-frame>
+    <script>
+      window.closeRivalModal && window.closeRivalModal()
+    </script>
   </turbo-frame>
 <% end %>

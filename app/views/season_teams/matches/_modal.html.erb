@@ -15,4 +15,16 @@
       </div>
     </div>
   </div>
+  <script type="module">
+
+    const modalEl = document.querySelector('#matchModal')
+    const modal = new bootstrap.Modal(modalEl)
+    console.log('ok')
+    modal.show()
+
+    window.closeMatchModal = () => {
+      console.log('close')
+      modal.hide()
+    }
+  </script>
 </turbo-frame>

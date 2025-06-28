@@ -49,4 +49,11 @@
       </div>
     </div>
   </div>
+  <script type="module">
+    const modalEl = document.querySelector('#rivalModal')
+    const modal = new bootstrap.Modal(modalEl)
+    modal.show()
+
+    window.closeRivalModal = () => { modal.hide() }
+  </script>
 </turbo-frame>

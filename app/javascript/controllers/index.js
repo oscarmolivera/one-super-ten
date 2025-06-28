@@ -31,9 +31,6 @@ application.register("lazy-loader", LazyLoaderController)
 import MatchFormController from "./match_form_controller"
 application.register("match-form", MatchFormController)
 
-import ModalCloseController from "./modal_close_controller"
-application.register("modal-close", ModalCloseController)
-
 import ModalLoaderController from "./modal_loader_controller"
 application.register("modal-loader", ModalLoaderController)
 
