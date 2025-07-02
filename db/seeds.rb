@@ -63,6 +63,9 @@ td_dep.add_role_with_tenant(:team_assistant, deportivo)
 load Rails.root.join("db/seeds/players.rb")
 
 puts "Seeding Coachs..."
+CoachProfile.create!( user: co_aca, hire_date: rand(2..5).years.ago, salary: rand(1500..3000))
+CoachProfile.create!( user: co_dep, hire_date: rand(2..5).years.ago, salary: rand(1500..3000))
+
 # Create demo Coaches
 10.times do |i|
   coach_name = Faker::Name.first_name_men
@@ -105,6 +108,7 @@ CoachProfile.all.each do |coach_profile|
     AssistantAssignment.create!(coach: coach, assistant: assistant)
   end
 end
+
 
 puts "Seeding ExternalPlayers..."
 load Rails.root.join("db/seeds/external_players.rb")

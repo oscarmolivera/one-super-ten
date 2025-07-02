@@ -15,8 +15,8 @@ class CreateMatches < ActiveRecord::Migration[8.0]
       t.integer :location_type, null: false, default: 0  # enum: :home, :away, :neutral
       t.integer :status, default: 0  # enum: :scheduled, :played, :cancelled
       t.datetime :scheduled_at
-      t.integer :home_score
-      t.integer :away_score
+      t.integer :team_score
+      t.integer :rival_score
       t.text :notes
 
       t.timestamps

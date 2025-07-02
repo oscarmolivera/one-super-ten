@@ -8,12 +8,12 @@ class Tournament < ApplicationRecord
   has_many :tournament_categories, dependent: :destroy
   has_many :categories, through: :tournament_categories
   
+  has_many :stages
   has_many :matches, dependent: :destroy
-  has_many :sites, through: :matches # Assuming matches happen at sites
+  has_many :sites, through: :matches
 
-  has_rich_text :rules # For formatted rules text
-  has_one_attached :poster # Optional image or PDF
-
+  has_rich_text :rules
+  
   delegate :school, to: :cup, allow_nil: true
 
   enum :status, { draft: 0, published: 1, ongoing: 2, completed: 3 }

@@ -37,8 +37,8 @@
           </td>
           <td><%= match.location %></td>
           <td>
-            <% if match.home_score && match.away_score %>
-              <span class="fw-bold"><%= match.home_score %> - <%= match.away_score %></span>
+            <% if match.team_score && match.rival_score %>
+              <span class="fw-bold"><%= match.team_score %> - <%= match.rival_score %></span>
             <% else %>
               <span class="text-muted">Pendiente</span>
             <% end %>

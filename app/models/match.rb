@@ -2,6 +2,7 @@ class Match < ApplicationRecord
   acts_as_tenant(:tenant)
 
   belongs_to :tournament
+  belongs_to :stage, optional: true 
   belongs_to :team_of_interest, class_name: 'SeasonTeam'
   belongs_to :rival_season_team, class_name: 'SeasonTeam', optional: true
   belongs_to :rival, optional: true

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_06_14_170604) do
+ActiveRecord::Schema[8.0].define(version: 2025_07_02_121012) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -344,13 +344,15 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_14_170604) do
     t.integer "location_type", default: 0, null: false
     t.integer "status", default: 0
     t.datetime "scheduled_at"
-    t.integer "home_score"
-    t.integer "away_score"
+    t.integer "team_score"
+    t.integer "rival_score"
     t.text "notes"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "stage_id", null: false
     t.index ["rival_id"], name: "index_matches_on_rival_id"
     t.index ["rival_season_team_id"], name: "index_matches_on_rival_season_team_id"
+    t.index ["stage_id"], name: "index_matches_on_stage_id"
     t.index ["team_of_interest_id"], name: "index_matches_on_team_of_interest_id"
     t.index ["tenant_id"], name: "index_matches_on_tenant_id"
     t.index ["tournament_id"], name: "index_matches_on_tournament_id"
@@ -545,6 +547,18 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_14_170604) do
     t.index ["key_hash"], name: "index_solid_cache_entries_on_key_hash", unique: true
   end
 
+  create_table "stages", force: :cascade do |t|
+    t.bigint "tournament_id", null: false
+    t.bigint "season_team_id", null: false
+    t.string "name"
+    t.integer "stage_type"
+    t.integer "order"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["season_team_id"], name: "index_stages_on_season_team_id"
+    t.index ["tournament_id"], name: "index_stages_on_tournament_id"
+  end
+
   create_table "tenants", force: :cascade do |t|
     t.string "name"
     t.string "subdomain"
@@ -680,6 +694,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_14_170604) do
   add_foreign_key "matches", "rivals"
   add_foreign_key "matches", "season_teams", column: "rival_season_team_id"
   add_foreign_key "matches", "season_teams", column: "team_of_interest_id"
+  add_foreign_key "matches", "stages"
   add_foreign_key "matches", "tenants"
   add_foreign_key "matches", "tournaments"
   add_foreign_key "player_profiles", "players"
@@ -709,6 +724,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_14_170604) do
   add_foreign_key "season_teams", "users", column: "created_by_id"
   add_foreign_key "season_teams", "users", column: "team_assistant_id"
   add_foreign_key "sites", "schools"
+  add_foreign_key "stages", "season_teams"
+  add_foreign_key "stages", "tournaments"
   add_foreign_key "tenants", "tenants", column: "parent_tenant_id"
   add_foreign_key "tournament_categories", "categories"
   add_foreign_key "tournament_categories", "tournaments"

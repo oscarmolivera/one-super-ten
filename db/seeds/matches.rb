@@ -3,6 +3,15 @@ ActiveRecord::Base.connection.reset_pk_sequence!('matches')
 
 academia = Tenant.find(2)
 SeasonTeam.all.each_with_index do |st, index|
+
+  stage = Stage.create(
+    tournament_id: st.tournament.id,
+    season_team_id: st.id,
+    name: 'first phase',
+    stage_type: 0,
+    order: 1
+  )
+
   st.rivals.each do |rival|
     match = Match.new
     match.update(
@@ -15,7 +24,8 @@ SeasonTeam.all.each_with_index do |st, index|
       location: "#{Faker::Address.city}",
       location_type: [0, 1, 2].sample,
       status: 0,
-      scheduled_at: Date.today + rand(1..60).days
+      scheduled_at: Date.today + rand(1..60).days,
+      stage_id: stage.id
     )
   end
   puts "SeasonTeam #{index}/ de #{SeasonTeam.all.count-1}"
