@@ -15,7 +15,7 @@ module SeasonTeams
         coach: @season_team.coach,
         assistant: @season_team.assistant_coach,
         team_assistant: @season_team.team_assistant,
-        matches: @season_team.matches,
+        matches: @season_team.matches.ordered_by_status_and_schedule,
         favorite_rivals: Rival.tenant_favorites,
         pagy: @pagy,
         rivals: @rivals

@@ -2,6 +2,7 @@ Match.delete_all
 ActiveRecord::Base.connection.reset_pk_sequence!('matches')
 
 academia = Tenant.find(2)
+dice = [true, true, false, true]
 SeasonTeam.all.each_with_index do |st, index|
 
   stage = Stage.create(
@@ -13,6 +14,7 @@ SeasonTeam.all.each_with_index do |st, index|
   )
 
   st.rivals.each do |rival|
+    date = dice.sample ? DateTime.now + rand(1..60).days : nil
     match = Match.new
     match.update(
       tenant: academia,
@@ -23,8 +25,9 @@ SeasonTeam.all.each_with_index do |st, index|
       match_type: 1,
       location: "#{Faker::Address.city}",
       location_type: [0, 1, 2].sample,
-      status: 0,
-      scheduled_at: Date.today + rand(1..60).days,
+      status: date.present? ? 1 : 0,
+      scheduled_at: date,
+      referee: dice.sample ? Faker::Name.name : nil,
       stage_id: stage.id
     )
   end

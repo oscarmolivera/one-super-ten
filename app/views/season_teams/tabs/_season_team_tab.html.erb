@@ -35,13 +35,13 @@
                           <% categoria = st_player_category(st_player) %>
                           <% if categoria.present? %>
                             <span class="<%= badge_class_for(origin)%>">
-                              <div><small><%= st_list_lable(st_player) %></small> </div>
+                              <div><small><%= st_list_label(st_player) %></small> </div>
                               <div><strong><%= categoria %></strong></div>
                             </span>
                           <% else %>
                             <span class="<%= badge_class_for(origin)%>">
-                              <div><small><%= st_list_lable(st_player) %></small> </div>
-                              <div><strong><%= st_player_origin_lable(st_player) %></strong></div>
+                              <div><small><%= st_list_label(st_player) %></small> </div>
+                              <div><strong><%= st_player_origin_label(st_player) %></strong></div>
                             </span>
                           <% end %>
                         </div>

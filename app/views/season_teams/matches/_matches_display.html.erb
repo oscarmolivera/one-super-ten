@@ -1,0 +1,58 @@
+<% tournament_data[:matches].order(id: :desc).each do |match| %>
+  <div class="row">
+    <div class="col-md-5">
+      <div class="container">
+        <!-- Bootstrap Card -->
+        <div class="card shadow">
+          <!-- Card Header -->
+          <div class="card-header d-flex justify-content-between align-items-center">
+            <div class="badge bg-danger"> <%= match_stage(match.stage.name)%></div>
+            <div class="d-flex align-items-center">
+              <%= image_tag 'vendor/stadium.svg', class: 'avatar-lg px-md-5', alt: '...' %>
+              <%= match.location %>
+            </div>
+            <div class="ms-auto">
+              <%= display_plays_as_badge(match)  %>
+              <%= display_status_badge(match.status)%>
+            </div>
+          </div>
+
+          <!-- Card Body -->
+          <div class="card-body">
+            <div class="row text-center align-items-center">
+              <!-- Home Team -->
+              <div class="col-4">
+                <%= display_home_team_logo_and_name(match) %>
+              </div>
+
+              <!-- Match Details -->
+              <div class="col-4">
+                <%= display_match_schedule(match) %>
+                <div class="h1">
+                  <%= display_match_result(match) %>
+                </div>
+                <div class="text-warning fw-bold">72'</div>
+                <div class="text-muted small mt-2">
+                  Arbitro: <strong><%= match.referee.present? ? match.referee : "Agregar" %></strong>
+                </div>
+                <div class="d-flex justify-content-center gap-2 my-2">
+                  <button class="btn btn-outline-secondary btn-sm">1.48</button>
+                  <button class="btn btn-outline-secondary btn-sm">4.98</button>
+                  <button class="btn btn-outline-secondary btn-sm">8.24</button>
+                </div>
+                <button class="btn btn-primary btn-sm">See Details</button>
+              </div>
+
+              <!-- Away Team -->
+              <div class="col-4">
+                <%= display_away_team_logo_and_name(match) %>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- End Bootstrap Card -->
+      </div>
+    </div>
+    <div class="col-md-7"></div>
+  </div>
+<% end %>

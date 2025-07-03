@@ -349,6 +349,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_02_121012) do
     t.text "notes"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "referee"
     t.bigint "stage_id", null: false
     t.index ["rival_id"], name: "index_matches_on_rival_id"
     t.index ["rival_season_team_id"], name: "index_matches_on_rival_season_team_id"
