@@ -19,7 +19,9 @@
         <% if @tournament_data[:matches].any? %>
           <%= render partial: "season_teams/matches/matches_display", locals: { tournament_data: @tournament_data } %>
         <% else %>
-          <div class="alert alert-info text-center">No hay partidos registrados aún.</div>
+          <div id="matches_display">
+            <div class="alert alert-info text-center">No hay partidos registrados aún.</div>
+          </div>
         <% end %>
       </turbo-frame>
     </div>

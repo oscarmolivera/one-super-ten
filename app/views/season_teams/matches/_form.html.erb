@@ -54,6 +54,7 @@
       </div>
     </div>
     <div class="card-footer text-end">
+      <%= f.hidden_field :stage_id, value: season_team.stages.last.id %>
       <%= f.hidden_field :tournament_id, value: season_team.tournament_id %>
       <%= f.hidden_field :team_of_interest_id, value: season_team.id %>
 

@@ -49,7 +49,7 @@ class SeasonTeamsController < ApplicationController
     @rival = Rival.new
   
     @season_team = SeasonTeam
-      .includes(:category, :coach, :assistant_coach, :team_assistant, tournament: :cup)
+      .includes(:category, :coach, :assistant_coach, :team_assistant, :stages, tournament: :cup)
       .find(params[:id])
 
     begin

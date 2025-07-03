@@ -7,6 +7,8 @@ class SeasonTeam < ApplicationRecord
   belongs_to :assistant_coach, class_name: 'User', optional: true
   belongs_to :team_assistant, class_name: 'User', optional: true
 
+  has_many :stages
+
   has_many :season_team_players, dependent: :destroy
   has_many :players, through: :season_team_players
 

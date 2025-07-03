@@ -32,6 +32,7 @@ module Inscriptions
 
         if @inscription.save
           AssignPlayersToSeasonTeamService.new(@inscription.season_team, @params).call
+          set_season_team_stage(@inscription.season_team)
         end
       end
 
@@ -39,6 +40,18 @@ module Inscriptions
     rescue ActiveRecord::RecordInvalid => e
       Rails.logger.error("Inscription creation failed: #{e.message}")
       nil
+    end
+
+    def set_season_team_stage(season_team)
+      ActiveRecord::Base.transaction do
+        Stage.create(
+          tournament_id: season_team.tournament.id,
+          season_team_id: season_team.id,
+          name: 'first phase',
+          stage_type: 0,
+          order: 1
+        )
+      end
     end
   end
 end

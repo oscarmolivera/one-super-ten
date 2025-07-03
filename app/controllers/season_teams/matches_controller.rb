@@ -55,7 +55,7 @@ class SeasonTeams::MatchesController < ApplicationController
     params.require(:match).permit(
       :tenant_id, :tournament_id, :team_of_interest_id, :rival_season_team_id, 
       :rival_id, :plays_as, :match_type, :location, :location_type, :status, 
-      :referee, :scheduled_at, :team_score, :rival_score, :notes, 
+      :stage_id, :referee, :scheduled_at, :team_score, :rival_score, :notes, 
     )
   end
 

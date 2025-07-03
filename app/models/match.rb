@@ -18,6 +18,8 @@ class Match < ApplicationRecord
   enum :location_type, {home_field: 0, away_field: 1, neutral: 2 }
   enum :status, { created: 0, scheduled: 1, played: 2, cancelled: 3, reschedule: 4, postponed: 5 }
 
+  before_validation :set_match_status
+
   validates :match_type, :plays_as, presence: true
 
   scope :ordered_by_status_and_schedule, -> {
@@ -45,5 +47,11 @@ class Match < ApplicationRecord
 
   def away_team_name
     plays_as == "away" ? team_of_interest.name : opponent_name
+  end
+
+  private
+
+  def set_match_status
+    scheduled_at.present? ? self.status = :scheduled : self.status = :created
   end
 end

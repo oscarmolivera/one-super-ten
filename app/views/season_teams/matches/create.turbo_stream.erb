@@ -1,5 +1,5 @@
-<%= turbo_stream.replace "matches_table",
-      partial: "season_teams/matches/match_table",
+<%= turbo_stream.replace "matches_display",
+      partial: "season_teams/matches/matches_display",
       locals: { tournament_data: @tournament_data } %>
 
 <%= turbo_stream.append "modal_control" do %>
