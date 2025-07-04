@@ -45,8 +45,12 @@ class SeasonTeams::RivalsController < ApplicationController
           render turbo_stream: [
             turbo_stream.replace("rival_flash", partial: "shared/flash_stream", locals: { message: "Rival actualizado", kind: :success }),
             turbo_stream.replace(view_context.dom_id(@rival), partial: "season_teams/rivals/rival", locals: { rival: @rival }),
-            turbo_stream.append("turbo_stream_events", partial: "shared/close_modal", locals: { modal_id: "editRivalModalContent-#{@rival.id}", frame_id: "editRivalModal-#{@rival.id}" }),
-            turbo_stream.remove("editRivalModal-#{@rival.id}")
+            turbo_stream.append(
+              "turbo_stream_events", 
+              partial: "shared/close_modal", 
+              locals: { modal_id: "editRivalModalContent-#{@rival.id}", 
+              frame_id: "editRivalModal-#{@rival.id}" }
+            ),
           ]
         end
         format.html { redirect_to tournament_data_season_team_path(@season_team), notice: "Rival actualizado." }
