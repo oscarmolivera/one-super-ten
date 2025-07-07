@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_07_02_121012) do
+ActiveRecord::Schema[8.0].define(version: 2025_07_07_124632) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -114,6 +114,16 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_02_121012) do
     t.index ["category_id"], name: "index_category_players_on_category_id"
     t.index ["player_id", "category_id"], name: "index_category_players_on_player_id_and_category_id", unique: true
     t.index ["player_id"], name: "index_category_players_on_player_id"
+  end
+
+  create_table "category_rules", force: :cascade do |t|
+    t.bigint "category_id", null: false
+    t.string "key", null: false
+    t.string "value", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["category_id", "key"], name: "index_category_rules_on_category_id_and_key", unique: true
+    t.index ["category_id"], name: "index_category_rules_on_category_id"
   end
 
   create_table "category_team_assistants", force: :cascade do |t|
@@ -661,6 +671,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_02_121012) do
   add_foreign_key "category_coaches", "users"
   add_foreign_key "category_players", "categories"
   add_foreign_key "category_players", "players"
+  add_foreign_key "category_rules", "categories"
   add_foreign_key "category_team_assistants", "categories"
   add_foreign_key "category_team_assistants", "users"
   add_foreign_key "coach_profiles", "users"

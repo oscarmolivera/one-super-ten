@@ -7,6 +7,9 @@ import { application } from "./application"
 import CategoriesController from "./categories_controller"
 application.register("categories", CategoriesController)
 
+import CategoryRulesController from "./category_rules_controller"
+application.register("category-rules", CategoryRulesController)
+
 import ClickableRowController from "./clickable_row_controller"
 application.register("clickable-row", ClickableRowController)
 

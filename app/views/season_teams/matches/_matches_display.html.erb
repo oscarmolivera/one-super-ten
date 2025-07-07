@@ -32,7 +32,7 @@
                   <div class="h1">
                     <%= display_match_result(match) %>
                   </div>
-                  <div class="text-warning fw-bold">72'</div>
+                  <div class="text-warning fw-bold"><%= tournament_data[:category].rule_value(:category_match_duration) %> minutos</div>
                   <div class="text-muted small mt-2">
                     Arbitro: <strong><%= match.referee.present? ? match.referee : "Agregar" %></strong>
                   </div>
