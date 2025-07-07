@@ -31,8 +31,6 @@ export default class extends Controller {
   }
 
   selectAllCheckboxes(event) {
-    console.log("Toggle all checkboxes")
-    console.log(event.target.checked)
     const check = event.target.checked
     this.checkboxTargets.forEach(cb => cb.checked = check)
   }

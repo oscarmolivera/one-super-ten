@@ -6,12 +6,10 @@
       partial: "season_teams/rivals/form",
       locals:  { rival: Rival.new, season_team: @season_team } %>
 
-<%= turbo_stream.append "turbo_stream_events" do %>
-  <template>
+<%= turbo_stream.append "modal_control" do %>
+  <turbo-frame>
     <script>
-      const modalEl = document.getElementById("rivalModal");
-      const modal = bootstrap.Modal.getInstance(modalEl);
-      if (modal) { modal.hide(); }
+      window.closeRivalModal && window.closeRivalModal()
     </script>
-  </template>
+  </turbo-frame>
 <% end %>
