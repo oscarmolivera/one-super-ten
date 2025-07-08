@@ -225,6 +225,6 @@ module SeasonTeamsHelper
   end
 
   def match_stage(stage)
-    return "Primera Ronda" if stage == 'first phase'
+    return "Primera Ronda" if stage.name == 'first phase'
   end
 end
