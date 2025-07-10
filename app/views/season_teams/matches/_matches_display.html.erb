@@ -37,7 +37,14 @@
                     Arbitro: <strong><%= match.referee.present? ? match.referee : "Agregar" %></strong>
                   </div>
                   <div class="d-flex justify-content-center gap-2 my-2">
-                    <button class="btn btn-outline-secondary btn-sm">1.48</button>
+                    <button type="button"
+                            class="btn btn-outline-primary btn-sm"
+                            data-controller="modal-loader"
+                            data-action="click->modal-loader#load"
+                            data-modal-loader-url-value="<%= edit_match_modal_season_team_path(@season_team, match_id: match.id) %>"
+                            data-modal-loader-target-frame-value="#match_modal_frame">
+                      <i class="bi bi-pencil-square me-1"></i> Editar
+                    </button>
                     <button class="btn btn-outline-secondary btn-sm">4.98</button>
                     <button class="btn btn-outline-secondary btn-sm">8.24</button>
                   </div>

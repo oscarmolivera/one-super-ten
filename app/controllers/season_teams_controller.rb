@@ -1,6 +1,6 @@
 class SeasonTeamsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_season_team, only: %i[show edit update destroy upload_regulations lazy_rival_modal favorite_rivals matches_modal]
+  before_action :set_season_team, only: %i[show edit update destroy upload_regulations lazy_rival_modal favorite_rivals matches_modal edit_match_modal]
   before_action :authorize_season_team, except: %i[index new create public_actives tournament_data]
 
   def index
@@ -90,7 +90,18 @@ class SeasonTeamsController < ApplicationController
   end
 
   def matches_modal
-    render partial: "season_teams/matches/modal"
+    @season_team = SeasonTeam.find(params[:id])
+    @match = @season_team.matches.new
+  
+    render partial: "season_teams/matches/modal",
+           locals: { match: @match, season_team: @season_team }
+  end
+
+  def edit_match_modal
+    @season_team  = SeasonTeam.find(params[:id])
+    @match = @season_team.matches.find(params[:match_id])
+  
+    render partial: "season_teams/matches/modal", locals: { match: @match }
   end
 
   def public_actives

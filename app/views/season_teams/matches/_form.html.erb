@@ -1,7 +1,9 @@
-<%= form_with(model: match,
-              url: season_team_matches_path(season_team),
-              data: { turbo_frame: "new_match_form" },
-              html: { multipart: true }) do |f| %>
+<%= form_with( model: match,
+                url: match.new_record? ? season_team_matches_path(season_team) : match_path(match),
+                method: match.new_record? ? :post : :patch,
+                data: { turbo_frame: "new_match_form" },
+                html: { multipart: true }
+              ) do |f| %>
 
   <div class="card shadow border-0">
     <!-- Card Header -->

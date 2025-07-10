@@ -40,6 +40,10 @@ class SeasonTeamPolicy < ApplicationPolicy
     index?
   end
 
+  def edit_match_modal?
+    index?
+  end
+
   def favorite_rivals?
     index?
   end
