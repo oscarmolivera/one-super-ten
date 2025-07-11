@@ -60,7 +60,9 @@ Rails.application.routes.draw do
           get :matches_modal
           get :edit_match_modal
         end
-        resources :matches, controller: "season_teams/matches", shallow: true
+        resources :matches, controller: "season_teams/matches", shallow: true do
+          resources :call_ups, only: [:new, :create, :edit, :update], shallow: true
+        end
         resources :rivals, controller: "season_teams/rivals", except: [:index, :show], shallow: true
         collection do
           get :public_actives
@@ -71,7 +73,11 @@ Rails.application.routes.draw do
           resources :inscriptions
         end
       end
-      resources :call_ups, only: [:new, :create, :edit, :update]
+      resources :call_ups, only: [:new, :create, :edit, :update] do
+        member do
+          delete :cleanup
+        end
+      end
       resources :matches, only: [:new, :create, :show, :index, :update] do
         resources :line_ups, only: [:index, :new, :create, :edit, :update ]
         resources :match_reports

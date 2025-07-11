@@ -4,6 +4,9 @@
 
 import { application } from "./application"
 
+import CallUpCleanerController from "./call_up_cleaner_controller"
+application.register("call-up-cleaner", CallUpCleanerController)
+
 import CategoriesController from "./categories_controller"
 application.register("categories", CategoriesController)
 
@@ -18,6 +21,9 @@ application.register("edit-toggle", EditToggleController)
 
 import ExternalPlayerController from "./external_player_controller"
 application.register("external-player", ExternalPlayerController)
+
+import FrameCloserController from "./frame_closer_controller"
+application.register("frame-closer", FrameCloserController)
 
 import HandlePreviewController from "./handle_preview_controller"
 application.register("handle-preview", HandlePreviewController)
@@ -48,3 +54,6 @@ application.register("school-tab", SchoolTabController)
 
 import SchoolTogglesController from "./school_toggles_controller"
 application.register("school-toggles", SchoolTogglesController)
+
+import TurboLoaderController from "./turbo_loader_controller"
+application.register("turbo-loader", TurboLoaderController)

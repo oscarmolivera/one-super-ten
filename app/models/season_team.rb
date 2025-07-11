@@ -25,4 +25,8 @@ class SeasonTeam < ApplicationRecord
 
   validates :name, presence: true
   validates :category_id, uniqueness: { scope: :tournament_id }
+
+  def all_players_for_call_up
+    season_team_players.includes(:player)
+  end
 end

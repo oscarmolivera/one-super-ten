@@ -7,11 +7,12 @@ class Match < ApplicationRecord
   belongs_to :rival_season_team, class_name: 'SeasonTeam', optional: true
   belongs_to :rival, optional: true
 
-  has_many :call_ups, dependent: :destroy
   has_many :categories, through: :call_ups
   has_many :line_ups, dependent: :destroy
   has_many :match_reports, dependent: :destroy
   has_many :match_performances, dependent: :destroy
+  
+  has_one :call_up, dependent: :destroy
 
   enum :match_type, { friendly: 0, tournament: 1, practice: 2 }
   enum :plays_as, { home: 0, away: 1 }

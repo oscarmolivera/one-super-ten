@@ -45,7 +45,17 @@
                             data-modal-loader-target-frame-value="#match_modal_frame">
                       <i class="bi bi-pencil-square me-1"></i> Editar
                     </button>
-                    <button class="btn btn-outline-secondary btn-sm">4.98</button>
+                    <button type="button"
+                            id="call_up_button_<%= match.id %>"
+                            class="btn btn-outline-primary btn-sm"
+                            data-controller="turbo-loader"
+                            data-action="click->turbo-loader#load"
+                            data-turbo-loader-url-value="<%= edit_or_new_call_up_url(match) %>"
+                            data-turbo-loader-frame-value="call_up_frame_<%= match.id %>"
+                            data-turbo-loader-button-id-value="call_up_button_<%= match.id %>">
+                      <i class="bi bi-people-fill me-1"></i>
+                      <%= match.call_up.present? ? "Editar Convocatoria" : "Crear Convocatoria" %>
+                    </button>
                     <button class="btn btn-outline-secondary btn-sm">8.24</button>
                   </div>
                   <button class="btn btn-primary btn-sm">See Details</button>
@@ -61,7 +71,21 @@
           <!-- End Bootstrap Card -->
         </div>
       </div>
-      <div class="col-md-7"></div>
+      <div class="col-md-7">
+        <turbo-frame id="call_up_frame_<%= match.id %>"
+                    data-controller="frame-closer call-up-cleaner"
+                    <% if match.call_up.present? %>
+                      data-call-up-cleaner-call-up-id-value="<%= match.call_up.id %>"
+                      data-call-up-cleaner-button-id-value="call_up_button_<%= match.id %>"
+                    <% end %>>
+        </turbo-frame>
+      </div>
     </div>
   <% end %>
 </div>
+<style>
+  .fadeOut {
+    opacity: 0;
+    transition: opacity 0.3s ease-out;
+  }
+</style>
