@@ -66,14 +66,16 @@ class CallUpsController < ApplicationController
     end
 
     if @call_up.update(call_up_params.except(:player_ids, :call_up_date))
-      redirect_to match_path(@call_up.match), notice: "Convocatoria actualizada."
+      respond_to do |format|
+        format.turbo_stream # <- will render update.turbo_stream.erb automatically
+        format.html { redirect_to match_path(@call_up.match), notice: "Convocatoria actualizada." }
+      end
     else
       render :edit, status: :unprocessable_entity
     end
   end
 
   def cleanup
-    puts " ...PARAMS....... --->>>#{params.inspect}<<<--- .........."
     @call_up = CallUp.find(params[:id])
     authorize :call_up, :index?
 

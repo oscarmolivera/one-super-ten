@@ -7,6 +7,9 @@ import { application } from "./application"
 import CallUpCleanerController from "./call_up_cleaner_controller"
 application.register("call-up-cleaner", CallUpCleanerController)
 
+import CallUpSelectorController from "./call_up_selector_controller"
+application.register("call-up-selector", CallUpSelectorController)
+
 import CategoriesController from "./categories_controller"
 application.register("categories", CategoriesController)
 

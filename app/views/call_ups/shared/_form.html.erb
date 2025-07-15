@@ -19,7 +19,7 @@
         <%= date_field_tag :call_up_date_only,
                           call_up.call_up_date&.to_date,
                           class: "form-control",
-                          readonly: true %>
+                          readonly: true, disabled: true%>
       </div>
 
       <div class="col-md-6">
@@ -32,14 +32,25 @@
     </div>
 
     <% if @season_team_players.any? %>
-      <div class="mb-3">
+      <div class="mb-3" data-controller="call-up-selector">
         <%= f.label :player_ids, "Jugadores Convocados" %>
-        <%= f.collection_check_boxes :player_ids, @season_team_players, :player_id, ->(stp) { stp.player&.full_name } do |b| %>
-          <div class="form-check">
-            <%= b.check_box class: "form-check-input" %>
-            <%= b.label class: "form-check-label" %>
-          </div>
-        <% end %>
+
+        <div class="mb-2">
+          <button type="button"
+                  class="btn btn-sm btn-outline-secondary"
+                  data-action="click->call-up-selector#selectAll">
+            Seleccionar Todos
+          </button>
+        </div>
+
+        <div data-call-up-selector-target="checkboxes">
+          <%= f.collection_check_boxes :player_ids, @season_team_players, :player_id, ->(stp) { stp.player&.full_name } do |b| %>
+            <div class="form-check">
+              <%= b.check_box class: "form-check-input" %>
+              <%= b.label class: "form-check-label" %>
+            </div>
+          <% end %>
+        </div>
       </div>
     <% else %>
       <div class="alert alert-info">No hay jugadores disponibles.</div>
