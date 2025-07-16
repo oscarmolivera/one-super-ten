@@ -7,7 +7,7 @@
 <%= turbo_stream.replace "call_up_button_#{@call_up.match.id}" do %>
   <button type="button"
           id="call_up_button_<%= @call_up.match.id %>"
-          class="btn btn-outline-primary btn-sm"
+          class="btn btn-warning btn-sm"
           data-controller="turbo-loader"
           data-action="click->turbo-loader#load"
           data-turbo-loader-url-value="<%= edit_call_up_path(@call_up) %>"

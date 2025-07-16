@@ -235,4 +235,70 @@ module SeasonTeamsHelper
       new_match_call_up_path(match)
     end
   end
+
+  def edit_match_button(season_team, match)
+    button_tag type: "button",
+               class: "btn btn-outline-primary btn-sm",
+               data: {
+                 controller: "modal-loader",
+                 action: "click->modal-loader#load",
+                 "modal-loader-url-value": edit_match_modal_season_team_path(season_team, match_id: match.id),
+                 "modal-loader-target-frame-value": "#match_modal_frame"
+               } do
+      safe_join([
+        content_tag(:i, "", class: "bi bi-pencil-fill me-1"),
+        " Editar"
+      ])
+    end
+  end
+
+  def call_up_button(match)
+    if match.scheduled_at.present?
+      if match.call_up.present?
+        button_tag type: "button",
+          id: "call_up_button_#{match.id}",
+          class: "btn btn-warning btn-sm",
+          data: {
+                  controller: "turbo-loader",
+                  action: "click->turbo-loader#load",
+                  "turbo-loader-url-value": edit_or_new_call_up_url(match),
+                  "turbo-loader-frame-value": "call_up_frame_#{match.id}",
+                  "turbo-loader-button-id-value": "call_up_button_#{match.id}"
+                } do
+          label = "Editar Convocatoria"
+          safe_join([
+            content_tag(:i, "", class: "bi bi-pencil-square me-1"),
+            " #{label}"
+          ])
+        end
+      else
+        button_tag type: "button",
+          id: "call_up_button_#{match.id}",
+          class: "btn btn-primary btn-sm",
+          data: {
+                  controller: "turbo-loader",
+                  action: "click->turbo-loader#load",
+                  "turbo-loader-url-value": edit_or_new_call_up_url(match),
+                  "turbo-loader-frame-value": "call_up_frame_#{match.id}",
+                  "turbo-loader-button-id-value": "call_up_button_#{match.id}"
+                } do
+          label = "Agregar Convocatoria"
+          safe_join([
+            content_tag(:i, "", class: "bi bi-people-fill me-1"),
+            " #{label}"
+          ])
+        end
+      end
+    else
+      button_tag type: "button",
+        id: "call_up_button_#{match.id}",
+        class: "btn btn-outline-secondary btn-sm disabled" do
+        safe_join([
+          content_tag(:i, "", class: "bi bi-x-octagon me-1"),
+          "Ingresar Fecha del Partido"
+        ])
+      end
+    end
+  end
+
 end

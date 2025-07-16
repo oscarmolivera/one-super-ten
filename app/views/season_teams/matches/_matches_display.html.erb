@@ -37,25 +37,8 @@
                     Arbitro: <strong><%= match.referee.present? ? match.referee : "Agregar" %></strong>
                   </div>
                   <div class="d-flex justify-content-center gap-2 my-2">
-                    <button type="button"
-                            class="btn btn-outline-primary btn-sm"
-                            data-controller="modal-loader"
-                            data-action="click->modal-loader#load"
-                            data-modal-loader-url-value="<%= edit_match_modal_season_team_path(@season_team, match_id: match.id) %>"
-                            data-modal-loader-target-frame-value="#match_modal_frame">
-                      <i class="bi bi-pencil-square me-1"></i> Editar
-                    </button>
-                    <button type="button"
-                            id="call_up_button_<%= match.id %>"
-                            class="btn btn-outline-primary btn-sm"
-                            data-controller="turbo-loader"
-                            data-action="click->turbo-loader#load"
-                            data-turbo-loader-url-value="<%= edit_or_new_call_up_url(match) %>"
-                            data-turbo-loader-frame-value="call_up_frame_<%= match.id %>"
-                            data-turbo-loader-button-id-value="call_up_button_<%= match.id %>">
-                      <i class="bi bi-people-fill me-1"></i>
-                      <%= match.call_up.present? ? "Editar Convocatoria" : "Crear Convocatoria" %>
-                    </button>
+                    <%= edit_match_button(@season_team, match) %>
+                    <%= call_up_button(match) %>
                     <button class="btn btn-outline-secondary btn-sm">8.24</button>
                   </div>
                   <button class="btn btn-primary btn-sm">See Details</button>

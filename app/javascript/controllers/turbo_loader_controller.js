@@ -42,6 +42,8 @@ export default class extends Controller {
 
     const button = document.getElementById(this.buttonIdValue)
     if (button) {
+      button.classList.remove("btn-outline-primary")
+      button.classList.add("btn-warning")
       button.innerHTML = `<i class="bi bi-people-fill me-1"></i> Editar Convocatoria`
     }
   }
