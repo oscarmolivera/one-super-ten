@@ -12,6 +12,7 @@ export default class extends Controller {
     const targetFrame = document.getElementById(this.frameValue)
     if (!targetFrame) return
 
+
     const allFrames = document.querySelectorAll("turbo-frame[id^='call_up_frame_']")
     allFrames.forEach(frame => {
       if (frame !== targetFrame && frame.innerHTML.trim() !== "") {
@@ -19,15 +20,20 @@ export default class extends Controller {
         frame.classList.add("fadeOut")
         setTimeout(() => {
           frame.innerHTML = ""
+          frame.removeAttribute("src")
           frame.classList.remove("fadeOut")
         }, 300)
       }
     })
 
-    targetFrame.classList.remove("fadeOut")
-    targetFrame.src = this.urlValue
+    // 🔑 Force reload if URL is the same
+    if (targetFrame.getAttribute("src") === this.urlValue) {
+      targetFrame.removeAttribute("src")
+    }
 
-    // ✅ After loading, always update the button to EDIT mode
+    targetFrame.classList.remove("fadeOut")
+    targetFrame.setAttribute("src", this.urlValue)
+
     this.updateButtonToEdit()
   }
 

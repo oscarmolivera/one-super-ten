@@ -1,4 +1,8 @@
-<%= turbo_stream.replace "call_up_frame_#{@call_up.match.id}", "" %>
+<%= turbo_stream.replace "call_up_frame_#{@call_up.match.id}" do %>
+  <turbo-frame id="call_up_frame_<%= @call_up.match.id %>" 
+               data-controller="frame-closer call-up-cleaner">
+  </turbo-frame>
+<% end %>
 
 <%= turbo_stream.replace "call_up_button_#{@call_up.match.id}" do %>
   <button type="button"
@@ -6,8 +10,9 @@
           class="btn btn-outline-primary btn-sm"
           data-controller="turbo-loader"
           data-action="click->turbo-loader#load"
-          data-turbo-loader-url-value="<%= edit_or_new_call_up_url(@call_up.match) %>"
-          data-turbo-loader-frame-value="call_up_frame_<%= @call_up.match.id %>">
+          data-turbo-loader-url-value="<%= edit_call_up_path(@call_up) %>"
+          data-turbo-loader-frame-value="call_up_frame_<%= @call_up.match.id %>"
+          data-turbo-loader-button-id-value="call_up_button_<%= @call_up.match.id %>">
     <i class="bi bi-people-fill me-1"></i>
     Editar Convocatoria
   </button>

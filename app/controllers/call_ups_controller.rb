@@ -46,13 +46,16 @@ class CallUpsController < ApplicationController
     # Recombine date + time
     date = params[:call_up_date_only]
     time = params[:call_up_time_only]
-
     if date.present? && time.present?
       combined_datetime = Time.zone.parse("#{date} #{time}")
       @call_up.call_up_date = combined_datetime
     end
 
-    selected_player_ids = params[:call_up][:player_ids].reject(&:blank?)
+    selected_player_ids = params[:call_up][:player_ids].reject(&:blank?).map(&:to_i)
+    current_player_ids = @call_up.call_up_players.pluck(:player_id)
+
+    ids_to_add = selected_player_ids - current_player_ids
+    ids_to_remove = current_player_ids - selected_player_ids
 
     if selected_player_ids.empty?
       @call_up.destroy
@@ -60,19 +63,25 @@ class CallUpsController < ApplicationController
       return
     end
 
-    @call_up.call_up_players.destroy_all
-    selected_player_ids.each do |pid|
-      @call_up.call_up_players.create!(player_id: pid)
+    ActiveRecord::Base.transaction do
+      @call_up.call_up_players.where(player_id: ids_to_remove).destroy_all
+
+      if ids_to_add.any?
+        rows = ids_to_add.map do |pid|
+          { call_up_id: @call_up.id, player_id: pid, attendance: false, created_at: Time.zone.now, updated_at: Time.zone.now }
+        end
+        CallUpPlayer.insert_all(rows)
+      end
+
+      @call_up.update!(call_up_params.except(:player_ids, :call_up_date))
     end
 
-    if @call_up.update(call_up_params.except(:player_ids, :call_up_date))
-      respond_to do |format|
-        format.turbo_stream # <- will render update.turbo_stream.erb automatically
-        format.html { redirect_to match_path(@call_up.match), notice: "Convocatoria actualizada." }
-      end
-    else
-      render :edit, status: :unprocessable_entity
+    respond_to do |format|
+      format.turbo_stream
+      format.html { redirect_to match_path(@call_up.match), notice: "Convocatoria actualizada." }
     end
+  rescue ActiveRecord::RecordInvalid
+    render :edit, status: :unprocessable_entity
   end
 
   def cleanup
