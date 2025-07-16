@@ -43,45 +43,26 @@ class CallUpsController < ApplicationController
     authorize :call_up, :index?
     @call_up = CallUp.find(params[:id])
 
-    # Recombine date + time
-    date = params[:call_up_date_only]
-    time = params[:call_up_time_only]
-    if date.present? && time.present?
-      combined_datetime = Time.zone.parse("#{date} #{time}")
-      @call_up.call_up_date = combined_datetime
-    end
+    permitted_params = call_up_params
 
-    selected_player_ids = params[:call_up][:player_ids].reject(&:blank?).map(&:to_i)
-    current_player_ids = @call_up.call_up_players.pluck(:player_id)
+    service = CallUps::UpdateService.new(
+      call_up: @call_up,
+      params: permitted_params.merge(
+        call_up_date_only: params[:call_up_date_only],
+        call_up_time_only: params[:call_up_time_only]
+      )
+    ).call
 
-    ids_to_add = selected_player_ids - current_player_ids
-    ids_to_remove = current_player_ids - selected_player_ids
-
-    if selected_player_ids.empty?
-      @call_up.destroy
+    if service.destroyed?
       redirect_to match_path(@call_up.match), alert: "Convocatoria eliminada porque no se seleccionaron jugadores."
-      return
-    end
-
-    ActiveRecord::Base.transaction do
-      @call_up.call_up_players.where(player_id: ids_to_remove).destroy_all
-
-      if ids_to_add.any?
-        rows = ids_to_add.map do |pid|
-          { call_up_id: @call_up.id, player_id: pid, attendance: false, created_at: Time.zone.now, updated_at: Time.zone.now }
-        end
-        CallUpPlayer.insert_all(rows)
+    elsif service.success?
+      respond_to do |format|
+        format.turbo_stream
+        format.html { redirect_to match_path(@call_up.match), notice: "Convocatoria actualizada." }
       end
-
-      @call_up.update!(call_up_params.except(:player_ids, :call_up_date))
+    else
+      render :edit, status: :unprocessable_entity
     end
-
-    respond_to do |format|
-      format.turbo_stream
-      format.html { redirect_to match_path(@call_up.match), notice: "Convocatoria actualizada." }
-    end
-  rescue ActiveRecord::RecordInvalid
-    render :edit, status: :unprocessable_entity
   end
 
   def cleanup
