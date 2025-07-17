@@ -58,5 +58,8 @@ application.register("school-tab", SchoolTabController)
 import SchoolTogglesController from "./school_toggles_controller"
 application.register("school-toggles", SchoolTogglesController)
 
+import TabRedirectController from "./tab_redirect_controller"
+application.register("tab-redirect", TabRedirectController)
+
 import TurboLoaderController from "./turbo_loader_controller"
 application.register("turbo-loader", TurboLoaderController)

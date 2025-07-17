@@ -117,7 +117,7 @@ class SeasonTeamsController < ApplicationController
     else
       flash[:alert] = "Debes seleccionar al menos un archivo."
     end
-    redirect_to season_team_path(@season_team, anchor: 'regulations')
+    redirect_to tournament_data_season_team_path(@season_team, anchor: 'regulations', tab: 'regulations')
   end
 
   private
