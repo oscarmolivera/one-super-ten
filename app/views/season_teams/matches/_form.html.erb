@@ -50,6 +50,27 @@
           </div>
         </div>
 
+        <!-- Scheduled At -->
+        <div class="col-md-6">
+          <%= f.label :scheduled_at, "Día y Hora", class: "form-label fw-bold" %>
+          <div class="input-group">
+            <span class="input-group-text">
+              <i class="bi bi-calendar-event"></i>
+            </span>
+            <%= f.datetime_local_field :scheduled_at, class: "form-control", placeholder: "YYYY-MM-DD HH:MM" %>
+          </div>
+          <small class="text-muted">Seleccione la fecha y hora programada.</small>
+        </div>
+
+        <!-- Match Type -->
+        <div class="col-md-6">
+          <%= f.label :match_type, "Tipo de Partido", class: "form-label fw-bold" %>
+          <%= f.select :match_type,
+                      options_for_select([["Amistoso", "friendly"], ["Torneo", "tournament"], ["Práctica", "practice"]], match.match_type),
+                      { prompt: "Seleccionar tipo" },
+                      class: "form-select" %>
+        </div>     
+
         <!-- Location Type -->
         <div class="col-md-6">
           <%= f.label :location_type, "Tipo de Ubicación", class: "form-label fw-bold" %>
@@ -68,38 +89,8 @@
             class: "form-select" %>
         </div>
 
-        <!-- Referee -->
-        <div class="col-md-6">
-          <%= f.label :referee, "Árbitro", class: "form-label fw-bold" %>
-          <div class="input-group">
-            <span class="input-group-text"><i class="bi bi-person-badge-fill"></i></span>
-            <%= f.text_field :referee, class: "form-control", placeholder: "Nombre del Árbitro" %>
-          </div>
-        </div>
-
-        <!-- Match Type -->
-        <div class="col-md-6">
-          <%= f.label :match_type, "Tipo de Partido", class: "form-label fw-bold" %>
-          <%= f.select :match_type,
-                       options_for_select([["Amistoso", "friendly"], ["Torneo", "tournament"], ["Práctica", "practice"]], match.match_type),
-                       { prompt: "Seleccionar tipo" },
-                       class: "form-select" %>
-        </div>
-
-        <!-- Scheduled At -->
-        <div class="col-md-6">
-          <%= f.label :scheduled_at, "Día y Hora", class: "form-label fw-bold" %>
-          <div class="input-group">
-            <span class="input-group-text">
-              <i class="bi bi-calendar-event"></i>
-            </span>
-            <%= f.datetime_local_field :scheduled_at, class: "form-control", placeholder: "YYYY-MM-DD HH:MM" %>
-          </div>
-          <small class="text-muted">Seleccione la fecha y hora programada.</small>
-        </div>
-
         <!-- Notes -->
-        <div class="col-12">
+        <div class="col-md-6">
           <%= f.label :notes, "Notas del Partido (Opcional)", class: "form-label fw-bold" %>
           <%= f.text_area :notes, rows: 3, class: "form-control", placeholder: "Detalles adicionales del partido..." %>
         </div>

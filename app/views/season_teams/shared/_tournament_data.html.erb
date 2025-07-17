@@ -1,6 +1,11 @@
 <%= render 'season_teams/tabs/header', tournament_data: @tournament_data %>
 
-<div data-controller="tab-redirect" data-tab-redirect-target-tab-value="#regulations">
+<div 
+  <% if params[:tab] == "regulations" %>
+    data-controller="tab-redirect"
+    data-tab-redirect-target-tab-value="#regulations"
+  <% end %>>
+  
   <%= render 'season_teams/tabs/nav_tabs' %>
 
   <div class="tab-content tabcontent-border">
