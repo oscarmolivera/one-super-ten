@@ -16,6 +16,7 @@
                     data-clickable-row-url-value="<%= tournament_data_season_team_path(seasonteam) %>"
                     data-action="click->clickable-row#goToShow"
                     style="cursor: pointer;">
+                    <td class="fw-semibold text-dark"><%= seasonteam.id %></td>
                     <td class="fw-semibold text-dark"><%= seasonteam.name %></td>
                   </tr>
                 <% end %>

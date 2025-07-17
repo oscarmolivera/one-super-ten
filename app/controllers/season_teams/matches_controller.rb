@@ -49,6 +49,34 @@ class SeasonTeams::MatchesController < ApplicationController
     end
   end
 
+  def update
+    authorize :match, :index?
+    @match = Match.find(params[:id])
+    @season_team = @match.team_of_interest
+
+    if @match.update(match_params)
+      @tournament_data = SeasonTeams::TournamentDataService.new(@season_team, nil, nil).data
+      respond_to do |format|
+        format.turbo_stream
+        format.html { redirect_to tournament_data_season_team_path(@season_team), notice: "Partido actualizado correctamente." }
+      end
+    else
+      respond_to do |format|
+        format.turbo_stream do
+          render turbo_stream: turbo_stream.replace(
+            "edit_match_modal_frame_#{@match.id}",
+            partial: "season_teams/matches/modal",
+            locals: { match: @match, season_team: @season_team }
+          )
+        end
+        format.html do
+          flash.now[:alert] = "Error al actualizar el partido."
+          render :edit, status: :unprocessable_entity
+        end
+      end
+    end
+  end
+
   private
 
   def match_params
