@@ -37,17 +37,29 @@
 
         <div class="mb-2">
           <button type="button"
-                  class="btn btn-sm btn-outline-secondary"
+                  class="btn btn-sm btn-danger-light"
                   data-action="click->call-up-selector#selectAll">
             Seleccionar Todos
           </button>
         </div>
-
+        <% selected_player_ids = call_up.call_up_players.pluck(:player_id).compact.map { |id| "player-#{id}" } %>
+        <% selected_external_ids = call_up.call_up_players.pluck(:external_player_id).compact.map { |id| "external-#{id}" } %>
+        <% selected_values = selected_player_ids + selected_external_ids %>
         <div data-call-up-selector-target="checkboxes">
-          <%= f.collection_check_boxes :player_ids, @season_team_players, :player_id, ->(stp) { stp.player&.full_name } do |b| %>
-            <div class="form-check">
-              <%= b.check_box class: "form-check-input" %>
-              <%= b.label class: "form-check-label" %>
+          <% @season_team_players.each do |stp| %>
+            <% value = stp.player_id ? "player-#{stp.player_id}" : "external-#{stp.external_player_id}" %>
+            <% checked = selected_values.include?(value) %>
+            <% name = stp.player&.full_name || stp.external_player&.full_name || "Sin Nombre" %>
+            <% badge = if stp.external_player.present?
+                        content_tag(:span, "EXTERNO*", class: "badge bg-warning text-dark ms-2")
+                      else
+                        category = st_player_category(stp)
+                        content_tag(:span, category, class: "badge bg-info text-dark ms-2")
+                      end %>
+
+            <div class="form-check p-2 mb-2 rounded <%= player_origin_class(stp) %>">
+              <%= check_box_tag "call_up[player_ids][]", value, checked, class: "form-check-input", id: "call_up_player_#{value}" %>
+              <%= label_tag "call_up_player_#{value}", raw("#{name} #{badge}"), class: "form-check-label d-flex align-items-center" %>
             </div>
           <% end %>
         </div>

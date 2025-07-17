@@ -301,4 +301,19 @@ module SeasonTeamsHelper
     end
   end
 
+  def player_origin_class(player)
+    origin = player_origin(player)
+
+    case origin
+    when :same_category
+      "bg-light text-dark"
+    when :other_category
+      "bg-info-light bg-opacity-15 text-dark"
+    when :external
+      "bg-warning-light bg-opacity-15 text-dark"
+    else
+      ""
+    end
+  end
+
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_07_07_124632) do
+ActiveRecord::Schema[8.0].define(version: 2025_07_16_184609) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -63,11 +63,13 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_07_124632) do
 
   create_table "call_up_players", force: :cascade do |t|
     t.bigint "call_up_id", null: false
-    t.bigint "player_id", null: false
+    t.bigint "player_id"
     t.integer "attendance", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "external_player_id"
     t.index ["call_up_id"], name: "index_call_up_players_on_call_up_id"
+    t.index ["external_player_id"], name: "index_call_up_players_on_external_player_id"
     t.index ["player_id"], name: "index_call_up_players_on_player_id"
   end
 
@@ -663,6 +665,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_07_124632) do
   add_foreign_key "assistant_assignments", "users", column: "assistant_id"
   add_foreign_key "assistant_assignments", "users", column: "coach_id"
   add_foreign_key "call_up_players", "call_ups"
+  add_foreign_key "call_up_players", "external_players"
   add_foreign_key "call_up_players", "players"
   add_foreign_key "call_ups", "matches"
   add_foreign_key "categories", "schools"

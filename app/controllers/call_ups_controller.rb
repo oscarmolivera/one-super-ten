@@ -43,14 +43,18 @@ class CallUpsController < ApplicationController
     authorize :call_up, :index?
     @call_up = CallUp.find(params[:id])
 
-    permitted_params = call_up_params
+    parsed_ids = parse_mixed_player_ids(params[:call_up][:player_ids])
 
     service = CallUps::UpdateService.new(
       call_up: @call_up,
-      params: permitted_params.merge(
-        call_up_date_only: params[:call_up_date_only],
-        call_up_time_only: params[:call_up_time_only]
-      )
+      params: call_up_params
+              .except(:player_ids)
+              .merge(
+                player_ids: parsed_ids[:player_ids],
+                external_player_ids: parsed_ids[:external_player_ids],
+                call_up_date_only: params[:call_up_date_only],
+                call_up_time_only: params[:call_up_time_only]
+              )
     ).call
 
     if service.destroyed?
@@ -80,12 +84,28 @@ class CallUpsController < ApplicationController
   private
 
   def call_up_params
-    params.require(:call_up).permit(
-      :match_id,
-      :category_id,
-      :name,
-      :call_up_date,
-      player_ids: []
-    )
+    params.require(:call_up).permit(:match_id, :category_id, :name, :call_up_date, player_ids: [])
+  end
+
+  def parse_mixed_player_ids(raw_ids)
+    player_ids = []
+    external_player_ids = []
+
+    Array(raw_ids).reject(&:blank?).each do |value|
+      type, id = value.to_s.split("-", 2)
+      next unless id.present?
+
+      case type
+      when "player"
+        player_ids << id.to_i
+      when "external"
+        external_player_ids << id.to_i
+      end
+    end
+
+    {
+      player_ids: player_ids,
+      external_player_ids: external_player_ids
+    }
   end
 end
