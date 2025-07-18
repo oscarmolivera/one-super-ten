@@ -59,10 +59,10 @@
         </label>
 
         <div class="d-flex flex-wrap gap-2" data-categories-target="container">
-          <% @categories.each do |category| %>
+          <% @categories&.each do |category| %>
             <div class="form-check me-3">
               <%= check_box_tag "tournament[category_ids][]", category.id, @tournament.category_ids.include?(category.id), class: "form-check-input", id: "category_#{category.id}", data: { categories_target: "checkbox" } %>
-              <%= label_tag "category_#{category.id}", category.name, class: "form-check-label" %>
+              <%= label_tag "category_#{category.id}", "#{category.sub_name}", class: "form-check-label" %>
             </div>
           <% end %>
         </div>

@@ -47,10 +47,15 @@ class User < ApplicationRecord
 
   def has_role_tenant_admin?
     has_role?(:tenant_admin, ActsAsTenant.current_tenant)  
+    #true
   end
   
   def has_role_staff_assistant?
     has_role?(:staff_assistant, ActsAsTenant.current_tenant)  
+  end
+
+  def has_role_assistant_coach?
+    has_role?(:assistant_coach, ActsAsTenant.current_tenant)  
   end
 
   def has_role_player?

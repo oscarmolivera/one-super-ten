@@ -1,0 +1,45 @@
+<div class="col" id="<%= dom_id(rival) %>">
+  <div class="card shadow-sm border text-center p-3 d-flex flex-column justify-content-between <%= rival_card_height(policy(rival).update?) %>">
+    <div>
+      <div class="mb-2">
+        <%= rival_team_logo(rival, class: "mx-auto d-block mb-2") %>
+      </div>
+      <div class="mb-2 px-2">
+        <div class="fw-semibold text-dark text-truncate" title="<%= rival.name %>">
+          <%= rival.name %>
+        </div>
+        <div class="text-muted small text-truncate" title="<%= rival.location %>">
+          <%= rival.location %>
+        </div>
+      </div>
+    </div>
+
+    <div class="d-flex justify-content-center gap-2 mt-2">
+      <% if policy(rival).update? %>
+        <button class="btn btn-sm btn-outline-primary"
+                data-bs-toggle="modal"
+                data-bs-target="#editRivalModalContent-<%= rival.id %>"
+                data-action="click->modal-loader#open">
+          <i class="fa fa-pencil-alt"></i>
+        </button>
+
+        <turbo-frame
+          id="editRivalModal-<%= rival.id %>"
+          src="<%= edit_rival_path(rival, season_team_id: @season_team.id) %>"
+          loading="lazy"
+          data-controller="modal-loader"
+          data-action="turbo:frame-load->modal-loader#open">
+        </turbo-frame>
+      <% end %>
+
+      <% if policy(rival).destroy? %>
+        <%= button_to rival_path(rival, season_team_id: @season_team.id),
+            method: :delete,
+            class: "btn btn-sm btn-outline-danger",
+            form: { data: { turbo_confirm: "¿Eliminar rival?" } } do %>
+          <i class="fa fa-times"></i>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+</div>

@@ -3,7 +3,7 @@ deportivo = Tenant.find_by(subdomain: "deportivo-margarita")
 tenants = [academia, deportivo]
 puts "Seeding Players..."
 
-160.times do |i|
+560.times do |i|
   p '.' if i % 10 == 0
   tenant = tenants.sample
   school = tenant.schools.sample

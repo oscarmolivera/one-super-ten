@@ -34,7 +34,18 @@
         </div>
       </div>  
     </div>
-    <div class="row"><!-- Email Gender Nationality -->
+    <div class="row"><!-- DocumentNumber Email Nationality -->
+      <div class="col-md-4">
+        <div class="form-group">
+            <%= form.label :document_number, class: 'form-label' %>
+          <div class="input-group">
+            <div class="input-group-addon">
+              <i class="fa fa-id-card"></i>
+            </div>
+            <%= form.text_field :document_number, class: "form-control", data: { inputmask: "'alias': 'dd/mm/yyyy'", mask: true } %>
+          </div>
+        </div>
+      </div>
       <div class="col-md-4">
         <div class="form-group">
             <%= form.label :email, class: 'form-label' %>
@@ -43,17 +54,6 @@
               <i class="ti-email"></i>
             </div>
             <%= form.email_field :email, class: "form-control", placeholder: 'Email' %>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-4">
-        <div class="form-group">
-          <%= form.label :gender, class: 'form-label' %>
-          <div class="input-group">
-            <div class="input-group-addon">
-              <i class="fas fa-venus-mars"></i>
-            </div>
-            <%= form.select :gender, Player.genders.keys.map { |g| [g.titleize, g] }, { include_blank: "Selecciona género" }, class: "form-control" %>
           </div>
         </div>
       </div>
@@ -69,19 +69,25 @@
         </div>
       </div>
     </div>
-    <div class="row"><!-- DocumentNumber DominantSide Position-->
-      <div class="col-md-4">
+    <div class="row"><!--  JerseyNumber Position DominantSide Gender-->
+      <div class="col-md-3">
         <div class="form-group">
-            <%= form.label :document_number, class: 'form-label' %>
+          <%= form.label :jersey_number, class: 'form-label' %>
+          <%= form.text_field :jersey_number, class: 'form-control', placeholder: "N° Camiseta" %>
+        </div>        
+      </div>
+      <div class="col-md-3">
+        <div class="form-group">
+          <%= form.label :position, class: 'form-label' %>
           <div class="input-group">
             <div class="input-group-addon">
-              <i class="fa fa-id-card"></i>
+              <i class="fas fa-globe-americas"></i>
             </div>
-            <%= form.text_field :document_number, class: "form-control", data: { inputmask: "'alias': 'dd/mm/yyyy'", mask: true } %>
+            <%= form.select :position, Player.positions.keys.map { |g| [g.titleize, g] }, { include_blank: "Pocision Preferente?" }, class: "form-control" %>
           </div>
-        </div>
+        </div>        
       </div>
-      <div class="col-md-4">
+      <div class="col-md-3">
         <div class="form-group">
           <%= form.label :dominant_side, class: 'form-label' %>
           <div class="input-group">
@@ -92,19 +98,20 @@
           </div>
         </div>
       </div>
-      <div class="col-md-4">
+      <div class="col-md-3">
         <div class="form-group">
-          <%= form.label :position, class: 'form-label' %>
+          <%= form.label :gender, class: 'form-label' %>
           <div class="input-group">
             <div class="input-group-addon">
-              <i class="fas fa-globe-americas"></i>
+              <i class="fas fa-venus-mars"></i>
             </div>
-            <%= form.select :position, Player.positions.keys.map { |g| [g.titleize, g] }, { include_blank: "Pocision Preferente?" }, class: "form-control" %>
+            <%= form.select :gender, Player.genders.keys.map { |g| [g.titleize, g] }, { include_blank: "Selecciona género" }, class: "form-control" %>
           </div>
-        </div>
+        </div>        
+
       </div>
     </div>
-    <div class="row"><!-- School IsActive ProfilePicture -->
+    <div class="row"><!-- Schools IsActive ProfilePicture -->
       <div class="col-md-4">
         <div class="form-group" id="school-toggle-group" data-controller="school-toggles">
           <label class="form-label mb-2">Escuelas</label>

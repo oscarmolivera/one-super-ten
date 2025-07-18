@@ -23,11 +23,15 @@
               <thead class="table-light">
                 <tr>
                   <th>Torneo</th>
-                  <th>Periodo</th>
-                  <th>Victorias</th>
-                  <th>Goles</th>
+                  <% if current_user.has_role_player? %>
+                    <th>Periodo</th>
+                    <th>Victorias</th>
+                    <th>Goles</th>
+                  <% end %>
                   <th>Resultado</th>
                   <% if current_user.has_role_tenant_admin? %>
+                    <th>Estado</th>
+                    <th>Categorias Inscritas</th>
                     <th>Acciones</th>
                   <% end %>
                 </tr>
@@ -39,22 +43,23 @@
                     data-controller="clickable-row"
                     data-clickable-row-url-value="<%= cup_tournament_path(tournament.cup_id, tournament) %>"
                     data-action="click->clickable-row#goToShow"
-                    style="cursor: pointer;"
-                  >
+                    style="cursor: pointer;">
                     <td class="fw-semibold text-dark"><%= tournament.name %></td>
-                    <td>
-                      <span class="badge bg-primary text-white">
-                        <i class="fa fa-calendar-alt me-1"></i>
-                        <%= tournament.start_date.strftime('%b %d, %Y') %>
-                        <small class="d-block fw-semibold text-info">al <%= tournament.end_date.strftime('%d %b %Y') %></small>
-                      </span>
-                    </td>
-                    <td>
-                      <span class="badge bg-warning text-dark">
-                        <i class="fa-solid fa-diamond"></i> <%= pluralize(rand(3..18), 'victoria') %>
-                      </span>
-                    </td>
-                    <td class="text-muted"><%= pluralize(rand(3..64), 'Gol') %></td>
+                    <% if current_user.has_role_player? %>
+                      <td>
+                        <span class="badge bg-primary text-white">
+                          <i class="fa fa-calendar-alt me-1"></i>
+                          <%= tournament.start_date.strftime('%b %d, %Y') %>
+                          <small class="d-block fw-semibold text-info">al <%= tournament.end_date.strftime('%d %b %Y') %></small>
+                        </span>
+                      </td>
+                      <td>
+                        <span class="badge bg-warning text-dark">
+                          <i class="fas fa-certificate"></i> <%= pluralize(rand(3..18), 'victoria') %>
+                        </span>
+                      </td>                    
+                      <td class="text-muted"><%= pluralize(rand(3..64), 'Gol') %></td>
+                    <% end %>
                     <td class="fw-bold">
                       <% case place %>
                         <% when "CAMPEONES" %>
@@ -70,8 +75,16 @@
                       <% end %>
                     </td>
                     <% if current_user.has_role_tenant_admin? %>
+                      <td class="text-muted fw-bold">
+                        <%= tournament_status(tournament) %>
+                      </td>
                       <td>
-                        <%= link_to "Editar", edit_cup_tournament_path(tournament.cup_id, tournament), class: "btn btn-sm btn-warning" %>
+                        <span class="badge bg-warning text-dark">
+                          <i class="fa-solid fa-diamond"></i> <%= "#{tournament.season_team_category_count}/#{tournament.selected_category_count}" %>
+                        </span>
+                      </td>
+                      <td>
+                        <%= link_to "Datos de Torneo", cup_tournament_path(tournament.cup_id, tournament), class: "btn btn-sm btn-info" %>
                       </td>
                     <% end %>
                   </tr>

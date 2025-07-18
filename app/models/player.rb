@@ -75,6 +75,14 @@ class Player < ApplicationRecord
     end
   end
 
+  def last_tournament_jersey
+    SeasonTeamPlayer
+      .where(player_id: id)
+      .order(updated_at: :desc)
+      .limit(1)
+      .pick(:jersey_number) || "N/A"
+  end
+
   def hero_image_url
     if hero_image&.attached?
       Rails.application.routes.url_helpers.rails_blob_url(self.hero_image, only_path: true)

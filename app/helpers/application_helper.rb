@@ -1,4 +1,9 @@
 module ApplicationHelper
+  include Pagy::Frontend
+  
+  def close_modal(selector)
+    tag.script("document.querySelector('[data-controller=\"modal\"][data-modal-selector-value=\"#{selector}\"]').dispatchEvent(new CustomEvent('close'))".html_safe)
+  end
 
   def sidebar_menu_items
     return [] unless current_user
@@ -73,7 +78,7 @@ module ApplicationHelper
   def tenant_admin_sidebar
     [
       {
-        header: "SYSTEM TEST",
+        header: "Admin",
         items: [
           {
             label: "Modelos",
@@ -86,7 +91,7 @@ module ApplicationHelper
               { label: "Entrenadores", icon: "icon-Commit", path: coaches_path },
               { label: "Asistentes", icon: "icon-Commit", path: assistants_path },
               { label: "Eventos", icon: "icon-Commit", path: events_path },
-              { label: "Torneos", icon: "icon-Commit", path: tournaments_path },
+              { label: "Torneos", icon: "icon-Commit", path: tenant_dashboard_path },
               { label: "Sedes", icon: "icon-Commit", path: sites_path },
               { label: "Publicaciones", icon: "icon-Commit", path: publications_path },
               { label: "Ingresos", icon: "icon-Commit", path: incomes_path },
@@ -103,6 +108,7 @@ module ApplicationHelper
             label: "Categorías",
             icon: "icon-Layout-grid",
             children: [
+              { label: "Refuerzos", icon: "fa-solid fa-shield-halved", path: external_players_path },              
               { label: "Listado de Categorias", icon: "icon-Commit", path: tenant_dashboard_path },
               { label: "Listado de Refuerzo por categorias", icon: "icon-Commit", path: tenant_dashboard_path },
               { label: "Informacion de Entrenadores, Delegados & Asistentes x Categorias", icon: "icon-Commit", path: tenant_dashboard_path },
@@ -113,7 +119,8 @@ module ApplicationHelper
             label: "Torneos",
             icon: "icon-Layout-grid",
             children: [ #Menu multiplicado por las categorias existentes en la academia
-              { label: "Listado Torneos Activos", icon: "icon-Commit", path: tenant_dashboard_path },
+              { label: "Copas", icon: "fa fa-trophy", path: cups_path },
+              { label: "Torneos Activos", icon: "fa-solid fa-clipboard", path: public_actives_season_teams_path },
               { label: "listado historial torneos del pasado", icon: "icon-Commit", path: tenant_dashboard_path },              
               { label: "Creacion de Torneos", icon: "icon-Commit", path: tenant_dashboard_path },
               { label: "Creacion de Partidos", icon: "icon-Commit", path: tenant_dashboard_path },
@@ -345,16 +352,16 @@ module ApplicationHelper
           # Previously nested under "Gestión" – now top-level items:
           { label: "Perfil", icon: "fa fa-id-card-clip", path: player_player_profile_path(current_user.player) },
           { label: "Mi Categoría", icon: "fa fa-users", path: teammates_player_path(current_user.player) },
-          { label: "Palmarés en perfil", icon: "fa fa-ranking-star", path: schools_path },
+          { label: "Palmarés en perfil", icon: "fa fa-medal", path: schools_path },
           # Existing grouped items:
           {
             label: "Mis Torneos",
-            icon: "fa fa-trophy d-inline-block position-relative",
+            icon: "fa fa-ranking-star d-inline-block position-relative",
             children: [
               { label: "Player", icon: "fa fa-user", path: players_path },
               { label: "Season Teams", icon: "fa fa-users", path: season_teams_path },
-              { label: "Copas", icon: "fa fa-medal", path: cups_path },
-              { label: "solo ver listado Torneos Activo", icon: "icon-Commit", path: tenant_dashboard_path },
+              { label: "Copas", icon: "fa fa-trophy", path: cups_path },
+              { label: "Torneos Activos", icon: "fa fa-star", path: active_tournaments_player_path(current_user.player) },
               { label: "solo ver listado historial torneos del pasado", icon: "icon-Commit", path: tenant_dashboard_path },
               { label: "solo ver Calendario de Partidos", icon: "icon-Commit", path: tenant_dashboard_path },
               { label: "solo ver Resultados de Partidos", icon: "icon-Commit", path: tenant_dashboard_path },

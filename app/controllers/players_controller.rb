@@ -89,6 +89,11 @@ class PlayersController < ApplicationController
     @teammates = category.players
   end
 
+  def active_tournaments
+    authorize :player, :index?
+    
+  end
+
   def documents
     authorize :player, :index?
     @player = Player.find(params[:id])
@@ -156,7 +161,7 @@ class PlayersController < ApplicationController
     params.require(:player).permit(
       :email, :tenant_id, :first_name, :last_name, :full_name, :date_of_birth,
       :gender, :nationality, :document_number, :profile_picture, :dominant_side,
-      :position, :address, :is_active, :bio, :notes, :user_id, :hero_image,
+      :position, :jersey_number, :address, :is_active, :bio, :notes, :user_id, :hero_image,
       :public_profile, :handle, school_ids: [], documents: [], carousel_images: [], 
       player_profile_attributes: [
         :id,

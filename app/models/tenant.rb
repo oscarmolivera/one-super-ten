@@ -9,6 +9,7 @@ class Tenant < ApplicationRecord
   has_many :players, dependent: :destroy
   has_many :incomes, dependent: :destroy
   has_many :expenses, dependent: :destroy
+  has_many :rivals, dependent: :destroy
 
   before_validation :set_default_parent, on: :create
 

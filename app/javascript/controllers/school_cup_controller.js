@@ -5,7 +5,6 @@ export default class extends Controller {
 
   connect() {
     this.updateNewCupLink()
-    console.log('schoolTab Controller')
   }
 
   updateNewCupLink() {

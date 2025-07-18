@@ -15,6 +15,7 @@ class CategoriesController < ApplicationController
   def new
     authorize :category, :index?
     @category = Category.new
+    @category.category_rules.build
   end
 
   def create
@@ -29,6 +30,7 @@ class CategoriesController < ApplicationController
 
   def edit
     authorize :category, :index?
+    @category.category_rules.build if @category.category_rules.empty?
   end
 
   def update
@@ -68,6 +70,9 @@ end
   end
 
   def category_params
-    params.require(:category).permit(:name, :description, :school_id)
+    params.require(:category).permit(
+      :name, :description, :school_id,
+      category_rules_attributes: [:id, :key, :value, :_destroy]
+    )
   end
 end

@@ -1,0 +1,59 @@
+<turbo-frame id="rival_modal_frame">
+  <div class="modal fade" id="rivalModal" tabindex="-1" aria-hidden="true" data-turbo-permanent>
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Agregar rival</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+
+        <div class="modal-body">
+          <ul class="nav nav-tabs mb-3" role="tablist">
+            <li class="nav-item">
+              <a class="nav-link active"
+                 data-bs-toggle="tab"
+                 href="#tab-existing"
+                 role="tab">
+                <i class="fa-solid fa-list"></i>
+                Predefinido
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link"
+                 data-bs-toggle="tab"
+                 href="#tab-new"
+                 role="tab">
+                 <i class="fa-solid fa-plus"></i>
+                 Personalizado
+              </a>
+            </li>
+          </ul>
+
+          <div class="tab-content">
+            <div class="tab-pane fade show active" id="tab-existing" role="tabpanel"><!-- Favorite Rivals -->
+              <turbo-frame id="favorite_rivals" src="<%= favorite_rivals_season_team_path(season_team) %>">
+                <div class="text-center p-3">
+                  <div class="spinner-border text-primary" role="status"></div>
+                </div>
+              </turbo-frame>
+            </div>
+
+            <div class="tab-pane fade" id="tab-new" role="tabpanel"><!-- New Rival Form -->
+              <div id="rival_flash"></div>
+              <turbo-frame id="new_rival_form">
+                <%= render "season_teams/rivals/form", rival: Rival.new, season_team: season_team %>
+              </turbo-frame>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script type="module">
+    const modalEl = document.querySelector('#rivalModal')
+    const modal = new bootstrap.Modal(modalEl)
+    modal.show()
+
+    window.closeRivalModal = () => { modal.hide() }
+  </script>
+</turbo-frame>

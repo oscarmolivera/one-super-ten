@@ -9,12 +9,12 @@ deportivo = Tenant.find(3)
 app_tenants = [academia, deportivo]
 tenant_schools = app_tenants.flat_map(&:schools)
 
-# Use a logo from app/assets/images
+
 image_index = [2,3,4,5,6,7,8]
 dice = [true, true, true, false, true, true, true, true, true, true,true, true, true, true, false, true, true, true, true, true]
 category_sample = [10,11,12,13]
 tenant_schools.each do |school|
-  25.times do |i|
+  7.times do |i|
     puts "COPA: #{i}"
     filename ="copa#{image_index.sample}.jpg"
     logo_path = Rails.root.join("app/assets/images/#{filename}")
@@ -32,7 +32,7 @@ tenant_schools.each do |school|
       filename: filename,
       content_type: "image/jpg"
     )
-    12.times do
+    5.times do
       rules_content = <<~HTML
         <p><strong>Reglamento oficial:</strong> #{Faker::Lorem.sentence}</p>
         <ul>

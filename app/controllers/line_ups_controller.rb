@@ -5,7 +5,7 @@ class LineUpsController < ApplicationController
   def new
     authorize :line_up, :index?
     @line_up = @match.line_ups.new
-    @call_up_players = @match.call_ups.last&.call_up_players.includes(:player) || []
+    @call_up_players = @match.call_up&.call_up_players.includes(:player) || []
   end
 
   def create
@@ -16,7 +16,7 @@ class LineUpsController < ApplicationController
     if @line_up.save
       redirect_to match_path(@match), notice: "LineUp created successfully."
     else
-      @call_up_players = @match.call_ups.last&.call_up_players.includes(:player) || []
+      @call_up_players = @match.call_up&.call_up_players.includes(:player) || []
       render :new, status: :unprocessable_entity
     end
   end
@@ -24,7 +24,7 @@ class LineUpsController < ApplicationController
   def edit
     authorize :line_up, :index?
 
-    @call_up_players = @match.call_ups.last&.call_up_players.includes(:player) || []
+    @call_up_players = @match.call_up.call_up_players.includes(:player) || []
   end
 
   def update
@@ -33,7 +33,7 @@ class LineUpsController < ApplicationController
     if @line_up.update(line_up_params)
       redirect_to match_path(@match), notice: "LineUp updated successfully."
     else
-      @call_up_players = @match.call_ups.last&.call_up_players.includes(:player) || []
+      @call_up_players = @match.call_up&.call_up_players.includes(:player) || []
       render :edit, status: :unprocessable_entity
     end
   end

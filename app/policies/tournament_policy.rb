@@ -19,6 +19,13 @@ class TournamentPolicy < ApplicationPolicy
       end
     end
 
+    def inscribe?
+      user.has_role?(:tenant_admin, user.tenant) ||
+      user.has_role?(:coach, user.tenant) && user.categories.exists?(id: record.categories) ||
+      user.has_role?(:assistant_coach, user.tenant) && user.categories.exists?(id: record.categories) ||
+      user.has_role?(:team_assistant, user.tenant) && user.categories.exists?(id: record.categories)
+    end
+
     private
 
     def cup_id

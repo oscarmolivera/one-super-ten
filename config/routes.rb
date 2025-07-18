@@ -44,16 +44,40 @@ Rails.application.routes.draw do
           get :select_category
           post :assign_category
           get :teammates
+          get :active_tournaments
           delete 'remove_category'
           delete 'documents/:blob_id', to: 'players#erase_document', as: :erase_document
         end
       end
+      resources :external_players
 
-      resources :season_teams
-      resources :cups do
-        resources :tournaments
+      resources :season_teams do
+        member do
+          patch :upload_regulations
+          get :tournament_data
+          get :favorite_rivals
+          get :lazy_rival_modal
+          get :matches_modal
+          get :edit_match_modal
+        end
+        resources :matches, controller: "season_teams/matches", shallow: true do
+          resources :call_ups, only: [:new, :create, :edit, :update], shallow: true
+        end
+        resources :rivals, controller: "season_teams/rivals", except: [:index, :show], shallow: true
+        collection do
+          get :public_actives
+        end
       end
-      resources :call_ups, only: [:new, :create, :edit, :update]
+      resources :cups do
+        resources :tournaments do
+          resources :inscriptions
+        end
+      end
+      resources :call_ups, only: [:new, :create, :edit, :update] do
+        member do
+          delete :cleanup
+        end
+      end
       resources :matches, only: [:new, :create, :show, :index, :update] do
         resources :line_ups, only: [:index, :new, :create, :edit, :update ]
         resources :match_reports
@@ -90,7 +114,6 @@ Rails.application.routes.draw do
       resources :category_team_assistants, only: [:new, :create, :destroy]
     end
 
-    # Move this **after** `resources :players`, with constraint
     get 'players/:handle', to: 'players#public_show', as: :public_player, constraints: lambda { |req|
       !%w[new edit create update destroy index].include?(req.params[:handle])
     }

@@ -24,6 +24,29 @@ class SeasonTeamPolicy < ApplicationPolicy
     create?
   end
 
+  def tournament_data?
+    index?
+  end
+
+  def upload_regulations?
+    index?
+  end
+
+  def lazy_rival_modal?
+    index?
+  end
+
+  def matches_modal?
+    index?
+  end
+
+  def edit_match_modal?
+    index?
+  end
+
+  def favorite_rivals?
+    index?
+  end
   class Scope < Scope
     def resolve
       scope.where(tenant: user.tenant)

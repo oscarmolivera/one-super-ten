@@ -63,6 +63,9 @@ td_dep.add_role_with_tenant(:team_assistant, deportivo)
 load Rails.root.join("db/seeds/players.rb")
 
 puts "Seeding Coachs..."
+CoachProfile.create!( user: co_aca, hire_date: rand(2..5).years.ago, salary: rand(1500..3000))
+CoachProfile.create!( user: co_dep, hire_date: rand(2..5).years.ago, salary: rand(1500..3000))
+
 # Create demo Coaches
 10.times do |i|
   coach_name = Faker::Name.first_name_men
@@ -81,20 +84,20 @@ puts "Seeding Coachs..."
     hire_date: rand(2..5).years.ago,
     salary: rand(1500..3000)
   )
-end
 
-coach_assist_name = Faker::Name.first_name_men
-coach_assist_surname = Faker::Name.last_name
-# Create demo Assistant Coaches
-10.times do |i|
-  user = User.create!(
-    email: "#{(coach_assist_name).downcase}.#{(coach_assist_surname).downcase}#{i}@academia.com",
-    password: "s3cret.",
-    first_name: coach_assist_name,
-    last_name: coach_assist_surname,
-    tenant_id: academia.id
-  )
-  user.add_role(:assistant_coach, academia) # Use a different role for assistants
+  # Create demo Assistant Coaches
+  3.times do |i|
+    coach_assist_name = Faker::Name.first_name_men
+    coach_assist_surname = Faker::Name.last_name
+    user = User.create!(
+      email: "#{(coach_assist_name).downcase}.#{(coach_assist_surname).downcase}#{i}@academia.com",
+      password: "s3cret.",
+      first_name: coach_assist_name,
+      last_name: coach_assist_surname,
+      tenant_id: academia.id
+    )
+    user.add_role(:assistant_coach, academia) # Use a different role for assistants
+  end
 end
 
 # Assign Assistants to Coaches randomly
@@ -106,78 +109,15 @@ CoachProfile.all.each do |coach_profile|
   end
 end
 
-puts "Seeding Events..."
-events = [
-  { title: "Amistoso vs Águilas", event_type: :friendly, allow_reinforcements: true },
-  { title: "Torneo Estatal Sub14", event_type: :tournament, external_organizer: true, organizer_name: "Federación Regional" },
-  { title: "Partido de práctica", event_type: :match }
-]
 
-coach = Role.all.where(name: 'coach', tenant: academia).last.users.last
-fcampo = School.find(1)
+puts "Seeding ExternalPlayers..."
+load Rails.root.join("db/seeds/external_players.rb")
 
 puts "Seeding Cups & Tournaments..."
 load Rails.root.join("db/seeds/cups_and_tournaments.rb")
 
-events.each do |attrs|
-  event = Event.create!(
-    school: fcampo,
-    coach: coach,
-    tenant: academia,
-    description: "#{attrs[:title]} en cancha sintética",
-    start_time: Time.now + rand(1..10).days,
-    end_time: Time.now + rand(11..15).days,
-    location_name: "Estadio Olímpico",
-    location_address: "Calle Fútbol, Caracas",
-    **attrs
-  )
-  event.categories << categorias.sample
-end
+puts "Seeding SeasonTeams..."
+load Rails.root.join("db/seeds/season_teams.rb")
 
-puts "Seeding Sites..."
-Site.create!(
-  school_id: fcampo.id,
-  name: 'Pozo Viejo',
-  address: 'Av Principal Pozo Viejo',
-  city: 'Porlamar',
-  map_url: '',
-  capacity: 150,
-  description: 'Una descripcion del sitio'
-)
-
-puts "Seeding Training Sessions..."
-10.times do |i|
-  category = categorias.sample
-  coach = User.with_role(:coach, category.tenant).first
-
-  TrainingSession.create!(
-    category: category,
-    coach: coach,
-    site: Site.first,
-    scheduled_at: 2.days.from_now,
-    duration_minutes: 90,
-    objectives: "#{i} - Improve passing and stamina",
-    activities: "#{i} -Warm-up, cone drills, 5v5 mini-game",
-    notes: "#{i} - All players must bring water"
-  )
-end
-
-load Rails.root.join("db/seeds/matches-n-callups.rb")
-
-MatchReport.create!(
-  tenant: academia,
-  match: Match.first,
-  user:  CoachProfile.first.user,
-  author_role: :coach,
-  general_observations: "Game was played under fair weather. Good discipline.",
-  incidents: "Minor altercation at 45'. Yellow card to #9.",
-  team_claims: "Home team claimed an offside was missed.",
-  final_notes: "Game concluded without major issues.",
-  reported_at: Time.zone.now
-)
-
-puts "Seeding Incomes..."
-load Rails.root.join("db/seeds/incomes.rb")
-
-puts "Seeding Expenses..."
-load Rails.root.join("db/seeds/expenses.rb")
+puts "Seeding Matches..."
+load Rails.root.join("db/seeds/matches.rb")
