@@ -1,0 +1,11 @@
+<%= turbo_stream.replace "matches_display",
+      partial: "season_teams/matches/matches_display",
+      locals: { tournament_data: @tournament_data } %>
+
+<%= turbo_stream.append "modal_control" do %>
+  <turbo-frame>
+    <script>
+      window.closeMatchModal && window.closeMatchModal()
+    </script>
+  </turbo-frame>
+<% end %>

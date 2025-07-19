@@ -1,0 +1,21 @@
+<template>
+  <script>
+    (() => {
+      const modalId  = "<%= modal_id %>";
+      const frameId  = "<%= frame_id %>";
+
+      const modalEl  = document.getElementById(modalId);
+      if (!modalEl) return;
+
+      const inst = bootstrap.Modal.getInstance(modalEl) ||
+                   new bootstrap.Modal(modalEl);
+
+      // when the fade-out finishes, drop the turbo-frame wrapper
+      modalEl.addEventListener("hidden.bs.modal", () => {
+        document.getElementById(frameId)?.remove();
+      }, { once: true });
+
+      inst.hide();
+    })();
+  </script>
+</template>

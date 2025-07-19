@@ -1,6 +1,6 @@
 <%= form_with(model: landing) do |form| %>
   <% if landing.errors.any? %>
-    <div style="color: red">
+    <div>
       <h2><%= pluralize(landing.errors.count, "error") %> prohibited this landing from being saved:</h2>
 
       <ul>

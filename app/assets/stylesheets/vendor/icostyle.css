@@ -2143,7 +2143,7 @@
 
 .icon-Layout-grid .path2:before {
   content: "\ea60";
-  margin-left: -1em;
+  margin-left: -1.5em;
 
 }
 
@@ -3396,7 +3396,7 @@
 
 .icon-User .path1:before {
   content: "\eb34";
-
+  margin-left: -1em;
   opacity: 0.3;
 }
 
@@ -7290,7 +7290,7 @@
 
 .icon-Lock-overturning .path2:before {
   content: "\edc0";
-  margin-left: -1em;
+  margin-left: -1.5em;
 
 }
 

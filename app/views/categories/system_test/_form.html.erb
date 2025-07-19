@@ -20,6 +20,63 @@
                       class: "form-control" %>
     </div>
 
-    <%= form.submit class: "btn btn-success" %>
+    <!-- 🔑 Connect controller -->
+    <div data-controller="category-rules">
+
+      <div id="category-rules" data-category-rules-target="rulesContainer">
+        <h5>Reglas de la Categoría</h5>
+
+        <%= form.fields_for :category_rules do |rule_form| %>
+          <div class="card mb-2 p-3" data-category-rules-target="rule">
+            <div class="row">
+              <div class="col-md-5">
+                <%= rule_form.label "Duracion de Partidos:" %>
+                <%= rule_form.hidden_field :key, value: :category_match_duration %>
+              </div>
+              <div class="col-md-5">
+                <%= rule_form.text_field :value, class: "form-control" %>
+              </div>
+              <div class="col-md-2">
+                <% if rule_form.object.persisted? %>
+                  <%#= link_to "", "#", class: "btn btn-danger remove-rule", data: { action: "category-rules#remove" } %>
+                  Minutos
+                  <%= rule_form.hidden_field :_destroy %>
+                <% end %>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      </div>
+
+      <!-- ✅ Add Rule Button -->
+      <%#= link_to "Add Rule", "#", class: "btn btn-outline-primary", data: { action: "category-rules#add" } %>
+
+      <!-- ✅ Hidden Template -->
+      <template data-category-rules-target="template">
+        <div class="card mb-2 p-3" data-category-rules-target="rule" data-new-record="true">
+          <div class="row">
+            <div class="col-md-5">
+              <label for="">Key</label>
+              <input type="text"
+                    name="category[category_rules_attributes][NEW_RECORD][key]"
+                    class="form-control" />
+            </div>
+            <div class="col-md-5">
+              <label for="">Value</label>
+              <input type="text"
+                    name="category[category_rules_attributes][NEW_RECORD][value]"
+                    class="form-control" />
+            </div>
+            <div class="col-md-2">
+              <a href="#" class="btn btn-danger remove-rule" data-action="category-rules#remove">Remove</a>
+              <input type="hidden" name="category[category_rules_attributes][NEW_RECORD][_destroy]" value="false" />
+            </div>
+          </div>
+        </div>
+      </template>
+
+    </div>
+
+    <%= form.submit class: "btn btn-success mt-3" %>
   <% end %>
 </div>

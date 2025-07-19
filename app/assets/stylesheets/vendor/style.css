@@ -21242,7 +21242,8 @@ body .main-header .navbar .nav > li.search-box > a:hover, body .main-header .nav
   .main-sidebar .sidebar-footer {
     background-color: #112038; }
     .main-sidebar .sidebar-footer a {
-      color: #ffffff; }
+      color: #ffffff; 
+      text-decoration: none;}
 
 .sidebar-footer {
   position: fixed;
@@ -21258,7 +21259,7 @@ body .main-header .navbar .nav > li.search-box > a:hover, body .main-header .nav
     width: 33.333337%;
     float: left;
     text-align: center;
-    font-size: 18px; }
+    font-size: 20px; }
 
 .layout-boxed .sidebar-footer {
   position: absolute; }
@@ -21343,7 +21344,7 @@ body .main-header .navbar .nav > li.search-box > a:hover, body .main-header .nav
         color: #b5b5c3;
         text-align: center;
         border-radius: 10px;
-        margin-right: 20px;
+        margin-right: 10px;
         background-color: transparent; }
       .sidebar-menu > li > a > svg {
         width: 24px;

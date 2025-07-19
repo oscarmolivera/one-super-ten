@@ -1,0 +1,29 @@
+  <div class="px-10"><!-- /Player Tournament List-->
+    <div class="row">
+      <div class="box">
+        <div class="box-body py-10">
+          <div class="table-responsive">
+            <table class="table align-middle mb-0">
+              <thead class="table-light">
+                <tr>
+                  <th>Torneo</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% @season_teams.each do |seasonteam| %>
+                  <tr
+                    data-controller="clickable-row"
+                    data-clickable-row-url-value="<%= tournament_data_season_team_path(seasonteam) %>"
+                    data-action="click->clickable-row#goToShow"
+                    style="cursor: pointer;">
+                    <td class="fw-semibold text-dark"><%= seasonteam.id %></td>
+                    <td class="fw-semibold text-dark"><%= seasonteam.name %></td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

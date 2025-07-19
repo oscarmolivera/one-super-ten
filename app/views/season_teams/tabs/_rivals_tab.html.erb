@@ -1,0 +1,38 @@
+<div class="tab-pane" id="rivals" role="tabpanel">
+  <div class="card shadow-sm border-0 mb-4">
+    <div class="card-header bg-light d-flex justify-content-between align-items-center">
+      <h5 class="mb-0">
+        <i class="fa-solid fa-people-group me-2"></i> Equipos Participantes
+      </h5>
+      <button type="button"
+              class="waves-effect waves-light btn btn-success mb-0"
+              data-controller="modal-loader"
+              data-action="click->modal-loader#load"
+              data-modal-loader-url-value="<%= lazy_rival_modal_season_team_path(@season_team) %>"
+              data-modal-loader-target-frame-value="#rival_modal_frame">
+        <i class="fa fa-check me-1"></i> Agregar Equipo
+      </button>
+    </div>
+
+    <div class="card-body px-4 py-3">
+      <turbo-frame id="rivals_list">
+        <div id="rivals_row" class="row row-cols-2 row-cols-sm-3 row-cols-md-4 row-cols-lg-5 row-cols-xl-6 g-3">
+          <% if @tournament_data[:rivals].any? %>
+            <%= render partial: "season_teams/rivals/rival", collection: @tournament_data[:rivals], as: :rival %>
+          <% else %>
+            <div class="alert alert-info text-center">
+              Aún no se han agregado equipos rivales.
+            </div>
+          <% end %>
+        </div>
+
+        <% if @tournament_data[:pagy].pages > 1 %>
+          <div class="d-flex justify-content-center mt-3">
+            <%= pagy_bootstrap_nav(@tournament_data[:pagy]).html_safe %>
+          </div>
+        <% end %>
+      </turbo-frame>
+    </div>
+  </div>
+    <turbo-frame id="rival_modal_frame"></turbo-frame>
+</div>

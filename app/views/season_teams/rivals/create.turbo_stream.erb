@@ -1,0 +1,15 @@
+<%= turbo_stream.append "rivals_row",
+      partial: "season_teams/rivals/rival",
+      locals:  { rival: @rival } %>
+
+<%= turbo_stream.replace "new_rival_form",
+      partial: "season_teams/rivals/form",
+      locals:  { rival: Rival.new, season_team: @season_team } %>
+
+<%= turbo_stream.append "modal_control" do %>
+  <turbo-frame>
+    <script>
+      window.closeRivalModal && window.closeRivalModal()
+    </script>
+  </turbo-frame>
+<% end %>
