@@ -1,0 +1,30 @@
+<turbo-frame id="match_modal_frame">
+  <div id="matchModal" class="modal fade" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">
+            <%= match.new_record? ? "Nuevo Partido" : "Editar Partido" %>
+          </h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+
+        <div class="modal-body">
+          <turbo-frame id="new_match_form">
+            <%= render "season_teams/matches/form",
+                match: @match, season_team: @season_team %>
+          </turbo-frame>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script type="module">
+    const modalEl = document.querySelector('#matchModal')
+    const modal = new bootstrap.Modal(modalEl)
+    modal.show()
+
+    window.closeMatchModal = () => {
+      modal.hide()
+    }
+  </script>
+</turbo-frame>

@@ -6,6 +6,7 @@ class User < ApplicationRecord
   belongs_to :tenant
   acts_as_tenant(:tenant)
 
+  has_one :player, dependent: :nullify
   has_one :coach_profile, dependent: :destroy
 
   has_many :coach_categories, foreign_key: :user_id, class_name: 'CategoryCoach'
@@ -33,26 +34,35 @@ class User < ApplicationRecord
   end
 
   def can_view_schedules?
-    is_role_tenant_admin?
+    has_role_tenant_admin?
   end
 
   def can_manage_appointments?
-    is_role_staff_assistant?
+    has_role_staff_assistant?
   end
 
   def super_admin?
     has_role?(:super_admin)
   end
 
-  def is_role_tenant_admin?
+  def has_role_tenant_admin?
     has_role?(:tenant_admin, ActsAsTenant.current_tenant)  
+    #true
   end
   
-  def is_role_staff_assistant?
+  def has_role_staff_assistant?
     has_role?(:staff_assistant, ActsAsTenant.current_tenant)  
   end
 
-  def is_role_coach?
+  def has_role_assistant_coach?
+    has_role?(:assistant_coach, ActsAsTenant.current_tenant)  
+  end
+
+  def has_role_player?
+    has_role?(:player, ActsAsTenant.current_tenant)  
+  end
+
+  def has_role_coach?
     has_role?(:coach, ActsAsTenant.current_tenant)  
   end
 

@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  mount ActiveStorage::Engine => "/rails/active_storage"
   # ------------------------------------ GLOBAL AUTH ROUTES -
   devise_for :users, controllers: { sessions: 'users/sessions' }, skip: [:registrations]
 
@@ -8,8 +9,6 @@ Rails.application.routes.draw do
   # -------------------------------------- MAIN PUBLIC SITE -
   constraints(lambda { |req| req.subdomain.blank? || req.subdomain == "www" }) do
     root to: "home#index", as: :main_root
-    get 'susudio', to: 'home#susudio'
-    get 'kamaly', to: 'home#kamaly'
     get 'contact', to: 'home#contact'
   end
 
@@ -24,36 +23,79 @@ Rails.application.routes.draw do
 
   # ------------------- TENANT PUBLIC LANDING + AUTH ROUTES -
   constraints(SubdomainConstraint) do
-    root to: "landings#index", as: :tenant_root      
+    root to: "landings#index", as: :tenant_root
+
     authenticate :user do
       get 'dashboard', to: 'dashboard#index', as: :tenant_dashboard
       get 'show-test', to: 'dashboard#show', as: :tenant_show_dashboard
+
       resources :schools
       resources :categories do
         resources :matches, only: [:index]
         resources :call_ups, only: [:index, :new, :edit, :update ]
         resources :training_sessions, only: [:index]
       end
-      resources :players
-      resources :tournaments
-      resources :call_ups, only: [:new, :create, :edit, :update]
+
+      resources :players do
+        resource :player_profile, only: [:new, :create, :show, :edit, :update]
+        resources :guardians, only: [:new, :create, :edit, :update, :destroy]
+        post :documents, on: :member
+        member do
+          get :select_category
+          post :assign_category
+          get :teammates
+          get :active_tournaments
+          delete 'remove_category'
+          delete 'documents/:blob_id', to: 'players#erase_document', as: :erase_document
+        end
+      end
+      resources :external_players
+
+      resources :season_teams do
+        member do
+          patch :upload_regulations
+          get :tournament_data
+          get :favorite_rivals
+          get :lazy_rival_modal
+          get :matches_modal
+          get :edit_match_modal
+        end
+        resources :matches, controller: "season_teams/matches", shallow: true do
+          resources :call_ups, only: [:new, :create, :edit, :update], shallow: true
+        end
+        resources :rivals, controller: "season_teams/rivals", except: [:index, :show], shallow: true
+        collection do
+          get :public_actives
+        end
+      end
+      resources :cups do
+        resources :tournaments do
+          resources :inscriptions
+        end
+      end
+      resources :call_ups, only: [:new, :create, :edit, :update] do
+        member do
+          delete :cleanup
+        end
+      end
       resources :matches, only: [:new, :create, :show, :index, :update] do
         resources :line_ups, only: [:index, :new, :create, :edit, :update ]
         resources :match_reports
         patch :update_performances, on: :member
       end
+
       resources :coaches do
         member do
-          get :assistants           # admin/coaches/:id/assistants
-          post :assign_assistant    # admin/coaches/:id/assign_assistant
+          get :assistants
+          post :assign_assistant
           delete 'remove_assistant/:assistant_id', to: 'coaches#remove_assistant', as: :remove_assistant
         end
       end
+
       resources :events do
-        collection do
-          get :calendar
-        end
+        collection { get :calendar }
       end
+
       get 'assistants', to: 'assistants#index', as: :assistants
       post 'assistants/assign_coach', to: 'assistants#assign_coach', as: :assign_coach_to_assistant
       delete 'assistants/remove_coach', to: 'assistants#remove_coach', as: :remove_coach_from_assistant
@@ -71,11 +113,17 @@ Rails.application.routes.draw do
       resources :users
       resources :category_team_assistants, only: [:new, :create, :destroy]
     end
+
+    get 'players/:handle', to: 'players#public_show', as: :public_player, constraints: lambda { |req|
+      !%w[new edit create update destroy index].include?(req.params[:handle])
+    }
   end
 
   # ----------------------------------- CATCH-ALL + FALLBACK -
   root to: "home#index", as: :fallback_root
   get '/keepalive', to: 'application#keepalive'
   get '/favicon.ico', to: redirect('/assets/favicon.png')
-  get '*path', to: 'errors#not_found', constraints: ->(req) { req.subdomain.present? }
+  get '*path', to: 'errors#not_found', constraints: ->(req) {
+    req.subdomain.present? && !req.path.start_with?('/rails/active_storage')
+  }
 end

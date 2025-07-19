@@ -18,7 +18,7 @@
         <td><%= match.location %></td>
         <td><%= l(match.scheduled_at, format: :short) %></td>
         <td><%= match.match_type.titleize %></td>
-        <td><%= match.call_ups.map(&:name).join(", ") %></td>
+        <td><%= match.call_up.map(&:name).join(", ") %></td>
         <td>
           <%= link_to "View", match_path(match), class: "btn btn-sm btn-outline-primary" %>
           <%= link_to "Report", match_match_reports_path(match), class: "btn btn-sm btn-info" %>

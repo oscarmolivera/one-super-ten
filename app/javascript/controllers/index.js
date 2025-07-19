@@ -4,5 +4,62 @@
 
 import { application } from "./application"
 
+import CallUpCleanerController from "./call_up_cleaner_controller"
+application.register("call-up-cleaner", CallUpCleanerController)
+
+import CallUpSelectorController from "./call_up_selector_controller"
+application.register("call-up-selector", CallUpSelectorController)
+
+import CategoriesController from "./categories_controller"
+application.register("categories", CategoriesController)
+
+import CategoryRulesController from "./category_rules_controller"
+application.register("category-rules", CategoryRulesController)
+
+import ClickableRowController from "./clickable_row_controller"
+application.register("clickable-row", ClickableRowController)
+
+import EditToggleController from "./edit_toggle_controller"
+application.register("edit-toggle", EditToggleController)
+
+import ExternalPlayerController from "./external_player_controller"
+application.register("external-player", ExternalPlayerController)
+
+import FrameCloserController from "./frame_closer_controller"
+application.register("frame-closer", FrameCloserController)
+
+import HandlePreviewController from "./handle_preview_controller"
+application.register("handle-preview", HandlePreviewController)
+
 import HelloController from "./hello_controller"
 application.register("hello", HelloController)
+
+import ImagePreviewController from "./image_preview_controller"
+application.register("image-preview", ImagePreviewController)
+
+import LazyLoaderController from "./lazy_loader_controller"
+application.register("lazy-loader", LazyLoaderController)
+
+import MatchFormController from "./match_form_controller"
+application.register("match-form", MatchFormController)
+
+import ModalLoaderController from "./modal_loader_controller"
+application.register("modal-loader", ModalLoaderController)
+
+import RemoteModalController from "./remote_modal_controller"
+application.register("remote-modal", RemoteModalController)
+
+import SchoolCupController from "./school_cup_controller"
+application.register("school-cup", SchoolCupController)
+
+import SchoolTabController from "./school_tab_controller"
+application.register("school-tab", SchoolTabController)
+
+import SchoolTogglesController from "./school_toggles_controller"
+application.register("school-toggles", SchoolTogglesController)
+
+import TabRedirectController from "./tab_redirect_controller"
+application.register("tab-redirect", TabRedirectController)
+
+import TurboLoaderController from "./turbo_loader_controller"
+application.register("turbo-loader", TurboLoaderController)

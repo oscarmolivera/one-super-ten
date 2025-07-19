@@ -1,0 +1,300 @@
+<div class="d-flex align-items-center justify-content-center mb-3 gap-3">
+  <%= display_cup_logo(@tournament.cup, class: "rounded shadow-sm", style: "height: 120px; width: 120px; object-fit: contain;") %>
+  <h1 class="mb-0">
+    Torneos Copa <%= @tournament.cup.name %>
+    <small class="text-muted fs-6 d-block">
+      <%= @tournament.cup.school.name %> | 
+      <%= @tournament.cup.description %> |
+      <%= @tournament.cup.location %>
+    </small>
+  </h1>
+</div>
+<div class="d-flex align-items-center justify-content-center mb-3 gap-3">
+  <h3>Creación de Equipo: <%= @category.sub_name %></h3>
+</div>
+
+<%= form_with( model: @inscription, local: true , **inscription_form_options(@inscription, @tournament)) do |f| %>
+  <div class="row">
+    <div class="col-md-6">
+      <% if @season_team.persisted? && @season_team.players.any? %>
+        <div class="card mb-4 shadow-sm">
+          <div class="card-header bg-light border-bottom fw-semibold small">
+            Equipo Propuesto (Basado en el último torneo jugado)
+          </div>
+          <div class="card-body p-2">
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-6 g-2">
+              <% @season_team.players.each_with_index do |player, index| %>
+                <div class="col">
+                  <div class="border rounded p-2 h-85 bg-white shadow-sm">
+                    <div class="fw-semibold small">
+                      <%= index + 1 %>. <%= player.full_name %>
+                    </div>
+                    <div class="text-muted text-xs">
+                      <%= player.categories.first.sub_name %>
+                    </div>
+                    <div class="text-muted text-xs">
+                      Dorsal: <strong><%= player.last_tournament_jersey %></strong>
+                    </div>
+                  </div>
+                </div>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      <% else %>
+        <div class="alert alert-info">No hay equipo previo registrado.</div>
+      <% end %>
+    </div>
+    <div class="col-md-6">
+      <div class="card mb-4 shadow-sm"><!-- Staff Selection -->
+        <div class="card-header bg-primary text-white">
+          <h6 class="pl-5 fw-bold mb-2 text-primary-subtle">Personal Técnico</h6>
+        </div>
+        <div class="card-body">
+          <div class="mb-3">
+            <div data-categories-target="container">
+              <div class="row">
+                <%= f.fields_for :season_team, @season_team do |team_fields| %>
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <%= team_fields.label :coach_id, 'Entrenador' %>
+                      <%= team_fields.collection_select :coach_id, User.with_role(:coach, ActsAsTenant.current_tenant), :id, :full_name, { prompt: 'Seleccione un entrenador' }, class: 'form-control' %>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <%= team_fields.label :assistant_coach_id, 'Asistente de Entrenador' %>
+                      <%= team_fields.collection_select :assistant_coach_id, User.with_role(:assistant_coach, ActsAsTenant.current_tenant), :id, :full_name, { prompt: 'Seleccione un asistente' }, class: 'form-control' %>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <%= team_fields.label :team_assistant_id, 'Asistente de Equipo' %>
+                      <%= team_fields.collection_select :team_assistant_id, User.with_role(:team_assistant, ActsAsTenant.current_tenant), :id, :full_name, { prompt: 'Seleccione un asistente de equipo' }, class: 'form-control' %>
+                    </div>
+                  </div>  
+                <% end %>                      
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="accordion mb-4" id="accordionPlayers">
+    <div class="accordion-item"><!-- Staff, Main Category & Reinforcements -->
+      <h2 class="accordion-header" id="headingCombined">
+        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseCombined">
+          Jugadores disponibles
+        </button>
+      </h2>
+      <div id="collapseCombined" class="accordion-collapse collapse show">
+        <div class="accordion-body">
+          <div class="row">
+            <div class="col-md-4" data-controller="edit-toggle"><!-- Main Category -->
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <h6 class="fw-bold text-primary mb-0">Categoría: <%= @category.sub_name %></h6>
+
+                <div class="d-flex align-items-center gap-2">
+                  <div class="form-check form-switch mb-0">
+                    <input type="checkbox" id="selectAll-<%= @category.id %>" 
+                          class="form-check-input" 
+                          data-action="edit-toggle#selectAllCheckboxes">
+                    <label class="form-check-label fw-semibold" for="selectAll-<%= @category.id %>">
+                      Seleccionar Todos
+                    </label>
+                  </div>
+
+                  <button type="button" class="btn btn-sm btn-danger"
+                          data-action="click->edit-toggle#toggle"
+                          data-edit-toggle-target="button">
+                    Editar Dorsal/Posición
+                  </button>
+                </div>
+              </div>
+              <% if @category_players.any? %>
+                <table class="table table-sm table-bordered mb-4">
+                  <thead class="table-light">
+                    <tr>
+                      <th>Seleccionar</th>
+                      <th>Dorsal</th>
+                      <th>Posición</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <% @category_players.each do |player| %>
+                    <% player_info = suggested_player_info(player, @category) %>
+                      <tr>
+                        <td>
+                          <%= check_box_tag "inscription[player_ids][]", 
+                              player.id, 
+                              @previous_team_player_ids.include?(player.id), 
+                              class: "form-check-input", 
+                              id: "player_#{player.id}",
+                              data: { edit_toggle_target: "checkbox" }
+                          %>
+                          <%= label_tag "player_#{player.id}", player.full_name %>
+                        </td>
+                        <td data-edit-toggle-target="editableField">
+                          <span><%= player_info[:jersey_number].presence || "—" %></span>
+                          <%= number_field_tag "inscription[jersey_numbers][#{player.id}]",
+                                player_info[:jersey_number],
+                                class: "form-control form-control-sm d-none", min: 0 %>
+                        </td>
+
+                        <td data-edit-toggle-target="editableField">
+                          <span><%= player_info[:position].presence || "—" %></span>
+                          <%= select_tag "inscription[positions][#{player.id}]",
+                                options_for_select(['portero', 'defensa', 'medio', 'delantero'], player_info[:position]),
+                                class: "form-select form-select-sm d-none" %>
+                        </td>
+                      </tr>
+                    <% end %>
+                  </tbody>
+                </table>
+              <% else %>
+                <div class="alert alert-warning">No hay jugadores en esta categoría.</div>
+              <% end %>
+            </div>
+            <div class="col-md-8"><!-- Reinforcements -->
+              <div class="row" style="background-color: #f8f9fa; border: 1px solid #dee2e6; padding: 1rem; border-radius: 0.5rem;">
+                <h3 class="d-flex align-middle">Refuerzos</h3>
+                <div class="col-md-6" data-controller="edit-toggle"><!-- Reinforcements: Lower -->
+                  <% if @lower_players.any? %>
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                      <h6 class="fw-bold text-primary"><%= @lower_category.sub_name %></h6>
+                      <button type="button" class="btn btn-sm btn-danger" data-action="click->edit-toggle#toggle" data-edit-toggle-target="button">
+                        Editar Dorsal/Posicion
+                      </button>
+                    </div>
+                    <table class="table table-sm table-bordered mb-4">
+                      <thead class="table-light">
+                        <tr>
+                          <th>Seleccionar</th>
+                          <th>Dorsal</th>
+                          <th>Posición</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <% @lower_players.each do |player| %>
+                          <% player_info = suggested_player_info(player, @lower_category) %>
+                          <tr>
+                            <td>
+                              <%= check_box_tag "inscription[reinforcement_player_ids][]", player.id, @previous_team_player_ids.include?(player.id), class: "form-check-input", id: "lower_player_#{player.id}" %>
+                              <%= label_tag "lower_player_#{player.id}", player.full_name %>
+                            </td>
+                            <td data-edit-toggle-target="editableField">
+                              <span><%= player_info[:jersey_number].presence || "—" %></span>
+                              <%= number_field_tag "inscription[jersey_numbers][#{player.id}]",
+                                    player_info[:jersey_number],
+                                    class: "form-control form-control-sm d-none", min: 0 %>
+                            </td>
+
+                            <td data-edit-toggle-target="editableField">
+                              <span><%= player_info[:position].presence || "—" %></span>
+                              <%= select_tag "inscription[positions][#{player.id}]",
+                                    options_for_select(['portero', 'defensa', 'medio', 'delantero'], player_info[:position]),
+                                    class: "form-select form-select-sm d-none" %>
+                            </td>
+                          </tr>
+                        <% end %>
+                      </tbody>
+                    </table>
+                  <% else %>
+                    <div class="alert alert-warning mt-3">No hay jugadores disponibles en ninguna categoría relacionada.</div>
+                  <% end %>
+                </div>
+                <div class="col-md-6" data-controller="edit-toggle"><!-- Reinforcements Category -->
+                  <% if @upper_players.any? %>
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                      <h6 class="fw-bold text-primary"><%= @upper_category.sub_name%>* Femeninas</h6>
+                      <button type="button" class="btn btn-sm btn-danger" data-action="click->edit-toggle#toggle" data-edit-toggle-target="button">
+                        Editar Dorsal/Posicion
+                      </button>
+                    </div>                  
+                    <table class="table table-sm table-bordered">
+                      <thead class="table-light">
+                        <tr>
+                          <th>Seleccionar</th>
+                          <th>Dorsal</th>
+                          <th>Posición</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <% @upper_players.each do |player| %>
+                        <% player_info = suggested_player_info(player, @upper_category) %>
+                          <tr>
+                            <td>
+                              <%= check_box_tag "inscription[reinforcement_player_ids][]", player.id, @previous_team_player_ids.include?(player.id), class: "form-check-input", id: "upper_player_#{player.id}" %>
+                              <%= label_tag "upper_player_#{player.id}", player.full_name %>
+                            </td>
+                            <td><%= player_info[:jersey_number].presence || "—" %></td>
+                            <td><%= player_info[:position].presence  || "—" %></td>
+                          </tr>
+                        <% end %>
+                      </tbody>
+                    </table>
+                  <% else %>
+                    <div class="alert alert-warning mt-3">No hay jugadores disponibles en categoría relacionada.</div>
+                  <% end %>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="accordion-item">    <!-- External Invites -->
+      <h2 class="accordion-header" id="headingInvites">
+        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseInvites" aria-expanded="false">
+          Refuerzos Externos
+        </button>
+      </h2>
+      <div id="collapseInvites" class="accordion-collapse collapse">
+        <div class="accordion-body">
+          <div id="external-player-form-container-placeholder"></div>
+
+          <!-- Tabla de jugadores externos -->
+          <table class="table table-sm table-bordered align-middle" data-external-player-target="table">
+            <thead class="table-light">
+              <tr>
+                <th>Seleccionar</th>
+                <th>Dorsal</th>
+                <th>Posición</th>
+                <th>Club Origen</th>
+                <th>Ingresado Por</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% if @external_players.present? %>
+                <% @external_players.each do |ext_player| %>
+                  <tr>
+                    <td>
+                      <%= check_box_tag "inscription[external_player_ids][]", ext_player.id, @previous_external_player_ids&.include?(ext_player.id), class: "form-check-input", id: "player_#{ext_player.id}" %>
+                      <%= label_tag "player_#{ext_player.id}", "#{ext_player.first_name} #{ext_player.last_name}" %>
+                    </td>
+                    <td><%= ext_player.jersey_number %></td>
+                    <td><%= ext_player.position %></td>
+                    <td><%= ext_player.notes %></td>
+                    <td><%= register_by(ext_player) %></td>
+                  </tr>
+                <% end %>
+              <% else %>
+                <tr>
+                  <td colspan="3" class="text-center">No hay refuerzos externos disponibles.</td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>        
+        </div>
+      </div>
+    </div>
+  </div>
+  <%= f.hidden_field :category_id, value: @category.id %>
+
+  <div class="d-flex justify-content-between mt-3">
+    <%= link_to "Volver", cup_tournament_path(@tournament.cup, @tournament), class: "btn btn-secondary" %>
+    <%= f.submit "Guardar Inscripción", class: "btn btn-success" %>
+  </div>
+<% end %>

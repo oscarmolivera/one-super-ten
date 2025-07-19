@@ -1,0 +1,73 @@
+<div class="tab-pane active" id="season-team" role="tabpanel">
+  <div class="p-5">
+    <div class="container mt-4">
+      <div class="row">
+        <div class="col-md-6">
+          <div class="card mb-4 shadow-sm">
+            <div class="card-body">
+              <% if @tournament_data[:players].any? %>
+                <ul class="list-group list-group-flush">
+                  <li class="list-group-item">
+                    <div class="row text-center fw-semibold">
+                      <div class="col-3 text-start">Nombre</div>
+                      <div class="col-3">Dorsal</div>
+                      <div class="col-3">Posición</div>
+                      <div class="col-3">Origen</div>
+                    </div>
+                  </li>
+                  <% @tournament_data[:players].each do |st_player| %>
+                    <% origin = player_origin(st_player) %>
+                    <li class="list-group-item <%= row_class_for(origin) %>">
+                      <div class="row text-center align-items-center">
+                        <div class="col-3 text-start">
+                          <% if (icon = icon_for(origin)) %>
+                            <i class="fa-solid <%= icon %> me-1"></i>
+                          <% end %>
+                          <%= st_player.player&.full_name || ExternalPlayer.find(st_player.external_player_id).full_name %>
+                        </div>
+                        <div class="col-3">
+                          <span class="badge text-dark px-3 py-2 fw-bold"><%= st_player.jersey_number %></span>
+                        </div>
+                        <div class="col-3">
+                          <span class="badge text-dark px-3 py-2"><%= st_player.position.capitalize %></span>
+                        </div>
+                        <div class="col-3">
+                          <% categoria = st_player_category(st_player) %>
+                          <% if categoria.present? %>
+                            <span class="<%= badge_class_for(origin)%>">
+                              <div><small><%= st_list_label(st_player) %></small> </div>
+                              <div><strong><%= categoria %></strong></div>
+                            </span>
+                          <% else %>
+                            <span class="<%= badge_class_for(origin)%>">
+                              <div><small><%= st_list_label(st_player) %></small> </div>
+                              <div><strong><%= st_player_origin_label(st_player) %></strong></div>
+                            </span>
+                          <% end %>
+                        </div>
+                      </div>
+                    </li>
+                  <% end %>
+                </ul>
+              <% else %>
+                <div class="alert alert-info">No hay jugadores seleccionados de la categoría.</div>
+              <% end %>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="card mb-4 shadow-sm">
+            <div class="card-body">
+              <h5 class="card-title">Personal Técnico</h5>
+              <p class="card-text">
+                <strong>Entrenador:</strong> <%= @tournament_data[:coach].full_name %><br>
+                <strong>Asistente:</strong> <%= @tournament_data[:assistant].full_name %><br>
+                <strong>Delegado:</strong> <%= @tournament_data[:team_assistant].full_name %><br>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

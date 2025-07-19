@@ -24,10 +24,8 @@ class Users::SessionsController < Devise::SessionsController
   def after_sign_in_path_for(user)
     if user.has_role?(:super_admin)
       superadmin_root_path
-    elsif user.has_role?(:tenant_admin, ActsAsTenant.current_tenant) && user.tenant == ActsAsTenant.current_tenant
-      tenant_dashboard_path
     else
-      main_root_path
+      tenant_dashboard_path
     end
   end
 

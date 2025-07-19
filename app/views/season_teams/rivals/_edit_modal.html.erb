@@ -1,0 +1,48 @@
+<div class="modal fade" id="editRivalModalContent-<%= rival.id %>" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Editar Rival</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+      <div class="modal-body">
+        <%= form_with model: rival,
+              url: rival_path(rival, season_team_id: @season_team.id),
+              method: :patch,
+              data: {
+                controller: "remote-modal",
+                remote_modal_modal_id_value: "editRivalModalContent-#{rival.id}",
+                action: "turbo:submit-end->remote-modal#onSubmitEnd"
+              },
+              turbo_frame: "rivals_list",
+              html: { multipart: true } do |f| %>
+
+          <div class="mb-3">
+            <%= f.label :name, "Nombre" %>
+            <%= f.text_field :name, class: "form-control" %>
+          </div>
+
+          <div class="mb-3">
+            <%= f.label :location, "Ubicación" %>
+            <%= f.text_field :location, class: "form-control" %>
+          </div>
+
+          <div class="mb-3">
+            <%= f.label :team_logo, "Logo del equipo (opcional)" %>
+            <%= f.file_field :team_logo, class: "form-control" %>
+          </div>
+
+          <div class="mb-3">
+            <%= f.check_box :is_favorite, class: "form-check-input", id: "rival_is_favorite_#{rival.id}" %>
+            <%= f.label :is_favorite, "Favorito?", for: "rival_is_favorite_#{rival.id}", class: "form-check-label" %>
+          </div>
+
+          <div class="text-end">
+            <%= f.submit "Actualizar", class: "btn btn-primary" %>
+          </div>
+
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

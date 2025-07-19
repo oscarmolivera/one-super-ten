@@ -1,0 +1,114 @@
+<% if @player.persisted? %>
+  <% if @player.guardians.any? %>
+    <div class="box box-solid">
+      <div class="box-header with-border">
+        <h4 class="box-title">Responsables Registrados</h4>
+      </div>
+      <div class="box-body table-responsive">
+        <table class="table table-bordered table-striped">
+          <thead>
+            <tr>
+              <th>Nombre</th>
+              <th>Relación</th>
+              <th>Teléfono</th>
+              <th>Email</th>
+              <th>Género</th>
+              <th>Dirección</th>
+              <th>Notas</th>
+              <th class="text-center">Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @player.guardians.each do |guardian| %>
+              <tr>
+                <td><%= guardian.full_name %></td>
+                <td><%= guardian.relationship %></td>
+                <td><%= guardian.phone %></td>
+                <td><%= guardian.email %></td>
+                <td><%= guardian.gender&.titleize %></td>
+                <td><%= guardian.address %></td>
+                <td><%= truncate(guardian.notes, length: 50) %></td>
+                <td class="text-center">
+                  <%= button_to "Eliminar", player_guardian_path(@player, guardian), method: :delete,
+                                data: { confirm: "¿Estás seguro?" },
+                                class: "btn btn-sm btn-danger" %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  <% else %>
+    <div class="alert alert-info">
+      Aún no hay responsables registrados para este jugador.
+    </div>
+  <% end %>
+
+  <hr>
+
+  <%= form_with(model: [@player, Guardian.new], url: player_guardians_path(@player), local: true) do |g| %>
+    <% if @guardian&.errors&.any? %>
+      <div class="alert alert-danger">
+        <ul>
+          <% @guardian.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div class="box-body">
+      <!-- FORM FIELDS -->
+      <div class="row">
+        <!-- First name, last name, relationship -->
+        <div class="col-md-4">
+          <%= g.label :first_name, class: 'form-label' %>
+          <%= g.text_field :first_name, class: 'form-control', placeholder: "Nombre" %>
+        </div>
+        <div class="col-md-4">
+          <%= g.label :last_name, class: 'form-label' %>
+          <%= g.text_field :last_name, class: 'form-control', placeholder: "Apellido" %>
+        </div>
+        <div class="col-md-4">
+          <%= g.label :relationship, class: 'form-label' %>
+          <%= g.select :relationship, Guardian.relationships.keys.map { |g| [g.titleize, g] }, { include_blank: "Relación con el jugador" }, class: "form-control" %>
+        </div>
+      </div>
+
+      <div class="row">
+        <!-- Phone, email, gender -->
+        <div class="col-md-4">
+          <%= g.label :phone, class: 'form-label' %>
+          <%= g.telephone_field :phone, class: "form-control", placeholder: "Teléfono" %>
+        </div>
+        <div class="col-md-4">
+          <%= g.label :email, class: 'form-label' %>
+          <%= g.email_field :email, class: "form-control", placeholder: "Correo electrónico" %>
+        </div>
+        <div class="col-md-4">
+          <%= g.label :gender, class: 'form-label' %>
+          <%= g.select :gender, Guardian.genders.keys.map { |g| [g.titleize, g] }, { include_blank: "Selecciona género" }, class: "form-control" %>
+        </div>
+      </div>
+
+      <div class="row">
+        <!-- Address and notes -->
+        <div class="col-md-6">
+          <%= g.label :address, class: 'form-label' %>
+          <%= g.text_field :address, class: "form-control", placeholder: "Dirección" %>
+        </div>
+        <div class="col-md-6">
+          <%= g.label :notes, class: 'form-label' %>
+          <%= g.text_area :notes, class: "form-control", rows: 2, placeholder: "Notas adicionales" %>
+        </div>
+      </div>
+    </div>
+
+    <div class="box-footer">
+      <%= button_tag(type: 'submit', class: 'btn btn-primary') do %>
+        <i class="ti-save-alt"></i> Guardar Responsable
+      <% end %>
+    </div>
+  <% end %>
+<% end %>

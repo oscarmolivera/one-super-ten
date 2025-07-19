@@ -1,0 +1,216 @@
+<%= form_with(model: @player, local: true) do |form| %>
+  <% if @player.errors.any? %>
+    <div class="alert alert-danger">
+      <ul>
+        <% @player.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <div class="box-body">
+    <div class="row"><!-- FirstName LastName DateOfBirth -->
+      <div class="col-md-4">
+        <div class="form-group">
+          <%= form.label :first_name, class: 'form-label' %>
+          <%= form.text_field :first_name, class: 'form-control', placeholder: "Nombre" %>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="form-group">
+          <%= form.label :last_name, class: 'form-label' %>
+          <%= form.text_field :last_name, class: 'form-control', placeholder: "Apellido" %>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="form-group">
+            <%= form.label :date_of_birth, class: 'form-label' %>
+          <div class="input-group">
+            <div class="input-group-addon">
+              <i class="fas fa-birthday-cake"></i>
+            </div>
+            <%= form.date_field :date_of_birth, class: "form-control", data: { inputmask: "'alias': 'dd/mm/yyyy'", mask: true }, required: true%>
+          </div>
+        </div>
+      </div>  
+    </div>
+    <div class="row"><!-- DocumentNumber Email Nationality -->
+      <div class="col-md-4">
+        <div class="form-group">
+            <%= form.label :document_number, class: 'form-label' %>
+          <div class="input-group">
+            <div class="input-group-addon">
+              <i class="fa fa-id-card"></i>
+            </div>
+            <%= form.text_field :document_number, class: "form-control", data: { inputmask: "'alias': 'dd/mm/yyyy'", mask: true } %>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="form-group">
+            <%= form.label :email, class: 'form-label' %>
+          <div class="input-group">
+            <div class="input-group-addon">
+              <i class="ti-email"></i>
+            </div>
+            <%= form.email_field :email, class: "form-control", placeholder: 'Email' %>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="form-group">
+          <%= form.label :nationality, class: 'form-label' %>
+          <div class="input-group">
+            <div class="input-group-addon">
+              <i class="fas fa-globe-americas"></i>
+            </div>
+            <%= form.select :nationality, Player.nationalities.keys.map { |g| [g.titleize, g] }, { include_blank: "Nacionalidad?" }, class: "form-control" %>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row"><!--  JerseyNumber Position DominantSide Gender-->
+      <div class="col-md-3">
+        <div class="form-group">
+          <%= form.label :jersey_number, class: 'form-label' %>
+          <%= form.text_field :jersey_number, class: 'form-control', placeholder: "N° Camiseta" %>
+        </div>        
+      </div>
+      <div class="col-md-3">
+        <div class="form-group">
+          <%= form.label :position, class: 'form-label' %>
+          <div class="input-group">
+            <div class="input-group-addon">
+              <i class="fas fa-globe-americas"></i>
+            </div>
+            <%= form.select :position, Player.positions.keys.map { |g| [g.titleize, g] }, { include_blank: "Pocision Preferente?" }, class: "form-control" %>
+          </div>
+        </div>        
+      </div>
+      <div class="col-md-3">
+        <div class="form-group">
+          <%= form.label :dominant_side, class: 'form-label' %>
+          <div class="input-group">
+            <div class="input-group-addon">
+              <i class="fas fa-globe-americas"></i>
+            </div>
+            <%= form.select :dominant_side, Player.dominant_sides.keys.map { |g| [g.titleize, g] }, { include_blank: "Lado dominante?" }, class: "form-control" %>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="form-group">
+          <%= form.label :gender, class: 'form-label' %>
+          <div class="input-group">
+            <div class="input-group-addon">
+              <i class="fas fa-venus-mars"></i>
+            </div>
+            <%= form.select :gender, Player.genders.keys.map { |g| [g.titleize, g] }, { include_blank: "Selecciona género" }, class: "form-control" %>
+          </div>
+        </div>        
+
+      </div>
+    </div>
+    <div class="row"><!-- Schools IsActive ProfilePicture -->
+      <div class="col-md-4">
+        <div class="form-group" id="school-toggle-group" data-controller="school-toggles">
+          <label class="form-label mb-2">Escuelas</label>
+          <div class="d-flex flex-wrap gap-3">
+            <% School.where(tenant_id: ActsAsTenant.current_tenant.id).each do |school| %>
+              <div class="form-check form-switch text-center">
+                <input type="checkbox"
+                      name="player[school_ids][]"
+                      value="<%= school.id %>"
+                      id="switch_school_<%= school.id %>"
+                      class="form-check-input school-toggle"
+                      <%= 'checked' if @player.school_ids.include?(school.id) %>
+                      data-school-toggles-target="input" />
+                <label for="switch_school_<%= school.id %>"
+                      class="form-check-label small mt-1"
+                      data-school-toggles-target="label">
+                  <%= school.name %>
+                </label>
+              </div>
+            <% end %>
+          </div>
+          <div class="invalid-feedback mt-2 d-block dt-none" data-school-toggles-target="feedback">
+            Debes seleccionar al menos una escuela.
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="form-group">
+            <%= form.label :is_active, class: 'form-label' %>
+          <div class="input-group">
+            <div class="input-group-addon">
+              <i class="fas fa-globe-americas"></i>
+            </div>
+            <%= form.select :is_active, ['true', 'false'].map { |g| [g.titleize, g] }, { include_blank: "Estado" }, class: "form-control" %>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="form-group" data-controller="file-preview">
+          <%= form.label :profile_picture, class: 'form-label' %>
+          <div class="input-group">
+            <div class="input-group-text">
+              <i class="fas fa-hand-point-right"></i>
+            </div>
+
+            <%= form.file_field :profile_picture,
+                class: "form-control",
+                data: {
+                  file_preview_target: "input",
+                  filename: (@player.profile_picture.attached? ? @player.profile_picture.filename.to_s : nil)
+                },
+                onchange: "this.dispatchEvent(new CustomEvent('change', { bubbles: true }))" %>
+          </div>
+
+          <small data-file-preview-target="label" class="form-text text-muted mt-2">
+            <!-- This will be populated by Stimulus -->
+          </small>
+        </div>
+      </div>
+    </div>
+    <div class="row"><!-- Address Notes Photo -->
+      <div class="col-md-4">
+        <div class="form-group">
+          <%= form.label :address, class: 'form-label' %>
+          <div class="input-group">
+            <div class="input-group-addon">
+              <i class="fas fa-home"></i>
+            </div>
+            <%= form.textarea :address, size: '70x5', class: "form-control" %>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="form-group">
+            <%= form.label :notes, class: 'form-label' %>
+          <div class="input-group">
+            <div class="input-group-addon">
+              <i class="fas fa-book-open"></i>
+            </div>
+            <%= form.textarea :notes, size: '70x5', class: "form-control" %>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="form-group">
+          <%= form.label 'Foto Actual', class: 'form-label' %>
+            <div class="text-center mt-3">
+              <%= player_profile_image(@player, class: 'img-thumbnail' , alt: "Foto de perfil", style: "width: 100px; height: 100px; padding: 2rem") %>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="box-footer">
+    <%= button_tag(type: 'submit', class: 'btn btn-primary') do %>
+      <i class="ti-save-alt"></i> Save
+    <% end %>
+    <%= link_to players_path, class: 'btn btn-warning' do %>
+      <i class="ti-trash"></i> Cancel
+    <% end %>
+  </div> 
+<% end %>

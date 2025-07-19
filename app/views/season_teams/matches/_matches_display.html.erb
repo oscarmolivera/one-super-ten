@@ -1,0 +1,74 @@
+<div id="matches_display">
+  <% tournament_data[:matches].order(id: :desc).each do |match| %>
+    <div class="row" id="<%= dom_id(match) %>">
+      <div class="col-md-5">
+        <div class="container">
+          <!-- Bootstrap Card -->
+          <div class="card shadow">
+            <!-- Card Header -->
+            <div class="card-header d-flex justify-content-between align-items-center">
+              <div class="badge bg-danger"> <%= match_stage(match.stage)%></div>
+              <div class="d-flex align-items-center">
+                <%= image_tag 'vendor/stadium.svg', class: 'avatar-lg px-md-5', alt: '...' %>
+                <%= match.location %>
+              </div>
+              <div class="ms-auto">
+                <%= display_plays_as_badge(match)  %>
+                <%= display_status_badge(match.status)%>
+              </div>
+            </div>
+
+            <!-- Card Body -->
+            <div class="card-body">
+              <div class="row text-center align-items-center">
+                <!-- Home Team -->
+                <div class="col-4">
+                  <%= display_home_team_logo_and_name(match) %>
+                </div>
+
+                <!-- Match Details -->
+                <div class="col-4">
+                  <%= display_match_schedule(match) %>
+                  <div class="h1">
+                    <%= display_match_result(match) %>
+                  </div>
+                  <div class="text-warning fw-bold"><%= tournament_data[:category].rule_value(:category_match_duration) %> minutos</div>
+                  <div class="text-muted small mt-2">
+                    Arbitro: <strong><%= match.referee.present? ? match.referee : "Agregar" %></strong>
+                  </div>
+                  <div class="d-flex justify-content-center gap-2 my-2">
+                    <%= edit_match_button(@season_team, match) %>
+                    <%= call_up_button(match) %>
+                    <button class="btn btn-outline-secondary btn-sm">8.24</button>
+                  </div>
+                  <button class="btn btn-primary btn-sm">See Details</button>
+                </div>
+
+                <!-- Away Team -->
+                <div class="col-4">
+                  <%= display_away_team_logo_and_name(match) %>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- End Bootstrap Card -->
+        </div>
+      </div>
+      <div class="col-md-7">
+        <turbo-frame id="call_up_frame_<%= match.id %>"
+                    data-controller="frame-closer call-up-cleaner"
+                    <% if match.call_up.present? %>
+                      data-call-up-cleaner-call-up-id-value="<%= match.call_up.id %>"
+                      data-call-up-cleaner-button-id-value="call_up_button_<%= match.id %>"
+                    <% end %>>
+        </turbo-frame>
+      </div>
+    </div>
+  <% end %>
+</div>
+<style>
+  .fadeOut {
+    opacity: 0;
+    transition: opacity 0.3s ease-out;
+  }
+</style>

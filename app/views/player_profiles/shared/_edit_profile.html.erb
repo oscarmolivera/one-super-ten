@@ -1,0 +1,232 @@
+
+<%= form_with(model: @player, local: true) do |form| %>
+  <%= hidden_field_tag :redirect_to, player_player_profile_path(@player) %>
+  <% if @player.errors.any? %>
+    <div class="alert alert-danger">
+      <ul>
+        <% @player.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <div class="box-body">
+    <div class="row"><!-- Jersey Number Nickname ProfilePicture -->
+      <%= form.fields_for :player_profile do |profile_fields| %>
+        <div class="col-md-4">
+          <div class="form-group">
+            <%= profile_fields.label :jersey_number, class: 'form-label' %>
+              <div class="input-group">
+                <div class="input-group-text">
+                  <i class="fa-solid fa-shirt"></i>
+                </div>
+                <%= profile_fields.text_field :jersey_number, class: 'form-control', placeholder: "Dorsal", id:"jersey-number-field"%>
+              </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <%= profile_fields.hidden_field :id %> 
+            <%= profile_fields.label :nickname, class: 'form-label' %>
+            <%= profile_fields.text_field :nickname, class: 'form-control', placeholder: "Apodo" %>
+          </div>
+        </div>
+      <% end %>
+      <div class="col-md-4">
+        <div class="form-group" data-controller="file-preview">
+          <%= form.label :profile_picture, class: 'form-label' %>
+          <div class="input-group">
+            <div class="input-group-text">
+              <i class="fas fa-hand-point-right"></i>
+            </div>
+
+            <%= form.file_field :profile_picture,
+                class: "form-control",
+                data: {
+                  file_preview_target: "input",
+                  filename: (@player.profile_picture.attached? ? @player.profile_picture.filename.to_s : nil)
+                },
+                onchange: "this.dispatchEvent(new CustomEvent('change', { bubbles: true }))" %>
+          </div>
+
+          <small data-file-preview-target="label" class="form-text text-muted mt-2">
+            <!-- This will be populated by Stimulus -->
+          </small>
+        </div>
+      </div>
+    </div>
+    <div class="row"><!-- DominantSide Position ProfilePicture -->
+      <div class="col-md-4">
+        <div class="form-group">
+          <%= form.label :dominant_side, class: 'form-label' %>
+          <div class="input-group">
+            <div class="input-group-text">
+              <i class="fas fa-hand-point-right"></i>
+            </div>
+            <%= form.select :dominant_side, Player.dominant_sides.keys.map { |g| [g.titleize, g] }, { include_blank: "Lado?" }, class: "form-control" %>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="form-group">
+          <%= form.label :position, class: 'form-label' %>
+          <div class="input-group">
+            <div class="input-group-text">
+              <i class="fas fa-futbol"></i>
+            </div>
+            <%= form.select :position, Player.positions.keys.map { |g| [g.titleize, g] }, { include_blank: "Posición?" }, class: "form-control" %>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="form-group">
+          <div class="text-center mt-25">
+            <%= player_profile_image(@player, class: "img-thumbnail" , alt: "Foto de perfil", style: "width: 80px; height: 80px;") %>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row"><!-- Public Handle -->
+      <div class="col-md-6">
+        <div class="form-group" data-controller="handle-preview">
+          <%= form.label :handle, 'Nombre Público (handle)', class: 'form-label' %>
+          <div class="input-group">
+            <div class="input-group-text">
+              <i class="fas fa-link"></i>
+            </div>
+            <%= form.text_field :handle,
+                  class: 'form-control',
+                  placeholder: 'ej: nombre-publico',
+                  data: {
+                    "handle-preview-target": "input",
+                    action: "input->handle-preview#update"
+                  } %>
+          </div>
+          <small class="form-text text-muted">
+            Tu página pública será:<br>
+            <strong>
+              <%=players_public_url%><em data-handle-preview-target="output"><%=@player.public_handler%></em>
+            </strong>
+          </small>
+        </div>
+      </div>
+    </div>
+    <div class="row mt-4"><!-- Visibilidad pública -->
+      <div class="col-12">
+        <div class="form-check">
+          <%= form.check_box :public_profile, class: "form-check-input", id: "player_public_profile" %>
+          <%= form.label :public_profile, "Hacer mi perfil público", class: "form-check-label ms-2" %>
+        </div>
+        <small class="form-text text-muted">
+          Si marcas esta opción, tu perfil será accesible públicamente. También debes definir un nombre público único.
+        </small>
+      </div>
+    </div>
+    <div class="row mt-4"><!-- Social Media & UpLoad Photos -->
+      <div class="col-md-6"><!-- Social Media Column -->
+        <div class="box">
+          <div class="box-header">
+            <h5 class="box-title"><i class="fas fa-rss-square me-2"></i>Redes Sociales</h5>
+            <div><small>Solo coloca el usuario de la red</small></div>
+          </div>
+          <div class="box-body">
+            <%= form.fields_for :player_profile do |profile_fields| %>
+              <div class="form-group mb-3">
+                <%= profile_fields.label :facebook, 'Facebook', class: 'form-label' %>
+                <div class="input-group">
+                  <div class="input-group-text">
+                    <i class="fa fa-facebook"></i>
+                  </div>
+                  <%= profile_fields.text_field :social_links_facebook, value: profile_fields.object.social_links["facebook"], class: 'form-control', placeholder: 'https://facebook.com/...' %>
+                </div>
+              </div>
+
+              <div class="form-group mb-3">
+                <%= profile_fields.label :instagram, 'Instagram', class: 'form-label' %>
+                <div class="input-group">
+                  <div class="input-group-text">
+                    <i class="fa fa-instagram"></i>
+                  </div>
+                  <%= profile_fields.text_field :social_links_instagram, value: profile_fields.object.social_links["instagram"], class: 'form-control', placeholder: 'https://instagram.com/...' %>
+                </div>                
+              </div>
+
+              <div class="form-group mb-3">
+                <%= profile_fields.label :tiktok, 'TikTok', class: 'form-label' %>
+                <div class="input-group">
+                  <div class="input-group-text">
+                    <i class="fa-brands fa-tiktok"></i>
+                  </div>
+                  <%= profile_fields.text_field :social_links_tiktok, value: profile_fields.object.social_links["tiktok"], class: 'form-control', placeholder: 'https://tiktok.com/@...' %>
+                </div> 
+              </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6"><!-- Photo Uploads Column -->
+        <div class="box">
+          <div class="box-header">
+            <h5 class="box-title"><i class="fas fa-image me-2"></i>Fotos del Jugador</h5>
+          </div>
+          <div class="box-body">
+            <!-- HERO IMAGE -->
+            <div class="form-group mb-4">
+              <%= form.label :hero_image, 'Imagen Principal (Hero)', class: 'form-label' %>
+              <%= form.file_field :hero_image, class: 'form-control' %>
+
+              <% if @player.hero_image.attached? %>
+                <div class="mt-2 d-flex align-items-center">
+                  <div class="me-3">
+                    <%= image_tag @player.hero_image.variant(resize_to_limit: [60, 60]).processed,
+                                  class: "img-thumbnail", alt: "Hero Image" %>
+                  </div>
+                  <div>
+                    <strong><%= @player.hero_image.filename.to_s %></strong>
+                    <br>
+                    <small><%= number_to_human_size(@player.hero_image.byte_size) %></small>
+                  </div>
+                </div>
+              <% end %>
+            </div>
+
+            <!-- CAROUSEL IMAGES -->
+            <div class="form-group mb-2">
+              <%= form.label :carousel_images, 'Imágenes para el Carrusel (máx. 4)', class: 'form-label' %>
+              <%= form.file_field :carousel_images, multiple: true, class: 'form-control', accept: "image/*" %>
+              <small class="form-text text-muted">
+                Solo puedes tener 4 imágenes. Si agregas una nueva, la más antigua será reemplazada automáticamente.
+              </small>
+
+              <% if @player.carousel_images.attached? %>
+                <div class="mt-3 d-flex flex-wrap gap-2">
+                  <% @player.carousel_images.each do |img| %>
+                    <div class="text-center">
+                      <% if img.variable? %>
+                        <%= image_tag img.variant(resize_to_limit: [60, 60]).processed, class: "img-thumbnail mb-1", alt: "Carrusel" %>
+                      <% else %>
+                        <%= image_tag url_for(img), class: "img-thumbnail mb-1", alt: "Carrusel" %>
+                      <% end %>
+                      <div class="small text-muted player-carousel-images-size" >
+                        <%= truncate(img.filename.to_s, length: 15) %>
+                      </div>
+                    </div>
+                  <% end %>
+                </div>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="box-footer">
+    <button type="button" class="btn btn-warning me-1">
+      <i class="ti-trash"></i> Cancel
+    </button>
+    <button type="submit" class="btn btn-primary">
+      <i class="ti-save-alt"></i> Save
+    </button>
+  </div> 
+<% end %>
