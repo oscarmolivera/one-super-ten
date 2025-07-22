@@ -15,8 +15,8 @@ Rails.application.configure do
     "Cache-Control" => "public, max-age=#{2.days.to_i}"
   }
 
-  # Store uploaded files on local system. Use :amazon or :google for cloud.
-  config.active_storage.service = :local
+  # Storage configuration
+  config.active_storage.service = :r2_private
 
   # Mailer config
   config.action_mailer.raise_delivery_errors = true

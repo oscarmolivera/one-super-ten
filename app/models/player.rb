@@ -17,11 +17,11 @@ class Player < ApplicationRecord
   accepts_nested_attributes_for :player_profile
   accepts_nested_attributes_for :guardians, allow_destroy: true
 
-  has_one_attached :profile_picture, dependent: :destroy
-  has_one_attached :hero_image, dependent: :destroy
+  has_one_attached :profile_picture, service: :r2_private, dependent: :destroy
+  has_one_attached :hero_image, service: :r2_private, dependent: :destroy
   
-  has_many_attached :documents, dependent: :destroy
-  has_many_attached :carousel_images, dependent: :destroy
+  has_many_attached :documents, service: :r2_private, dependent: :destroy
+  has_many_attached :carousel_image, service: :r2_private, dependent: :destroy
 
   validates :first_name, :last_name, presence: true
   validates :handle,

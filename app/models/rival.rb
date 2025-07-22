@@ -1,7 +1,7 @@
 class Rival < ApplicationRecord
   belongs_to :tenant, optional: true
 
-  has_one_attached :team_logo, dependent: :destroy
+  has_one_attached :team_logo, service: :r2_public, dependent: :destroy
 
   has_many :season_team_rivals, dependent: :destroy
   has_many :season_teams, through: :season_team_rivals
