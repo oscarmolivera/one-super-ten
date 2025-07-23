@@ -13,7 +13,7 @@ r2_public:
   region: us-east-1
   bucket: tenant-public-assets
   endpoint: https://cdn.nubbe.net
-  force_path_style: false
+  force_path_style: true
   ssl_verify_peer: true
   http_continue_timeout: 1
 
