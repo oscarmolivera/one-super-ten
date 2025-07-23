@@ -1,5 +1,5 @@
 class CupsController < ApplicationController
-  before_action :set_cup, only: %i[show edit update destroy]
+  before_action :set_cup, only: %i[edit update destroy]
   before_action :authenticate_user!
 
   def index
