@@ -12,7 +12,7 @@ r2_public:
   secret_access_key: <%= Rails.application.credentials.dig(:r2, :secret_access_key) %>
   region: us-east-1
   bucket: tenant-public-assets
-  endpoint: https://cdn.nubbe.net
+  endpoint: https://b5988d898f725f.r2.cloudflarestorage.com
   force_path_style: true
   ssl_verify_peer: true
   http_continue_timeout: 1
