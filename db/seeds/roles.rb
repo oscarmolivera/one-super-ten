@@ -1,0 +1,41 @@
+root_tenant = Tenant.find_by(subdomain: "main")
+academia = Tenant.find_by(subdomain: "academia-margarita")
+deportivo = Tenant.find_by(subdomain: "deportivo-margarita")
+
+su = User.find_by(email: "admin@nubbe.net")
+ta_aca = User.find_by(email: "admin@academia.com")
+ta_dep = User.find_by(email: "admin@deportivo.com")
+sa_aca = User.find_by(email: "administrador@academy1.com")
+sa_dep = User.find_by(email: "administrador@academy2.com")
+co_aca = User.find_by(email: "entrenador@academy1.com")
+co_dep = User.find_by(email: "entrenador@academy2.com")
+td_aca = User.find_by(email: "delegado1@academy1.com")
+td_dep = User.find_by(email: "delegado1@academy2.com")
+
+# Super Admin
+Role.find_or_create_by(name: :super_admin, resource: root_tenant, tenant: su.tenant)
+
+# TenantAdmin for Academies
+Role.find_or_create_by(name: :tenant_admin, resource: academia, tenant: ta_aca.tenant)
+Role.find_or_create_by(name: :tenant_admin, resource: deportivo, tenant: ta_dep.tenant)
+Role.find_or_create_by(name: :staff_assistant, resource: academia, tenant: sa_aca.tenant)
+Role.find_or_create_by(name: :staff_assistant, resource: deportivo, tenant: sa_dep.tenant)
+Role.find_or_create_by(name: :coach, resource: academia, tenant: co_aca.tenant)
+Role.find_or_create_by(name: :coach, resource: deportivo, tenant: co_dep.tenant)
+Role.find_or_create_by(name: :player, resource: academia, tenant: academia)
+Role.find_or_create_by(name: :player, resource: deportivo, tenant: deportivo)
+Role.find_or_create_by(name: :team_assistant, resource: academia, tenant: td_aca.tenant)
+Role.find_or_create_by(name: :team_assistant, resource: deportivo, tenant: td_dep.tenant)
+Role.find_or_create_by(name: :player, resource: academia, tenant: academia)
+Role.find_or_create_by(name: :player, resource: deportivo, tenant: deportivo)
+
+# Role Assignments
+su.add_role_with_tenant(:super_admin, root_tenant)
+ta_aca.add_role_with_tenant(:tenant_admin, academia)
+ta_dep.add_role_with_tenant(:tenant_admin, deportivo)
+sa_aca.add_role_with_tenant(:staff_assistant, academia)
+sa_dep.add_role_with_tenant(:staff_assistant, deportivo)
+co_aca.add_role_with_tenant(:coach, academia)
+co_dep.add_role_with_tenant(:coach, deportivo)
+td_aca.add_role_with_tenant(:team_assistant, academia)
+td_dep.add_role_with_tenant(:team_assistant, deportivo)

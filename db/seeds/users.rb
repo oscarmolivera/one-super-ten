@@ -1,0 +1,13 @@
+root_tenant = Tenant.find_by(subdomain: "main")
+academia = Tenant.find_by(subdomain: "academia-margarita")
+deportivo = Tenant.find_by(subdomain: "deportivo-margarita")
+
+User.create!(email: "admin@nubbe.net", password: "s3cret.", first_name: "Super Admin", last_name: "Nubbe.Net", tenant: root_tenant)
+User.create!(email: "admin@academia.com", password: "s3cret.", first_name: "Luis", last_name: "TenantAdmin", tenant: academia)
+User.create!(email: "admin@deportivo.com", password: "s3cret.", first_name: "Gilberto", last_name: "TenantAdmin", tenant: deportivo)
+User.create!(email: "administrador@academy1.com", password: "s3cret.", first_name: "Miriam", last_name: "StaffAdmin", tenant: academia)
+User.create!(email: "administrador@academy2.com", password: "s3cret.", first_name: "Alberto", last_name: "StaffAdmin", tenant: deportivo)
+User.create!(email: "entrenador@academy1.com", password: "s3cret.", first_name: "Rodrigo", last_name: "Coach", tenant: academia)
+User.create!(email: "entrenador@academy2.com", password: "s3cret.", first_name: "Samuel", last_name: "Coach", tenant: deportivo)
+User.create!(email: "delegado1@academy1.com", password: "s3cret.", first_name: "María", last_name: "Delegado", tenant: academia)
+User.create!(email: "delegado1@academy2.com", password: "s3cret.", first_name: "Josefa", last_name: "Delegado", tenant: deportivo)
