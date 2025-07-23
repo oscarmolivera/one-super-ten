@@ -27,4 +27,3 @@ r2_private:
   force_path_style: true
   ssl_verify_peer: false
   http_continue_timeout: 1
-  
