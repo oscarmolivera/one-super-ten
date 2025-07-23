@@ -12,8 +12,9 @@ r2_public:
   secret_access_key: <%= Rails.application.credentials.dig(:r2, :secret_access_key) %>
   region: us-east-1
   bucket: tenant-public-assets
-  endpoint: https://b5988d898f725f.r2.cloudflarestorage.com
+  endpoint: https://5b92308a38293a7585595315c458b8e7.r2.cloudflarestorage.com
   force_path_style: true
+  ssl_verify_peer: false
 
 r2_private:
   service: S3
@@ -21,7 +22,7 @@ r2_private:
   secret_access_key: <%= Rails.application.credentials.dig(:r2, :secret_access_key) %>
   region: us-east-1
   bucket: tenant-private-assets
-  endpoint: https://b5988d898f725f.r2.cloudflarestorage.com
+  endpoint: https://5b92308a38293a7585595315c458b8e7.r2.cloudflarestorage.com
   force_path_style: true
   ssl_verify_peer: true
   http_continue_timeout: 1
