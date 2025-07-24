@@ -17,7 +17,7 @@ r2_public:
   ssl_verify_peer: false
 
 r2_private:
-  service: S3
+  service: CustomR2Private
   access_key_id: <%= Rails.application.credentials.dig(:r2, :access_key_id) %>
   secret_access_key: <%= Rails.application.credentials.dig(:r2, :secret_access_key) %>
   region: us-east-1
@@ -25,4 +25,3 @@ r2_private:
   endpoint: https://5b92308a38293a7585595315c458b8e7.r2.cloudflarestorage.com
   force_path_style: true
   ssl_verify_peer: true
-  http_continue_timeout: 1
