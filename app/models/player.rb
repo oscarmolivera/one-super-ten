@@ -21,7 +21,8 @@ class Player < ApplicationRecord
   has_one_attached :hero_image, service: :r2_private, dependent: :destroy
   
   has_many_attached :documents, service: :r2_private, dependent: :destroy
-  has_many_attached :carousel_image, service: :r2_private, dependent: :destroy
+  has_many_attached :carousel_images, service: :r2_private, dependent: :destroy
+
 
   validates :first_name, :last_name, presence: true
   validates :handle,
