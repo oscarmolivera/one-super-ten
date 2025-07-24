@@ -16,4 +16,13 @@ class ActiveStorage::Service::CustomR2PublicService < ActiveStorage::Service::S3
   def url(key, **options)
     "https://cdn.nubbe.net/#{key}"
   end
+
+  def upload(key, io, checksum: nil, **_ignored)
+    instrument :upload, key: key, checksum: checksum do
+      obj = object_for(key)
+
+      # Upload with raw body — omit content_md5 and metadata params that confuse R2
+      obj.put(body: io.read)
+    end
+  end
 end
