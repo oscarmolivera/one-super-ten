@@ -4,6 +4,7 @@ class SeasonTeams::RivalsController < ApplicationController
   before_action :set_season_team, except: %i[create]
   before_action :authorize_rivals
   before_action :set_rival, only: %i[edit update destroy]
+  skip_after_action :verify_policy_scoped, only: :index
 
   def create
     @season_team = SeasonTeam.find(params[:season_team_id])
