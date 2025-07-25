@@ -6,6 +6,10 @@ class SeasonTeams::RivalsController < ApplicationController
   before_action :set_rival, only: %i[edit update destroy]
   skip_after_action :verify_policy_scoped, only: :index
 
+  def index
+    redirect_to root_path, alert: "Not implemented"
+  end
+
   def create
     @season_team = SeasonTeam.find(params[:season_team_id])
   
