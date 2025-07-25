@@ -1,7 +1,7 @@
 class SeasonTeams::RivalsController < ApplicationController
   include ActionView::RecordIdentifier # This module provides the `dom_id` helper method for Turbo Streams
 
-  before_action :set_season_team, except: %i[index create]
+  before_action :set_season_team, except: %i[create]
   before_action :authorize_rivals
   before_action :set_rival, only: %i[edit update destroy]
 
