@@ -1,5 +1,11 @@
 class CallUpsController < ApplicationController
   protect_from_forgery except: :cleanup
+  skip_after_action :verify_policy_scoped, only: :index
+
+  def index
+    redirect_to root_path, alert: "Not implemented"
+  end
+
 
   def new
     authorize :call_up, :index?
