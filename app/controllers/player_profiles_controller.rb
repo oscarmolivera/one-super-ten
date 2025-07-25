@@ -3,7 +3,12 @@ class PlayerProfilesController < ApplicationController
   before_action :set_profile
   before_action :set_teammates, only: [:show]
   before_action :authorize_profile
+  skip_after_action :verify_policy_scoped, only: :index
 
+  def index
+    redirect_to root_path, alert: "Not implemented"
+  end
+  
   def new
     @profile = @player.build_player_profile
     @profile.status = :active
