@@ -9,7 +9,7 @@ gem "jbuilder"
 gem "jsbundling-rails"
 gem "kamal", require: false
 gem "propshaft"
-gem "pg", "~> 1.1"
+gem "pg", "~> 1.6"
 gem "puma", ">= 5.0"
 gem "pundit", "~> 2.5"
 gem "rails", "~> 8.0.2"
