@@ -323,11 +323,11 @@ module SeasonTeamsHelper
         id: "performance_button_#{match.id}",
         class: "btn btn-danger btn-sm",
         data: {
-          controller: "turbo-loader",
-          action: "click->turbo-loader#load",
-          "turbo-loader-url-value": performance_form_match_path(match),
-          "turbo-loader-frame-value": "performance_frame_#{ match.id }",
-          "turbo-loader-button-id-value": "performance_button_#{ match.id }"
+          controller: "match-details-loader",
+          action: "click->match-details-loader#load",
+          "match-details-loader-url-value": performance_form_match_path(match),
+          "match-details-loader-frame-value": "performance_frame_#{ match.id }",
+          "match-details-loader-button-id-value": "performance_button_#{ match.id }"
         } do
         label = "Actualizar Resultado"
         safe_join([

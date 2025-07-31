@@ -43,6 +43,9 @@ application.register("image-preview", ImagePreviewController)
 import LazyLoaderController from "./lazy_loader_controller"
 application.register("lazy-loader", LazyLoaderController)
 
+import MatchDetailsLoaderController from "./match_details_loader_controller"
+application.register("match-details-loader", MatchDetailsLoaderController)
+
 import MatchFormController from "./match_form_controller"
 application.register("match-form", MatchFormController)
 
