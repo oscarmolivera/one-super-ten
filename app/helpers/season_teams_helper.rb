@@ -259,11 +259,11 @@ module SeasonTeamsHelper
           id: "call_up_button_#{match.id}",
           class: "btn btn-warning btn-sm",
           data: {
-                  controller: "turbo-loader",
-                  action: "click->turbo-loader#load",
-                  "turbo-loader-url-value": edit_or_new_call_up_url(match),
-                  "turbo-loader-frame-value": "call_up_frame_#{match.id}",
-                  "turbo-loader-button-id-value": "call_up_button_#{match.id}"
+                  controller: "call-up-loader",
+                  action: "click->call-up-loader#load",
+                  "call-up-loader-url-value": edit_or_new_call_up_url(match),
+                  "call-up-loader-frame-value": "call_up_frame_#{match.id}",
+                  "call-up-loader-button-id-value": "call_up_button_#{match.id}"
                 } do
           label = "Editar Convocatoria"
           safe_join([
@@ -276,11 +276,11 @@ module SeasonTeamsHelper
           id: "call_up_button_#{match.id}",
           class: "btn btn-primary btn-sm",
           data: {
-                  controller: "turbo-loader",
-                  action: "click->turbo-loader#load",
-                  "turbo-loader-url-value": edit_or_new_call_up_url(match),
-                  "turbo-loader-frame-value": "call_up_frame_#{match.id}",
-                  "turbo-loader-button-id-value": "call_up_button_#{match.id}"
+                  controller: "call-up-loader",
+                  action: "click->call-up-loader#load",
+                  "call-up-loader-url-value": edit_or_new_call_up_url(match),
+                  "call-up-loader-frame-value": "call_up_frame_#{match.id}",
+                  "call-up-loader-button-id-value": "call_up_button_#{match.id}"
                 } do
           label = "Agregar Convocatoria"
           safe_join([

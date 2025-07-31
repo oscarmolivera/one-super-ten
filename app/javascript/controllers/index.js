@@ -7,6 +7,9 @@ import { application } from "./application"
 import CallUpCleanerController from "./call_up_cleaner_controller"
 application.register("call-up-cleaner", CallUpCleanerController)
 
+import TurboLoaderController from "./call_up_loader_controller"
+application.register("call-up-loader", TurboLoaderController)
+
 import CallUpSelectorController from "./call_up_selector_controller"
 application.register("call-up-selector", CallUpSelectorController)
 
@@ -60,6 +63,3 @@ application.register("school-toggles", SchoolTogglesController)
 
 import TabRedirectController from "./tab_redirect_controller"
 application.register("tab-redirect", TabRedirectController)
-
-import TurboLoaderController from "./turbo_loader_controller"
-application.register("turbo-loader", TurboLoaderController)

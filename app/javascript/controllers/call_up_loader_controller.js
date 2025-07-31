@@ -1,4 +1,4 @@
-// controllers/frame_loader_controller.js
+// controllers/call_up_loader_controller.js
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
