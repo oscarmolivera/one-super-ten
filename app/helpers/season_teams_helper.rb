@@ -316,4 +316,35 @@ module SeasonTeamsHelper
     end
   end
 
+  def match_details_button(match)
+    if match.scheduled_at.present? && Time.current >= match.scheduled_at
+      # Button is enabled if the match has started (current time is on or after scheduled_at)
+      button_tag type: "button",
+        id: "performance_button_#{match.id}",
+        class: "btn btn-danger btn-sm",
+        data: {
+          controller: "turbo-loader",
+          action: "click->turbo-loader#load",
+          "turbo-loader-url-value": performance_form_match_path(match),
+          "turbo-loader-frame-value": "performance_frame_#{match.id}",
+          "turbo-loader-button-id-value": "performance_button_#{match.id}"
+        } do
+        label = "Actualizar Resultado"
+        safe_join([
+          content_tag(:i, "", class: "bi bi-file-text me-1"),
+          " #{label}"
+        ])
+      end
+    else
+      # Disabled button if the match hasn't started yet
+      button_tag type: "button",
+        id: "performance_button_#{match.id}",
+        class: "btn btn-outline-secondary btn-sm disabled" do
+        safe_join([
+          content_tag(:i, "", class: "bi bi-x-octagon me-1"),
+          "Pendiente por Jugarse"
+        ])
+      end
+    end
+  end
 end
