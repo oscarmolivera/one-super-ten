@@ -14,6 +14,8 @@ class Match < ApplicationRecord
   
   has_one :call_up, dependent: :destroy
 
+  accepts_nested_attributes_for :match_performances, allow_destroy: true
+
   enum :match_type, { friendly: 0, tournament: 1, practice: 2 }
   enum :plays_as, { home: 0, away: 1 }
   enum :location_type, {home_field: 0, away_field: 1, neutral: 2 }

@@ -326,8 +326,8 @@ module SeasonTeamsHelper
           controller: "turbo-loader",
           action: "click->turbo-loader#load",
           "turbo-loader-url-value": performance_form_match_path(match),
-          "turbo-loader-frame-value": "performance_frame_#{match.id}",
-          "turbo-loader-button-id-value": "performance_button_#{match.id}"
+          "turbo-loader-frame-value": "performance_frame_#{ match.id }",
+          "turbo-loader-button-id-value": "performance_button_#{ match.id }"
         } do
         label = "Actualizar Resultado"
         safe_join([

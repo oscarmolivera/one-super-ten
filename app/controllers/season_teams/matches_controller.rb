@@ -77,13 +77,21 @@ class SeasonTeams::MatchesController < ApplicationController
     end
   end
 
+  def performance_form
+    authorize :match, :index?
+
+    @match = Match.find(params[:id])
+    render partial: "season_teams/matches/performance_form", locals: { match: @match }
+  end
+
   private
 
   def match_params
     params.require(:match).permit(
       :tenant_id, :tournament_id, :team_of_interest_id, :rival_season_team_id, 
       :rival_id, :plays_as, :match_type, :location, :location_type, :status, 
-      :stage_id, :referee, :scheduled_at, :team_score, :rival_score, :notes, 
+      :stage_id, :referee, :scheduled_at, :team_score, :rival_score, :notes,
+      match_performances_attributes: [:id, :player_id, :goals, :assists, :minutes_played, :yellow_cards, :red_cards, :notes]
     )
   end
 
