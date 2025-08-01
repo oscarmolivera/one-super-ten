@@ -81,7 +81,8 @@ class SeasonTeams::MatchesController < ApplicationController
     authorize :match, :index?
 
     @match = Match.find(params[:id])
-    render partial: "season_teams/matches/performance_form", locals: { match: @match }
+    @season_team = @match.team_of_interest
+    render partial: "season_teams/matches/performance_form", locals: { match: @match, season_team: @season_team }
   end
 
   private
