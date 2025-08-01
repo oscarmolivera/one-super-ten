@@ -263,7 +263,8 @@ module SeasonTeamsHelper
                   action: "click->call-up-loader#load",
                   "call-up-loader-url-value": edit_or_new_call_up_url(match),
                   "call-up-loader-frame-value": "call_up_frame_#{match.id}",
-                  "call-up-loader-button-id-value": "call_up_button_#{match.id}"
+                  "call-up-loader-button-id-value": "call_up_button_#{match.id}",
+                  "call-up-loader-scheduled-at-value": "#{match.scheduled_at}"
                 } do
           label = "Editar Convocatoria"
           safe_join([
@@ -282,7 +283,7 @@ module SeasonTeamsHelper
                   "call-up-loader-frame-value": "call_up_frame_#{match.id}",
                   "call-up-loader-button-id-value": "call_up_button_#{match.id}"
                 } do
-          label = "Agregar Convocatoria"
+          label = "Crear Convocatoria"
           safe_join([
             content_tag(:i, "", class: "bi bi-people-fill me-1"),
             " #{label}"
@@ -318,22 +319,34 @@ module SeasonTeamsHelper
 
   def match_details_button(match)
     if match.scheduled_at.present? && Time.current >= match.scheduled_at
-      # Button is enabled if the match has started (current time is on or after scheduled_at)
-      button_tag type: "button",
-        id: "performance_button_#{match.id}",
-        class: "btn btn-danger btn-sm",
-        data: {
-          controller: "match-details-loader",
-          action: "click->match-details-loader#load",
-          "match-details-loader-url-value": performance_form_match_path(match),
-          "match-details-loader-frame-value": "performance_frame_#{ match.id }",
-          "match-details-loader-button-id-value": "performance_button_#{ match.id }"
-        } do
-        label = "Actualizar Resultado"
-        safe_join([
-          content_tag(:i, "", class: "bi bi-file-text me-1"),
-          " #{label}"
-        ])
+      if match.call_up.present?
+        # Button is enabled if the match has started and has a call_up
+        button_tag type: "button",
+          id: "performance_button_#{match.id}",
+          class: "btn btn-danger btn-sm",
+          data: {
+            controller: "match-details-loader",
+            action: "click->match-details-loader#load",
+            "match-details-loader-url-value": performance_form_match_path(match),
+            "match-details-loader-frame-value": "performance_frame_#{ match.id }",
+            "match-details-loader-button-id-value": "performance_button_#{ match.id }"
+          } do
+          label = "Actualizar Resultado"
+          safe_join([
+            content_tag(:i, "", class: "bi bi-file-text me-1"),
+            " #{label}"
+          ])
+        end
+      else
+        # Disabled button if the match has started but no call_up exists
+        button_tag type: "button",
+          id: "performance_button_#{match.id}",
+          class: "btn btn-outline-secondary btn-sm disabled" do
+          safe_join([
+            content_tag(:i, "", class: "bi bi-x-octagon me-1"),
+            "Crear convocatoria primero"
+          ])
+        end
       end
     else
       # Disabled button if the match hasn't started yet
