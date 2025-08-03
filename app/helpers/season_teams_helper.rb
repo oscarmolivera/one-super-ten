@@ -91,7 +91,7 @@ module SeasonTeamsHelper
   end
 
   def winner_badge
-    content_tag(:div, "Winner", class: "winner-ribbon mt-1")
+    content_tag(:div, "Ganador", class: "winner-ribbon mt-1")
   end
 
   def display_match_result(match)
@@ -104,8 +104,13 @@ module SeasonTeamsHelper
       home_class = "fs-42 text-wine"
       away_class = "fs-42 text-navy-blue text-glow"
     else
+      if match.status == "played"
+        home_class = "fs-42 text-dark text-glow-tied"
+        away_class = "fs-42 text-dark text-glow-tied"
+      else
       home_class = "fs-42 text-dark"
       away_class = "fs-42 text-dark"
+      end
     end
 
     # Ensure correct order for plays_as
@@ -261,9 +266,10 @@ module SeasonTeamsHelper
     end
   end
 
-  def edit_match_button(season_team, match)
+  def edit_match_button(season_team, match, disabled: false)
     button_tag type: "button",
-               class: "btn btn-outline-primary btn-sm",
+             class: "btn btn-outline-primary btn-sm#{' disabled' if disabled}",
+             disabled: disabled,
                data: {
                  controller: "modal-loader",
                  action: "click->modal-loader#load",
@@ -277,12 +283,13 @@ module SeasonTeamsHelper
     end
   end
 
-  def call_up_button(match)
+  def call_up_button(match, disabled: false)
     if match.scheduled_at.present?
       if match.call_up.present?
         button_tag type: "button",
           id: "call_up_button_#{match.id}",
-          class: "btn btn-warning btn-sm",
+          class: "btn btn-warning btn-sm#{' disabled' if disabled}",
+          disabled: disabled,
           data: {
                   controller: "call-up-loader",
                   action: "click->call-up-loader#load",
@@ -342,13 +349,14 @@ module SeasonTeamsHelper
     end
   end
 
-  def match_details_button(match)
+  def match_details_button(match, disabled: false)
     if match.scheduled_at.present? && Time.current >= match.scheduled_at
       if match.call_up.present?
         # Button is enabled if the match has started and has a call_up
         button_tag type: "button",
           id: "performance_button_#{match.id}",
-          class: "btn btn-danger btn-sm",
+          class: "btn btn-danger btn-sm#{' disabled' if disabled}",
+          disabled: disabled,
           data: {
             controller: "match-details-loader",
             action: "click->match-details-loader#load",
