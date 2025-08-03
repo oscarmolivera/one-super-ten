@@ -36,6 +36,10 @@ class Match < ApplicationRecord
         WHEN #{statuses[:cancelled]} THEN 5
         ELSE 6
       END ASC,
+      CASE
+        WHEN status = #{statuses[:played]} THEN scheduled_at
+        ELSE NULL
+      END DESC,
       COALESCE(scheduled_at, '9999-12-31') ASC
     SQL
   }
