@@ -20,7 +20,7 @@ module CallUps
     end
 
     def call_up_name(match)
-      "Convocatoria vs #{match.rival.name} - #{match.scheduled_at.strftime('%d/%m/%Y')}"
+      "Convocatoria vs #{match.rival.name} - #{match.scheduled_at.strftime('%d/%m/%Y')} [ HORA #{match.scheduled_at.strftime('%H:%M')} ]"
     end
   end
 end
