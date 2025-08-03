@@ -176,6 +176,31 @@ module SeasonTeamsHelper
     end
   end
 
+  def team_score_input_block(form, team:, score_attr:, label_text:, match:, fallback_name: nil, placeholder_logo: "placeholder-logo.png")
+    content_tag :div, class: "col-md-6 d-flex align-items-center" do
+      logo_and_name = content_tag(:div, class: "me-3 d-flex flex-column align-items-center justify-content-center") do
+        logo_url =
+          if team.present? && team.respond_to?(:team_logo) && team.team_logo.attached?
+            team.team_logo
+          else
+            asset_path(placeholder_logo)
+          end
+
+        safe_join([
+          image_tag(logo_url, alt: team.try(:name) || fallback_name, style: "max-height: 50px;"),
+          content_tag(:h5, fallback_name || team.try(:name) || "Unknown Team")
+        ])
+      end
+
+      score_input = content_tag(:div, class: "w-100") do
+        form.label(score_attr, label_text, class: "form-label fw-semibold") +
+        form.number_field(score_attr, class: "form-control form-control-lg", min: 0, value: match.send(score_attr) || 0, placeholder: "0")
+      end
+
+      safe_join([logo_and_name, score_input])
+    end
+  end
+
   ## -------------------------------
   ##  Other Small Helpers
   ## -------------------------------
