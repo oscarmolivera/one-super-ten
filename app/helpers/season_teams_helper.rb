@@ -176,6 +176,31 @@ module SeasonTeamsHelper
     end
   end
 
+  def team_score_input_block(form, team:, score_attr:, label_text:, match:, fallback_name: nil, placeholder_logo: "placeholder-logo.png")
+    content_tag :div, class: "col-md-6 d-flex align-items-center" do
+      logo_and_name = content_tag(:div, class: "me-3 d-flex flex-column align-items-center justify-content-center") do
+        logo_url =
+          if team.present? && team.respond_to?(:team_logo) && team.team_logo.attached?
+            team.team_logo
+          else
+            asset_path(placeholder_logo)
+          end
+
+        safe_join([
+          image_tag(logo_url, alt: team.try(:name) || fallback_name, style: "max-height: 50px;"),
+          content_tag(:h5, fallback_name || team.try(:name) || "Unknown Team")
+        ])
+      end
+
+      score_input = content_tag(:div, class: "w-100") do
+        form.label(score_attr, label_text, class: "form-label fw-semibold") +
+        form.number_field(score_attr, class: "form-control form-control-lg", min: 0, value: match.send(score_attr) || 0, placeholder: "0")
+      end
+
+      safe_join([logo_and_name, score_input])
+    end
+  end
+
   ## -------------------------------
   ##  Other Small Helpers
   ## -------------------------------
@@ -259,11 +284,12 @@ module SeasonTeamsHelper
           id: "call_up_button_#{match.id}",
           class: "btn btn-warning btn-sm",
           data: {
-                  controller: "turbo-loader",
-                  action: "click->turbo-loader#load",
-                  "turbo-loader-url-value": edit_or_new_call_up_url(match),
-                  "turbo-loader-frame-value": "call_up_frame_#{match.id}",
-                  "turbo-loader-button-id-value": "call_up_button_#{match.id}"
+                  controller: "call-up-loader",
+                  action: "click->call-up-loader#load",
+                  "call-up-loader-url-value": edit_or_new_call_up_url(match),
+                  "call-up-loader-frame-value": "call_up_frame_#{match.id}",
+                  "call-up-loader-button-id-value": "call_up_button_#{match.id}",
+                  "call-up-loader-scheduled-at-value": "#{match.scheduled_at}"
                 } do
           label = "Editar Convocatoria"
           safe_join([
@@ -276,13 +302,13 @@ module SeasonTeamsHelper
           id: "call_up_button_#{match.id}",
           class: "btn btn-primary btn-sm",
           data: {
-                  controller: "turbo-loader",
-                  action: "click->turbo-loader#load",
-                  "turbo-loader-url-value": edit_or_new_call_up_url(match),
-                  "turbo-loader-frame-value": "call_up_frame_#{match.id}",
-                  "turbo-loader-button-id-value": "call_up_button_#{match.id}"
+                  controller: "call-up-loader",
+                  action: "click->call-up-loader#load",
+                  "call-up-loader-url-value": edit_or_new_call_up_url(match),
+                  "call-up-loader-frame-value": "call_up_frame_#{match.id}",
+                  "call-up-loader-button-id-value": "call_up_button_#{match.id}"
                 } do
-          label = "Agregar Convocatoria"
+          label = "Crear Convocatoria"
           safe_join([
             content_tag(:i, "", class: "bi bi-people-fill me-1"),
             " #{label}"
@@ -316,4 +342,47 @@ module SeasonTeamsHelper
     end
   end
 
+  def match_details_button(match)
+    if match.scheduled_at.present? && Time.current >= match.scheduled_at
+      if match.call_up.present?
+        # Button is enabled if the match has started and has a call_up
+        button_tag type: "button",
+          id: "performance_button_#{match.id}",
+          class: "btn btn-danger btn-sm",
+          data: {
+            controller: "match-details-loader",
+            action: "click->match-details-loader#load",
+            "match-details-loader-url-value": performance_form_match_path(match),
+            "match-details-loader-frame-value": "performance_frame_#{ match.id }",
+            "match-details-loader-button-id-value": "performance_button_#{ match.id }"
+          } do
+          label = "Actualizar Resultado"
+          safe_join([
+            content_tag(:i, "", class: "bi bi-file-text me-1"),
+            " #{label}"
+          ])
+        end
+      else
+        # Disabled button if the match has started but no call_up exists
+        button_tag type: "button",
+          id: "performance_button_#{match.id}",
+          class: "btn btn-outline-secondary btn-sm disabled" do
+          safe_join([
+            content_tag(:i, "", class: "bi bi-x-octagon me-1"),
+            "Crear convocatoria primero"
+          ])
+        end
+      end
+    else
+      # Disabled button if the match hasn't started yet
+      button_tag type: "button",
+        id: "performance_button_#{match.id}",
+        class: "btn btn-outline-secondary btn-sm disabled" do
+        safe_join([
+          content_tag(:i, "", class: "bi bi-x-octagon me-1"),
+          "Pendiente por Jugarse"
+        ])
+      end
+    end
+  end
 end

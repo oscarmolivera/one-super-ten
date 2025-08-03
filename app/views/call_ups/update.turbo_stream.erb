@@ -8,12 +8,29 @@
   <button type="button"
           id="call_up_button_<%= @call_up.match.id %>"
           class="btn btn-warning btn-sm"
-          data-controller="turbo-loader"
-          data-action="click->turbo-loader#load"
-          data-turbo-loader-url-value="<%= edit_call_up_path(@call_up) %>"
-          data-turbo-loader-frame-value="call_up_frame_<%= @call_up.match.id %>"
-          data-turbo-loader-button-id-value="call_up_button_<%= @call_up.match.id %>">
+          data-controller="call-up-loader"
+          data-action="click->call-up-loader#load"
+          data-call-up-loader-url-value="<%= edit_call_up_path(@call_up) %>"
+          data-call-up-loader-frame-value="call_up_frame_<%= @call_up.match.id %>"
+          data-call-up-loader-button-id-value="call_up_button_<%= @call_up.match.id %>">
     <i class="bi bi-people-fill me-1"></i>
     Editar Convocatoria
   </button>
+<% end %>
+
+<%# Enable performance button if scheduled_at is today or in the past and call_up exists %>
+<% if @call_up.match.scheduled_at.present? && @call_up.match.scheduled_at.to_date <= Date.current %>
+  <%= turbo_stream.replace "performance_button_#{@call_up.match.id}" do %>
+    <button type="button"
+            id="performance_button_<%= @call_up.match.id %>"
+            class="btn btn-danger btn-sm"
+            data-controller="match-details-loader"
+            data-action="click->match-details-loader#load"
+            data-match-details-loader-url-value="<%= performance_form_match_path(@call_up.match) %>"
+            data-match-details-loader-frame-value="performance_frame_<%= @call_up.match.id %>"
+            data-match-details-loader-button-id-value="performance_button_<%= @call_up.match.id %>">
+      <i class="bi bi-file-text me-1"></i>
+      Actualizar Resultado
+    </button>
+  <% end %>
 <% end %>
