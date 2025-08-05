@@ -36,6 +36,70 @@
           </div>
         </div>
 
+        <div class="row mt-5">
+          <div class="col">
+            <h5 class="fw-bold mb-3">Rendimiento de Jugadores Convocados</h5>
+            <% rows = SeasonTeams::MatchPerformanceTableService.new(@match).rows %>
+            <table class="table table-bordered table-sm align-middle">
+              <thead class="table-light">
+                <tr>
+                  <th>Jugador</th>
+                  <th>Minutos</th>
+                  <th>Goles</th>
+                  <th>Asistencias</th>
+                  <th>Amarillas</th>
+                  <th>Rojas</th>
+                  <th>Notas</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% rows.each do |row| %>
+                  <tr>
+                    <td>
+                      <%= row.performer.try(:full_name) || "#{row.performer.try(:first_name)} #{row.performer.try(:last_name)}" %>
+                    </td>
+                    <td>
+                      <%= f.fields_for :match_performances, row.performance do |pf| %>
+                        <%= pf.number_field :minute_of_event, min: 0, class: "form-control form-control-sm", style: "width: 70px;" %>
+                        <%= pf.hidden_field :performer_type %>
+                        <%= pf.hidden_field :performer_id %>
+                      <% end %>
+                    </td>
+                    <td>
+                      <%= f.fields_for :match_performances, row.performance do |pf| %>
+                        <%= pf.number_field :goals_scored, min: 0, class: "form-control form-control-sm", style: "width: 60px;" %>
+                      <% end %>
+                    </td>
+                    <td>
+                      <%= f.fields_for :match_performances, row.performance do |pf| %>
+                        <%= pf.number_field :assists, min: 0, class: "form-control form-control-sm", style: "width: 60px;" %>
+                      <% end %>
+                    </td>
+                    <td>
+                      <%= f.fields_for :match_performances, row.performance do |pf| %>
+                        <%= pf.number_field :yellow_cards, min: 0, class: "form-control form-control-sm", style: "width: 60px;" %>
+                      <% end %>
+                    </td>
+                    <td>
+                      <%= f.fields_for :match_performances, row.performance do |pf| %>
+                        <%= pf.number_field :red_cards, min: 0, class: "form-control form-control-sm", style: "width: 60px;" %>
+                      <% end %>
+                    </td>
+                    <td>
+                      <%= f.fields_for :match_performances, row.performance do |pf| %>
+                        <%= pf.text_field :notes, class: "form-control form-control-sm", style: "width: 120px;" %>
+                      <% end %>
+                    </td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+            <% if rows.empty? %>
+              <div class="alert alert-warning text-center">No hay jugadores convocados para este partido.</div>
+            <% end %>
+          </div>
+        </div>
+
       </div>
 
       <div class="card-footer bg-light border-0 p-3 d-flex justify-content-end gap-2">
