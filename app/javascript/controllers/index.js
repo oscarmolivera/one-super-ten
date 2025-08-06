@@ -7,8 +7,8 @@ import { application } from "./application"
 import CallUpCleanerController from "./call_up_cleaner_controller"
 application.register("call-up-cleaner", CallUpCleanerController)
 
-import TurboLoaderController from "./call_up_loader_controller"
-application.register("call-up-loader", TurboLoaderController)
+import CallUpLoaderController from "./call_up_loader_controller"
+application.register("call-up-loader", CallUpLoaderController)
 
 import CallUpSelectorController from "./call_up_selector_controller"
 application.register("call-up-selector", CallUpSelectorController)
@@ -51,6 +51,9 @@ application.register("match-form", MatchFormController)
 
 import ModalLoaderController from "./modal_loader_controller"
 application.register("modal-loader", ModalLoaderController)
+
+import PerformanceCounterController from "./performance_counter_controller"
+application.register("performance-counter", PerformanceCounterController)
 
 import RemoteModalController from "./remote_modal_controller"
 application.register("remote-modal", RemoteModalController)

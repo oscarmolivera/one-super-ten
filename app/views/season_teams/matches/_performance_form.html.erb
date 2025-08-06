@@ -43,13 +43,44 @@
             <table class="table table-bordered table-sm align-middle">
               <thead class="table-light">
                 <tr>
-                  <th>Jugador</th>
-                  <th>Minutos</th>
-                  <th>Goles</th>
-                  <th>Asistencias</th>
-                  <th>Amarillas</th>
-                  <th>Rojas</th>
-                  <th>Notas</th>
+                  <th>
+                    <!-- User SVG -->
+                    <svg width="18" height="18" fill="currentColor" class="me-1" viewBox="0 0 16 16">
+                      <circle cx="8" cy="5" r="3" />
+                      <path d="M2 14s1-4 6-4 6 4 6 4H2z"/>
+                    </svg>
+                    Jugador
+                  </th>
+                  <th>
+                    <!-- Soccer Ball SVG -->
+                    <svg width="18" height="18" fill="currentColor" class="me-1" viewBox="0 0 24 24">
+                      <circle cx="12" cy="12" r="10" stroke="black" stroke-width="1" fill="none"/>
+                      <circle cx="12" cy="12" r="3" fill="black"/>
+                      <path d="M12 2v7M12 22v-7M2 12h7M22 12h-7" stroke="black" stroke-width="1"/>
+                    </svg>
+                    Goles Anotados
+                  </th>
+                  <th>
+                    <!-- Assist Arrow SVG -->
+                    <svg width="18" height="18" fill="currentColor" class="me-1" viewBox="0 0 16 16">
+                      <path d="M2 14l10-10M12 4v6M12 4H6" stroke="black" stroke-width="2" fill="none"/>
+                    </svg>
+                    Asistencias
+                  </th>
+                  <th>
+                    <!-- Yellow Card SVG -->
+                    <svg width="18" height="18" class="me-1" viewBox="0 0 16 16">
+                      <rect x="3" y="3" width="10" height="14" rx="2" fill="#ffc107" stroke="#b8860b" stroke-width="1"/>
+                    </svg>
+                    Tarjetas Amarillas
+                  </th>
+                  <th>
+                    <!-- Red Card SVG -->
+                    <svg width="18" height="18" class="me-1" viewBox="0 0 16 16">
+                      <rect x="3" y="3" width="10" height="14" rx="2" fill="#dc3545" stroke="#a71d2a" stroke-width="1"/>
+                    </svg>
+                    Tarjetas Rojas
+                  </th>
                 </tr>
               </thead>
               <tbody>
@@ -62,22 +93,52 @@
                         <%= pf.hidden_field :performer_id %>
                       </td>
                       <td>
-                        <%= pf.number_field :minute_of_event, min: 0, class: "form-control form-control-sm", style: "width: 70px;" %>
+                        <turbo-frame id="goals_scored_<%= row.performance.id %>">
+                          <div data-controller="performance-counter" class="d-flex flex-column align-items-center">
+                            <div class="d-flex align-items-center gap-2">
+                              <button type="button" class="btn btn-circle btn-danger-light d-flex align-items-center justify-content-center" style="width:2rem;height:2rem;font-size:1.5rem;" data-action="performance-counter#decrement">-</button>
+                              <span data-performance-counter-target="value" class="display-5 fw-bold text-muted mx-3" style="min-width:2.5rem;text-align:center;"></span>
+                              <button type="button" class="btn btn-circle btn-primary-light d-flex align-items-center justify-content-center" style="width:2rem;height:2rem;font-size:1.5rem;" data-action="performance-counter#increment">+</button>
+                            </div>
+                            <%= pf.hidden_field :goals_scored, value: pf.object.goals_scored || 0, data: { performance_counter_target: "hidden" } %>
+                          </div>
+                        </turbo-frame>
                       </td>
                       <td>
-                        <%= pf.number_field :goals_scored, min: 0, class: "form-control form-control-sm", style: "width: 60px;" %>
+                        <turbo-frame id="assists_<%= row.performance.id %>">
+                          <div data-controller="performance-counter" class="d-flex flex-column align-items-center">
+                            <div class="d-flex align-items-center gap-2">
+                              <button type="button" class="btn btn-circle btn-danger-light d-flex align-items-center justify-content-center" style="width:2rem;height:2rem;font-size:1.5rem;" data-action="performance-counter#decrement">-</button>
+                              <span data-performance-counter-target="value" class="display-5 fw-bold text-muted mx-3" style="min-width:2.5rem;text-align:center;"></span>
+                              <button type="button" class="btn btn-circle btn-primary-light d-flex align-items-center justify-content-center" style="width:2rem;height:2rem;font-size:1.5rem;" data-action="performance-counter#increment">+</button>
+                            </div>
+                            <%= pf.hidden_field :assists, value: pf.object.assists || 0, data: { performance_counter_target: "hidden" } %>
+                          </div>
+                        </turbo-frame>
                       </td>
                       <td>
-                        <%= pf.number_field :assists, min: 0, class: "form-control form-control-sm", style: "width: 60px;" %>
+                        <turbo-frame id="yellow_cards_<%= row.performance.id %>">
+                          <div data-controller="performance-counter" class="d-flex flex-column align-items-center">
+                            <div class="d-flex align-items-center gap-2">
+                              <button type="button" class="btn btn-circle btn-danger-light d-flex align-items-center justify-content-center" style="width:2rem;height:2rem;font-size:1.5rem;" data-action="performance-counter#decrement">-</button>
+                              <span data-performance-counter-target="value" class="display-5 fw-bold text-muted mx-3" style="min-width:2.5rem;text-align:center;"></span>
+                              <button type="button" class="btn btn-circle btn-primary-light d-flex align-items-center justify-content-center" style="width:2rem;height:2rem;font-size:1.5rem;" data-action="performance-counter#increment">+</button>
+                            </div>
+                            <%= pf.hidden_field :yellow_cards, value: pf.object.yellow_cards || 0, data: { performance_counter_target: "hidden" } %>
+                          </div>
+                        </turbo-frame>
                       </td>
                       <td>
-                        <%= pf.number_field :yellow_cards, min: 0, class: "form-control form-control-sm", style: "width: 60px;" %>
-                      </td>
-                      <td>
-                        <%= pf.number_field :red_cards, min: 0, class: "form-control form-control-sm", style: "width: 60px;" %>
-                      </td>
-                      <td>
-                        <%= pf.text_field :notes, class: "form-control form-control-sm", style: "width: 120px;" %>
+                        <turbo-frame id="red_cards_<%= row.performance.id %>">
+                          <div data-controller="performance-counter" class="d-flex flex-column align-items-center">
+                            <div class="d-flex align-items-center gap-2">
+                              <button type="button" class="btn btn-circle btn-danger-light d-flex align-items-center justify-content-center" style="width:2rem;height:2rem;font-size:1.5rem;" data-action="performance-counter#decrement">-</button>
+                              <span data-performance-counter-target="value" class="display-5 fw-bold text-muted mx-3" style="min-width:2.5rem;text-align:center;"></span>
+                              <button type="button" class="btn btn-circle btn-primary-light d-flex align-items-center justify-content-center" style="width:2rem;height:2rem;font-size:1.5rem;" data-action="performance-counter#increment">+</button>
+                            </div>
+                            <%= pf.hidden_field :red_cards, value: pf.object.red_cards || 0, data: { performance_counter_target: "hidden" } %>
+                          </div>
+                        </turbo-frame>
                       </td>
                     </tr>
                   <% end %>
@@ -102,3 +163,9 @@
     </div>
   <% end %>
 </turbo-frame>
+<style>
+  .btn-circle {
+    border-radius: 50% !important;
+    padding: 0 !important;
+  }
+</style>
