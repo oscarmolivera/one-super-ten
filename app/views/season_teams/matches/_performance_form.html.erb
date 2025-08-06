@@ -54,43 +54,33 @@
               </thead>
               <tbody>
                 <% rows.each do |row| %>
-                  <tr>
-                    <td>
-                      <%= row.performer.try(:full_name) || "#{row.performer.try(:first_name)} #{row.performer.try(:last_name)}" %>
-                    </td>
-                    <td>
-                      <%= f.fields_for :match_performances, row.performance do |pf| %>
-                        <%= pf.number_field :minute_of_event, min: 0, class: "form-control form-control-sm", style: "width: 70px;" %>
+                  <%= f.fields_for :match_performances, row.performance do |pf| %>
+                    <tr>
+                      <td>
+                        <%= row.performer.try(:full_name) || "#{row.performer.try(:first_name)} #{row.performer.try(:last_name)}" %>
                         <%= pf.hidden_field :performer_type %>
                         <%= pf.hidden_field :performer_id %>
-                      <% end %>
-                    </td>
-                    <td>
-                      <%= f.fields_for :match_performances, row.performance do |pf| %>
+                      </td>
+                      <td>
+                        <%= pf.number_field :minute_of_event, min: 0, class: "form-control form-control-sm", style: "width: 70px;" %>
+                      </td>
+                      <td>
                         <%= pf.number_field :goals_scored, min: 0, class: "form-control form-control-sm", style: "width: 60px;" %>
-                      <% end %>
-                    </td>
-                    <td>
-                      <%= f.fields_for :match_performances, row.performance do |pf| %>
+                      </td>
+                      <td>
                         <%= pf.number_field :assists, min: 0, class: "form-control form-control-sm", style: "width: 60px;" %>
-                      <% end %>
-                    </td>
-                    <td>
-                      <%= f.fields_for :match_performances, row.performance do |pf| %>
+                      </td>
+                      <td>
                         <%= pf.number_field :yellow_cards, min: 0, class: "form-control form-control-sm", style: "width: 60px;" %>
-                      <% end %>
-                    </td>
-                    <td>
-                      <%= f.fields_for :match_performances, row.performance do |pf| %>
+                      </td>
+                      <td>
                         <%= pf.number_field :red_cards, min: 0, class: "form-control form-control-sm", style: "width: 60px;" %>
-                      <% end %>
-                    </td>
-                    <td>
-                      <%= f.fields_for :match_performances, row.performance do |pf| %>
+                      </td>
+                      <td>
                         <%= pf.text_field :notes, class: "form-control form-control-sm", style: "width: 120px;" %>
-                      <% end %>
-                    </td>
-                  </tr>
+                      </td>
+                    </tr>
+                  <% end %>
                 <% end %>
               </tbody>
             </table>

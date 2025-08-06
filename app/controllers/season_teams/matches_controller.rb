@@ -18,7 +18,9 @@ class SeasonTeams::MatchesController < ApplicationController
 
     params[:performances].each do |id, attrs|
       perf = @match.match_performances.find(id)
-      perf.update(attrs.permit(:minutes_played, :goals, :assists, :yellow_cards, :red_cards, :notes))
+      perf.update(attrs.permit(:id, :player_id, :goals_scored, :assists, :minute_of_event, 
+        :yellow_cards, :red_cards, :notes, :performer_type, :performer_id, 
+        :tournament_id, :tenant_id))
     end
 
     redirect_to match_path(@match), notice: "Player performances updated."
@@ -61,6 +63,25 @@ class SeasonTeams::MatchesController < ApplicationController
         format.html { redirect_to tournament_data_season_team_path(@season_team), notice: "Partido actualizado correctamente." }
       end
     else
+      p " ........................XXXXXXXXXXXXXXXXXXXXXXXX............................"
+      p " ........................XXXXXXXXXXXXXXXXXXXXXXXX............................"
+      p " ........................XXXXXXXXXXXXXXXXXXXXXXXX............................"
+      p " ........................XXXXXXXXXXXXXXXXXXXXXXXX............................"
+      p " ........................XXXXXXXXXXXXXXXXXXXXXXXX............................"
+      p " ........................XXXXXXXXXXXXXXXXXXXXXXXX............................"
+      p " ........................XXXXXXXXXXXXXXXXXXXXXXXX............................"
+      p " ........................XXXXXXXXXXXXXXXXXXXXXXXX............................"
+      p " ........................XXXXXXXXXXXXXXXXXXXXXXXX............................"
+      puts " .......... --->>>#{@match.errors.messages}<<<--- .........."
+      p " ........................XXXXXXXXXXXXXXXXXXXXXXXX............................"
+      p " ........................XXXXXXXXXXXXXXXXXXXXXXXX............................"
+      p " ........................XXXXXXXXXXXXXXXXXXXXXXXX............................"
+      p " ........................XXXXXXXXXXXXXXXXXXXXXXXX............................"
+      p " ........................XXXXXXXXXXXXXXXXXXXXXXXX............................"
+      p " ........................XXXXXXXXXXXXXXXXXXXXXXXX............................"
+      p " ........................XXXXXXXXXXXXXXXXXXXXXXXX............................"
+      p " ........................XXXXXXXXXXXXXXXXXXXXXXXX............................"
+      p " ........................XXXXXXXXXXXXXXXXXXXXXXXX............................"
       respond_to do |format|
         format.turbo_stream do
           render turbo_stream: turbo_stream.replace(
@@ -92,7 +113,11 @@ class SeasonTeams::MatchesController < ApplicationController
       :tenant_id, :tournament_id, :team_of_interest_id, :rival_season_team_id, 
       :rival_id, :plays_as, :match_type, :location, :location_type, :status, 
       :stage_id, :referee, :scheduled_at, :team_score, :rival_score, :notes,
-      match_performances_attributes: [:id, :player_id, :goals, :assists, :minutes_played, :yellow_cards, :red_cards, :notes]
+      match_performances_attributes: [
+        :id, :player_id, :goals_scored, :assists, :minute_of_event, 
+        :yellow_cards, :red_cards, :notes, :performer_type, :performer_id, 
+        :tournament_id, :tenant_id
+      ]
     )
   end
 
