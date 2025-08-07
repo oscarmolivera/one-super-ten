@@ -1,4 +1,4 @@
-<turbo-frame id="performance_frame_<%= @match.id %>">
+<turbo-frame id="performance_frame_<%= @match.id %>" data-match-id="<%= @match.id %>" data-plays-as="<%= @match.plays_as %>">
   <%= form_with model: match, url: match_path(@match), method: :patch, data: { turbo_frame: "_self" } do |f| %>
     <div class="card shadow-lg border-0 rounded-3 mb-4">
       <div class="card-header bg-success-light text-muted rounded-top">
