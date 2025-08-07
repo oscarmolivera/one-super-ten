@@ -9,7 +9,6 @@
       </div>
 
       <div class="card-body p-4">
-
         <!-- Goles de ambos equipos -->
         <div class="row text-center mb-4">
           <div class="col-md-6">
@@ -28,7 +27,7 @@
           </div>
         </div>
 
-        <!-- Árbitro debajo, centrado y con ancho reducido -->
+        <!-- Referee -->
         <div class="row">
           <div class="col text-center">
             <label for="match_referee" class="form-label fw-semibold text-muted">Árbitro Principal</label>
@@ -85,61 +84,21 @@
               </thead>
               <tbody>
                 <% rows.each do |row| %>
+                  <% origin = call_up_player_origin(row.call_up_player) %>
                   <%= f.fields_for :match_performances, row.performance do |pf| %>
                     <tr>
-                      <td>
+                      <td class="text-start <%= call_up_player_td_class(origin) %>">
+                        <% if (icon = icon_for(origin)) %>
+                          <i class="fa-solid <%= icon %> me-1"></i>
+                        <% end %>
                         <%= row.performer.try(:full_name) || "#{row.performer.try(:first_name)} #{row.performer.try(:last_name)}" %>
                         <%= pf.hidden_field :performer_type %>
                         <%= pf.hidden_field :performer_id %>
                       </td>
-                      <td>
-                        <turbo-frame id="goals_scored_<%= row.performance.id %>">
-                          <div data-controller="performance-counter" class="d-flex flex-column align-items-center">
-                            <div class="d-flex align-items-center gap-2">
-                              <button type="button" class="btn btn-circle btn-danger-light d-flex align-items-center justify-content-center" style="width:2rem;height:2rem;font-size:1.5rem;" data-action="performance-counter#decrement">-</button>
-                              <span data-performance-counter-target="value" class="display-5 fw-bold text-muted mx-3" style="min-width:2.5rem;text-align:center;"></span>
-                              <button type="button" class="btn btn-circle btn-primary-light d-flex align-items-center justify-content-center" style="width:2rem;height:2rem;font-size:1.5rem;" data-action="performance-counter#increment">+</button>
-                            </div>
-                            <%= pf.hidden_field :goals_scored, value: pf.object.goals_scored || 0, data: { performance_counter_target: "hidden" } %>
-                          </div>
-                        </turbo-frame>
-                      </td>
-                      <td>
-                        <turbo-frame id="assists_<%= row.performance.id %>">
-                          <div data-controller="performance-counter" class="d-flex flex-column align-items-center">
-                            <div class="d-flex align-items-center gap-2">
-                              <button type="button" class="btn btn-circle btn-danger-light d-flex align-items-center justify-content-center" style="width:2rem;height:2rem;font-size:1.5rem;" data-action="performance-counter#decrement">-</button>
-                              <span data-performance-counter-target="value" class="display-5 fw-bold text-muted mx-3" style="min-width:2.5rem;text-align:center;"></span>
-                              <button type="button" class="btn btn-circle btn-primary-light d-flex align-items-center justify-content-center" style="width:2rem;height:2rem;font-size:1.5rem;" data-action="performance-counter#increment">+</button>
-                            </div>
-                            <%= pf.hidden_field :assists, value: pf.object.assists || 0, data: { performance_counter_target: "hidden" } %>
-                          </div>
-                        </turbo-frame>
-                      </td>
-                      <td>
-                        <turbo-frame id="yellow_cards_<%= row.performance.id %>">
-                          <div data-controller="performance-counter" class="d-flex flex-column align-items-center">
-                            <div class="d-flex align-items-center gap-2">
-                              <button type="button" class="btn btn-circle btn-danger-light d-flex align-items-center justify-content-center" style="width:2rem;height:2rem;font-size:1.5rem;" data-action="performance-counter#decrement">-</button>
-                              <span data-performance-counter-target="value" class="display-5 fw-bold text-muted mx-3" style="min-width:2.5rem;text-align:center;"></span>
-                              <button type="button" class="btn btn-circle btn-primary-light d-flex align-items-center justify-content-center" style="width:2rem;height:2rem;font-size:1.5rem;" data-action="performance-counter#increment">+</button>
-                            </div>
-                            <%= pf.hidden_field :yellow_cards, value: pf.object.yellow_cards || 0, data: { performance_counter_target: "hidden" } %>
-                          </div>
-                        </turbo-frame>
-                      </td>
-                      <td>
-                        <turbo-frame id="red_cards_<%= row.performance.id %>">
-                          <div data-controller="performance-counter" class="d-flex flex-column align-items-center">
-                            <div class="d-flex align-items-center gap-2">
-                              <button type="button" class="btn btn-circle btn-danger-light d-flex align-items-center justify-content-center" style="width:2rem;height:2rem;font-size:1.5rem;" data-action="performance-counter#decrement">-</button>
-                              <span data-performance-counter-target="value" class="display-5 fw-bold text-muted mx-3" style="min-width:2.5rem;text-align:center;"></span>
-                              <button type="button" class="btn btn-circle btn-primary-light d-flex align-items-center justify-content-center" style="width:2rem;height:2rem;font-size:1.5rem;" data-action="performance-counter#increment">+</button>
-                            </div>
-                            <%= pf.hidden_field :red_cards, value: pf.object.red_cards || 0, data: { performance_counter_target: "hidden" } %>
-                          </div>
-                        </turbo-frame>
-                      </td>
+                      <%= render partial: "season_teams/matches/performance_counter", locals: { td_class: call_up_player_td_class(origin), frame_id: "goals_scored_#{row.performance.id}", pf: pf, field_name: :goals_scored, value: pf.object.goals_scored } %>
+                      <%= render partial: "season_teams/matches/performance_counter", locals: { td_class: call_up_player_td_class(origin), frame_id: "assists_#{row.performance.id}", pf: pf, field_name: :assists, value: pf.object.assists } %>
+                      <%= render partial: "season_teams/matches/performance_counter", locals: { td_class: call_up_player_td_class(origin), frame_id: "yellow_cards_#{row.performance.id}", pf: pf, field_name: :yellow_cards, value: pf.object.yellow_cards } %>
+                      <%= render partial: "season_teams/matches/performance_counter", locals: { td_class: call_up_player_td_class(origin), frame_id: "red_cards_#{row.performance.id}", pf: pf, field_name: :red_cards, value: pf.object.red_cards } %>
                     </tr>
                   <% end %>
                 <% end %>
@@ -150,7 +109,6 @@
             <% end %>
           </div>
         </div>
-
       </div>
 
       <div class="card-footer bg-light border-0 p-3 d-flex justify-content-end gap-2">
@@ -163,9 +121,3 @@
     </div>
   <% end %>
 </turbo-frame>
-<style>
-  .btn-circle {
-    border-radius: 50% !important;
-    padding: 0 !important;
-  }
-</style>

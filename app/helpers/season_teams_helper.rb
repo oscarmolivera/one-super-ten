@@ -393,4 +393,28 @@ module SeasonTeamsHelper
       end
     end
   end
+
+  def call_up_player_origin(call_up_player)
+    return :external if call_up_player.external_player_id.present?
+    return :unknown unless call_up_player.player_category_id && call_up_player.call_up&.category_id
+
+    if call_up_player.player_category_id == call_up_player.call_up.category_id
+      :own_category
+    else
+      :other_category
+    end
+  end
+
+  def call_up_player_td_class(origin)
+    case origin
+    when :own_category
+      ""
+    when :other_category
+      "bg-info-light bg-opacity-15 text-dark"
+    when :external
+      "bg-warning-light bg-opacity-15 text-dark"
+    else
+      ""
+    end
+  end
 end

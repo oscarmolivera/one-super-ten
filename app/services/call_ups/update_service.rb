@@ -34,10 +34,15 @@ module CallUps
 
         # Insert new Player rows
         if player_ids_to_add.any?
+          # Preload player categories in one query for efficiency
+          player_categories = CategoryPlayer.where(player_id: player_ids_to_add)
+                                          .group_by(&:player_id)
           rows = player_ids_to_add.map do |pid|
+            category_id = player_categories[pid]&.first&.category_id
             {
               call_up_id: @call_up.id,
               player_id: pid,
+              player_category_id: category_id,
               attendance: false,
               created_at: Time.zone.now,
               updated_at: Time.zone.now
