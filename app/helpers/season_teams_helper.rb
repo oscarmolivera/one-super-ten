@@ -192,14 +192,19 @@ module SeasonTeamsHelper
           end
 
         safe_join([
-          image_tag(logo_url, alt: team.try(:name) || fallback_name, style: "max-height: 50px;"),
+          image_tag(logo_url, alt: team.try(:name) || fallback_name, style: "max-height: 80px;"),
           content_tag(:h5, fallback_name || team.try(:name) || "Unknown Team")
         ])
       end
 
-      score_input = content_tag(:div, class: "w-100") do
+      score_input = content_tag(:div, class: "w-100 text-center") do
         form.label(score_attr, label_text, class: "form-label fw-semibold") +
-        form.number_field(score_attr, class: "form-control form-control-lg", min: 0, value: match.send(score_attr) || 0, placeholder: "0")
+        content_tag(:turbo_frame, id: "#{score_attr}_#{match.id}", class: "d-inline-block") do
+          content_tag(:div, class: "display-4 fw-bold", data: { controller: "score", score_target: "display", action: "click->score#increment" }) do
+            (match.send(score_attr) || 0).to_s
+          end +
+          form.hidden_field(score_attr, value: match.send(score_attr) || 0, data: { score_target: "input" })
+        end
       end
 
       safe_join([logo_and_name, score_input])

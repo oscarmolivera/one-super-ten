@@ -67,5 +67,8 @@ application.register("school-tab", SchoolTabController)
 import SchoolTogglesController from "./school_toggles_controller"
 application.register("school-toggles", SchoolTogglesController)
 
+import ScoreController from "./score_controller"
+application.register("score", ScoreController)
+
 import TabRedirectController from "./tab_redirect_controller"
 application.register("tab-redirect", TabRedirectController)
