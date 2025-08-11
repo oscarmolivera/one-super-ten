@@ -1,46 +1,101 @@
-import { Controller } from "@hotwired/stimulus";
+// app/javascript/controllers/performance_counter_controller.js
+import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ["value", "hidden"];
+  static targets = ["value", "hidden"]
 
   connect() {
-    this.valueTarget.textContent = this.hiddenTarget.value;
-    this.updateTeamScore();
+    // Be tolerant if a column mounts this controller without both targets.
+    if (this.hasHiddenTarget && this.hasValueTarget) {
+      this.valueTarget.textContent = this.hiddenTarget.value || "0"
+    }
+    this.updateTeamScore()
+
+    // Recalc after Turbo frame reloads that include this element
+    this._onFrameLoad = (e) => {
+      const frame = this._matchFrame()
+      if (frame && frame.contains(this.element)) this.updateTeamScore()
+    }
+    document.addEventListener("turbo:frame-load", this._onFrameLoad)
+  }
+
+  disconnect() {
+    document.removeEventListener("turbo:frame-load", this._onFrameLoad)
   }
 
   increment() {
-    let val = parseInt(this.hiddenTarget.value, 10) || 0;
-    this.hiddenTarget.value = ++val;
-    this.valueTarget.textContent = val;
-    this.updateTeamScore();
+    if (!this.hasHiddenTarget) return
+    const next = (parseInt(this.hiddenTarget.value, 10) || 0) + 1
+    this.hiddenTarget.value = next
+    if (this.hasValueTarget) this.valueTarget.textContent = String(next)
+    this.updateTeamScore()
   }
 
   decrement() {
-    let val = parseInt(this.hiddenTarget.value, 10) || 0;
-    if (val > 0) {
-      this.hiddenTarget.value = --val;
-      this.valueTarget.textContent = val;
-      this.updateTeamScore();
+    if (!this.hasHiddenTarget) return
+    const curr = parseInt(this.hiddenTarget.value, 10) || 0
+    if (curr > 0) {
+      const next = curr - 1
+      this.hiddenTarget.value = next
+      if (this.hasValueTarget) this.valueTarget.textContent = String(next)
+      this.updateTeamScore()
     }
   }
 
   updateTeamScore() {
-    const matchId = this.element.closest("[data-match-id]").dataset.matchId;
-    const playAs = this.element.closest("[data-match-id]").dataset.playsAs;
+    const host = this.element.closest("[data-match-id]")
+    if (!host) return
 
-    // Calculate total goals by summing all hidden fields in the match frame
-    const frame = document.querySelector(`#performance_frame_${matchId}`);
-    const allHiddenGoals = frame.querySelectorAll('[data-performance-counter-target="hidden"][name$="[goals_scored]"]');
-    const totalGoals = Array.from(allHiddenGoals).reduce((sum, hidden) => sum + (parseInt(hidden.value, 10) || 0), 0);
+    const matchId = host.dataset.matchId
+    const playsAs = host.dataset.playsAs // "home" | "away"
+    const frame = document.getElementById(`performance_frame_${matchId}`)
+    if (!frame) return
 
-    const teamScoreInput = frame.querySelector('[name="match[team_score]"]');
-    const rivalScoreInput = frame.querySelector('[name="match[rival_score]"]');
+    // 1) Sum all players' goals in this match frame
+    const allHiddenGoals = frame.querySelectorAll(
+      '[data-performance-counter-target="hidden"][name$="[goals_scored]"]'
+    )
+    const totalGoals = Array.from(allHiddenGoals).reduce((sum, el) => {
+      const n = parseInt(el.value, 10)
+      return sum + (Number.isFinite(n) ? n : 0)
+    }, 0)
 
-    if (playAs === "home" && teamScoreInput) {
-      teamScoreInput.value = totalGoals;
-    } else if (rivalScoreInput) {
-      rivalScoreInput.value = totalGoals;
+    // 2) Choose which score we should write (home -> team_score, away -> rival_score)
+    const teamScoreInput = frame.querySelector('#match_team_score, input[name="match[team_score]"]')
+    const rivalScoreInput = frame.querySelector('#match_rival_score, input[name="match[rival_score]"]')
+
+    const targetInput = playsAs === "home" ? teamScoreInput : rivalScoreInput
+    if (!targetInput) return
+
+    // 3) Update the hidden input value (the one that submits with the form)
+    targetInput.value = totalGoals
+
+    // 4) Also update the visible number inside the "score" controller UI
+    // Prefer a score controller near the input (same turbo-frame), fall back to any within the frame.
+    const scoreBox =
+      targetInput.closest('[data-controller~="score"]') ||
+      frame.querySelector('[data-controller~="score"]')
+
+    if (scoreBox) {
+      // Ask the score controller to update both its hidden input and display
+      scoreBox.dispatchEvent(
+        new CustomEvent("score:set", { bubbles: true, detail: { value: totalGoals } })
+      )
+    } else {
+      // Fallback: if no controller, try to update a display target directly if present
+      const display = frame.querySelector('[data-score-target="display"]')
+      if (display) display.textContent = String(totalGoals)
     }
+
+    // Optional: broadcast that score changed
+    frame.dispatchEvent(
+      new CustomEvent("score:changed", { detail: { totalGoals, playsAs }, bubbles: true })
+    )
   }
 
+  _matchFrame() {
+    const host = this.element.closest("[data-match-id]")
+    if (!host) return null
+    return document.getElementById(`performance_frame_${host.dataset.matchId}`)
+  }
 }
