@@ -63,25 +63,6 @@ class SeasonTeams::MatchesController < ApplicationController
         format.html { redirect_to tournament_data_season_team_path(@season_team), notice: "Partido actualizado correctamente." }
       end
     else
-      p " ........................XXXXXXXXXXXXXXXXXXXXXXXX............................"
-      p " ........................XXXXXXXXXXXXXXXXXXXXXXXX............................"
-      p " ........................XXXXXXXXXXXXXXXXXXXXXXXX............................"
-      p " ........................XXXXXXXXXXXXXXXXXXXXXXXX............................"
-      p " ........................XXXXXXXXXXXXXXXXXXXXXXXX............................"
-      p " ........................XXXXXXXXXXXXXXXXXXXXXXXX............................"
-      p " ........................XXXXXXXXXXXXXXXXXXXXXXXX............................"
-      p " ........................XXXXXXXXXXXXXXXXXXXXXXXX............................"
-      p " ........................XXXXXXXXXXXXXXXXXXXXXXXX............................"
-      puts " .......... --->>>#{@match.errors.messages}<<<--- .........."
-      p " ........................XXXXXXXXXXXXXXXXXXXXXXXX............................"
-      p " ........................XXXXXXXXXXXXXXXXXXXXXXXX............................"
-      p " ........................XXXXXXXXXXXXXXXXXXXXXXXX............................"
-      p " ........................XXXXXXXXXXXXXXXXXXXXXXXX............................"
-      p " ........................XXXXXXXXXXXXXXXXXXXXXXXX............................"
-      p " ........................XXXXXXXXXXXXXXXXXXXXXXXX............................"
-      p " ........................XXXXXXXXXXXXXXXXXXXXXXXX............................"
-      p " ........................XXXXXXXXXXXXXXXXXXXXXXXX............................"
-      p " ........................XXXXXXXXXXXXXXXXXXXXXXXX............................"
       respond_to do |format|
         format.turbo_stream do
           render turbo_stream: turbo_stream.replace(

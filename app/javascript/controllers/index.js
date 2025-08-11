@@ -22,6 +22,9 @@ application.register("category-rules", CategoryRulesController)
 import ClickableRowController from "./clickable_row_controller"
 application.register("clickable-row", ClickableRowController)
 
+import ConfirmLockController from "./confirm_lock_controller"
+application.register("confirm-lock", ConfirmLockController)
+
 import EditToggleController from "./edit_toggle_controller"
 application.register("edit-toggle", EditToggleController)
 
