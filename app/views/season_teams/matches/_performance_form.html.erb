@@ -13,16 +13,42 @@
         <div class="row text-center mb-4">
           <div class="col-md-6">
             <% if match.plays_as == "home" %>
-              <%= team_score_input_block(f, team: match.team_of_interest, fallback_name: ActsAsTenant.current_tenant.name, score_attr: :team_score, label_text: "Goles Anotados:", match: match) %>
+              <%= team_score_input_block(f, team: match.team_of_interest,
+                    fallback_name: ActsAsTenant.current_tenant.name,
+                    score_attr: :team_score,
+                    label_text: "Goles Anotados:",
+                    match: match,
+                    role: :tenant,
+                    manual_controls: false) %>
             <% else %>
-              <%= team_score_input_block(f, team: match.rival, score_attr: :rival_score, label_text: "Goles Anotados:", match: match) %>
+              <%= team_score_input_block(f,
+                    team: match.rival,
+                    score_attr: :rival_score,
+                    label_text: "Goles Anotados:",
+                    match: match,
+                    role: :rival,
+                    manual_controls: true) %>
             <% end %>
           </div>
+
           <div class="col-md-6">
             <% if match.plays_as == "home" %>
-              <%= team_score_input_block(f, team: match.rival, score_attr: :rival_score, label_text: "Goles Anotados:", match: match) %>
+              <%= team_score_input_block(f,
+                    team: match.rival,
+                    score_attr: :rival_score,
+                    label_text: "Goles Anotados:",
+                    match: match,
+                    role: :rival,
+                    manual_controls: true) %>
             <% else %>
-              <%= team_score_input_block(f, team: match.team_of_interest, fallback_name: ActsAsTenant.current_tenant.name, score_attr: :team_score, label_text: "Goles Anotados:", match: match) %>
+              <%= team_score_input_block(f,
+                    team: match.team_of_interest,
+                    fallback_name: ActsAsTenant.current_tenant.name,
+                    score_attr: :team_score,
+                    label_text: "Goles Anotados:",
+                    match: match,
+                    role: :tenant,
+                    manual_controls: false) %>
             <% end %>
           </div>
         </div>

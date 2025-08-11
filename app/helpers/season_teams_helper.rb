@@ -181,7 +181,9 @@ module SeasonTeamsHelper
     end
   end
 
-  def team_score_input_block(form, team:, score_attr:, label_text:, match:, fallback_name: nil, placeholder_logo: "placeholder-logo.png")
+  def team_score_input_block(form, team:, score_attr:, label_text:, match:, role:, fallback_name: nil, placeholder_logo: "placeholder-logo.png", manual_controls: nil)
+    manual_controls = role.to_s == "rival" if manual_controls.nil?
+
     content_tag :div, class: "col-md-6 d-flex align-items-center" do
       logo_and_name = content_tag(:div, class: "me-3 d-flex flex-column align-items-center justify-content-center") do
         logo_url =
@@ -200,21 +202,48 @@ module SeasonTeamsHelper
       score_input = content_tag(:div, class: "w-100 text-center") do
         form.label(score_attr, label_text, class: "form-label fw-semibold") +
         content_tag(:turbo_frame, id: "#{score_attr}_#{match.id}", class: "d-inline-block") do
-          # IMPORTANT: Controller wraps BOTH targets
-          content_tag(:div, class: "d-inline-flex align-items-center gap-2", data: { controller: "score" }) do
-            # Visible number (display target)
-            content_tag(:div,
-                        (match.send(score_attr) || 0).to_s,
-                        class: "display-4 fw-bold",
-                        data: { "score-target": "display" },
-                        # Optional: allow manual tap-to-increment on the big number
-                        # remove data-action if you don't want clicks here to increment
-                        **{ "data-action" => "click->score#increment" }) +
-            # Hidden input (input target) – will be updated by performance_counter
-            form.hidden_field(score_attr,
-                              value: match.send(score_attr) || 0,
-                              id: "match_#{score_attr}",
-                              data: { "score-target": "input" })
+          # Controller WRAPS both targets and carries the role
+          content_tag(:div,
+                      class: "d-inline-flex align-items-center gap-3",
+                      data: { controller: "score", "score-role": role }) do
+
+            # Decrement button (only for manual-controls)
+            dec_btn = if manual_controls
+              content_tag(:button, "–",
+                type: "button",
+                class: "btn btn-sm btn-outline-secondary rounded-circle d-flex align-items-center justify-content-center",
+                style: "width:2rem;height:2rem;",
+                data: { action: "click->score#decrement" }
+              )
+            else
+              "".html_safe
+            end
+
+            # Visible number
+            display = content_tag(:div,
+                                  (match.send(score_attr) || 0).to_s,
+                                  class: "display-4 fw-bold",
+                                  data: { "score-target": "display" })
+
+            # Increment button (manual-controls only)
+            inc_btn = if manual_controls
+              content_tag(:button, "+",
+                type: "button",
+                class: "btn btn-sm btn-outline-primary rounded-circle d-flex align-items-center justify-content-center",
+                style: "width:2rem;height:2rem;",
+                data: { action: "click->score#increment" }
+              )
+            else
+              "".html_safe
+            end
+
+            # Hidden input
+            hidden = form.hidden_field(score_attr,
+                                       value: match.send(score_attr) || 0,
+                                       id: "match_#{score_attr}",
+                                       data: { "score-target": "input" })
+
+            safe_join([dec_btn, display, inc_btn, hidden])
           end
         end
       end
@@ -222,7 +251,6 @@ module SeasonTeamsHelper
       safe_join([logo_and_name, score_input])
     end
   end
-
 
   ## -------------------------------
   ##  Other Small Helpers

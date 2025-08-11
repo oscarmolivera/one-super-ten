@@ -3,8 +3,8 @@ import { Controller } from "@hotwired/stimulus"
 
 /**
  * Owns the visible score number and its hidden input.
- * Other controllers can update it by dispatching:
- *   scoreEl.dispatchEvent(new CustomEvent("score:set", { bubbles: true, detail: { value: 3 } }))
+ * Listens for "score:set" to sync both.
+ * If you render +/- buttons, wire them with click->score#increment / #decrement.
  */
 export default class extends Controller {
   static targets = ["display", "input"]
