@@ -5,14 +5,14 @@ export default class extends Controller {
   static targets = ["value", "hidden"]
 
   connect() {
-    // Be tolerant if a column mounts this controller without both targets.
+    // Tolerate missing targets so we can mount on multiple columns safely.
     if (this.hasHiddenTarget && this.hasValueTarget) {
       this.valueTarget.textContent = this.hiddenTarget.value || "0"
     }
     this.updateTeamScore()
 
     // Recalc after Turbo frame reloads that include this element
-    this._onFrameLoad = (e) => {
+    this._onFrameLoad = () => {
       const frame = this._matchFrame()
       if (frame && frame.contains(this.element)) this.updateTeamScore()
     }
@@ -71,10 +71,10 @@ export default class extends Controller {
     targetInput.value = totalGoals
 
     // 4) Also update the visible number inside the "score" controller UI
-    // Prefer a score controller near the input (same turbo-frame), fall back to any within the frame.
-    const scoreBox =
-      targetInput.closest('[data-controller~="score"]') ||
-      frame.querySelector('[data-controller~="score"]')
+    // Find a score controller that wraps BOTH the display and the input.
+    // Prefer something close to the input (same turbo-frame region).
+    const localHost = targetInput.closest('turbo-frame, [data-controller~="score"]') || frame
+    const scoreBox = localHost.querySelector('[data-controller~="score"]')
 
     if (scoreBox) {
       // Ask the score controller to update both its hidden input and display
@@ -82,8 +82,8 @@ export default class extends Controller {
         new CustomEvent("score:set", { bubbles: true, detail: { value: totalGoals } })
       )
     } else {
-      // Fallback: if no controller, try to update a display target directly if present
-      const display = frame.querySelector('[data-score-target="display"]')
+      // Fallback: if no controller, try to update an adjacent display directly
+      const display = localHost.querySelector('[data-score-target="display"]')
       if (display) display.textContent = String(totalGoals)
     }
 

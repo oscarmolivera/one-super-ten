@@ -192,7 +192,7 @@ module SeasonTeamsHelper
           end
 
         safe_join([
-          image_tag(logo_url, alt: team.try(:name) || fallback_name, style: "max-height: 80px; paddi"),
+          image_tag(logo_url, alt: team.try(:name) || fallback_name, style: "max-height: 80px;"),
           content_tag(:h5, fallback_name || team.try(:name) || "Unknown Team")
         ])
       end
@@ -200,16 +200,29 @@ module SeasonTeamsHelper
       score_input = content_tag(:div, class: "w-100 text-center") do
         form.label(score_attr, label_text, class: "form-label fw-semibold") +
         content_tag(:turbo_frame, id: "#{score_attr}_#{match.id}", class: "d-inline-block") do
-          content_tag(:div, class: "display-4 fw-bold", data: { controller: "score", score_target: "display", action: "click->score#increment" }) do
-            (match.send(score_attr) || 0).to_s
-          end +
-          form.hidden_field(score_attr, value: match.send(score_attr) || 0, data: { score_target: "input" })
+          # IMPORTANT: Controller wraps BOTH targets
+          content_tag(:div, class: "d-inline-flex align-items-center gap-2", data: { controller: "score" }) do
+            # Visible number (display target)
+            content_tag(:div,
+                        (match.send(score_attr) || 0).to_s,
+                        class: "display-4 fw-bold",
+                        data: { "score-target": "display" },
+                        # Optional: allow manual tap-to-increment on the big number
+                        # remove data-action if you don't want clicks here to increment
+                        **{ "data-action" => "click->score#increment" }) +
+            # Hidden input (input target) – will be updated by performance_counter
+            form.hidden_field(score_attr,
+                              value: match.send(score_attr) || 0,
+                              id: "match_#{score_attr}",
+                              data: { "score-target": "input" })
+          end
         end
       end
 
       safe_join([logo_and_name, score_input])
     end
   end
+
 
   ## -------------------------------
   ##  Other Small Helpers
