@@ -192,7 +192,7 @@ module SeasonTeamsHelper
           end
 
         safe_join([
-          image_tag(logo_url, alt: team.try(:name) || fallback_name, style: "max-height: 80px;"),
+          image_tag(logo_url, alt: team.try(:name) || fallback_name, style: "max-height: 80px; paddi"),
           content_tag(:h5, fallback_name || team.try(:name) || "Unknown Team")
         ])
       end

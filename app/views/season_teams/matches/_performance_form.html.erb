@@ -27,14 +27,6 @@
           </div>
         </div>
 
-        <!-- Referee -->
-        <div class="row">
-          <div class="col text-center">
-            <label for="match_referee" class="form-label fw-semibold text-muted">Árbitro Principal</label>
-            <%= f.text_field :referee, class: "form-control w-200 mx-auto text-center", placeholder: "Nombre del árbitro" %>
-          </div>
-        </div>
-
         <div class="row mt-5">
           <div class="col">
             <h5 class="fw-bold mb-3">Rendimiento de Jugadores Convocados</h5>
@@ -107,6 +99,13 @@
             <% if rows.empty? %>
               <div class="alert alert-warning text-center">No hay jugadores convocados para este partido.</div>
             <% end %>
+          </div>
+        </div>
+        <!-- Referee -->
+        <div class="row">
+          <div class="col text-center">
+            <label for="match_referee" class="form-label fw-semibold text-muted">Árbitro Principal</label>
+            <%= f.text_field :referee, class: "form-control w-200 mx-auto text-center", placeholder: "Nombre del árbitro" %>
           </div>
         </div>
       </div>
