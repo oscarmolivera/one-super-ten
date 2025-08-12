@@ -14,12 +14,14 @@ class Match < ApplicationRecord
   
   has_one :call_up, dependent: :destroy
 
+  accepts_nested_attributes_for :match_performances, allow_destroy: true
+
   enum :match_type, { friendly: 0, tournament: 1, practice: 2 }
   enum :plays_as, { home: 0, away: 1 }
   enum :location_type, {home_field: 0, away_field: 1, neutral: 2 }
   enum :status, { created: 0, scheduled: 1, played: 2, cancelled: 3, reschedule: 4, postponed: 5 }
 
-  before_validation :set_match_status
+  before_validation :set_match_status,  on: :create
 
   validates :match_type, :plays_as, presence: true
 
@@ -34,6 +36,10 @@ class Match < ApplicationRecord
         WHEN #{statuses[:cancelled]} THEN 5
         ELSE 6
       END ASC,
+      CASE
+        WHEN status = #{statuses[:played]} THEN scheduled_at
+        ELSE NULL
+      END DESC,
       COALESCE(scheduled_at, '9999-12-31') ASC
     SQL
   }

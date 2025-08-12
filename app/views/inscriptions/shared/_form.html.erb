@@ -58,19 +58,19 @@
                   <div class="col-md-4">
                     <div class="form-group">
                       <%= team_fields.label :coach_id, 'Entrenador' %>
-                      <%= team_fields.collection_select :coach_id, User.with_role(:coach, ActsAsTenant.current_tenant), :id, :full_name, { prompt: 'Seleccione un entrenador' }, class: 'form-control' %>
+                      <%= team_fields.collection_select :coach_id, User.with_role(:coach, ActsAsTenant.current_tenant), :id, :full_name, { prompt: 'Seleccione un entrenador' }, class: 'form-control', required: true %>
                     </div>
                   </div>
                   <div class="col-md-4">
                     <div class="form-group">
                       <%= team_fields.label :assistant_coach_id, 'Asistente de Entrenador' %>
-                      <%= team_fields.collection_select :assistant_coach_id, User.with_role(:assistant_coach, ActsAsTenant.current_tenant), :id, :full_name, { prompt: 'Seleccione un asistente' }, class: 'form-control' %>
+                      <%= team_fields.collection_select :assistant_coach_id, User.with_role(:assistant_coach, ActsAsTenant.current_tenant), :id, :full_name, { prompt: 'Seleccione un asistente' }, class: 'form-control', required: true %>
                     </div>
                   </div>
                   <div class="col-md-4">
                     <div class="form-group">
                       <%= team_fields.label :team_assistant_id, 'Asistente de Equipo' %>
-                      <%= team_fields.collection_select :team_assistant_id, User.with_role(:team_assistant, ActsAsTenant.current_tenant), :id, :full_name, { prompt: 'Seleccione un asistente de equipo' }, class: 'form-control' %>
+                      <%= team_fields.collection_select :team_assistant_id, User.with_role(:team_assistant, ActsAsTenant.current_tenant), :id, :full_name, { prompt: 'Seleccione un asistente de equipo' }, class: 'form-control', required: true %>
                     </div>
                   </div>  
                 <% end %>                      

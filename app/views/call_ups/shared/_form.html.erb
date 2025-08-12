@@ -25,9 +25,9 @@
       <div class="col-md-6">
         <%= label_tag :call_up_time_only, "Hora de la Convocatoria", class: "form-label" %>
         <%= time_field_tag :call_up_time_only,
-                          call_up.call_up_date&.strftime("%H:%M"),
-                          class: "form-control",
-                          placeholder: (@match.scheduled_at - 1.hour).strftime("%H:%M") %>
+              (call_up.call_up_date&.strftime("%H:%M") || (@match.scheduled_at - 1.hour).strftime("%H:%M")),
+              class: "form-control",
+              placeholder: (@match.scheduled_at - 1.hour).strftime("%H:%M") %>
       </div>
     </div>
 
