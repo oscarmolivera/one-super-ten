@@ -6,7 +6,7 @@
           <!-- Bootstrap Card -->
           <div class="card shadow">
             <!-- Card Header -->
-            <div class="card-header d-flex justify-content-between align-items-center">
+            <div class="card-header d-flex justify-content-between align-items-center <%= 'card-header-played' if match.status == 'played' %>">
               <div class="badge bg-danger"> <%= match_stage(match.stage)%></div>
               <div class="d-flex align-items-center">
                 <%= image_tag 'vendor/stadium.svg', class: 'avatar-lg px-md-5', alt: '...' %>
@@ -19,11 +19,11 @@
             </div>
 
             <!-- Card Body -->
-            <div class="card-body">
+            <div class="card-body <%= 'card-body-played' if match.status == 'played' %>">
               <div class="row text-center align-items-center">
                 <!-- Home Team -->
                 <div class="col-4">
-                  <%= display_home_team_logo_and_name(match) %>
+                  <%= display_home_team_logo_and_name(match, show_highlights: true, season_team: @season_team) %>
                 </div>
 
                 <!-- Match Details -->
@@ -34,18 +34,18 @@
                   </div>
                   <div class="text-warning fw-bold"><%= tournament_data[:category].rule_value(:category_match_duration) %> minutos</div>
                   <div class="text-muted small mt-2">
-                    Arbitro: <strong><%= match.referee.present? ? match.referee : "Agregar" %></strong>
+                    Arbitro Principal: <strong><%= match.referee.present? ? match.referee : "Sin Información" %></strong>
                   </div>
                   <div class="d-flex justify-content-center gap-2 my-2">
-                    <%= edit_match_button(@season_team, match) %>
-                    <%= call_up_button(match) %>
-                    <%= match_details_button(match) %>
+                    <%= edit_match_button(@season_team, match, disabled: match.status == 'played') %>
+                    <%= call_up_button(match, disabled: match.status == 'played') %>
+                    <%= match_details_button(match, disabled: match.status == 'played') %>
                   </div>
                 </div>
 
                 <!-- Away Team -->
                 <div class="col-4">
-                  <%= display_away_team_logo_and_name(match) %>
+                  <%= display_away_team_logo_and_name(match, show_highlights: true, season_team: @season_team) %>
                 </div>
               </div>
             </div>
@@ -71,4 +71,19 @@
     opacity: 0;
     transition: opacity 0.3s ease-out;
   }
+  .card-header-played,
+  .card-body-played {
+    background:
+      /* Watermark SVG text, repeated */
+      url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='60'><text x='5' y='23' font-size='20' font-family='Arial' fill='rgba(200,200,200,0.18)' transform='rotate(-20 100 40)'>FINALIZADO</text></svg>") repeat,
+      linear-gradient(90deg, #f8fafc 0%, #e0e7ef 100%);
+    border-left: 4px solid #ffc107;
+    background-size: 220px 90px, auto;
+  }
+  .text-glow-tied {
+    text-shadow: 0 0 8px #38d430, 0 0 16px #38d430, 0 0 24px #38d430;
+    background: transparent;
+  }
+
+  .badge + .badge { margin-left: .25rem; }
 </style>

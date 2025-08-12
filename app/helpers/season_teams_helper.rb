@@ -91,7 +91,7 @@ module SeasonTeamsHelper
   end
 
   def winner_badge
-    content_tag(:div, "Winner", class: "winner-ribbon mt-1")
+    content_tag(:div, "Ganador", class: "winner-ribbon mt-1")
   end
 
   def display_match_result(match)
@@ -104,8 +104,13 @@ module SeasonTeamsHelper
       home_class = "fs-42 text-wine"
       away_class = "fs-42 text-navy-blue text-glow"
     else
+      if match.status == "played"
+        home_class = "fs-42 text-dark text-glow-tied"
+        away_class = "fs-42 text-dark text-glow-tied"
+      else
       home_class = "fs-42 text-dark"
       away_class = "fs-42 text-dark"
+      end
     end
 
     # Ensure correct order for plays_as
@@ -150,23 +155,37 @@ module SeasonTeamsHelper
     end
   end
 
-  def display_home_team_logo_and_name(match)
+  def display_home_team_logo_and_name(match, show_highlights: false, season_team: nil)
     winner = winning_team(match) == :team if match.plays_as == "home"
     winner ||= winning_team(match) == :rival if match.plays_as == "away"
 
     if match.plays_as == "home"
       team = SeasonTeam.find(match.team_of_interest_id)
-      display_team_logo_and_name(team, ActsAsTenant.current_tenant.name, winner: winner)
+      html = display_team_logo_and_name(team, ActsAsTenant.current_tenant.name, winner: winner)
     else
       rival = Rival.find(match.rival_id)
-      display_team_logo_and_name(rival, nil, winner: winner)
+      html = display_team_logo_and_name(rival, nil, winner: winner)
     end
+
+    if show_highlights && match.status == "played" && match.plays_as == "home"
+      html += render("season_teams/matches/highlights",
+                    match: match,
+                    season_team: season_team || match.team_of_interest)
+    end
+
+    html
   end
 
-  def display_away_team_logo_and_name(match)
-    winner = winning_team(match) == :team if match.plays_as == "away"
-    winner ||= winning_team(match) == :rival if match.plays_as == "home"
+def display_away_team_logo_and_name(match, show_highlights: false, season_team: nil)
+  winner =
+    if match.plays_as == "away"
+      winning_team(match) == :team
+    elsif match.plays_as == "home"
+      winning_team(match) == :rival
+    end
 
+  # Render the logo+name (your existing helper handles SeasonTeam vs Rival)
+  html =
     if match.plays_as == "away"
       team = SeasonTeam.find(match.team_of_interest_id)
       display_team_logo_and_name(team, ActsAsTenant.current_tenant.name, winner: winner)
@@ -174,9 +193,22 @@ module SeasonTeamsHelper
       rival = Rival.find(match.rival_id)
       display_team_logo_and_name(rival, nil, winner: winner)
     end
+
+  # Optionally append highlights when your season team is the away side and the match is played
+  if show_highlights && match.status == "played" && match.plays_as == "away"
+    html += render(
+      "season_teams/matches/highlights",
+      match: match,
+      season_team: season_team || match.team_of_interest
+    )
   end
 
-  def team_score_input_block(form, team:, score_attr:, label_text:, match:, fallback_name: nil, placeholder_logo: "placeholder-logo.png")
+  html
+end
+
+  def team_score_input_block(form, team:, score_attr:, label_text:, match:, role:, fallback_name: nil, placeholder_logo: "placeholder-logo.png", manual_controls: nil)
+    manual_controls = role.to_s == "rival" if manual_controls.nil?
+
     content_tag :div, class: "col-md-6 d-flex align-items-center" do
       logo_and_name = content_tag(:div, class: "me-3 d-flex flex-column align-items-center justify-content-center") do
         logo_url =
@@ -187,14 +219,58 @@ module SeasonTeamsHelper
           end
 
         safe_join([
-          image_tag(logo_url, alt: team.try(:name) || fallback_name, style: "max-height: 50px;"),
+          image_tag(logo_url, alt: team.try(:name) || fallback_name, style: "max-height: 80px;"),
           content_tag(:h5, fallback_name || team.try(:name) || "Unknown Team")
         ])
       end
 
-      score_input = content_tag(:div, class: "w-100") do
+      score_input = content_tag(:div, class: "w-100 text-center") do
         form.label(score_attr, label_text, class: "form-label fw-semibold") +
-        form.number_field(score_attr, class: "form-control form-control-lg", min: 0, value: match.send(score_attr) || 0, placeholder: "0")
+        content_tag(:turbo_frame, id: "#{score_attr}_#{match.id}", class: "d-inline-block") do
+          # Controller WRAPS both targets and carries the role
+          content_tag(:div,
+                      class: "d-inline-flex align-items-center gap-3",
+                      data: { controller: "score", "score-role": role }) do
+
+            # Decrement button (only for manual-controls)
+            dec_btn = if manual_controls
+              content_tag(:button, "–",
+                type: "button",
+                class: "btn btn-sm btn-outline-secondary rounded-circle d-flex align-items-center justify-content-center",
+                style: "width:2rem;height:2rem;",
+                data: { action: "click->score#decrement" }
+              )
+            else
+              "".html_safe
+            end
+
+            # Visible number
+            display = content_tag(:div,
+                                  (match.send(score_attr) || 0).to_s,
+                                  class: "display-4 fw-bold",
+                                  data: { "score-target": "display" })
+
+            # Increment button (manual-controls only)
+            inc_btn = if manual_controls
+              content_tag(:button, "+",
+                type: "button",
+                class: "btn btn-sm btn-outline-primary rounded-circle d-flex align-items-center justify-content-center",
+                style: "width:2rem;height:2rem;",
+                data: { action: "click->score#increment" }
+              )
+            else
+              "".html_safe
+            end
+
+            # Hidden input
+            hidden = form.hidden_field(score_attr,
+                                       value: match.send(score_attr) || 0,
+                                       id: "match_#{score_attr}",
+                                       data: { "score-target": "input" })
+
+            safe_join([dec_btn, display, inc_btn, hidden])
+          end
+        end
       end
 
       safe_join([logo_and_name, score_input])
@@ -261,9 +337,10 @@ module SeasonTeamsHelper
     end
   end
 
-  def edit_match_button(season_team, match)
+  def edit_match_button(season_team, match, disabled: false)
     button_tag type: "button",
-               class: "btn btn-outline-primary btn-sm",
+             class: "btn btn-outline-primary btn-sm#{' disabled' if disabled}",
+             disabled: disabled,
                data: {
                  controller: "modal-loader",
                  action: "click->modal-loader#load",
@@ -277,12 +354,13 @@ module SeasonTeamsHelper
     end
   end
 
-  def call_up_button(match)
+  def call_up_button(match, disabled: false)
     if match.scheduled_at.present?
       if match.call_up.present?
         button_tag type: "button",
           id: "call_up_button_#{match.id}",
-          class: "btn btn-warning btn-sm",
+          class: "btn btn-warning btn-sm#{' disabled' if disabled}",
+          disabled: disabled,
           data: {
                   controller: "call-up-loader",
                   action: "click->call-up-loader#load",
@@ -342,13 +420,14 @@ module SeasonTeamsHelper
     end
   end
 
-  def match_details_button(match)
+  def match_details_button(match, disabled: false)
     if match.scheduled_at.present? && Time.current >= match.scheduled_at
       if match.call_up.present?
         # Button is enabled if the match has started and has a call_up
         button_tag type: "button",
           id: "performance_button_#{match.id}",
-          class: "btn btn-danger btn-sm",
+          class: "btn btn-danger btn-sm#{' disabled' if disabled}",
+          disabled: disabled,
           data: {
             controller: "match-details-loader",
             action: "click->match-details-loader#load",
@@ -384,5 +463,96 @@ module SeasonTeamsHelper
         ])
       end
     end
+  end
+
+  def call_up_player_origin(call_up_player)
+    return :external if call_up_player.external_player_id.present?
+    return :unknown unless call_up_player.player_category_id && call_up_player.call_up&.category_id
+
+    if call_up_player.player_category_id == call_up_player.call_up.category_id
+      :own_category
+    else
+      :other_category
+    end
+  end
+
+  def call_up_player_td_class(origin)
+    case origin
+    when :own_category
+      ""
+    when :other_category
+      "bg-info-light bg-opacity-15 text-dark"
+    when :external
+      "bg-warning-light bg-opacity-15 text-dark"
+    else
+      ""
+    end
+  end
+
+  def team_highlights_for(match, season_team)
+    return {} unless match.status == "played"
+
+    stp = season_team.season_team_players.select(:player_id, :external_player_id)
+    player_ids    = stp.map(&:player_id).compact
+    external_ids  = stp.map(&:external_player_id).compact
+
+    # If the team has no linked players/external players, bail early
+    return {} if player_ids.empty? && external_ids.empty?
+
+    # Build the scope WITHOUT Arel nils
+    scopes = []
+    scopes << MatchPerformance.where(performer_type: "Player",        performer_id: player_ids)    if player_ids.any?
+    scopes << MatchPerformance.where(performer_type: "ExternalPlayer", performer_id: external_ids) if external_ids.any?
+
+    perfs =
+      if scopes.any?
+        combined = scopes.reduce { |acc, s| acc.or(s) } # OR all non-empty scopes
+        match.match_performances.includes(:performer).merge(combined)
+      else
+        MatchPerformance.none
+      end
+
+    group_count = ->(attr) do
+      perfs
+        .select { |p| p.public_send(attr).to_i.positive? }
+        .group_by { |p| [p.performer_type, p.performer_id] }
+        .map do |(_type, _id), ps|
+          performer = ps.first.performer
+          next unless performer # performer may be missing if the record was deleted
+          {
+            surname: surname_for(performer),
+            count:   ps.sum { |p| p.public_send(attr).to_i }
+          }
+        end
+        .compact
+        .sort_by { |h| [-h[:count], h[:surname].to_s] }
+    end
+
+    scorers = group_count.call(:goals_scored)
+    yellows = group_count.call(:yellow_cards)
+    reds    = group_count.call(:red_cards)
+
+    # GK stops (only if such a column exists)
+    keeper_perf = perfs.find do |p|
+      performer = p.performer
+      pos = performer.respond_to?(:position) ? performer.position.to_s.downcase : ""
+      %w[gk goalkeeper arquero portero].include?(pos)
+    end
+
+    keeper_data =
+      if keeper_perf
+        stops_attr = keeper_perf.respond_to?(:stops) ? :stops : (keeper_perf.respond_to?(:saves) ? :saves : nil)
+        if stops_attr
+          stops = keeper_perf.public_send(stops_attr).to_i
+          { surname: surname_for(keeper_perf.performer), stops: stops } if stops.positive?
+        end
+      end
+
+    { scorers: scorers, yellows: yellows, reds: reds, keeper: keeper_data }
+  end
+
+  def surname_for(person)
+    return "" unless person
+    person.try(:last_name).presence || person.try(:full_name).to_s.split.last.to_s
   end
 end

@@ -12,11 +12,15 @@ module CallUps
         tenant: @tenant,
         match: @match,
         category: Category.find(@match.team_of_interest.category_id),
-        name: "Convocatoria #{@match.id}",
+        name: call_up_name(@match),
         call_up_date: @match.scheduled_at
       )
 
       OpenStruct.new(success?: true, call_up: @match.call_up) if @match.call_up.present?
+    end
+
+    def call_up_name(match)
+      "Convocatoria vs #{match.rival.name} - #{match.scheduled_at.strftime('%d/%m/%Y')} [ HORA #{match.scheduled_at.strftime('%H:%M')} ]"
     end
   end
 end

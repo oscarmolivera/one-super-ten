@@ -7,8 +7,8 @@ import { application } from "./application"
 import CallUpCleanerController from "./call_up_cleaner_controller"
 application.register("call-up-cleaner", CallUpCleanerController)
 
-import TurboLoaderController from "./call_up_loader_controller"
-application.register("call-up-loader", TurboLoaderController)
+import CallUpLoaderController from "./call_up_loader_controller"
+application.register("call-up-loader", CallUpLoaderController)
 
 import CallUpSelectorController from "./call_up_selector_controller"
 application.register("call-up-selector", CallUpSelectorController)
@@ -21,6 +21,9 @@ application.register("category-rules", CategoryRulesController)
 
 import ClickableRowController from "./clickable_row_controller"
 application.register("clickable-row", ClickableRowController)
+
+import ConfirmLockController from "./confirm_lock_controller"
+application.register("confirm-lock", ConfirmLockController)
 
 import EditToggleController from "./edit_toggle_controller"
 application.register("edit-toggle", EditToggleController)
@@ -52,6 +55,9 @@ application.register("match-form", MatchFormController)
 import ModalLoaderController from "./modal_loader_controller"
 application.register("modal-loader", ModalLoaderController)
 
+import PerformanceCounterController from "./performance_counter_controller"
+application.register("performance-counter", PerformanceCounterController)
+
 import RemoteModalController from "./remote_modal_controller"
 application.register("remote-modal", RemoteModalController)
 
@@ -63,6 +69,9 @@ application.register("school-tab", SchoolTabController)
 
 import SchoolTogglesController from "./school_toggles_controller"
 application.register("school-toggles", SchoolTogglesController)
+
+import ScoreController from "./score_controller"
+application.register("score", ScoreController)
 
 import TabRedirectController from "./tab_redirect_controller"
 application.register("tab-redirect", TabRedirectController)

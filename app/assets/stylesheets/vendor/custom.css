@@ -458,10 +458,18 @@
 		font-size: 0.75rem;
 	}
 
+	.btn-circle {
+		border-radius: 50% !important;
+		padding: 0 !important;
+	}
+
 	.badge-school-0 { background-color: #ffc107; } /* yellow */
 	.badge-school-1 { background-color: #20c997; } /* teal */
 	.badge-school-2 { background-color: #d63384; } /* pink */
 	.badge-school-3 { background-color: #0dcaf0; } /* cyan */
+  .bg-info-light { 	background-color: rgba(0, 123, 255, 0.1); }
+	.bg-opacity-15 { 	background-color: rgba(0, 0, 0, 0.15); }
+	.bg-warning-light { background-color: rgba(255, 193, 7, 0.1); }
 
 	.h-140{
 		height: 140px important; 

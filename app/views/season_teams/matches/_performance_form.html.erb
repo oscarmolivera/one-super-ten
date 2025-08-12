@@ -1,32 +1,194 @@
-<turbo-frame id="performance_frame_<%= @match.id %>">
-  <%= form_with model: match, url: match_path(@match), method: :patch, data: { turbo_frame: "_self" } do |f| %>
+<turbo-frame id="performance_frame_<%= @match.id %>" data-match-id="<%= @match.id %>" data-plays-as="<%= @match.plays_as %>">
+  <%= form_with model: match,
+              url: match_path(@match),
+              method: :patch,
+              data: {
+                turbo_frame: "_self",
+                controller: "confirm-lock",
+                action: "submit->confirm-lock#intercept turbo:submit-end->confirm-lock#onSubmitEnd",
+                "confirm-lock-modal-id-value": "lockConfirmModal_#{@match.id}"
+              } do |f| %>
     <div class="card shadow-lg border-0 rounded-3 mb-4">
       <div class="card-header bg-success-light text-muted rounded-top">
-        <h4 class="mb-0 fw-bold">Actualizar Marcador del Partido | <small class="text-muted">Partido ID: <%= @match.id %></small></h4>
+        <h4 class="mb-0 fw-bold">
+          Editar Detalles del Partido |
+          <small class="text-success">Partido ID: <%= @match.id %></small>
+        </h4>
       </div>
+
       <div class="card-body p-4">
-        <div class="row align-items-center mb-3">
-          <div class="col-12 text-center mb-3">
-            
+        <div class="alert alert-warning d-flex align-items-center gap-2 mb-4" role="alert">
+          <i class="ti ti-lock fs-5"></i>
+          <div>
+            <strong>Importante:</strong> al guardar el marcador, el partido quedará <u>bloqueado</u> y no podrás editar el resultado.
           </div>
-          <% if match.plays_as == "home" %>
-            <%= team_score_input_block(f, team: match.team_of_interest, fallback_name: ActsAsTenant.current_tenant.name, score_attr: :team_score, label_text: "Goles Anotados:", match: match) %>
-            <%= team_score_input_block(f, team: match.rival, score_attr: :rival_score, label_text: "Goles Anotados:", match: match) %>
-          <% else %>
-            <%= team_score_input_block(f, team: match.rival, score_attr: :rival_score, label_text: "Goles Anotados:", match: match) %>
-            <%= team_score_input_block(f, team: match.team_of_interest, fallback_name: ActsAsTenant.current_tenant.name, score_attr: :team_score, label_text: "Goles Anotados:", match: match) %>
-          <% end %>
+        </div>
+
+        <!-- Goles de ambos equipos -->
+        <div class="row text-center mb-4">
+          <div class="col-md-6">
+            <% if match.plays_as == "home" %>
+              <%= team_score_input_block(f, team: match.team_of_interest,
+                    fallback_name: ActsAsTenant.current_tenant.name,
+                    score_attr: :team_score,
+                    label_text: "Goles Anotados:",
+                    match: match,
+                    role: :tenant,
+                    manual_controls: false) %>
+            <% else %>
+              <%= team_score_input_block(f,
+                    team: match.rival,
+                    score_attr: :rival_score,
+                    label_text: "Goles Anotados:",
+                    match: match,
+                    role: :rival,
+                    manual_controls: true) %>
+            <% end %>
+          </div>
+
+          <div class="col-md-6">
+            <% if match.plays_as == "home" %>
+              <%= team_score_input_block(f,
+                    team: match.rival,
+                    score_attr: :rival_score,
+                    label_text: "Goles Anotados:",
+                    match: match,
+                    role: :rival,
+                    manual_controls: true) %>
+            <% else %>
+              <%= team_score_input_block(f,
+                    team: match.team_of_interest,
+                    fallback_name: ActsAsTenant.current_tenant.name,
+                    score_attr: :team_score,
+                    label_text: "Goles Anotados:",
+                    match: match,
+                    role: :tenant,
+                    manual_controls: false) %>
+            <% end %>
+          </div>
+        </div>
+
+        <div class="row mt-5">
+          <div class="col">
+            <h5 class="fw-bold mb-3">Rendimiento de Jugadores Convocados</h5>
+            <% rows = SeasonTeams::MatchPerformanceTableService.new(@match).rows %>
+            <table class="table table-bordered table-sm align-middle">
+              <thead class="table-light">
+                <tr>
+                  <th>
+                    <!-- User SVG -->
+                    <svg width="18" height="18" fill="currentColor" class="me-1" viewBox="0 0 16 16">
+                      <circle cx="8" cy="5" r="3" />
+                      <path d="M2 14s1-4 6-4 6 4 6 4H2z"/>
+                    </svg>
+                    Jugador
+                  </th>
+                  <th>
+                    <!-- Soccer Ball SVG -->
+                    <svg width="18" height="18" fill="currentColor" class="me-1" viewBox="0 0 24 24">
+                      <circle cx="12" cy="12" r="10" stroke="black" stroke-width="1" fill="none"/>
+                      <circle cx="12" cy="12" r="3" fill="black"/>
+                      <path d="M12 2v7M12 22v-7M2 12h7M22 12h-7" stroke="black" stroke-width="1"/>
+                    </svg>
+                    Goles Anotados
+                  </th>
+                  <th>
+                    <!-- Assist Arrow SVG -->
+                    <svg width="18" height="18" fill="currentColor" class="me-1" viewBox="0 0 16 16">
+                      <path d="M2 14l10-10M12 4v6M12 4H6" stroke="black" stroke-width="2" fill="none"/>
+                    </svg>
+                    Asistencias
+                  </th>
+                  <th>
+                    <!-- Yellow Card SVG -->
+                    <svg width="18" height="18" class="me-1" viewBox="0 0 16 16">
+                      <rect x="3" y="3" width="10" height="14" rx="2" fill="#ffc107" stroke="#b8860b" stroke-width="1"/>
+                    </svg>
+                    Tarjetas Amarillas
+                  </th>
+                  <th>
+                    <!-- Red Card SVG -->
+                    <svg width="18" height="18" class="me-1" viewBox="0 0 16 16">
+                      <rect x="3" y="3" width="10" height="14" rx="2" fill="#dc3545" stroke="#a71d2a" stroke-width="1"/>
+                    </svg>
+                    Tarjetas Rojas
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <% rows.each do |row| %>
+                  <% origin = call_up_player_origin(row.call_up_player) %>
+                  <%= f.fields_for :match_performances, row.performance do |pf| %>
+                    <tr>
+                      <td class="text-start <%= call_up_player_td_class(origin) %>">
+                        <% if (icon = icon_for(origin)) %>
+                          <i class="fa-solid <%= icon %> me-1"></i>
+                        <% end %>
+                        <%= row.performer.try(:full_name) || "#{row.performer.try(:first_name)} #{row.performer.try(:last_name)}" %>
+                        <%= pf.hidden_field :performer_type %>
+                        <%= pf.hidden_field :performer_id %>
+                      </td>
+                      <%= render partial: "season_teams/matches/performance_counter", locals: { td_class: call_up_player_td_class(origin), frame_id: "goals_scored_#{row.performance.id}", pf: pf, field_name: :goals_scored, value: pf.object.goals_scored } %>
+                      <%= render partial: "season_teams/matches/performance_counter", locals: { td_class: call_up_player_td_class(origin), frame_id: "assists_#{row.performance.id}", pf: pf, field_name: :assists, value: pf.object.assists } %>
+                      <%= render partial: "season_teams/matches/performance_counter", locals: { td_class: call_up_player_td_class(origin), frame_id: "yellow_cards_#{row.performance.id}", pf: pf, field_name: :yellow_cards, value: pf.object.yellow_cards } %>
+                      <%= render partial: "season_teams/matches/performance_counter", locals: { td_class: call_up_player_td_class(origin), frame_id: "red_cards_#{row.performance.id}", pf: pf, field_name: :red_cards, value: pf.object.red_cards } %>
+                    </tr>
+                  <% end %>
+                <% end %>
+              </tbody>
+            </table>
+            <% if rows.empty? %>
+              <div class="alert alert-warning text-center">No hay jugadores convocados para este partido.</div>
+            <% end %>
+          </div>
+        </div>
+        <!-- Referee -->
+        <div class="row">
+          <div class="col text-center">
+            <label for="match_referee" class="form-label fw-semibold text-muted">Árbitro Principal</label>
+            <%= f.text_field :referee, class: "form-control w-200 mx-auto text-center", placeholder: "Nombre del árbitro", required: true%>
+          </div>
         </div>
       </div>
+
       <div class="card-footer bg-light border-0 p-3 d-flex justify-content-end gap-2">
+        <%= f.hidden_field :status, value: :played %>
         <%= f.submit "Guardar Marcador", class: "btn btn-primary btn-lg px-4" %>
-        <button
-        type="button"
-        class="btn btn-outline-secondary btn-lg px-4"
-        data-action="click->frame-closer#close">
-        
-        Cancelar</button>
+        <button type="button" class="btn btn-outline-secondary btn-lg px-4" data-action="click->frame-closer#close">
+          Cancelar
+        </button>
       </div>
     </div>
+
+    <div class="modal fade" tabindex="-1" id="lockConfirmModal_<%= @match.id %>" data-confirm-lock-target="modal" aria-labelledby="lockConfirmLabel_<%= @match.id %>" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content shadow-lg">
+          <div class="modal-header">
+            <h5 class="modal-title" id="lockConfirmLabel_<%= @match.id %>">Confirmar guardado de marcador</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+          </div>
+          <div class="modal-body">
+            <div class="d-flex align-items-start gap-3">
+              <i class="ti ti-lock fs-2 text-warning"></i>
+              <div>
+                <p class="mb-2">
+                  Al confirmar, el resultado del partido quedará <strong>bloqueado</strong> para futuras ediciones.
+                </p>
+                <ul class="mb-0 small text-muted">
+                  <li>Se guardarán los goles y estadísticas actuales.</li>
+                  <li>No podrás cambiar el marcador luego de confirmar.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer justify-content-between">
+            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Volver</button>
+            <button type="button" class="btn btn-primary" data-action="click->confirm-lock#confirmAndSubmit">
+              Sí, guardar y bloquear
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>    
   <% end %>
 </turbo-frame>
