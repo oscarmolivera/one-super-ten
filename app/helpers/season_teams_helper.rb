@@ -155,23 +155,37 @@ module SeasonTeamsHelper
     end
   end
 
-  def display_home_team_logo_and_name(match)
+  def display_home_team_logo_and_name(match, show_highlights: false, season_team: nil)
     winner = winning_team(match) == :team if match.plays_as == "home"
     winner ||= winning_team(match) == :rival if match.plays_as == "away"
 
     if match.plays_as == "home"
       team = SeasonTeam.find(match.team_of_interest_id)
-      display_team_logo_and_name(team, ActsAsTenant.current_tenant.name, winner: winner)
+      html = display_team_logo_and_name(team, ActsAsTenant.current_tenant.name, winner: winner)
     else
       rival = Rival.find(match.rival_id)
-      display_team_logo_and_name(rival, nil, winner: winner)
+      html = display_team_logo_and_name(rival, nil, winner: winner)
     end
+
+    if show_highlights && match.status == "played" && match.plays_as == "home"
+      html += render("season_teams/matches/highlights",
+                    match: match,
+                    season_team: season_team || match.team_of_interest)
+    end
+
+    html
   end
 
-  def display_away_team_logo_and_name(match)
-    winner = winning_team(match) == :team if match.plays_as == "away"
-    winner ||= winning_team(match) == :rival if match.plays_as == "home"
+def display_away_team_logo_and_name(match, show_highlights: false, season_team: nil)
+  winner =
+    if match.plays_as == "away"
+      winning_team(match) == :team
+    elsif match.plays_as == "home"
+      winning_team(match) == :rival
+    end
 
+  # Render the logo+name (your existing helper handles SeasonTeam vs Rival)
+  html =
     if match.plays_as == "away"
       team = SeasonTeam.find(match.team_of_interest_id)
       display_team_logo_and_name(team, ActsAsTenant.current_tenant.name, winner: winner)
@@ -179,7 +193,18 @@ module SeasonTeamsHelper
       rival = Rival.find(match.rival_id)
       display_team_logo_and_name(rival, nil, winner: winner)
     end
+
+  # Optionally append highlights when your season team is the away side and the match is played
+  if show_highlights && match.status == "played" && match.plays_as == "away"
+    html += render(
+      "season_teams/matches/highlights",
+      match: match,
+      season_team: season_team || match.team_of_interest
+    )
   end
+
+  html
+end
 
   def team_score_input_block(form, team:, score_attr:, label_text:, match:, role:, fallback_name: nil, placeholder_logo: "placeholder-logo.png", manual_controls: nil)
     manual_controls = role.to_s == "rival" if manual_controls.nil?
@@ -462,5 +487,72 @@ module SeasonTeamsHelper
     else
       ""
     end
+  end
+
+  def team_highlights_for(match, season_team)
+    return {} unless match.status == "played"
+
+    stp = season_team.season_team_players.select(:player_id, :external_player_id)
+    player_ids    = stp.map(&:player_id).compact
+    external_ids  = stp.map(&:external_player_id).compact
+
+    # If the team has no linked players/external players, bail early
+    return {} if player_ids.empty? && external_ids.empty?
+
+    # Build the scope WITHOUT Arel nils
+    scopes = []
+    scopes << MatchPerformance.where(performer_type: "Player",        performer_id: player_ids)    if player_ids.any?
+    scopes << MatchPerformance.where(performer_type: "ExternalPlayer", performer_id: external_ids) if external_ids.any?
+
+    perfs =
+      if scopes.any?
+        combined = scopes.reduce { |acc, s| acc.or(s) } # OR all non-empty scopes
+        match.match_performances.includes(:performer).merge(combined)
+      else
+        MatchPerformance.none
+      end
+
+    group_count = ->(attr) do
+      perfs
+        .select { |p| p.public_send(attr).to_i.positive? }
+        .group_by { |p| [p.performer_type, p.performer_id] }
+        .map do |(_type, _id), ps|
+          performer = ps.first.performer
+          next unless performer # performer may be missing if the record was deleted
+          {
+            surname: surname_for(performer),
+            count:   ps.sum { |p| p.public_send(attr).to_i }
+          }
+        end
+        .compact
+        .sort_by { |h| [-h[:count], h[:surname].to_s] }
+    end
+
+    scorers = group_count.call(:goals_scored)
+    yellows = group_count.call(:yellow_cards)
+    reds    = group_count.call(:red_cards)
+
+    # GK stops (only if such a column exists)
+    keeper_perf = perfs.find do |p|
+      performer = p.performer
+      pos = performer.respond_to?(:position) ? performer.position.to_s.downcase : ""
+      %w[gk goalkeeper arquero portero].include?(pos)
+    end
+
+    keeper_data =
+      if keeper_perf
+        stops_attr = keeper_perf.respond_to?(:stops) ? :stops : (keeper_perf.respond_to?(:saves) ? :saves : nil)
+        if stops_attr
+          stops = keeper_perf.public_send(stops_attr).to_i
+          { surname: surname_for(keeper_perf.performer), stops: stops } if stops.positive?
+        end
+      end
+
+    { scorers: scorers, yellows: yellows, reds: reds, keeper: keeper_data }
+  end
+
+  def surname_for(person)
+    return "" unless person
+    person.try(:last_name).presence || person.try(:full_name).to_s.split.last.to_s
   end
 end

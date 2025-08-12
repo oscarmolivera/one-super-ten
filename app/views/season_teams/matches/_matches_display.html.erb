@@ -23,7 +23,7 @@
               <div class="row text-center align-items-center">
                 <!-- Home Team -->
                 <div class="col-4">
-                  <%= display_home_team_logo_and_name(match) %>
+                  <%= display_home_team_logo_and_name(match, show_highlights: true, season_team: @season_team) %>
                 </div>
 
                 <!-- Match Details -->
@@ -34,7 +34,7 @@
                   </div>
                   <div class="text-warning fw-bold"><%= tournament_data[:category].rule_value(:category_match_duration) %> minutos</div>
                   <div class="text-muted small mt-2">
-                    Arbitro Principal: <strong><%= match.referee.present? ? match.referee : "Agregar" %></strong>
+                    Arbitro Principal: <strong><%= match.referee.present? ? match.referee : "Sin Información" %></strong>
                   </div>
                   <div class="d-flex justify-content-center gap-2 my-2">
                     <%= edit_match_button(@season_team, match, disabled: match.status == 'played') %>
@@ -45,7 +45,7 @@
 
                 <!-- Away Team -->
                 <div class="col-4">
-                  <%= display_away_team_logo_and_name(match) %>
+                  <%= display_away_team_logo_and_name(match, show_highlights: true, season_team: @season_team) %>
                 </div>
               </div>
             </div>
@@ -84,4 +84,6 @@
     text-shadow: 0 0 8px #38d430, 0 0 16px #38d430, 0 0 24px #38d430;
     background: transparent;
   }
+
+  .badge + .badge { margin-left: .25rem; }
 </style>

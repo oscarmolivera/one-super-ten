@@ -1,0 +1,52 @@
+<%# expects: match:, season_team: %>
+<% highlights = team_highlights_for(match, season_team) %>
+
+<% if highlights.present? %>
+  <div class="mt-2">
+    <% if highlights[:scorers].any? %>
+      <div class="small mb-1">
+        <span class="fw-semibold me-1">Goles:</span>
+        <% highlights[:scorers].each do |s| %>
+          <span class="badge rounded-pill text-bg-success me-1">
+            <i class="bi bi-soccer-ball me-1"></i>
+            <%= s[:surname] %><%= " (#{s[:count]})" if s[:count] > 1 %>
+          </span>
+        <% end %>
+      </div>
+    <% end %>
+
+    <% if highlights[:yellows].any? %>
+      <div class="small mb-1">
+        <span class="fw-semibold me-1">Amarillas:</span>
+        <% highlights[:yellows].each do |y| %>
+          <span class="badge rounded-pill text-bg-warning me-1">
+            <i class="bi bi-square-fill me-1"></i>
+            <%= y[:surname] %><%= " (#{y[:count]})" if y[:count] > 1 %>
+          </span>
+        <% end %>
+      </div>
+    <% end %>
+
+    <% if highlights[:reds].any? %>
+      <div class="small mb-1">
+        <span class="fw-semibold me-1">Rojas:</span>
+        <% highlights[:reds].each do |r| %>
+          <span class="badge rounded-pill text-bg-danger me-1">
+            <i class="bi bi-square-fill me-1"></i>
+            <%= r[:surname] %><%= " (#{r[:count]})" if r[:count] > 1 %>
+          </span>
+        <% end %>
+      </div>
+    <% end %>
+
+    <% if highlights[:keeper].present? %>
+      <div class="small">
+        <span class="fw-semibold me-1">Arquero:</span>
+        <span class="badge rounded-pill text-bg-secondary">
+          <i class="bi bi-shield-shaded me-1"></i>
+          <%= highlights[:keeper][:surname] %> — Atajadas: <%= highlights[:keeper][:stops] %>
+        </span>
+      </div>
+    <% end %>
+  </div>
+<% end %>

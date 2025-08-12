@@ -18,9 +18,13 @@ class SeasonTeams::MatchesController < ApplicationController
 
     params[:performances].each do |id, attrs|
       perf = @match.match_performances.find(id)
-      perf.update(attrs.permit(:id, :player_id, :goals_scored, :assists, :minute_of_event, 
-        :yellow_cards, :red_cards, :notes, :performer_type, :performer_id, 
-        :tournament_id, :tenant_id))
+      perf.update(attrs.permit(
+        :id,
+        :performer_type, :performer_id,  # keep polymorphic
+        :goals_scored, :assists, :minute_of_event,
+        :yellow_cards, :red_cards, :notes,
+        :tournament_id, :tenant_id
+      ))
     end
 
     redirect_to match_path(@match), notice: "Player performances updated."
@@ -108,18 +112,17 @@ class SeasonTeams::MatchesController < ApplicationController
     p
   end
 
-  def match_params
-    params.require(:match).permit(
-      :tenant_id, :tournament_id, :team_of_interest_id, :rival_season_team_id, 
-      :rival_id, :plays_as, :match_type, :location, :location_type, :status, 
-      :stage_id, :referee, :scheduled_at, :team_score, :rival_score, :notes,
-      match_performances_attributes: [
-        :id, :player_id, :goals_scored, :assists, :minute_of_event, 
-        :yellow_cards, :red_cards, :notes, :performer_type, :performer_id, 
-        :tournament_id, :tenant_id
-      ]
-    )
-  end
+def match_params
+  params.require(:match).permit(
+    :tenant_id, :tournament_id, :team_of_interest_id, :rival_season_team_id,
+    :rival_id, :plays_as, :match_type, :location, :location_type, :status,
+    :stage_id, :referee, :scheduled_at, :team_score, :rival_score, :notes,
+    match_performances_attributes: [ :id, :performer_type, :performer_id, 
+      :goals_scored, :assists, :minute_of_event, :yellow_cards, :red_cards, :notes,
+      :tournament_id, :tenant_id, :_destroy
+    ]
+  )
+end
 
   def set_match
     @match = Match.find(params[:id])

@@ -1,5 +1,5 @@
 <turbo-frame id="performance_frame_<%= @match.id %>" data-match-id="<%= @match.id %>" data-plays-as="<%= @match.plays_as %>">
-<%= form_with model: match,
+  <%= form_with model: match,
               url: match_path(@match),
               method: :patch,
               data: {
