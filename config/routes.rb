@@ -62,6 +62,9 @@ Rails.application.routes.draw do
         end
         resources :matches, controller: "season_teams/matches", shallow: true do
           resources :call_ups, only: [:new, :create, :edit, :update], shallow: true
+          member do
+            get :performance_form
+          end
         end
         resources :rivals, controller: "season_teams/rivals", except: [:index, :show], shallow: true
         collection do

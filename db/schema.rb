@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_07_16_184609) do
+ActiveRecord::Schema[8.0].define(version: 2025_08_06_230446) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -68,8 +68,10 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_16_184609) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "external_player_id"
+    t.bigint "player_category_id"
     t.index ["call_up_id"], name: "index_call_up_players_on_call_up_id"
     t.index ["external_player_id"], name: "index_call_up_players_on_external_player_id"
+    t.index ["player_category_id"], name: "index_call_up_players_on_player_category_id"
     t.index ["player_id"], name: "index_call_up_players_on_player_id"
   end
 
@@ -314,17 +316,24 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_16_184609) do
 
   create_table "match_performances", force: :cascade do |t|
     t.bigint "match_id", null: false
-    t.bigint "player_id", null: false
-    t.integer "goals", default: 0
-    t.integer "minutes_played", default: 0
+    t.integer "goals_scored", default: 0
+    t.integer "minute_of_event", default: 0
     t.integer "assists", default: 0
     t.integer "yellow_cards", default: 0
     t.integer "red_cards", default: 0
     t.text "notes"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "tournament_id", null: false
+    t.string "performer_type"
+    t.bigint "performer_id"
+    t.bigint "tenant_id", null: false
     t.index ["match_id"], name: "index_match_performances_on_match_id"
-    t.index ["player_id"], name: "index_match_performances_on_player_id"
+    t.index ["performer_type", "performer_id"], name: "index_match_performances_on_performer"
+    t.index ["tenant_id", "performer_type", "performer_id"], name: "index_match_performances_on_tenant_and_performer"
+    t.index ["tenant_id", "tournament_id"], name: "index_match_performances_on_tenant_and_tournament"
+    t.index ["tenant_id"], name: "index_match_performances_on_tenant_id"
+    t.index ["tournament_id"], name: "index_match_performances_on_tournament_id"
   end
 
   create_table "match_reports", force: :cascade do |t|
@@ -702,7 +711,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_16_184609) do
   add_foreign_key "line_ups", "call_up_players"
   add_foreign_key "line_ups", "matches"
   add_foreign_key "match_performances", "matches"
-  add_foreign_key "match_performances", "players"
+  add_foreign_key "match_performances", "tenants"
+  add_foreign_key "match_performances", "tournaments"
   add_foreign_key "match_reports", "matches"
   add_foreign_key "match_reports", "tenants"
   add_foreign_key "match_reports", "users"

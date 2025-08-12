@@ -1,6 +1,7 @@
 class CallUpPlayer < ApplicationRecord
   belongs_to :call_up
-  belongs_to :player
+  belongs_to :player, optional: true
+  belongs_to :external_player, optional: true 
 
   has_many :line_ups, dependent: :destroy
 

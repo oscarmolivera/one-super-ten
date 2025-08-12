@@ -6,7 +6,8 @@ module CallUps
     end
 
     def call
-      recombine_datetime!
+      # Always recombine and assign date+time before transaction
+      assign_call_up_datetime!
 
       selected_player_ids = Array(@params[:player_ids]).reject(&:blank?).map(&:to_i)
       selected_external_ids = Array(@params[:external_player_ids]).reject(&:blank?).map(&:to_i)
@@ -33,10 +34,15 @@ module CallUps
 
         # Insert new Player rows
         if player_ids_to_add.any?
+          # Preload player categories in one query for efficiency
+          player_categories = CategoryPlayer.where(player_id: player_ids_to_add)
+                                          .group_by(&:player_id)
           rows = player_ids_to_add.map do |pid|
+            category_id = player_categories[pid]&.first&.category_id
             {
               call_up_id: @call_up.id,
               player_id: pid,
+              player_category_id: category_id,
               attendance: false,
               created_at: Time.zone.now,
               updated_at: Time.zone.now
@@ -59,11 +65,12 @@ module CallUps
           CallUpPlayer.insert_all(rows)
         end
 
-        # Update main CallUp record
+        # Update main CallUp record, including call_up_date
         @call_up.update!(
           name: @params[:name],
           match_id: @params[:match_id],
-          category_id: @params[:category_id]
+          category_id: @params[:category_id],
+          call_up_date: @call_up.call_up_date # ensure the recombined datetime is saved
         )
       end
 
@@ -74,13 +81,18 @@ module CallUps
 
     private
 
-    def recombine_datetime!
-      date = @params[:call_up_date_only]
-      time = @params[:call_up_time_only]
+    def assign_call_up_datetime!
+      date = @params[:call_up_date_only].presence || @call_up.call_up_date&.to_date&.to_s
+      time = @params[:call_up_time_only].presence
 
       if date.present? && time.present?
         @call_up.call_up_date = Time.zone.parse("#{date} #{time}")
+      elsif date.present?
+        # If only date is present, keep the original time or set to midnight
+        original_time = @call_up.call_up_date&.strftime("%H:%M") || "00:00"
+        @call_up.call_up_date = Time.zone.parse("#{date} #{original_time}")
       end
+      # If neither present, do not change call_up_date
     end
   end
 end
