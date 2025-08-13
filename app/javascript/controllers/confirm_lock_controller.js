@@ -9,15 +9,33 @@ export default class extends Controller {
   }
 
   connect() {
-    // Clean up any orphaned backdrops if this frame was reloaded
     this.cleanupModalArtifacts()
-
-    // Also clean up before Turbo renders a new page/fragment
     this._beforeRender = () => this.cleanupModalArtifacts()
     document.addEventListener("turbo:before-render", this._beforeRender)
+
+    const modalEl = this._modalElement()
+    if (!modalEl) return
+
+    // move to <body> so it escapes the frame's stacking context
+    if (modalEl.parentNode !== document.body) document.body.appendChild(modalEl)
+
+    // re-bind confirm button manually because Stimulus actions won't resolve after moving
+    const confirmBtn = modalEl.querySelector('[data-action*="confirm-lock#confirmAndSubmit"]')
+    if (confirmBtn) {
+      this._boundConfirm = this.confirmAndSubmit.bind(this)
+      confirmBtn.addEventListener('click', this._boundConfirm)
+    }
+
+    this._bs = bootstrap.Modal.getOrCreateInstance(modalEl, { backdrop: 'static', focus: true })
   }
 
   disconnect() {
+    if (this._bs) { this._bs.hide(); this._bs.dispose(); this._bs = null }
+    const modalEl = this._modalElement()
+    if (modalEl && this._boundConfirm) {
+      const confirmBtn = modalEl.querySelector('[data-action*="confirm-lock#confirmAndSubmit"]')
+      confirmBtn?.removeEventListener('click', this._boundConfirm)
+    }
     document.removeEventListener("turbo:before-render", this._beforeRender)
   }
 

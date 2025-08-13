@@ -3,29 +3,104 @@
     <div class="card-header bg-light d-flex justify-content-between align-items-center">
       <h5 class="mb-0">
         <i class="fa-solid fa-trophy me-2"></i> Partidos del Torneo
-      </h5>
-      <button type="button"
-              class="waves-effect waves-light btn btn-success mb-0"
-              data-controller="modal-loader"
-              data-action="click->modal-loader#load"
-              data-modal-loader-url-value="<%= matches_modal_season_team_path(@season_team) %>"
-              data-modal-loader-target-frame-value="#match_modal_frame">
-        <i class="fa-solid fa-square-plus me-1"></i> Agregar Partido
-      </button>      
+      </h5>   
     </div>
 
+    <div class="bg-body-tertiary border-bottom py-2 px-3 small text-muted d-flex align-items-center">
+      <i class="fa-solid fa-layer-group me-2"></i>
+      <span>Fases del torneo: gestiona el avance de cada fase y revisa sus partidos.</span>
+    </div>    
+
     <div class="card-body px-4 py-3">
-      <turbo-frame id="matches_list">
-        <% if @tournament_data[:matches].any? %>
-          <%= render partial: "season_teams/matches/matches_display", locals: { tournament_data: @tournament_data } %>
-        <% else %>
-          <div id="matches_display">
-            <div class="alert alert-info text-center">No hay partidos registrados aún.</div>
-          </div>
-        <% end %>
-      </turbo-frame>
+      <div class="tabs-wrap">
+        <ul class="nav nav-pills mb-20" role="tablist">
+          <li class="nav-item">
+            <a class="nav-link active" data-bs-toggle="tab" href="#stage1" role="tab">
+              <span class="hidden-sm-up"><i class="fa-solid fa-flag-checkered"></i></span>
+              <span class="hidden-xs-down">Fase 1</span>
+            </a>           
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="tab" href="#stage2" role="tab">
+              <span class="hidden-sm-up"><i class="fa-solid fa-medal"></i></span>
+              <span class="hidden-xs-down">Fase 2</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="tab" href="#stage3" role="tab">
+              <span class="hidden-sm-up"><i class="fa-solid fa-trophy"></i></span>
+              <span class="hidden-xs-down">Final</span>
+            </a>
+          </li>
+        </ul>
+        <div class="tab-content tabcontent-border">
+          <!-- ===== FASE 1 ===== -->
+          <div class="tab-pane active" id="stage1" role="tabpanel">
+            <button type="button"
+                    class="waves-effect waves-light btn btn-success mb-0"
+                    data-controller="modal-loader"
+                    data-action="click->modal-loader#load"
+                    data-modal-loader-url-value="<%= matches_modal_season_team_path(@season_team) %>"
+                    data-modal-loader-target-frame-value="#match_modal_frame"
+                    style="position: absolute; right: 15px;">
+              <i class="fa-solid fa-square-plus me-1"></i> Agregar Partido
+            </button>                
+            <% if @tournament_data[:matches].any? %>
+              <%= render partial: "season_teams/matches/matches_display", locals: { tournament_data: @tournament_data } %>
+            <% else %>
+              <div class="alert alert-info text-center mb-0">No hay partidos en esta fase.</div>
+            <% end %>
+          </div>      
+        </div>
+      </div>
     </div>
   </div>
 
     <turbo-frame id="match_modal_frame"></turbo-frame>
 </div>
+<style>
+  /* 1) No fake line under the pills */
+  .tabs-wrap .nav-pills { margin-bottom: 0; }
+  .tabs-wrap .nav-pills::after { content: none; }
+
+  /* 2) Real, continuous box for the content */
+  .tabcontent-border {
+    border: 1px solid var(--bs-border-color, #dee2e6);
+    /* we DO want the top border now */
+    border-radius: .5rem;               /* rounded corners all around */
+    margin-top: 0;                       /* sit flush under the pills */
+    position: relative;
+    z-index: 1;
+    padding-top: 15px;
+  }
+
+  /* 3) Make the active pill “merge” with the box */
+  .nav-pills .nav-link {
+    border: 1px solid transparent;
+    border-bottom: 0;
+    border-radius: .5rem .5rem 0 0;
+    position: relative;
+    background: transparent;
+    z-index: 2;                          /* above the box border */
+  }
+
+  .nav-pills .nav-link.active {
+    background: #fff;                    /* same as content bg */
+    border-color: var(--bs-border-color, #dee2e6);
+    border-bottom-color: #fff;           /* visually merges with content */
+  }
+
+  /* This masks the tab-content’s top border right under the active pill */
+  .nav-pills .nav-link.active::after {
+    content: "";
+    position: absolute;
+    left: -1px;                          /* cover its own left border too */
+    right: -1px;                         /* and right border */
+    bottom: -1px;                        /* sits over the tab-content top border */
+    height: 1px;
+    background: #fff;                    /* same as .tabcontent-border background */
+    z-index: 3;
+  }
+
+  #match_modal_frame { position: relative; z-index: 1060; }
+</style>

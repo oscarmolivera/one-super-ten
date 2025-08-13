@@ -9,18 +9,32 @@ export default class extends Controller {
   }
 
   load() {
-    const targetFrame = document.getElementById(this.frameValue)
-    if (!targetFrame) return
+    const frame = document.getElementById(this.frameValue)
+    if (!frame) return
 
-    // 🔑 Force reload if URL is the same
-    if (targetFrame.getAttribute("src") === this.urlValue) {
-      targetFrame.removeAttribute("src")
+    if (frame.getAttribute("src") === this.urlValue) frame.removeAttribute("src")
+
+    const onLoad = () => {
+      const modalEl = frame.querySelector("#matchModal") // <- query inside the frame
+      if (!modalEl) return
+
+      document.body.appendChild(modalEl)                 // escape stacking context
+      const modal = new bootstrap.Modal(modalEl)
+      modal.show()
+
+      modalEl.addEventListener("hidden.bs.modal", () => {
+        modal.dispose()
+        modalEl.remove()
+        frame.removeAttribute("src")                     // optional: force fresh load
+      }, { once: true })
+
+      frame.removeEventListener("turbo:frame-load", onLoad)
     }
 
-    targetFrame.classList.remove("fadeOut")
-    targetFrame.setAttribute("src", this.urlValue)
+    frame.addEventListener("turbo:frame-load", onLoad, { once: true })
+    frame.setAttribute("src", this.urlValue)
 
-    this.updateButtonToEdit()
+    this.updateButtonToEdit?.()
   }
 
   updateButtonToEdit() {
