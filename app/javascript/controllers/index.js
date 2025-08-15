@@ -55,6 +55,9 @@ application.register("match-form", MatchFormController)
 import ModalEscapeController from "./modal_escape_controller"
 application.register("modal-escape", ModalEscapeController)
 
+import ModalFocusController from "./modal_focus_controller"
+application.register("modal-focus", ModalFocusController)
+
 import ModalLoaderController from "./modal_loader_controller"
 application.register("modal-loader", ModalLoaderController)
 

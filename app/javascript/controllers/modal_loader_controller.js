@@ -30,6 +30,7 @@ export default class extends Controller {
 
       // Clean up when closed
       modalEl.addEventListener("hidden.bs.modal", () => {
+        modalEl.setAttribute("inert", "")
         modal.dispose()
         modalEl.remove()
         frame.removeAttribute("src") // optional: force a fresh load next time
