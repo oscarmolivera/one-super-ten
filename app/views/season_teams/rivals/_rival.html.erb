@@ -16,20 +16,15 @@
 
     <div class="d-flex justify-content-center gap-2 mt-2">
       <% if policy(rival).update? %>
-        <button class="btn btn-sm btn-outline-primary"
-                data-bs-toggle="modal"
-                data-bs-target="#editRivalModalContent-<%= rival.id %>"
-                data-action="click->modal-loader#open">
+        <button type="button"
+                class="btn btn-sm btn-outline-primary"
+                data-controller="modal-loader"
+                data-action="click->modal-loader#load"
+                data-modal-loader-url-value="<%= edit_rival_path(rival, season_team_id: @season_team.id) %>"
+                data-modal-loader-target-frame-value="#editRivalModal-<%= rival.id %>">
           <i class="fa fa-pencil-alt"></i>
         </button>
-
-        <turbo-frame
-          id="editRivalModal-<%= rival.id %>"
-          src="<%= edit_rival_path(rival, season_team_id: @season_team.id) %>"
-          loading="lazy"
-          data-controller="modal-loader"
-          data-action="turbo:frame-load->modal-loader#open">
-        </turbo-frame>
+        <turbo-frame id="editRivalModal-<%= rival.id %>"></turbo-frame>
       <% end %>
 
       <% if policy(rival).destroy? %>
