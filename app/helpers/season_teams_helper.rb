@@ -326,7 +326,7 @@ module SeasonTeamsHelper
   end
 
   def match_stage(stage)
-    return "Primera Ronda" if stage.name == 'first phase'
+    stage.name if stage.present?
   end
 
   def edit_or_new_call_up_url(match)
