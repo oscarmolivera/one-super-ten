@@ -17265,6 +17265,10 @@ Height property
 .max-h-70 {
   max-height: 70px !important; }
 
+.min-h-75 {
+  min-height: 75px !important;
+}
+
 .h-80 {
   height: 80px !important; }
 

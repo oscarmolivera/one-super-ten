@@ -47,7 +47,7 @@ module Inscriptions
         Stage.create(
           tournament_id: season_team.tournament.id,
           season_team_id: season_team.id,
-          name: 'first phase',
+          name: 'Primera Ronda',
           stage_type: 0,
           order: 1
         )

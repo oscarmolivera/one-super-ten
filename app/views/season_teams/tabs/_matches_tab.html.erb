@@ -11,49 +11,7 @@
       <span>Fases del torneo: gestiona el avance de cada fase y revisa sus partidos.</span>
     </div>    
 
-    <div class="card-body px-4 py-3">
-      <div class="tabs-wrap">
-        <ul class="nav nav-pills mb-20" role="tablist">
-          <li class="nav-item">
-            <a class="nav-link active" data-bs-toggle="tab" href="#stage1" role="tab">
-              <span class="hidden-sm-up"><i class="fa-solid fa-flag-checkered"></i></span>
-              <span class="hidden-xs-down">Fase 1</span>
-            </a>           
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" data-bs-toggle="tab" href="#stage2" role="tab">
-              <span class="hidden-sm-up"><i class="fa-solid fa-medal"></i></span>
-              <span class="hidden-xs-down">Fase 2</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" data-bs-toggle="tab" href="#stage3" role="tab">
-              <span class="hidden-sm-up"><i class="fa-solid fa-trophy"></i></span>
-              <span class="hidden-xs-down">Final</span>
-            </a>
-          </li>
-        </ul>
-        <div class="tab-content tabcontent-border">
-          <!-- ===== FASE 1 ===== -->
-          <div class="tab-pane active" id="stage1" role="tabpanel">
-            <button type="button"
-                    class="waves-effect waves-light btn btn-success mb-0"
-                    data-controller="modal-loader"
-                    data-action="click->modal-loader#load"
-                    data-modal-loader-url-value="<%= matches_modal_season_team_path(@season_team) %>"
-                    data-modal-loader-target-frame-value="#match_modal_frame"
-                    style="position: absolute; right: 15px;">
-              <i class="fa-solid fa-square-plus me-1"></i> Agregar Partido
-            </button>                
-            <% if @tournament_data[:matches].any? %>
-              <%= render partial: "season_teams/matches/matches_display", locals: { tournament_data: @tournament_data } %>
-            <% else %>
-              <div class="alert alert-info text-center mb-0">No hay partidos en esta fase.</div>
-            <% end %>
-          </div>      
-        </div>
-      </div>
-    </div>
+    <%= render_tournament_stages(@tournament_data, @season_team) %>
   </div>
 
     <turbo-frame id="match_modal_frame"></turbo-frame>

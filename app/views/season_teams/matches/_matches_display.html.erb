@@ -7,13 +7,12 @@
           <div class="card shadow">
             <!-- Card Header -->
             <div class="card-header d-flex justify-content-between align-items-center <%= 'card-header-played' if match.status == 'played' %>">
-              <div class="badge bg-danger"> <%= match_stage(match.stage)%></div>
+              <%= display_plays_as_badge(match)  %>
               <div class="d-flex align-items-center">
                 <%= image_tag 'vendor/stadium.svg', class: 'avatar-lg px-md-5', alt: '...' %>
                 <%= match.location %>
               </div>
               <div class="ms-auto">
-                <%= display_plays_as_badge(match)  %>
                 <%= display_status_badge(match.status)%>
               </div>
             </div>
