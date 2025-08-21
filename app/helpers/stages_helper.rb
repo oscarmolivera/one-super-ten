@@ -1,5 +1,6 @@
 module StagesHelper
   def render_tournament_stages(tournament_data, season_team)
+    @reached_phases = season_team_phases(tournament_data, season_team)
     content_tag(:div, class: 'card-body px-4 py-3') do
       content_tag(:div, class: 'tabs-wrap') do
         concat render_nav_pills
@@ -15,12 +16,19 @@ module StagesHelper
       Stage.phases.map.with_index do |(phase_name, _phase_value), index|
         content_tag(:li, class: 'nav-item', role: 'presentation') do
           content_tag(:a, 
-                      class: "nav-link #{index.zero? ? 'active' : ''}", 
-                      data: { bs_toggle: 'tab' }, 
+                      class: "nav-link #{index == @reached_phases.first ? 'active' : ''} #{@reached_phases.include?(index) ? '' : 'disabled'}",  
                       href: "#phase#{index}", 
                       role: 'tab',
-                      aria: { selected: index.zero? ? 'true' : 'false' },
-                      tabindex: index.zero? ? nil : '-1') do
+                      aria: { 
+                        selected: index == @reached_phases.first ? 'true' : 'false',
+                        disabled: @reached_phases.include?(index) ? nil : 'true'
+                      },
+                      tabindex: @reached_phases.include?(index) ? nil : '-1',
+                      data: { 
+                        bs_title: @reached_phases.include?(index) ? nil : 'No participas en esta fase',
+                        bs_toggle: @reached_phases.include?(index) ? 'tab' : nil
+                      }
+          ) do
             safe_join([
               content_tag(:span, tag.i(class: phase_icon_class(phase_name)), class: 'hidden-sm-up'),
               content_tag(:span, phase_name.humanize, class: 'hidden-xs-down')
@@ -89,5 +97,13 @@ module StagesHelper
     when 'semifinales', 'tercer_puesto', 'final' then 'fa-solid fa-trophy'
     else 'fa-solid fa-flag'
     end
+  end
+
+  def season_team_phases(tournament_data, season_team)
+    Stage.where(season_team_id: 59, tournament_id: 41)
+          .pluck(:phase)
+          .uniq
+          .map { |phase_name| Stage.phases[phase_name] }
+          .sort
   end
 end

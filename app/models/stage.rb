@@ -1,5 +1,7 @@
 class Stage < ApplicationRecord
   belongs_to :tournament
+  belongs_to :season_team
+
   has_many :matches, dependent: :destroy
 
   enum :stage_type, { group_stage: 0, knockout: 1 }
@@ -17,4 +19,5 @@ class Stage < ApplicationRecord
   validates :stage_type, presence: true
   validates :order, presence: true
   validates :phase, presence: true
+  validates :phase, uniqueness: { scope: [:season_team_id, :tournament_id] }
 end
