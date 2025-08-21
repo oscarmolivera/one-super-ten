@@ -46,6 +46,9 @@ application.register("image-preview", ImagePreviewController)
 import LazyLoaderController from "./lazy_loader_controller"
 application.register("lazy-loader", LazyLoaderController)
 
+import MatchDetailsBusyController from "./match_details_busy_controller"
+application.register("match-details-busy", MatchDetailsBusyController)
+
 import MatchDetailsLoaderController from "./match_details_loader_controller"
 application.register("match-details-loader", MatchDetailsLoaderController)
 

@@ -33,6 +33,10 @@ export default class extends Controller {
 
     frame.addEventListener("turbo:frame-load", onLoad, { once: true })
     frame.setAttribute("src", this.urlValue)
+    frame.dispatchEvent(
+      new CustomEvent("busy:start", { bubbles: true, detail: { value: 'MatchDetailLoader Pressed' } })
+    )
+    frame.classList.remove("fadeOut")
 
     this.updateButtonToEdit?.()
   }

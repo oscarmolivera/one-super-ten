@@ -32,7 +32,7 @@ module StagesHelper
   end
 
   def render_tab_content(tournament_data, season_team)
-    content_tag(:div, class: 'tab-content tabcontent-border min-h-75') do
+    content_tag(:div, class: 'tab-content tabcontent-border min-h-75', data: {controller: 'match-details-busy'}) do
       Stage.phases.map.with_index do |(phase_name, _phase_value), index|
         content_tag(:div, 
                     class: "tab-pane #{index.zero? ? 'active' : ''}", 
@@ -49,19 +49,21 @@ module StagesHelper
   end
 
   def render_first_tab_content(tournament_data, season_team)
-    content = content_tag(:button, 
-                         type: 'button',
-                         class: 'waves-effect waves-light btn btn-success mb-0',
-                         data: {
-                           controller: 'modal-loader',
-                           action: 'click->modal-loader#load',
-                           modal_loader_url_value: matches_modal_season_team_path(season_team),
-                           modal_loader_target_frame_value: '#match_modal_frame'
-                         },
-                         style: 'position: absolute; right: 15px;') do
+    content = content_tag(:button,
+                          id: 'phase_0_add_match',
+                          type: 'button',
+                          class: 'waves-effect waves-light btn btn-success mb-0',
+                          data: {
+                                  controller: 'modal-loader',
+                                  action: 'click->modal-loader#load',
+                                  match_details_busy_target: "button",
+                                  modal_loader_url_value: matches_modal_season_team_path(season_team),
+                                  modal_loader_target_frame_value: '#match_modal_frame'
+                          },
+                          style: 'position: absolute; right: 15px;') do
       safe_join([
         tag.i(class: 'fa-solid fa-square-plus me-1'),
-        ' Agregar Partido'
+        'Agregar Partido'
       ])
     end
 
