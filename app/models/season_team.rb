@@ -29,4 +29,15 @@ class SeasonTeam < ApplicationRecord
   def all_players_for_call_up
     season_team_players.includes(:player)
   end
+
+  def current_stage
+    stages.order(:order).max || stages.order(:created_at).last
+  end
+
+  def stage_closable?
+    return false unless current_stage
+    
+    all_matches= current_stage.matches
+    all_matches.count == all_matches.where(status: ['played', 'canceled']).count
+  end
 end

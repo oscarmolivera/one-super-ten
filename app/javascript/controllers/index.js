@@ -55,6 +55,9 @@ application.register("match-details-loader", MatchDetailsLoaderController)
 import MatchFormController from "./match_form_controller"
 application.register("match-form", MatchFormController)
 
+import MatchStageCloserController from "./match_stage_closer_controller"
+application.register("match-stage-closer", MatchStageCloserController)
+
 import ModalEscapeController from "./modal_escape_controller"
 application.register("modal-escape", ModalEscapeController)
 

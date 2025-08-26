@@ -555,4 +555,18 @@ module SeasonTeamsHelper
     return "" unless person
     person.try(:last_name).presence || person.try(:full_name).to_s.split.last.to_s
   end
+
+  def close_stage_button(season_team)
+    content_tag :button, type: "button", class: "btn btn-danger btn-sm #{'disabled' unless season_team.stage_closable?}",
+      data: {
+        controller: "match-stage-closer",
+        action: "click->match-stage-closer#closeStage",
+        #"match-stage-closer-season-team-id-value": season_team.id,
+        #"match-stage-closer-stage-id-value": season_team.current_stage&.phase,
+        #"match-stage-closer-close-url-value": close_stage_season_team_path(season_team)
+      } do
+      content_tag(:i, "", class: "fa-solid fa-forward me-1") +
+      " Cerrar Fase Actual"
+    end
+  end
 end
