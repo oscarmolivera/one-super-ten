@@ -86,6 +86,11 @@ Rails.application.routes.draw do
         resources :match_reports
         patch :update_performances, on: :member
       end
+      resources :stages do
+        member do
+          get :check_closable
+        end
+      end
 
       resources :coaches do
         member do

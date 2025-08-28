@@ -6,7 +6,8 @@
                 turbo_frame: "_self",
                 controller: "confirm-lock",
                 action: "submit->confirm-lock#intercept turbo:submit-end->confirm-lock#onSubmitEnd",
-                "confirm-lock-modal-id-value": "lockConfirmModal_#{@match.id}"
+                "confirm-lock-modal-id-value": "lockConfirmModal_#{@match.id}",
+                "confirm-lock-stage-id": @season_team.current_stage.id
               } do |f| %>
     <div class="card shadow-lg border-0 rounded-3 mb-4">
       <div class="card-header bg-success-light text-muted rounded-top">

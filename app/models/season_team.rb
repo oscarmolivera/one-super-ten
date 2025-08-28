@@ -36,8 +36,7 @@ class SeasonTeam < ApplicationRecord
 
   def stage_closable?
     return false unless current_stage
-    
-    all_matches= current_stage.matches
-    all_matches.count == all_matches.where(status: ['played', 'canceled']).count
+
+    current_stage.stage_closable?
   end
 end

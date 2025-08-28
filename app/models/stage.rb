@@ -20,4 +20,10 @@ class Stage < ApplicationRecord
   validates :order, presence: true
   validates :phase, presence: true
   validates :phase, uniqueness: { scope: [:season_team_id, :tournament_id] }
+
+  def stage_closable?
+
+    all_matches= matches
+    all_matches.count == all_matches.where(status: ['played', 'canceled']).count
+  end 
 end

@@ -83,6 +83,7 @@ export default class extends Controller {
 
     if (instance) instance.hide()
     this.cleanupModalArtifacts()
+    this.checkAndUpdateCloseButton();
   }
 
   showModal() {
@@ -120,5 +121,50 @@ export default class extends Controller {
     // Fallback to a target defined as data-confirm-lock-target="modal"
     if (this.hasModalTarget) return this.modalTarget
     return null
+  }
+
+  async checkAndUpdateCloseButton() {
+    const stageId = this.data.get("stage-id");
+    if (!stageId) {
+      console.error("Stage ID not found in data attributes");
+      return;
+    }
+
+    try {
+      const token = document.querySelector('meta[name="csrf-token"]').content
+      const response = await fetch(`/stages/${stageId}/check_closable`, {
+        headers: {
+          "Accept": "application/json",
+          "X-CSRF-Token": token
+        }
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      const closeButton = document.getElementById("close-stage-button");
+      if (!closeButton) {
+        console.error("Close stage button not found");
+        return;
+      }
+
+      if (data.closable) {
+        closeButton.classList.remove("disabled");
+        closeButton.disabled = false;
+      } else {
+        closeButton.classList.add("disabled");
+        closeButton.disabled = true;
+      }
+    } catch (error) {
+      console.error("Error checking stage closable:", error);
+      // Optional: Default to disabled on error
+      const closeButton = document.getElementById("close-stage-button");
+      if (closeButton) {
+        closeButton.classList.add("disabled");
+        closeButton.disabled = true;
+      }
+    }
   }
 }
