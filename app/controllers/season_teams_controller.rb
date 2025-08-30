@@ -3,7 +3,7 @@ class SeasonTeamsController < ApplicationController
   before_action :set_season_team, only: %i[
                                             show edit update destroy upload_regulations 
                                             lazy_rival_modal favorite_rivals matches_modal 
-                                            edit_match_modal next_stage
+                                            edit_match_modal available_stages advance_stage
                                           ]
   before_action :authorize_season_team, except: %i[index new create public_actives tournament_data]
 
@@ -121,8 +121,17 @@ class SeasonTeamsController < ApplicationController
     redirect_to tournament_data_season_team_path(@season_team, anchor: 'regulations', tab: 'regulations')
   end
 
-  def next_stage
-    authorize @season_team, :next_stage?
+  def available_stages
+    authorize @season_team, :available_stages?
+    @season_team = SeasonTeam.find(params[:id])
+    
+  
+    render partial: "season_teams/matches/next_phase_modal",
+           locals: { season_team: @season_team }
+  end
+
+  def advance_stage
+    authorize @season_team, :advance_stage?
     service_result = SeasonTeams::NextStageService.new(@season_team).call
     if service_result.success?
       redirect_to @season_team

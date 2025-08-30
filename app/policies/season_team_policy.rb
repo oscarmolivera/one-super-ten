@@ -48,7 +48,11 @@ class SeasonTeamPolicy < ApplicationPolicy
     index?
   end
 
-  def next_stage?
+  def available_stages?
+    index?
+  end
+
+  def advance_stage?
     index?
   end
   class Scope < Scope

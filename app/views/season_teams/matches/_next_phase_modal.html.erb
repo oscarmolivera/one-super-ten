@@ -1,0 +1,50 @@
+<turbo-frame id="next_stage_modal">
+  <div id="nextStageModal" class="modal fade" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">
+            Seleccionar la Fase Siguiente
+          </h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3">
+            <% stage = @season_team.current_stage %>
+            <% Stage.phases.keys.each do |phase| %>
+              <div class="col">
+                <%= link_to advance_stage_season_team_path(stage: stage, next_phase: phase, id: @season_team.id),
+                  class: "btn btn-outline-primary w-100 #{enabled_phases(stage).include?(phase) ? '' : 'disabled'}",
+                  method: :post,
+                  data: { 
+                    turbo_method: :post,
+                    controller: "tournament-match-stages",
+                    action: "click->tournament-match-stages#confirm",
+                    "tournament-match-stages-season-team-id-value": @season_team.id, 
+                    bs_dismiss: "modal" 
+                  } do %>
+                  <i class="<%= phase_icon(phase) %> me-2"></i>
+                  <%= phase.humanize.titleize %>
+                <% end %>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script type="module">
+    const modalEl = document.querySelector('#nextStageModal')
+    if (modalEl) {
+      document.body.appendChild(modalEl)
+      const modal = new bootstrap.Modal(modalEl)
+      modal.show()
+      modalEl.addEventListener('hide.bs.modal', () => {
+        if (document.activeElement) {
+          document.activeElement.blur() // Blur before hiding
+        }
+      }, { once: true })
+      window.closeMatchModal = () => modal.hide()
+    }
+  </script>
+</turbo-frame>

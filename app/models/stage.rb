@@ -13,7 +13,7 @@ class Stage < ApplicationRecord
     semifinales: 4,
     tercer_puesto: 5,
     final: 6,
-    finished: 7
+    terminado: 7
   }
 
   validates :name, presence: true

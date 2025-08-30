@@ -2,7 +2,7 @@ import { Controller } from "@hotwired/stimulus"
 
 // Connects to data-controller="tournament-next-stage"
 export default class extends Controller {
-  static values = { stageId: Number }
+  static values = { seasonTeamId: Number }
   connect() {
   }
 
@@ -10,16 +10,15 @@ export default class extends Controller {
     // if (confirm("¿Estás seguro de que deseas cerrar la fase actual del torneo? Esta acción no se puede deshacer.")) {
     //   this.nextStage()
     // }
-    console.log("Cerrando fase para seasonTeamId:", this.stageIdValue);
     this.nextStage()
   }
 
   nextStage() {
     const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-    const seasonTeamId = this.stageIdValue;
+    const seasonTeamId = this.seasonTeamIdValue;
 
     
-    fetch(`/season_teams/${seasonTeamId}/next_stage`, {
+    fetch(`/season_teams/${seasonTeamId}/advance_stage`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

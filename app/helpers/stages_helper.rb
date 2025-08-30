@@ -9,6 +9,28 @@ module StagesHelper
     end
   end
 
+  def enabled_phases(stage)
+    return [] unless stage.stage_closable?
+
+    current_value = Stage.phases[stage.phase]
+    Stage.phases.select { |k, v| v > current_value }.keys
+  end
+
+  def phase_icon(phase)
+    case phase
+    when "primera_ronda" then "bi bi-1-circle-fill"
+    when "segunda_ronda" then "bi bi-2-circle-fill"
+    when "octavos" then "bi bi-8-square-fill"
+    when "cuartos" then "bi bi-4-square-fill"
+    when "semifinales" then "bi bi-2-square-fill"
+    when "tercer_puesto" then "bi bi-3-circle-fill"
+    when "final" then "bi bi-trophy-fill"
+    when "terminado" then "bi bi-check-circle-fill"
+    else "bi bi-question-circle"
+    end
+  end
+
+
   private
 
   def render_nav_pills
@@ -48,6 +70,8 @@ module StagesHelper
                     role: 'tabpanel') do
           if index.zero?
             concat render_first_tab_content(tournament_data, season_team)
+          elsif index == 1 && @reached_phases.include?(index)
+            concat render_second_phase_tab_content(phase_name)
           else
             concat render_placeholder_tab_content(phase_name)
           end
@@ -82,6 +106,12 @@ module StagesHelper
     end
 
     content
+  end
+
+  def render_second_phase_tab_content(phase_name)
+    content_tag(:div, class: 'second-phase-content p-4') do
+      content_tag(:p, "Contenido específico para la fase #{phase_name.humanize}")
+    end
   end
 
   def render_placeholder_tab_content(phase_name)
