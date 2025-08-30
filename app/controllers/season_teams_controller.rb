@@ -1,6 +1,10 @@
 class SeasonTeamsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_season_team, only: %i[show edit update destroy upload_regulations lazy_rival_modal favorite_rivals matches_modal edit_match_modal]
+  before_action :set_season_team, only: %i[
+                                            show edit update destroy upload_regulations 
+                                            lazy_rival_modal favorite_rivals matches_modal 
+                                            edit_match_modal next_stage
+                                          ]
   before_action :authorize_season_team, except: %i[index new create public_actives tournament_data]
 
   def index
@@ -58,11 +62,8 @@ class SeasonTeamsController < ApplicationController
       redirect_to season_team_tournament_data_path(@season_team, page: 1) and return
     end
   
-  
-    start = Time.now
     service = SeasonTeams::TournamentDataService.new(@season_team, @pagy, @pagy_rivals)
     @tournament_data = service.data
-    Rails.logger.debug ">>> TournamentDataService took #{Time.now - start} seconds"
   end
 
   def favorite_rivals
@@ -118,6 +119,16 @@ class SeasonTeamsController < ApplicationController
       flash[:alert] = "Debes seleccionar al menos un archivo."
     end
     redirect_to tournament_data_season_team_path(@season_team, anchor: 'regulations', tab: 'regulations')
+  end
+
+  def next_stage
+    authorize @season_team, :next_stage?
+    service_result = SeasonTeams::NextStageService.new(@season_team).call
+    if service_result.success?
+      redirect_to @season_team
+    else
+      render :edit, status: :unprocessable_entity
+    end
   end
 
   private

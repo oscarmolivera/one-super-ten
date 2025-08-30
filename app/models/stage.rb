@@ -12,7 +12,8 @@ class Stage < ApplicationRecord
     cuartos: 3,
     semifinales: 4,
     tercer_puesto: 5,
-    final: 6
+    final: 6,
+    finished: 7
   }
 
   validates :name, presence: true
@@ -21,8 +22,8 @@ class Stage < ApplicationRecord
   validates :phase, presence: true
   validates :phase, uniqueness: { scope: [:season_team_id, :tournament_id] }
 
-  def stage_closable?
 
+  def stage_closable?
     all_matches= matches
     all_matches.count == all_matches.where(status: ['played', 'canceled']).count
   end 

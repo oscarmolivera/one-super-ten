@@ -558,7 +558,12 @@ module SeasonTeamsHelper
 
   def close_stage_button(season_team)
     closable = season_team.stage_closable?
-    content_tag :button, type: "button", id: "close-stage-button", class: "btn btn-danger btn-sm #{'disabled' unless closable}", disabled: !closable do
+    content_tag :button, type: "button", id: "close-stage-button", class: "btn btn-danger btn-sm #{'disabled' unless closable}", disabled: !closable,
+     data: {
+      controller: "tournament-match-stages",
+      action: "click->tournament-match-stages#confirm",
+      "tournament-match-stages-stage-id-value": @season_team.current_stage.id
+     }do
       content_tag(:i, "", class: "fa-solid fa-forward me-1") +
       " Cerrar Fase Actual"
     end

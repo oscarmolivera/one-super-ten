@@ -59,6 +59,7 @@ Rails.application.routes.draw do
           get :lazy_rival_modal
           get :matches_modal
           get :edit_match_modal
+          post :next_stage
         end
         resources :matches, controller: "season_teams/matches", shallow: true do
           resources :call_ups, only: [:new, :create, :edit, :update], shallow: true

@@ -87,3 +87,6 @@ application.register("score", ScoreController)
 
 import TabRedirectController from "./tab_redirect_controller"
 application.register("tab-redirect", TabRedirectController)
+
+import TournamentNextStageController from "./tournament_match_stages_controller"
+application.register("tournament-match-stages", TournamentNextStageController)
