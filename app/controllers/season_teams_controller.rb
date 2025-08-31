@@ -132,9 +132,11 @@ class SeasonTeamsController < ApplicationController
 
   def advance_stage
     authorize @season_team, :advance_stage?
-    service_result = SeasonTeams::NextStageService.new(@season_team).call
+    service_result = SeasonTeams::NextStageService.new(@season_team, params[:next_phase]).call
     if service_result.success?
-      redirect_to @season_team
+      respond_to do |format|
+        format.json { render json: { message: "Etapa avanzada correctamente." }, status: :ok }
+      end
     else
       render :edit, status: :unprocessable_entity
     end

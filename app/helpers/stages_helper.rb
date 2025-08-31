@@ -68,12 +68,12 @@ module StagesHelper
                     class: "tab-pane #{index.zero? ? 'active' : ''}", 
                     id: "phase#{index}", 
                     role: 'tabpanel') do
-          if index.zero?
+
+          case index
+          when 0
             concat render_first_tab_content(tournament_data, season_team)
-          elsif index == 1 && @reached_phases.include?(index)
-            concat render_second_phase_tab_content(phase_name)
-          else
-            concat render_placeholder_tab_content(phase_name)
+          when 1
+            concat render_second_phase_tab_content(tournament_data, season_team)
           end
         end
       end.join.html_safe
@@ -108,10 +108,32 @@ module StagesHelper
     content
   end
 
-  def render_second_phase_tab_content(phase_name)
-    content_tag(:div, class: 'second-phase-content p-4') do
-      content_tag(:p, "Contenido específico para la fase #{phase_name.humanize}")
+  def render_second_phase_tab_content(tournament_data, season_team)
+    content = content_tag(:button,
+                          id: 'phase_1_add_match',
+                          type: 'button',
+                          class: 'waves-effect waves-light btn btn-success mb-0',
+                          data: {
+                                  controller: 'modal-loader',
+                                  action: 'click->modal-loader#load',
+                                  match_details_busy_target: "button",
+                                  modal_loader_url_value: matches_modal_season_team_path(season_team),
+                                  modal_loader_target_frame_value: '#match_modal_frame'
+                          },
+                          style: 'position: absolute; right: 15px;') do
+      safe_join([
+        tag.i(class: 'fa-solid fa-square-plus me-1'),
+        'Agregar Partido'
+      ])
     end
+
+    content += if tournament_data[:matches].any?
+      render(partial: 'season_teams/matches/matches_display', locals: { tournament_data: tournament_data })
+    else
+      content_tag(:div, 'No hay partidos en esta fase.', class: 'alert alert-info text-center mb-0')
+    end
+
+    content
   end
 
   def render_placeholder_tab_content(phase_name)

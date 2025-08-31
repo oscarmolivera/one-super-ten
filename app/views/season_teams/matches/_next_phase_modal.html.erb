@@ -21,6 +21,7 @@
                     controller: "tournament-match-stages",
                     action: "click->tournament-match-stages#confirm",
                     "tournament-match-stages-season-team-id-value": @season_team.id, 
+                    "tournament-match-stages-next-phase-name-value": phase, 
                     bs_dismiss: "modal" 
                   } do %>
                   <i class="<%= phase_icon(phase) %> me-2"></i>

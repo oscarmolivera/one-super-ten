@@ -2,7 +2,10 @@ import { Controller } from "@hotwired/stimulus"
 
 // Connects to data-controller="tournament-next-stage"
 export default class extends Controller {
-  static values = { seasonTeamId: Number }
+  static values = {
+    seasonTeamId: Number,
+    nextPhaseName: String,
+  }
   connect() {
   }
 
@@ -16,9 +19,9 @@ export default class extends Controller {
   nextStage() {
     const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
     const seasonTeamId = this.seasonTeamIdValue;
-
+    const nextPhaseName = this.nextPhaseNameValue;
     
-    fetch(`/season_teams/${seasonTeamId}/advance_stage`, {
+    fetch(`/season_teams/${seasonTeamId}/advance_stage?next_phase=${nextPhaseName}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
