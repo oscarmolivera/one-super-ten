@@ -62,35 +62,30 @@ module StagesHelper
   end
 
   def render_tab_content(tournament_data, season_team)
-    content_tag(:div, class: 'tab-content tabcontent-border min-h-75', data: {controller: 'match-details-busy'}) do
+    content_tag(:div, class: 'tab-content tabcontent-border min-h-75', data: { controller: 'match-details-busy' }) do
       Stage.phases.map.with_index do |(phase_name, _phase_value), index|
         content_tag(:div, 
                     class: "tab-pane #{index.zero? ? 'active' : ''}", 
                     id: "phase#{index}", 
                     role: 'tabpanel') do
-
-          case index
-          when 0
-            concat render_first_tab_content(tournament_data, season_team)
-          when 1
-            concat render_second_phase_tab_content(tournament_data, season_team)
-          end
+          render_phase_tab_content(tournament_data, season_team, phase_name, index)
         end
       end.join.html_safe
     end
   end
 
-  def render_first_tab_content(tournament_data, season_team)
+  def render_phase_tab_content(tournament_data, season_team, phase_name, index)
+    stage_group = tournament_data[:matches_by_stage].find { |sg| sg[:stage].phase == phase_name }
     content = content_tag(:button,
-                          id: 'phase_0_add_match',
+                          id: "phase_#{index}_add_match",
                           type: 'button',
                           class: 'waves-effect waves-light btn btn-success mb-0',
                           data: {
-                                  controller: 'modal-loader',
-                                  action: 'click->modal-loader#load',
-                                  match_details_busy_target: "button",
-                                  modal_loader_url_value: matches_modal_season_team_path(season_team),
-                                  modal_loader_target_frame_value: '#match_modal_frame'
+                            controller: 'modal-loader',
+                            action: 'click->modal-loader#load',
+                            match_details_busy_target: "button",
+                            modal_loader_url_value: matches_modal_season_team_path(season_team),
+                            modal_loader_target_frame_value: '#match_modal_frame'
                           },
                           style: 'position: absolute; right: 15px;') do
       safe_join([
@@ -99,41 +94,21 @@ module StagesHelper
       ])
     end
 
-    content += if tournament_data[:matches].any?
-      render(partial: 'season_teams/matches/matches_display', locals: { tournament_data: tournament_data })
+    content += if stage_group&.[](:matches)&.any?
+      render(partial: 'season_teams/matches/matches_display', locals: { tournament_data: tournament_data, stage_matches: { matches_by_stage: [stage_group] }, season_team: season_team })
     else
-      content_tag(:div, 'No hay partidos en esta fase.', class: 'alert alert-info text-center mb-0')
+      content_tag(:div, "No hay partidos en la fase #{phase_name.humanize}.", class: 'alert alert-info text-center mb-0')
     end
 
     content
   end
 
+  def render_first_tab_content(tournament_data, season_team)
+    render_phase_tab_content(tournament_data, season_team, 'primera_ronda', 0)
+  end
+
   def render_second_phase_tab_content(tournament_data, season_team)
-    content = content_tag(:button,
-                          id: 'phase_1_add_match',
-                          type: 'button',
-                          class: 'waves-effect waves-light btn btn-success mb-0',
-                          data: {
-                                  controller: 'modal-loader',
-                                  action: 'click->modal-loader#load',
-                                  match_details_busy_target: "button",
-                                  modal_loader_url_value: matches_modal_season_team_path(season_team),
-                                  modal_loader_target_frame_value: '#match_modal_frame'
-                          },
-                          style: 'position: absolute; right: 15px;') do
-      safe_join([
-        tag.i(class: 'fa-solid fa-square-plus me-1'),
-        'Agregar Partido'
-      ])
-    end
-
-    content += if tournament_data[:matches].any?
-      render(partial: 'season_teams/matches/matches_display', locals: { tournament_data: tournament_data })
-    else
-      content_tag(:div, 'No hay partidos en esta fase.', class: 'alert alert-info text-center mb-0')
-    end
-
-    content
+    render_phase_tab_content(tournament_data, season_team, 'segunda_ronda', 1)
   end
 
   def render_placeholder_tab_content(phase_name)
@@ -152,10 +127,9 @@ module StagesHelper
   end
 
   def season_team_phases(tournament_data, season_team)
-    Stage.where(season_team_id: 59, tournament_id: 41)
-          .pluck(:phase)
-          .uniq
-          .map { |phase_name| Stage.phases[phase_name] }
-          .sort
+    tournament_data[:matches_by_stage]
+      .map { |sg| Stage.phases[sg[:stage].phase] }
+      .uniq
+      .sort
   end
 end

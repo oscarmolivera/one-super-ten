@@ -63,7 +63,7 @@ tenant_all_tournaments.each do |tournament|
         name: [Faker::App.name, Faker::Bank.name, Faker::Beer.name, "#{Faker::Adjective.positive} F.C."].sample.capitalize,
         location: [Faker::Address.state, Faker::Commerce.material, Faker::Hipster.words.first].sample.capitalize,
         active: true,
-        is_favorite: false
+        is_favorite: [true, false, false, false, false, false, false, true, false, false, false, false, false, false, false, false, false].sample
       ).tap do |rival|
         rival.team_logo.attach(
           io: File.open(Rails.root.join("app/assets/images/#{logo_file}")),
