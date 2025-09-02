@@ -76,26 +76,13 @@ module StagesHelper
 
   def render_phase_tab_content(tournament_data, season_team, phase_name, index)
     stage_group = tournament_data[:matches_by_stage].find { |sg| sg[:stage].phase == phase_name }
-    content = content_tag(:button,
-                          id: "phase_#{index}_add_match",
-                          type: 'button',
-                          class: 'waves-effect waves-light btn btn-success mb-0',
-                          data: {
-                            controller: 'modal-loader',
-                            action: 'click->modal-loader#load',
-                            match_details_busy_target: "button",
-                            modal_loader_url_value: matches_modal_season_team_path(season_team),
-                            modal_loader_target_frame_value: '#match_modal_frame'
-                          },
-                          style: 'position: absolute; right: 15px;') do
-      safe_join([
-        tag.i(class: 'fa-solid fa-square-plus me-1'),
-        'Agregar Partido'
-      ])
-    end
-
+    content = add_new_match_button(season_team, phase_name, index)
     content += if stage_group&.[](:matches)&.any?
-      render(partial: 'season_teams/matches/matches_display', locals: { tournament_data: tournament_data, stage_matches: { matches_by_stage: [stage_group] }, season_team: season_team })
+      render( partial: 'season_teams/matches/matches_display', locals: {
+              tournament_data: tournament_data, 
+              stage_matches: { matches_by_stage: [stage_group] }, 
+              season_team: season_team, phase_name: phase_name 
+            })
     else
       content_tag(:div, "No hay partidos en la fase #{phase_name.humanize}.", class: 'alert alert-info text-center mb-0')
     end
@@ -131,5 +118,42 @@ module StagesHelper
       .map { |sg| Stage.phases[sg[:stage].phase] }
       .uniq
       .sort
+  end
+
+  def add_new_match_button(season_team, phase_name, index)
+    if can_add_new_match?(season_team, phase_name)
+      content_tag(:button,
+                            id: "phase_#{index}_add_match",
+                            type: 'button',
+                            class: 'waves-effect waves-light btn btn-success mb-0',
+                            data: {
+                              controller: 'modal-loader',
+                              action: 'click->modal-loader#load',
+                              match_details_busy_target: "button",
+                              modal_loader_url_value: matches_modal_season_team_path(season_team),
+                              modal_loader_target_frame_value: '#match_modal_frame'
+                            },
+                            style: 'position: absolute; right: 15px;') do
+        safe_join([
+          tag.i(class: 'fa-solid fa-square-plus me-1'),
+          'Agregar Partido'
+        ])
+      end
+    else
+      content_tag(:button,
+                            type: 'button',
+                            class: 'waves-effect waves-light btn btn-info mb-0 disabled',
+                            style: 'position: absolute; right: 15px;',
+                            title: 'No puedes agregar más partidos en esta fase') do
+        safe_join([
+          tag.i(class: 'fa-solid fa-square-plus me-1'),
+          'Agregar Partido'
+        ])
+      end
+    end
+  end
+
+  def can_add_new_match?(season_team, phase_name)
+    season_team.current_stage&.phase == phase_name
   end
 end
