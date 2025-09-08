@@ -29,7 +29,7 @@ export default class extends Controller {
       this.buttonTarget.classList.add("fadeIn")
       setTimeout(() => {
         this.buttonTarget.classList.remove("fadeIn")
-      }, 500) // Remove fadeIn class after animation
+      }, 500) // Remove fadeIn class after animation phase_1_add_match
     }
   }
 }

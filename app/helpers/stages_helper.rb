@@ -30,7 +30,6 @@ module StagesHelper
     end
   end
 
-
   private
 
   def render_nav_pills
@@ -121,7 +120,7 @@ module StagesHelper
   end
 
   def add_new_match_button(season_team, phase_name, index)
-    if can_add_new_match?(season_team, phase_name)
+    if can_add_new_match?(season_team, phase_name, index)
       content_tag(:button,
                             id: "phase_#{index}_add_match",
                             type: 'button',
@@ -153,7 +152,7 @@ module StagesHelper
     end
   end
 
-  def can_add_new_match?(season_team, phase_name)
-    season_team.current_stage&.phase == phase_name
+  def can_add_new_match?(season_team, phase_name, index)
+    @reached_phases.include?(index) && season_team.current_stage&.phase == phase_name
   end
 end

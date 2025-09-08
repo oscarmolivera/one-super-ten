@@ -41,7 +41,7 @@ class SeasonTeams::MatchesController < ApplicationController
     @season_team = SeasonTeam.find(params[:season_team_id])
     @match = Match.new(match_params)
     @match.tenant = ActsAsTenant.current_tenant
-  
+
     respond_to do |format|
       if @match.save
         @tournament_data = SeasonTeams::TournamentDataService.new(@season_team, nil, nil).data
@@ -63,7 +63,6 @@ class SeasonTeams::MatchesController < ApplicationController
       @tournament_data = SeasonTeams::TournamentDataService.new(@season_team, nil, nil).data
       respond_to do |format|
         format.turbo_stream
-        format.html { redirect_to tournament_data_season_team_path(@season_team), notice: "Partido actualizado correctamente." }
       end
     else
       respond_to do |format|
