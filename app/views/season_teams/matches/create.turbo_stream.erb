@@ -2,12 +2,13 @@
 <% index = Stage.phases.find { |k, _v| k == phase_name }&.last || 0 %>
 <% stage_group = @tournament_data[:matches_by_stage].find { |sg| sg[:stage].phase == phase_name } %>
 <%= turbo_stream.replace "phase#{index}",
-      partial: "season_teams/matches/matches_display",
+      partial: "season_teams/matches/phase_tab_content",
       locals: { 
         tournament_data: @tournament_data,
         stage_matches: { matches_by_stage: [stage_group] },
         season_team: @season_team,
-        phase_name: phase_name
+        phase_name: phase_name,
+        index: index
       } %>
 
 <%= turbo_stream.append "modal_control" do %>

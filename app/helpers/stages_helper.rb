@@ -33,21 +33,27 @@ module StagesHelper
   private
 
   def render_nav_pills
+    return '' if @reached_phases.empty?
+
+    last_reached = @reached_phases.max
+    max_phase = Stage.phases.values.max
+    allowed_phases = (@reached_phases + ((last_reached + 1)..max_phase).to_a).uniq
+
     content_tag(:ul, class: 'nav nav-pills mb-20', role: 'tablist') do
-      Stage.phases.map.with_index do |(phase_name, _phase_value), index|
+      Stage.phases.select { |_, phase_value| allowed_phases.include?(phase_value) }.map do |phase_name, phase_value|
         content_tag(:li, class: 'nav-item', role: 'presentation') do
           content_tag(:a, 
-                      class: "nav-link #{index == @reached_phases.first ? 'active' : ''} #{@reached_phases.include?(index) ? '' : 'disabled'}",  
-                      href: "#phase#{index}", 
+                      class: "nav-link #{phase_value == last_reached ? 'active' : ''} #{@reached_phases.include?(phase_value) ? '' : 'disabled'}",  
+                      href: "#phase#{phase_value}", 
                       role: 'tab',
                       aria: { 
-                        selected: index == @reached_phases.first ? 'true' : 'false',
-                        disabled: @reached_phases.include?(index) ? nil : 'true'
+                        selected: phase_value == last_reached ? 'true' : 'false',
+                        disabled: @reached_phases.include?(phase_value) ? nil : 'true'
                       },
-                      tabindex: @reached_phases.include?(index) ? nil : '-1',
+                      tabindex: @reached_phases.include?(phase_value) ? nil : '-1',
                       data: { 
-                        bs_title: @reached_phases.include?(index) ? nil : 'No participas en esta fase',
-                        bs_toggle: @reached_phases.include?(index) ? 'tab' : nil
+                        bs_title: @reached_phases.include?(phase_value) ? nil : 'No participas en esta fase',
+                        bs_toggle: @reached_phases.include?(phase_value) ? 'tab' : nil
                       }
           ) do
             safe_join([
@@ -64,7 +70,7 @@ module StagesHelper
     content_tag(:div, class: 'tab-content tabcontent-border min-h-75', data: { controller: 'match-details-busy' }) do
       Stage.phases.map.with_index do |(phase_name, _phase_value), index|
         content_tag(:div, 
-                    class: "tab-pane #{index.zero? ? 'active' : ''}", 
+                    class: "tab-pane #{index == @reached_phases.last ? 'active' : ''}", 
                     id: "phase#{index}", 
                     role: 'tabpanel') do
           render_phase_tab_content(tournament_data, season_team, phase_name, index)
@@ -75,26 +81,19 @@ module StagesHelper
 
   def render_phase_tab_content(tournament_data, season_team, phase_name, index)
     stage_group = tournament_data[:matches_by_stage].find { |sg| sg[:stage].phase == phase_name }
-    content = add_new_match_button(season_team, phase_name, index)
+    content = add_new_match_button(tournament_data, season_team, phase_name, index)
     content += if stage_group&.[](:matches)&.any?
-      render( partial: 'season_teams/matches/matches_display', locals: {
-              tournament_data: tournament_data, 
-              stage_matches: { matches_by_stage: [stage_group] }, 
-              season_team: season_team, phase_name: phase_name 
-            })
+      render(partial: 'season_teams/matches/matches_display', locals: {
+               tournament_data: tournament_data, 
+               stage_matches: { matches_by_stage: [stage_group] }, 
+               season_team: season_team, 
+               phase_name: phase_name 
+             })
     else
       content_tag(:div, "No hay partidos en la fase #{phase_name.humanize}.", class: 'alert alert-info text-center mb-0')
     end
 
     content
-  end
-
-  def render_first_tab_content(tournament_data, season_team)
-    render_phase_tab_content(tournament_data, season_team, 'primera_ronda', 0)
-  end
-
-  def render_second_phase_tab_content(tournament_data, season_team)
-    render_phase_tab_content(tournament_data, season_team, 'segunda_ronda', 1)
   end
 
   def render_placeholder_tab_content(phase_name)
@@ -119,8 +118,8 @@ module StagesHelper
       .sort
   end
 
-  def add_new_match_button(season_team, phase_name, index)
-    if can_add_new_match?(season_team, phase_name, index)
+  def add_new_match_button(tournament_data, season_team, phase_name, index)
+    if can_add_new_match?(tournament_data, season_team, phase_name, index)
       content_tag(:button,
                             id: "phase_#{index}_add_match",
                             type: 'button',
@@ -152,7 +151,8 @@ module StagesHelper
     end
   end
 
-  def can_add_new_match?(season_team, phase_name, index)
-    @reached_phases.include?(index) && season_team.current_stage&.phase == phase_name
+  def can_add_new_match?(tournament_data, season_team, phase_name, index)
+    reached_phases = season_team_phases(tournament_data, season_team)
+    reached_phases.include?(index) && season_team.current_stage&.phase == phase_name
   end
 end
