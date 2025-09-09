@@ -46,11 +46,23 @@ application.register("image-preview", ImagePreviewController)
 import LazyLoaderController from "./lazy_loader_controller"
 application.register("lazy-loader", LazyLoaderController)
 
+import MatchDetailsBusyController from "./match_details_busy_controller"
+application.register("match-details-busy", MatchDetailsBusyController)
+
 import MatchDetailsLoaderController from "./match_details_loader_controller"
 application.register("match-details-loader", MatchDetailsLoaderController)
 
 import MatchFormController from "./match_form_controller"
 application.register("match-form", MatchFormController)
+
+import MatchStageCloserController from "./match_stage_closer_controller"
+application.register("match-stage-closer", MatchStageCloserController)
+
+import ModalEscapeController from "./modal_escape_controller"
+application.register("modal-escape", ModalEscapeController)
+
+import ModalFocusController from "./modal_focus_controller"
+application.register("modal-focus", ModalFocusController)
 
 import ModalLoaderController from "./modal_loader_controller"
 application.register("modal-loader", ModalLoaderController)
@@ -75,3 +87,6 @@ application.register("score", ScoreController)
 
 import TabRedirectController from "./tab_redirect_controller"
 application.register("tab-redirect", TabRedirectController)
+
+import TournamentNextStageController from "./tournament_match_stages_controller"
+application.register("tournament-match-stages", TournamentNextStageController)

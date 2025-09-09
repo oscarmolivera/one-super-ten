@@ -11,6 +11,7 @@ module Inscriptions
       add_new_players
       update_existing_players
       add_external_players
+      set_season_team_stage
     end
 
     private
@@ -97,6 +98,19 @@ module Inscriptions
         [:above_category, @upper_category.id]
       else
         [:external, 0]
+      end
+    end
+
+    def set_season_team_stage
+      ActiveRecord::Base.transaction do
+        Stage.create(
+          tournament_id: @season_team.tournament.id,
+          season_team_id: @season_team.id,
+          name: 'Primera Ronda',
+          stage_type: 0,
+          order: 1,
+          phase: 0
+        )
       end
     end
   end

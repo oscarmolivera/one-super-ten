@@ -5,7 +5,7 @@
         <i class="fa-solid fa-people-group me-2"></i> Equipos Participantes
       </h5>
       <button type="button"
-              class="waves-effect waves-light btn btn-success mb-0"
+              class="waves-effect waves-light btn btn-success mb-0 <%= 'disabled' unless @season_team.active %>"
               data-controller="modal-loader"
               data-action="click->modal-loader#load"
               data-modal-loader-url-value="<%= lazy_rival_modal_season_team_path(@season_team) %>"
@@ -16,7 +16,7 @@
 
     <div class="card-body px-4 py-3">
       <turbo-frame id="rivals_list">
-        <div id="rivals_row" class="row row-cols-2 row-cols-sm-3 row-cols-md-4 row-cols-lg-5 row-cols-xl-6 g-3">
+        <div id="rivals_row" class="row row-cols-2 row-cols-sm-3 row-cols-md-4 row-cols-lg-5 row-cols-xl-6 g-3 <%= 'inactive-team bg-light opacity-50 season-ended-pattern' unless @season_team.active %>">
           <% if @tournament_data[:rivals].any? %>
             <%= render partial: "season_teams/rivals/rival", collection: @tournament_data[:rivals], as: :rival %>
           <% else %>

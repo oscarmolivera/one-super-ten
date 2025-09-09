@@ -176,35 +176,35 @@ module SeasonTeamsHelper
     html
   end
 
-def display_away_team_logo_and_name(match, show_highlights: false, season_team: nil)
-  winner =
-    if match.plays_as == "away"
-      winning_team(match) == :team
-    elsif match.plays_as == "home"
-      winning_team(match) == :rival
+  def display_away_team_logo_and_name(match, show_highlights: false, season_team: nil)
+    winner =
+      if match.plays_as == "away"
+        winning_team(match) == :team
+      elsif match.plays_as == "home"
+        winning_team(match) == :rival
+      end
+
+    # Render the logo+name (your existing helper handles SeasonTeam vs Rival)
+    html =
+      if match.plays_as == "away"
+        team = SeasonTeam.find(match.team_of_interest_id)
+        display_team_logo_and_name(team, ActsAsTenant.current_tenant.name, winner: winner)
+      else
+        rival = Rival.find(match.rival_id)
+        display_team_logo_and_name(rival, nil, winner: winner)
+      end
+
+    # Optionally append highlights when your season team is the away side and the match is played
+    if show_highlights && match.status == "played" && match.plays_as == "away"
+      html += render(
+        "season_teams/matches/highlights",
+        match: match,
+        season_team: season_team || match.team_of_interest
+      )
     end
 
-  # Render the logo+name (your existing helper handles SeasonTeam vs Rival)
-  html =
-    if match.plays_as == "away"
-      team = SeasonTeam.find(match.team_of_interest_id)
-      display_team_logo_and_name(team, ActsAsTenant.current_tenant.name, winner: winner)
-    else
-      rival = Rival.find(match.rival_id)
-      display_team_logo_and_name(rival, nil, winner: winner)
-    end
-
-  # Optionally append highlights when your season team is the away side and the match is played
-  if show_highlights && match.status == "played" && match.plays_as == "away"
-    html += render(
-      "season_teams/matches/highlights",
-      match: match,
-      season_team: season_team || match.team_of_interest
-    )
+    html
   end
-
-  html
-end
 
   def team_score_input_block(form, team:, score_attr:, label_text:, match:, role:, fallback_name: nil, placeholder_logo: "placeholder-logo.png", manual_controls: nil)
     manual_controls = role.to_s == "rival" if manual_controls.nil?
@@ -300,7 +300,7 @@ end
   end
 
   def display_plays_as_badge(match)
-    badge_class, text = match.plays_as == "home" ? ["bg-primary", "LOCAL"] : ["bg-secondary", "VISITANTE"]
+    badge_class, text = match.plays_as == "home" ? ["bg-danger", "LOCAL"] : ["bg-secondary", "VISITANTE"]
     content_tag(:div, text, class: "badge #{badge_class}")
   end
 
@@ -326,7 +326,7 @@ end
   end
 
   def match_stage(stage)
-    return "Primera Ronda" if stage.name == 'first phase'
+    stage.name if stage.present?
   end
 
   def edit_or_new_call_up_url(match)
@@ -554,5 +554,19 @@ end
   def surname_for(person)
     return "" unless person
     person.try(:last_name).presence || person.try(:full_name).to_s.split.last.to_s
+  end
+
+  def close_stage_button(season_team)
+    closable = season_team.stage_closable?
+    content_tag :button, type: "button", id: "close-stage-button", class: "btn btn-danger btn-sm #{'disabled' unless closable}", disabled: !closable,
+     data: {
+              controller: 'modal-loader',
+              action: 'click->modal-loader#load',
+              modal_loader_url_value:  available_stages_season_team_path(season_team),
+              modal_loader_target_frame_value: '#next_stage_modal'
+     }do
+      content_tag(:i, "", class: "fa-solid fa-forward me-1") +
+      " Cerrar Fase Actual"
+    end
   end
 end

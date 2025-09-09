@@ -1,31 +1,20 @@
 <div class="tab-pane" id="matches" role="tabpanel">
-  <div class="card shadow-sm border-0 mb-4">
+  <div class="card shadow-sm border-0 mb-4" data-controller="tournament-match-stages">
     <div class="card-header bg-light d-flex justify-content-between align-items-center">
       <h5 class="mb-0">
         <i class="fa-solid fa-trophy me-2"></i> Partidos del Torneo
       </h5>
-      <button type="button"
-              class="waves-effect waves-light btn btn-success mb-0"
-              data-controller="modal-loader"
-              data-action="click->modal-loader#load"
-              data-modal-loader-url-value="<%= matches_modal_season_team_path(@season_team) %>"
-              data-modal-loader-target-frame-value="#match_modal_frame">
-        <i class="fa-solid fa-square-plus me-1"></i> Agregar Partido
-      </button>      
+      <%= close_stage_button(@season_team) if @season_team.active%>
     </div>
 
-    <div class="card-body px-4 py-3">
-      <turbo-frame id="matches_list">
-        <% if @tournament_data[:matches].any? %>
-          <%= render partial: "season_teams/matches/matches_display", locals: { tournament_data: @tournament_data } %>
-        <% else %>
-          <div id="matches_display">
-            <div class="alert alert-info text-center">No hay partidos registrados aún.</div>
-          </div>
-        <% end %>
-      </turbo-frame>
-    </div>
+    <div class="bg-body-tertiary border-bottom py-2 px-3 small text-muted d-flex align-items-center">
+      <i class="fa-solid fa-layer-group me-2"></i>
+      <span>Fases del torneo: gestiona el avance de cada fase y revisa sus partidos.</span>
+    </div>    
+
+    <%= render_tournament_stages(@tournament_data, @season_team) %>
   </div>
 
     <turbo-frame id="match_modal_frame"></turbo-frame>
+    <turbo-frame id="next_stage_modal"></turbo-frame>
 </div>
