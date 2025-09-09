@@ -1,7 +1,8 @@
 module StagesHelper
   def render_tournament_stages(tournament_data, season_team)
     @reached_phases = season_team_phases(tournament_data, season_team)
-    content_tag(:div, class: 'card-body px-4 py-3') do
+    finished = season_team.active ? '' : 'inactive-team bg-light opacity-80 season-ended-pattern'
+    content_tag(:div, class: "card-body px-4 py-3 #{finished}") do
       content_tag(:div, class: 'tabs-wrap') do
         concat render_nav_pills
         concat render_tab_content(tournament_data, season_team)
@@ -67,7 +68,8 @@ module StagesHelper
   end
 
   def render_tab_content(tournament_data, season_team)
-    content_tag(:div, class: 'tab-content tabcontent-border min-h-75', data: { controller: 'match-details-busy' }) do
+    disabled = season_team.active ? '' : 'inactive-team bg-light opacity-80 season-ended-pattern'
+    content_tag(:div, class: "tab-content tabcontent-border min-h-75 #{disabled}", data: { controller: 'match-details-busy' }) do
       Stage.phases.map.with_index do |(phase_name, _phase_value), index|
         content_tag(:div, 
                     class: "tab-pane #{index == @reached_phases.last ? 'active' : ''}", 
@@ -152,7 +154,11 @@ module StagesHelper
   end
 
   def can_add_new_match?(tournament_data, season_team, phase_name, index)
-    reached_phases = season_team_phases(tournament_data, season_team)
-    reached_phases.include?(index) && season_team.current_stage&.phase == phase_name
+    if season_team.active
+      reached_phases = season_team_phases(tournament_data, season_team)
+      reached_phases.include?(index) && season_team.current_stage&.phase == phase_name
+    else
+      false
+    end 
   end
 end

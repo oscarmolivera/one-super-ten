@@ -1,15 +1,25 @@
 module SeasonTeams
   class NextStageService
-    def initialize(season_team, next_phase)
+    def initialize(season_team, next_phase = nil)
       @season_team = season_team
       @next_phase = next_phase
     end
   
     def call
-      return OpenStruct.new(success?: true) unless current_stage_closable?
+      if @next_phase == :finish_tournament
+        finish_tournament
+      else
+        return OpenStruct.new(success?: true) unless current_stage_closable?
+        create_next_stage_matches
+        OpenStruct.new(success?: true, season_team: @season_team)      
+      end
+    end
 
-      create_next_stage_matches
-      OpenStruct.new(success?: true, season_team: @season_team)      
+    def finish_tournament
+      return OpenStruct.new(success?: false, errors: ["Cannot finish tournament without closing current stage"]) unless current_stage_closable?
+      
+      @season_team.update(active: false)
+      OpenStruct.new(success?: true, season_team: @season_team)
     end
 
     def current_stage_closable?

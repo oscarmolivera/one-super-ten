@@ -4,6 +4,7 @@ class SeasonTeamsController < ApplicationController
                                             show edit update destroy upload_regulations 
                                             lazy_rival_modal favorite_rivals matches_modal 
                                             edit_match_modal available_stages advance_stage
+                                            finish_tournament
                                           ]
   before_action :authorize_season_team, except: %i[index new create public_actives tournament_data]
 
@@ -141,6 +142,18 @@ class SeasonTeamsController < ApplicationController
       render :edit, status: :unprocessable_entity
     end
   end
+
+  def finish_tournament
+    authorize @season_team, :finish_tournament?
+    service = SeasonTeams::NextStageService.new(@season_team, :finish_tournament)
+    result = service.call
+
+    if result.success?
+      redirect_to @season_team, notice: "Tournament participation finished successfully."
+    else
+      redirect_to @season_team, alert: result.errors&.join(", ") || "Failed to finish tournament participation."
+    end
+  end  
 
   private
 

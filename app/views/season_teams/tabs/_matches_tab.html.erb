@@ -4,7 +4,7 @@
       <h5 class="mb-0">
         <i class="fa-solid fa-trophy me-2"></i> Partidos del Torneo
       </h5>
-      <%= close_stage_button(@season_team) %>
+      <%= close_stage_button(@season_team) if @season_team.active%>
     </div>
 
     <div class="bg-body-tertiary border-bottom py-2 px-3 small text-muted d-flex align-items-center">

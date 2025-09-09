@@ -1,6 +1,6 @@
 class SeasonTeams::MatchesController < ApplicationController
   before_action :set_match, only: %i[show update_performances]
-  before_action :set_season_team, only: [:create]
+  before_action :set_season_team, only: %i[create]
   
   def index
     @category = Category.find(params[:category_id])
@@ -11,23 +11,6 @@ class SeasonTeams::MatchesController < ApplicationController
   def show
     authorize :match, :index?
     @line_ups = @match.line_ups.includes(call_up_player: :player)
-  end
-
-  def update_performances
-    authorize :match, :index?
-
-    params[:performances].each do |id, attrs|
-      perf = @match.match_performances.find(id)
-      perf.update(attrs.permit(
-        :id,
-        :performer_type, :performer_id,  # keep polymorphic
-        :goals_scored, :assists, :minute_of_event,
-        :yellow_cards, :red_cards, :notes,
-        :tournament_id, :tenant_id
-      ))
-    end
-
-    redirect_to match_path(@match), notice: "Player performances updated."
   end
 
   def new
@@ -79,6 +62,23 @@ class SeasonTeams::MatchesController < ApplicationController
         end
       end
     end
+  end
+
+  def update_performances
+    authorize :match, :index?
+
+    params[:performances].each do |id, attrs|
+      perf = @match.match_performances.find(id)
+      perf.update(attrs.permit(
+        :id,
+        :performer_type, :performer_id,  # keep polymorphic
+        :goals_scored, :assists, :minute_of_event,
+        :yellow_cards, :red_cards, :notes,
+        :tournament_id, :tenant_id
+      ))
+    end
+
+    redirect_to match_path(@match), notice: "Player performances updated."
   end
 
   def performance_form

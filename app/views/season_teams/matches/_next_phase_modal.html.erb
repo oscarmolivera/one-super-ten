@@ -21,7 +21,7 @@
                     controller: "tournament-match-stages",
                     action: "click->tournament-match-stages#confirm",
                     "tournament-match-stages-season-team-id-value": @season_team.id, 
-                    "tournament-match-stages-next-phase-name-value": phase, 
+                    "tournament-match-stages-next-phase-name-value": phase,
                     bs_dismiss: "modal" 
                   } do %>
                   <i class="<%= phase_icon(phase) %> me-2"></i>
@@ -29,6 +29,23 @@
                 <% end %>
               </div>
             <% end %>
+            <div class="col">
+              <%= link_to finish_tournament_season_team_path(id: @season_team.id),
+                class: "btn btn-outline-danger w-100",
+                method: :post,
+                data: { 
+                  turbo_method: :post,
+                  controller: "tournament-match-stages",
+                  action: "click->tournament-match-stages#confirm",
+                  "tournament-match-stages-season-team-id-value": @season_team.id,
+                  "tournament-match-stages-finish-tournament-value": true,
+                  bs_dismiss: "modal",
+                  confirm: "¿Estás seguro de que deseas finalizar la participación en el torneo?"
+                } do %>
+                <i class="bi bi-flag-fill me-2"></i>
+                Finalizar Torneo
+              <% end %>
+            </div>
           </div>
         </div>
       </div>
