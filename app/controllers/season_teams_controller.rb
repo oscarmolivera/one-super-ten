@@ -1,6 +1,11 @@
 class SeasonTeamsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_season_team, only: %i[show edit update destroy upload_regulations lazy_rival_modal favorite_rivals matches_modal edit_match_modal]
+  before_action :set_season_team, only: %i[
+                                            show edit update destroy upload_regulations 
+                                            lazy_rival_modal favorite_rivals matches_modal 
+                                            edit_match_modal available_stages advance_stage
+                                            finish_tournament
+                                          ]
   before_action :authorize_season_team, except: %i[index new create public_actives tournament_data]
 
   def index
@@ -58,11 +63,8 @@ class SeasonTeamsController < ApplicationController
       redirect_to season_team_tournament_data_path(@season_team, page: 1) and return
     end
   
-  
-    start = Time.now
     service = SeasonTeams::TournamentDataService.new(@season_team, @pagy, @pagy_rivals)
     @tournament_data = service.data
-    Rails.logger.debug ">>> TournamentDataService took #{Time.now - start} seconds"
   end
 
   def favorite_rivals
@@ -119,6 +121,39 @@ class SeasonTeamsController < ApplicationController
     end
     redirect_to tournament_data_season_team_path(@season_team, anchor: 'regulations', tab: 'regulations')
   end
+
+  def available_stages
+    authorize @season_team, :available_stages?
+    @season_team = SeasonTeam.find(params[:id])
+    
+  
+    render partial: "season_teams/matches/next_phase_modal",
+           locals: { season_team: @season_team }
+  end
+
+  def advance_stage
+    authorize @season_team, :advance_stage?
+    service_result = SeasonTeams::NextStageService.new(@season_team, params[:next_phase]).call
+    if service_result.success?
+      respond_to do |format|
+        format.json { render json: { message: "Etapa avanzada correctamente." }, status: :ok }
+      end
+    else
+      render :edit, status: :unprocessable_entity
+    end
+  end
+
+  def finish_tournament
+    authorize @season_team, :finish_tournament?
+    service = SeasonTeams::NextStageService.new(@season_team, :finish_tournament)
+    result = service.call
+
+    if result.success?
+      redirect_to @season_team, notice: "Tournament participation finished successfully."
+    else
+      redirect_to @season_team, alert: result.errors&.join(", ") || "Failed to finish tournament participation."
+    end
+  end  
 
   private
 

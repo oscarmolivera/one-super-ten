@@ -1,6 +1,11 @@
 <%= form_with model: rival,
               url: season_team_rivals_path(season_team),
-              data: { turbo_frame: "new_rival_form" },
+              turbo_frame: "new_rival_form",
+              data: {
+                controller: "remote-modal",
+                action: "turbo:submit-end->remote-modal#onSubmitEnd",
+                remote_modal_modal_id_value: "rivalModal"
+              },
               html: { multipart: true } do |f| %>
 
   <div class="mb-3">

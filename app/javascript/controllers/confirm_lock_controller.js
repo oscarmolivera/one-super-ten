@@ -9,15 +9,33 @@ export default class extends Controller {
   }
 
   connect() {
-    // Clean up any orphaned backdrops if this frame was reloaded
     this.cleanupModalArtifacts()
-
-    // Also clean up before Turbo renders a new page/fragment
     this._beforeRender = () => this.cleanupModalArtifacts()
     document.addEventListener("turbo:before-render", this._beforeRender)
+
+    const modalEl = this._modalElement()
+    if (!modalEl) return
+
+    // move to <body> so it escapes the frame's stacking context
+    if (modalEl.parentNode !== document.body) document.body.appendChild(modalEl)
+
+    // re-bind confirm button manually because Stimulus actions won't resolve after moving
+    const confirmBtn = modalEl.querySelector('[data-action*="confirm-lock#confirmAndSubmit"]')
+    if (confirmBtn) {
+      this._boundConfirm = this.confirmAndSubmit.bind(this)
+      confirmBtn.addEventListener('click', this._boundConfirm)
+    }
+
+    this._bs = bootstrap.Modal.getOrCreateInstance(modalEl, { backdrop: 'static', focus: true })
   }
 
   disconnect() {
+    if (this._bs) { this._bs.hide(); this._bs.dispose(); this._bs = null }
+    const modalEl = this._modalElement()
+    if (modalEl && this._boundConfirm) {
+      const confirmBtn = modalEl.querySelector('[data-action*="confirm-lock#confirmAndSubmit"]')
+      confirmBtn?.removeEventListener('click', this._boundConfirm)
+    }
     document.removeEventListener("turbo:before-render", this._beforeRender)
   }
 
@@ -65,6 +83,7 @@ export default class extends Controller {
 
     if (instance) instance.hide()
     this.cleanupModalArtifacts()
+    this.checkAndUpdateCloseButton();
   }
 
   showModal() {
@@ -102,5 +121,50 @@ export default class extends Controller {
     // Fallback to a target defined as data-confirm-lock-target="modal"
     if (this.hasModalTarget) return this.modalTarget
     return null
+  }
+
+  async checkAndUpdateCloseButton() {
+    const stageId = this.data.get("stage-id");
+    if (!stageId) {
+      console.error("Stage ID not found in data attributes");
+      return;
+    }
+
+    try {
+      const token = document.querySelector('meta[name="csrf-token"]').content
+      const response = await fetch(`/stages/${stageId}/check_closable`, {
+        headers: {
+          "Accept": "application/json",
+          "X-CSRF-Token": token
+        }
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      const closeButton = document.getElementById("close-stage-button");
+      if (!closeButton) {
+        console.error("Close stage button not found");
+        return;
+      }
+
+      if (data.closable) {
+        closeButton.classList.remove("disabled");
+        closeButton.disabled = false;
+      } else {
+        closeButton.classList.add("disabled");
+        closeButton.disabled = true;
+      }
+    } catch (error) {
+      console.error("Error checking stage closable:", error);
+      // Optional: Default to disabled on error
+      const closeButton = document.getElementById("close-stage-button");
+      if (closeButton) {
+        closeButton.classList.add("disabled");
+        closeButton.disabled = true;
+      }
+    }
   }
 }

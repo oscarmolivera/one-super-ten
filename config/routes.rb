@@ -59,6 +59,9 @@ Rails.application.routes.draw do
           get :lazy_rival_modal
           get :matches_modal
           get :edit_match_modal
+          get :available_stages
+          post :advance_stage
+          post :finish_tournament
         end
         resources :matches, controller: "season_teams/matches", shallow: true do
           resources :call_ups, only: [:new, :create, :edit, :update], shallow: true
@@ -85,6 +88,11 @@ Rails.application.routes.draw do
         resources :line_ups, only: [:index, :new, :create, :edit, :update ]
         resources :match_reports
         patch :update_performances, on: :member
+      end
+      resources :stages do
+        member do
+          get :check_closable
+        end
       end
 
       resources :coaches do

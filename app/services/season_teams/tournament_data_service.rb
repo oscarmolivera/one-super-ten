@@ -15,7 +15,12 @@ module SeasonTeams
         coach: @season_team.coach,
         assistant: @season_team.assistant_coach,
         team_assistant: @season_team.team_assistant,
-        matches: @season_team.matches.ordered_by_status_and_schedule,
+        matches_by_stage: @season_team.stages.includes(:matches).order(:order).map do |stage|
+          {
+            stage: stage,
+            matches: stage.matches.ordered_by_status_and_schedule
+          }
+        end,
         favorite_rivals: Rival.tenant_favorites,
         pagy: @pagy,
         rivals: @rivals

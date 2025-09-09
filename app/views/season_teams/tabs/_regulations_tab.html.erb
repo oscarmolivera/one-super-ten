@@ -1,4 +1,4 @@
-<div class="tab-pane" id="regulations" role="tabpanel">
+<div class="tab-pane <%= 'inactive-team bg-light' unless @season_team.active %>" id="regulations" role="tabpanel">
   <div class="p-4">
     <h5 class="mb-4">Normas y Reglamentos del Torneo</h5>
 
@@ -25,14 +25,15 @@
     <% end %>
 
     <hr class="my-4">
-
-    <h6 class="mb-3">Subir Nuevo Documento</h6>
-    <%= form_with model: @season_team, url: upload_regulations_season_team_path(@season_team), method: :patch, html: { multipart: true }, local: true do |f| %>
-      <div class="mb-3">
-        <%= f.label :regulation_files, "Seleccionar archivos (PDF o imágenes)", class: "form-label" %>
-        <%= f.file_field :regulation_files, multiple: true, direct_upload: true, class: "form-control", accept: "image/*,application/pdf" %>
-      </div>
-      <%= f.submit "Subir Documentos", class: "btn btn-success" %>
+    <% if @season_team.active %>
+      <h6 class="mb-3">Subir Nuevo Documento</h6>
+      <%= form_with model: @season_team, url: upload_regulations_season_team_path(@season_team), method: :patch, html: { multipart: true }, local: true do |f| %>
+        <div class="mb-3">
+          <%= f.label :regulation_files, "Seleccionar archivos (PDF o imágenes)", class: "form-label" %>
+          <%= f.file_field :regulation_files, multiple: true, direct_upload: true, class: "form-control", accept: "image/*,application/pdf" %>
+        </div>
+        <%= f.submit "Subir Documentos", class: "btn btn-success" %>
+      <% end %>
     <% end %>
   </div>
 </div>

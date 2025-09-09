@@ -18,6 +18,9 @@ export default class extends Controller {
       if (frame !== targetFrame && frame.innerHTML.trim() !== "") {
         frame.classList.remove("fadeOut")
         frame.classList.add("fadeOut")
+        frame.dispatchEvent(
+          new CustomEvent("busy:end", { bubbles: true, detail: { value: 'CallUpLoader Pressed' } })
+        )
         setTimeout(() => {
           frame.innerHTML = ""
           frame.removeAttribute("src")
@@ -34,6 +37,9 @@ export default class extends Controller {
     targetFrame.classList.remove("fadeOut")
     targetFrame.setAttribute("src", this.urlValue)
 
+    targetFrame.dispatchEvent(
+      new CustomEvent("busy:start", { bubbles: true, detail: { value: 'CallUpLoader Pressed' } })
+    )
     this.updateButtonToEdit()
   }
 
