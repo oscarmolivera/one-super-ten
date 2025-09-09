@@ -34,11 +34,20 @@ class SeasonTeams::RivalsController < ApplicationController
   end
 
   def edit
-    render turbo_stream: turbo_stream.replace(
-      "editRivalModal-#{@rival.id}",
-      partial: "season_teams/rivals/edit_modal_frame",
-      locals: { rival: @rival, season_team: @season_team }
-    )
+    respond_to do |format|
+      format.turbo_stream do
+        render turbo_stream: turbo_stream.replace(
+          "editRivalModal-#{@rival.id}", # Match camelCase
+          partial: "season_teams/rivals/edit_modal_frame",
+          locals: { rival: @rival, season_team: @season_team }
+        )
+      end
+      format.html do
+        render partial: "season_teams/rivals/edit_modal_frame",
+              locals: { rival: @rival, season_team: @season_team },
+              layout: false
+      end
+    end
   end
 
   def update
@@ -54,7 +63,7 @@ class SeasonTeams::RivalsController < ApplicationController
               "turbo_stream_events", 
               partial: "shared/close_modal", 
               locals: { modal_id: "editRivalModalContent-#{@rival.id}", 
-              frame_id: "editRivalModal-#{@rival.id}" }
+              frame_id: "edit_rival_modal_#{@rival.id}" }
             ),
           ]
         end
@@ -62,7 +71,7 @@ class SeasonTeams::RivalsController < ApplicationController
       end
     else
       render turbo_stream: turbo_stream.replace(
-        "editRivalModal-#{@rival.id}",
+        "edit_rival_modal_#{@rival.id}",
         partial: "season_teams/rivals/edit_modal_frame",
         locals: { rival: @rival, season_team: @season_team }
       ), status: :unprocessable_entity

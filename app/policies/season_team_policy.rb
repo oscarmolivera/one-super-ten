@@ -47,6 +47,18 @@ class SeasonTeamPolicy < ApplicationPolicy
   def favorite_rivals?
     index?
   end
+
+  def available_stages?
+    index?
+  end
+
+  def advance_stage?
+    index?
+  end
+
+  def finish_tournament?
+    index?
+  end
   class Scope < Scope
     def resolve
       scope.where(tenant: user.tenant)

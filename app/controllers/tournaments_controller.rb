@@ -24,7 +24,6 @@ class TournamentsController < ApplicationController
       @tournament.category_ids = tournament_params[:category_ids]
       redirect_to cup_tournaments_path(@tournament.cup), notice: "Torneo creado exitosamente."
     else
-      Rails.logger.info "XXXXXXXXX........-> #{@tournament.errors.full_messages.to_sentence}"
       render :new, status: :unprocessable_entity
     end
   end
