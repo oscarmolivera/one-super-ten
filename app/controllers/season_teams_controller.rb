@@ -81,7 +81,7 @@ class SeasonTeamsController < ApplicationController
   def lazy_rival_modal
     @tournament_data = {
       favorite_rivals: [],
-      rivals: @season_team.rivals, # Exclude this if heavy
+      rivals: @season_team.rivals,
       pagy: nil
     }
   

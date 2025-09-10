@@ -37,7 +37,7 @@ class SeasonTeams::RivalsController < ApplicationController
     respond_to do |format|
       format.turbo_stream do
         render turbo_stream: turbo_stream.replace(
-          "editRivalModal-#{@rival.id}", # Match camelCase
+          "editRivalModal-#{@rival.id}", 
           partial: "season_teams/rivals/edit_modal_frame",
           locals: { rival: @rival, season_team: @season_team }
         )
@@ -83,7 +83,6 @@ class SeasonTeams::RivalsController < ApplicationController
     respond_to do |format|
       format.turbo_stream do
         streams = [
-          # flash message (re-uses the same partial you already have)
           turbo_stream.replace(
             "rival_flash",
             partial: "shared/flash_stream",
@@ -102,9 +101,7 @@ class SeasonTeams::RivalsController < ApplicationController
   private
 
   def set_season_team
-    # When the request comes from the delete button we receive both ids.
     @season_team = SeasonTeam.find(params[:season_team_id] || params[:season_team]&.dig(:id))
-      
   end
 
   def set_rival

@@ -8,7 +8,7 @@ module InscriptionHelper
       url:    inscription.persisted? ?
                 cup_tournament_inscription_path(tournament.cup, tournament, inscription) :
                 cup_tournament_inscriptions_path(tournament.cup, tournament),
-      method: inscription.persisted? ? :patch : :post   # let the verb match the record state
+      method: inscription.persisted? ? :patch : :post  
     }
   end
 end

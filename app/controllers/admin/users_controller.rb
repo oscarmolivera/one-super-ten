@@ -3,7 +3,7 @@ class Admin::UsersController < ApplicationController
   before_action :authorize_user
   
   def index
-    @users = policy_scope(User) # 🔹 Enforces tenant scoping via Pundit
+    @users = policy_scope(User)
   end
 
   def show

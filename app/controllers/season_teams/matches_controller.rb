@@ -71,7 +71,7 @@ class SeasonTeams::MatchesController < ApplicationController
       perf = @match.match_performances.find(id)
       perf.update(attrs.permit(
         :id,
-        :performer_type, :performer_id,  # keep polymorphic
+        :performer_type, :performer_id,
         :goals_scored, :assists, :minute_of_event,
         :yellow_cards, :red_cards, :notes,
         :tournament_id, :tenant_id

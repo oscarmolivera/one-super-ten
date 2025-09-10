@@ -11,7 +11,6 @@ class CallUpsController < ApplicationController
     authorize :call_up, :index?
     @match = Match.find(params[:match_id])
   
-    # Find or create CallUp using your service (good idea!)
     if @match.call_up.present?
       @call_up = @match.call_up
     else

@@ -7,7 +7,7 @@ class ApplicationController < ActionController::Base
   before_action :ensure_tenant_user, if: -> { current_user.present? }
 
   after_action :verify_authorized, unless: -> { action_name == 'index' && !self.class.instance_methods(false).include?(:index) }
-  after_action :verify_policy_scoped, if: -> { logger.info "Checking verify_policy_scoped for #{controller_name}##{action_name}"; action_name == 'index' && self.class.instance_methods(false).include?(:index) }
+  after_action :verify_policy_scoped, if: -> { action_name == 'index' && self.class.instance_methods(false).include?(:index) }
 
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
 
