@@ -13,7 +13,9 @@
           <%= tournament_data[:tournament].name %>
           <div class="badge badge-danger"><%= tournament_data[:category].sub_name %></div>
         </span>
-        <h2 class="bg-gradient-danger-dark text-lighter blockquote blockquote-reverse">FINALIZADO </h2>
+        <% unless @season_team.active %>
+          <h2 class="bg-gradient-danger-dark text-lighter blockquote blockquote-reverse">FINALIZADO </h2>
+        <% end %>
       </small>
     </h1>
   </div>
