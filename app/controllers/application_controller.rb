@@ -4,21 +4,18 @@ class ApplicationController < ActionController::Base
   before_action :authenticate_user!
   before_action :switch_tenant
   before_action :authorize_super_admin, if: -> { request.subdomain == "admin" }
-  
   before_action :ensure_tenant_user, if: -> { current_user.present? }
 
   after_action :verify_authorized, except: :index
-  after_action :verify_policy_scoped, only: :index, if: -> { action_name == 'index' && controller_class.instance_methods.include?(:index) }
+  after_action :verify_policy_scoped, if: -> { action_name == 'index' && controller_class.instance_methods.include?(:index) }
 
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
-  
 
   def switch_tenant
     subdomain = fetch_subdomain
     return if subdomain.blank?
 
     tenant = Tenant.find_by(subdomain: subdomain)
-
     if tenant
       ActsAsTenant.current_tenant = tenant
     else
@@ -43,14 +40,13 @@ class ApplicationController < ActionController::Base
       if current_user.tenant_id != ActsAsTenant.current_tenant.id
         sign_out current_user
         redirect_to new_user_session_path, alert: "Unauthorized access to tenant."
-      else
       end
     else
       sign_out current_user
       redirect_to new_user_session_path, alert: "Session invalid. Please log in again."
     end
   end
-  
+
   def user_not_authorized
     flash[:alert] = "You are not authorized to perform this action."
     redirect_to(request.referer || main_root_path)
@@ -58,14 +54,12 @@ class ApplicationController < ActionController::Base
 
   def default_redirect_url
     return root_url if Rails.env.development?
-    
     "https://#{ENV.fetch('APP_DOMAIN')}"
   end
 
   def fetch_subdomain
     host = request.host
     app_domain = Rails.env.development? ? 'localhost.me' : ENV.fetch('APP_DOMAIN')
-
     if host == app_domain || host == "www.#{app_domain}"
       nil
     else
@@ -76,5 +70,9 @@ class ApplicationController < ActionController::Base
 
   def active_storage_request?
     request.path.start_with?('/rails/active_storage')
+  end
+
+  def controller_class
+    self.class
   end
 end

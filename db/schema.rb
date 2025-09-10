@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_08_20_163442) do
+ActiveRecord::Schema[8.0].define(version: 2025_09_10_031206) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -376,6 +376,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_20_163442) do
     t.index ["rival_season_team_id"], name: "index_matches_on_rival_season_team_id"
     t.index ["stage_id"], name: "index_matches_on_stage_id"
     t.index ["team_of_interest_id"], name: "index_matches_on_team_of_interest_id"
+    t.index ["tenant_id", "stage_id", "status"], name: "index_matches_on_tenant_id_and_stage_id_and_status"
+    t.index ["tenant_id", "stage_id"], name: "index_matches_on_tenant_id_and_stage_id"
     t.index ["tenant_id"], name: "index_matches_on_tenant_id"
     t.index ["tournament_id"], name: "index_matches_on_tournament_id"
   end
