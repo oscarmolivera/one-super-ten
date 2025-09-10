@@ -23,7 +23,6 @@ class Stage < ApplicationRecord
 
 
   def stage_closable?
-    all_matches= matches
-    all_matches.count == all_matches.where(status: ['played', 'canceled']).count
-  end 
+    matches.count == matches.where(status: [:played, :canceled]).count
+  end
 end
