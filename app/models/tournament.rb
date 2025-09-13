@@ -12,6 +12,8 @@ class Tournament < ApplicationRecord
   has_many :matches, dependent: :destroy
   has_many :sites, through: :matches
 
+  has_many :standings
+
   has_rich_text :rules
   
   delegate :school, to: :cup, allow_nil: true

@@ -1,4 +1,4 @@
-<div class="tab-pane active <%= 'inactive-team bg-light opacity-50 season-ended-pattern' unless @season_team.active %>" id="season-team" role="tabpanel" <%= 'aria-disabled="true"' unless @season_team.active %>>
+<div class="tab-pane <%= 'inactive-team bg-light opacity-50 season-ended-pattern' unless @season_team.active %>" id="season-team" role="tabpanel" <%= 'aria-disabled="true"' unless @season_team.active %>>
   <!-- Inline SVG Pattern for Inactive Teams -->
   <% unless @season_team.active %>
       <svg width="0" height="0" style="position: absolute; z-index: -1;">

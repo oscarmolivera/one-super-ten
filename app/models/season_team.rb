@@ -17,6 +17,8 @@ class SeasonTeam < ApplicationRecord
 
   has_many :matches, class_name: "Match", foreign_key: :team_of_interest_id, dependent: :nullify
   has_many :as_rival_matches, class_name: 'Match', foreign_key: :rival_season_team_id, dependent: :nullify
+  
+  has_many :standings, as: :standable
 
   has_one_attached :team_logo, service: :r2_public, dependent: :destroy
   has_many_attached :regulation_files, service: :r2_private

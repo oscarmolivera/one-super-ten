@@ -16,14 +16,15 @@ class Match < ApplicationRecord
 
   accepts_nested_attributes_for :match_performances, allow_destroy: true
 
+  before_validation :set_match_status,  on: :create
+  after_save :update_standings, if: :saved_change_to_status?
+
+  validates :match_type, :plays_as, presence: true
+
   enum :match_type, { friendly: 0, tournament: 1, practice: 2 }
   enum :plays_as, { home: 0, away: 1 }
   enum :location_type, {home_field: 0, away_field: 1, neutral: 2 }
   enum :status, { created: 0, scheduled: 1, played: 2, cancelled: 3, reschedule: 4, postponed: 5 }
-
-  before_validation :set_match_status,  on: :create
-
-  validates :match_type, :plays_as, presence: true
 
   scope :ordered_by_status_and_schedule, -> {
     order(Arel.sql(<<~SQL.squish))
@@ -60,5 +61,9 @@ class Match < ApplicationRecord
 
   def set_match_status
     scheduled_at.present? ? self.status = :scheduled : self.status = :created
+  end
+
+  def update_standings
+    StandingCalculator.new(tournament, stage).calculate if status == :played
   end
 end

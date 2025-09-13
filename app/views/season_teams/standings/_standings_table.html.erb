@@ -1,164 +1,152 @@
-<h1>2013 NCAA Tournament - Midwest Bracket</h1>
-<section id="tournament">
-	<ul class="round round-1">
-		<li class="spacer">&nbsp;</li>
-		
-		<li class="game game-top winner">Lousville <span>79</span></li>
-		<li class="game game-spacer">&nbsp;</li>
-		<li class="game game-bottom ">NC A&T <span>48</span></li>
-
-		<li class="spacer">&nbsp;</li>
-		
-		<li class="game game-top winner">Colo St <span>84</span></li>
-		<li class="game game-spacer">&nbsp;</li>
-		<li class="game game-bottom ">Missouri <span>72</span></li>
-
-		<li class="spacer">&nbsp;</li>
-		
-		<li class="game game-top ">Oklahoma St <span>55</span></li>
-		<li class="game game-spacer">&nbsp;</li>
-		<li class="game game-bottom winner">Oregon <span>68</span></li>
-
-		<li class="spacer">&nbsp;</li>
-		
-		<li class="game game-top winner">Saint Louis <span>64</span></li>
-		<li class="game game-spacer">&nbsp;</li>
-		<li class="game game-bottom ">New Mexico St <span>44</span></li>
-
-		<li class="spacer">&nbsp;</li>
-		
-		<li class="game game-top winner">Memphis <span>54</span></li>
-		<li class="game game-spacer">&nbsp;</li>
-		<li class="game game-bottom ">St Mary's <span>52</span></li>
-
-		<li class="spacer">&nbsp;</li>
-		
-		<li class="game game-top winner">Mich St <span>65</span></li>
-		<li class="game game-spacer">&nbsp;</li>
-		<li class="game game-bottom ">Valparaiso <span>54</span></li>
-
-		<li class="spacer">&nbsp;</li>
-		
-		<li class="game game-top winner">Creighton <span>67</span></li>
-		<li class="game game-spacer">&nbsp;</li>
-		<li class="game game-bottom ">Cincinnati <span>63</span></li>
-
-		<li class="spacer">&nbsp;</li>
-		
-		<li class="game game-top winner">Duke <span>73</span></li>
-		<li class="game game-spacer">&nbsp;</li>
-		<li class="game game-bottom ">Albany <span>61</span></li>
-
-		<li class="spacer">&nbsp;</li>
-	</ul>
-	<ul class="round round-2">
-		<li class="spacer">&nbsp;</li>
-		
-		<li class="game game-top winner">Lousville <span>82</span></li>
-		<li class="game game-spacer">&nbsp;</li>
-		<li class="game game-bottom ">Colo St <span>56</span></li>
-
-		<li class="spacer">&nbsp;</li>
-		
-		<li class="game game-top winner">Oregon <span>74</span></li>
-		<li class="game game-spacer">&nbsp;</li>
-		<li class="game game-bottom ">Saint Louis <span>57</span></li>
-
-		<li class="spacer">&nbsp;</li>
-		
-		<li class="game game-top ">Memphis <span>48</span></li>
-		<li class="game game-spacer">&nbsp;</li>
-		<li class="game game-bottom winner">Mich St <span>70</span></li>
-
-		<li class="spacer">&nbsp;</li>
-		
-		<li class="game game-top ">Creighton <span>50</span></li>
-		<li class="game game-spacer">&nbsp;</li>
-		<li class="game game-bottom winner">Duke <span>66</span></li>
-
-		<li class="spacer">&nbsp;</li>
-	</ul>
-	<ul class="round round-3">
-		<li class="spacer">&nbsp;</li>
-		
-		<li class="game game-top winner">Lousville <span>77</span></li>
-		<li class="game game-spacer">&nbsp;</li>
-		<li class="game game-bottom ">Oregon <span>69</span></li>
-
-		<li class="spacer">&nbsp;</li>
-		
-		<li class="game game-top ">Mich St <span>61</span></li>
-		<li class="game game-spacer">&nbsp;</li>
-		<li class="game game-bottom winner">Duke <span>71</span></li>
-
-		<li class="spacer">&nbsp;</li>
-	</ul>
-	<ul class="round round-4">
-		<li class="spacer">&nbsp;</li>
-		
-		<li class="game game-top winner">Lousville <span>85</span></li>
-		<li class="game game-spacer">&nbsp;</li>
-		<li class="game game-bottom ">Duke <span>63</span></li>
-		
-		<li class="spacer">&nbsp;</li>
-	</ul>		
-</section>
-
+<%#= tournament_data[:standings].inspect %>
+<div id="standings-table">
+  <div class="row">
+    <div class="col-md-6">
+      <div class="container mt-5">
+        <div class="card shadow-sm">
+          <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center standings-header">
+            <h2 class="mb-0">Tabla de Clasificación</h2>
+            <div>
+              <span class="badge bg-primary text-white">Match Week <%#= @tournament.current_match_week || 8 %></span>
+              <img src="<%#= asset_path('futsal-logo.png') %>" alt="League Logo" class="ms-2" style="height: 40px;">
+            </div>
+          </div>
+          <div class="card-body">
+            <table class="table table-striped table-hover">
+              <thead class="table-dark">
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Team</th>
+                  <th scope="col">GP</th>
+                  <th scope="col">GD</th>
+                  <th scope="col">PTS</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% if tournament_data[:standings].any? %>
+                  <% tournament_data[:standings].each do |standing| %>
+                    <tr>
+                      <th scope="row"><%= standing.position %></th>
+                      <td><%= standing.standable.name %></td>
+                      <td><%= standing.played %></td>
+                      <td class="<%= standing.goal_difference >= 0 ? 'text-success' : 'text-danger' %>">
+                        <%= standing.goal_difference >= 0 ? "+#{standing.goal_difference}" : standing.goal_difference %>
+                      </td>
+                      <td><%= standing.points %></td>
+                    </tr>
+                  <% end %>
+                <% else %>
+                  <tr>
+                    <td colspan="5" class="text-center">No standings available.</td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="row">
+        <div class="container mt-1">
+            <div class="card shadow-sm">
+              <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
+                <h2 class="mb-0">Estadisticas</h2>
+              </div>
+              <div class="card-body">
+                <table class="table table-striped table-hover">
+                  <thead class="table-dark">
+                    <tr>
+                      <th scope="col">Player</th>
+                      <th scope="col">Goals</th>
+                      <th scope="col">Assists</th>
+                      <th scope="col">Yellow Cards</th>
+                      <th scope="col">Keepers Blocks</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Player 1</td>
+                      <td>12</td>
+                      <td>5</td>
+                      <td class="text-warning">2</td>
+                      <td>8</td>
+                    </tr>
+                    <tr>
+                      <td>Player 2</td>
+                      <td>9</td>
+                      <td>3</td>
+                      <td class="text-warning">1</td>
+                      <td>5</td>
+                    </tr>
+                    <tr>
+                      <td>Player 3</td>
+                      <td>7</td>
+                      <td>4</td>
+                      <td class="text-warning">0</td>
+                      <td>3</td>
+                    </tr>
+                    <tr>
+                      <td>Player 4</td>
+                      <td>4</td>
+                      <td>2</td>
+                      <td class="text-warning">3</td>
+                      <td>2</td>
+                    </tr>
+                    <tr>
+                      <td>Player 5</td>
+                      <td>2</td>
+                      <td>1</td>
+                      <td class="text-warning">1</td>
+                      <td>1</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+      </div>
+    </div>
+  </div>
+</div>
 <style>
-  /*
- *  Flex Layout Specifics
-*/
-section#tournament{
-  display:flex;
-  flex-direction:row;
-}
-.round{
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  width:200px;
-  list-style:none;
-  padding:0;
-}
-  .round .spacer{ flex-grow:1; }
-  .round .spacer:first-child,
-  .round .spacer:last-child{ flex-grow:.5; }
-
-  .round .game-spacer{
-    flex-grow:1;
+  /* app/assets/stylesheets/standings.scss */
+  .standings-header {
+    background-color: #343a40 !important; // Dark gray from image
+    border-bottom: 2px solid #17a2b8; // Teal accent
   }
 
-/*
- *  General Styles
-*/
-body{
-  font-family:sans-serif;
-  font-size:small;
-  padding:10px;
-  line-height:1.4em;
-}
-
-li.game{
-  padding-left:20px;
-}
-
-  li.game.winner{
-    font-weight:bold;
-  }
-  li.game span{
-    float:right;
-    margin-right:5px;
+  .badge.bg-primary {
+    background-color: #17a2b8 !important; // Teal badge
   }
 
-  li.game-top{ border-bottom:1px solid #aaa; }
-
-  li.game-spacer{ 
-    border-right:1px solid #aaa;
-    min-height:40px;
+  .table {
+    --bs-table-bg: #f8f9fa; // Light background
+    --bs-table-striped-bg: #e9ecef; // Striped row color
+    --bs-table-striped-color: #212529;
+    --bs-table-hover-bg: #dee2e6; // Hover effect
   }
 
-  li.game-bottom{ 
-    border-top:1px solid #aaa;
+  .table-dark {
+    background-color: #343a40; // Dark header
+    color: #fff;
   }
 
+  .table td, .table th {
+    vertical-align: middle;
+  }
+
+  .text-success {
+    color: #28a745 !important; // Green for positive GD
+  }
+
+  .text-danger {
+    color: #dc3545 !important; // Red for negative GD
+  }
+
+  // Optional: Add team-specific styling (e.g., top 3 highlighted)
+  .table tbody tr:nth-child(-n+3) {
+    background-color: #e3f2fd; // Light blue for top 3
+    font-weight: 500;
+  }
 </style>

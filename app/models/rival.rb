@@ -6,6 +6,8 @@ class Rival < ApplicationRecord
   has_many :season_team_rivals, dependent: :destroy
   has_many :season_teams, through: :season_team_rivals
 
+  has_many :standings, as: :standable
+
   validates :name, presence: true, length: { maximum: 120 }
 
   scope :common,  -> { where(tenant_id: nil) }

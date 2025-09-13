@@ -1,17 +1,20 @@
-<div class="tab-pane" id="standings" role="tabpanel">
+<div class="tab-pane  active" id="standings" role="tabpanel">
   <div class="card shadow-sm border-0 mb-4">
     <div class="card-header bg-light d-flex justify-content-between align-items-center">
       <h5 class="mb-0">
         <i class="fa-solid fa-ranking-star me-2"></i> Posiciones del Torneo
       </h5>
+      <button type="button">
+        <i class="fa fa-check me-1"></i> Agregar Equipo
+      </button>
     </div>
 
     <div class="bg-body-tertiary border-bottom py-2 px-3 small text-muted d-flex align-items-center">
       <i class="fa-solid fa-table-list me-2"></i>
-      <span>Revisa las posiciones actuales de los equipos en el torneo.</span>
+      <span>Revisa las posiciones y estadisticas actuales del equipo en el torneo.</span>
     </div>    
 
     <div class="card-body p-0">
-      <%#= render 'season_teams/standings/standings_table', tournament_data: tournament_data %>
+      <%= render 'season_teams/standings/standings_table', tournament_data: tournament_data %>
     </div>
 </div>

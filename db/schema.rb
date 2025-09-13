@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_09_10_031206) do
+ActiveRecord::Schema[8.0].define(version: 2025_09_13_183232) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -584,6 +584,32 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_10_031206) do
     t.index ["tournament_id"], name: "index_stages_on_tournament_id"
   end
 
+  create_table "standings", force: :cascade do |t|
+    t.bigint "tenant_id", null: false
+    t.bigint "tournament_id", null: false
+    t.bigint "stage_id"
+    t.string "standable_type", null: false
+    t.bigint "standable_id", null: false
+    t.integer "position", default: 0
+    t.integer "points", default: 0
+    t.integer "played", default: 0
+    t.integer "wins", default: 0
+    t.integer "draws", default: 0
+    t.integer "losses", default: 0
+    t.integer "goals_for", default: 0
+    t.integer "goals_against", default: 0
+    t.integer "goal_difference", default: 0
+    t.text "notes"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["stage_id"], name: "index_standings_on_stage_id"
+    t.index ["standable_type", "standable_id"], name: "index_standings_on_standable_type_and_standable_id"
+    t.index ["tenant_id", "tournament_id", "stage_id"], name: "index_standings_on_tenant_id_and_tournament_id_and_stage_id"
+    t.index ["tenant_id"], name: "index_standings_on_tenant_id"
+    t.index ["tournament_id", "stage_id", "standable_type", "standable_id"], name: "index_standings_unique_per_scope", unique: true
+    t.index ["tournament_id"], name: "index_standings_on_tournament_id"
+  end
+
   create_table "tenants", force: :cascade do |t|
     t.string "name"
     t.string "subdomain"
@@ -754,6 +780,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_10_031206) do
   add_foreign_key "sites", "schools"
   add_foreign_key "stages", "season_teams"
   add_foreign_key "stages", "tournaments"
+  add_foreign_key "standings", "stages"
+  add_foreign_key "standings", "tenants"
+  add_foreign_key "standings", "tournaments"
   add_foreign_key "tenants", "tenants", column: "parent_tenant_id"
   add_foreign_key "tournament_categories", "categories"
   add_foreign_key "tournament_categories", "tournaments"
