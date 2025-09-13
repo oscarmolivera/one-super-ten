@@ -3,6 +3,7 @@ class LandingsController < ApplicationController
   before_action :authenticate_user!, except: [:index]
   
   def index
+    authorize :landing, :index?
     @landings = policy_scope(Landing)
   end
   

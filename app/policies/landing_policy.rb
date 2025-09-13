@@ -5,6 +5,10 @@ class LandingPolicy < ApplicationPolicy
     end
   end
 
+  def index?
+    true
+  end
+
   def show?
     record.tenant == user.tenant
   end
