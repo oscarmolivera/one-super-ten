@@ -78,8 +78,9 @@ Rails.application.routes.draw do
       resources :cups do
         resources :tournaments do
           resources :inscriptions
+          resources :external_matches, only: [:index, :new, :create, :edit, :update]
           member do
-            get :standings  # e.g., /cups/:cup_id/tournaments/:id/standings -> shows table for the tournament
+            get :standings
           end
         end
       end

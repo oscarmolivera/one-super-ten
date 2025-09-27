@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_09_13_183232) do
+ActiveRecord::Schema[8.0].define(version: 2025_09_25_172417) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -222,6 +222,27 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_13_183232) do
     t.index ["author_id"], name: "index_expenses_on_author_id"
     t.index ["expensable_type", "expensable_id"], name: "index_expenses_on_expensable"
     t.index ["tenant_id"], name: "index_expenses_on_tenant_id"
+  end
+
+  create_table "external_matches", force: :cascade do |t|
+    t.bigint "tenant_id", null: false
+    t.bigint "tournament_id", null: false
+    t.bigint "stage_id"
+    t.bigint "home_rival_id", null: false
+    t.bigint "away_rival_id", null: false
+    t.integer "home_score", default: 0
+    t.integer "away_score", default: 0
+    t.date "match_date"
+    t.time "match_time"
+    t.integer "status", default: 0
+    t.text "notes"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["away_rival_id"], name: "index_external_matches_on_away_rival_id"
+    t.index ["home_rival_id"], name: "index_external_matches_on_home_rival_id"
+    t.index ["stage_id"], name: "index_external_matches_on_stage_id"
+    t.index ["tenant_id"], name: "index_external_matches_on_tenant_id"
+    t.index ["tournament_id"], name: "index_external_matches_on_tournament_id"
   end
 
   create_table "external_players", force: :cascade do |t|
@@ -727,6 +748,11 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_13_183232) do
   add_foreign_key "exonerations", "tenants"
   add_foreign_key "expenses", "tenants"
   add_foreign_key "expenses", "users", column: "author_id"
+  add_foreign_key "external_matches", "rivals", column: "away_rival_id"
+  add_foreign_key "external_matches", "rivals", column: "home_rival_id"
+  add_foreign_key "external_matches", "stages"
+  add_foreign_key "external_matches", "tenants"
+  add_foreign_key "external_matches", "tournaments"
   add_foreign_key "external_players", "tenants"
   add_foreign_key "external_players", "users"
   add_foreign_key "guardians", "players"

@@ -7,6 +7,8 @@ class Rival < ApplicationRecord
   has_many :season_teams, through: :season_team_rivals
 
   has_many :standings, as: :standable
+  has_many :home_external_matches, class_name: "ExternalMatch", foreign_key: "home_rival_id"
+  has_many :away_external_matches, class_name: "ExternalMatch", foreign_key: "away_rival_id"
 
   validates :name, presence: true, length: { maximum: 120 }
 

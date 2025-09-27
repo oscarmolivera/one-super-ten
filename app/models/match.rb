@@ -64,6 +64,6 @@ class Match < ApplicationRecord
   end
 
   def update_standings
-    StandingCalculator.new(tournament, stage).calculate if status == :played
+    StandingCalculatorService.new(tournament, stage).calculate if status == :played
   end
 end

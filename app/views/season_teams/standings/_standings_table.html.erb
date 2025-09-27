@@ -1,50 +1,93 @@
 <%#= tournament_data[:standings].inspect %>
-<div id="standings-table">
+<turbo-frame id="standings_<%= tournament_data[:tournament].id %>">
   <div class="row">
     <div class="col-md-6">
-      <div class="container mt-5">
-        <div class="card shadow-sm">
-          <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center standings-header">
-            <h2 class="mb-0">Tabla de Clasificación</h2>
-            <div>
-              <span class="badge bg-primary text-white">Match Week <%#= @tournament.current_match_week || 8 %></span>
-              <img src="<%#= asset_path('futsal-logo.png') %>" alt="League Logo" class="ms-2" style="height: 40px;">
+      <div class="nav-tabs-custom">
+				<ul class="nav nav-pills mb-5">
+					<li class=" nav-item"> <a href="#elimination" class="nav-link active" data-bs-toggle="tab" aria-expanded="false">Eliminatorias</a> </li>
+					<li class=" nav-item"> <a href="#cup" class="nav-link" data-bs-toggle="tab" aria-expanded="false">Copa</a> </li>
+				</ul>
+
+				<div class="tab-content">
+					<div class="active tab-pane" id="elimination">
+            <div class="container mt-5">
+              <div class="card shadow-sm">
+                <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center standings-header">
+                  <h2 class="mb-0">Tabla de Clasificación</h2>
+                  <div>
+                    <span class="badge bg-primary text-white">Match Week <%#= @tournament.current_match_week || 8 %></span>
+                    <img src="<%#= asset_path('futsal-logo.png') %>" alt="League Logo" class="ms-2" style="height: 40px;">
+                  </div>
+                </div>
+                <div class="card-body">
+                  <table class="table table-striped table-hover">
+                    <thead class="table-dark">
+                      <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Team</th>
+                        <th scope="col">GP</th>
+                        <th scope="col">GD</th>
+                        <th scope="col">PTS</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <% if tournament_data[:standings].any? %>
+                        <% tournament_data[:standings].each do |standing| %>
+                          <tr>
+                            <th scope="row"><%= standing.position %></th>
+                            <td><%= standing.standable.name %></td>
+                            <td><%= standing.played %></td>
+                            <td class="<%= standing.goal_difference >= 0 ? 'text-success' : 'text-danger' %>">
+                              <%= standing.goal_difference >= 0 ? "+#{standing.goal_difference}" : standing.goal_difference %>
+                            </td>
+                            <td><%= standing.points %></td>
+                          </tr>
+                        <% end %>
+                      <% else %>
+                        <tr>
+                          <td colspan="5" class="text-center">No standings available.</td>
+                        </tr>
+                      <% end %>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              <div class="card shadow-sm mt-3">
+                <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
+                  <h2 class="mb-0">Resultados de Otros Partidos</h2>
+                  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addExternalMatchModal">
+                    Agregar Resultado
+                  </button>
+                </div>
+                <div class="card-body">
+                  <turbo-frame id="external_matches_<%= tournament_data[:tournament].id %>">
+                    <%= render 'external_matches/list', external_matches: tournament_data[:tournament].external_matches %>
+                  </turbo-frame>
+                </div>
+              </div>
+
+              <!-- Modal for form (use Bootstrap 5, assuming it's in your app) -->
+              <div class="modal fade" id="addExternalMatchModal" tabindex="-1">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title">Agregar Resultado Externo</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                      <%= render 'external_matches/form', external_match: ExternalMatch.new, tournament: tournament_data[:tournament], season_team: @season_team %>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>            
+					</div>
+          <div class="tab-pane" id="cup">
+            <div class="container mt-5">
             </div>
           </div>
-          <div class="card-body">
-            <table class="table table-striped table-hover">
-              <thead class="table-dark">
-                <tr>
-                  <th scope="col">#</th>
-                  <th scope="col">Team</th>
-                  <th scope="col">GP</th>
-                  <th scope="col">GD</th>
-                  <th scope="col">PTS</th>
-                </tr>
-              </thead>
-              <tbody>
-                <% if tournament_data[:standings].any? %>
-                  <% tournament_data[:standings].each do |standing| %>
-                    <tr>
-                      <th scope="row"><%= standing.position %></th>
-                      <td><%= standing.standable.name %></td>
-                      <td><%= standing.played %></td>
-                      <td class="<%= standing.goal_difference >= 0 ? 'text-success' : 'text-danger' %>">
-                        <%= standing.goal_difference >= 0 ? "+#{standing.goal_difference}" : standing.goal_difference %>
-                      </td>
-                      <td><%= standing.points %></td>
-                    </tr>
-                  <% end %>
-                <% else %>
-                  <tr>
-                    <td colspan="5" class="text-center">No standings available.</td>
-                  </tr>
-                <% end %>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
+				</div>
+			</div>
     </div>
     <div class="col-md-6">
       <div class="row">
