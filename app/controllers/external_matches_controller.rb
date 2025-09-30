@@ -52,7 +52,7 @@ class ExternalMatchesController < ApplicationController
   def external_match_params
     params.require(:external_match).permit(
       :tournament_id, :home_rival_id, :away_rival_id, :home_score, :away_score,
-      :match_date, :match_time, :status, :notes
+      :stage_id, :match_date, :match_time, :status, :notes
     )
   end
 end

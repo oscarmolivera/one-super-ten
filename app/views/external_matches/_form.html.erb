@@ -45,6 +45,7 @@
   
   <div class="col-12">
     <%= form.hidden_field :status, value: :completed %>
+    <%= form.hidden_field :stage_id, value: @season_team.stages.last.id %>
     <%= form.submit "Guardar Resultado", class: "btn btn-primary" %>
     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
   </div>

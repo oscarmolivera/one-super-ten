@@ -24,7 +24,7 @@ module SeasonTeams
         favorite_rivals: Rival.tenant_favorites,
         pagy: @pagy,
         rivals: @rivals,
-        standings: Standing.for_tournament(@season_team.tournament).order(points: :desc, goal_difference: :desc, goals_for: :desc)
+        standings: @season_team.stages.last.standings.order(points: :desc, goal_difference: :desc, goals_for: :desc)
       }
     end
   end

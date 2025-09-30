@@ -14,9 +14,9 @@ class StandingCalculatorService
       end
     end
   end
-
+  
   private
-
+  
   def calculate_for_season_team(season_team, stage)
     Standing.transaction do
       # Clear existing standings for this scope (per season_team/category via standable)

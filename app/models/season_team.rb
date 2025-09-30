@@ -41,4 +41,8 @@ class SeasonTeam < ApplicationRecord
 
     current_stage.stage_closable?
   end
+
+  def standings_for_tournament(tournament)
+    standings.where(tournament_id: tournament.id)
+  end
 end

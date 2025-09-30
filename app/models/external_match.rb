@@ -18,6 +18,8 @@ class ExternalMatch < ApplicationRecord
   end
 
   def update_standings
-    StandingCalculatorService.new(tournament, stage).calculate if status == :completed
+    return unless status == "completed" && stage.present?
+
+    StandingCalculatorService.new(Tournament.find(tournament_id), Stage.find(stage_id)).calculate
   end
 end

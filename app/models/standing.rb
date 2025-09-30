@@ -8,8 +8,7 @@ class Standing < ApplicationRecord
             numericality: { greater_than_or_equal_to: 0 }
   validates_uniqueness_of :standable_id, scope: [:standable_type, :tournament_id, :stage_id]
 
-  # Scope for filtering (e.g., per tournament)
-  scope :for_tournament, ->(tournament) { where(tournament: tournament).order(position: :asc) }
+  scope :for_season_team, ->(season_team) { where(season_team_id: season_team.id).order(position: :asc) }
 
   # Helper to compute goal_difference (call before save if needed)
   def calculate_goal_difference

@@ -44,6 +44,7 @@ class SeasonTeams::MatchesController < ApplicationController
 
     if @match.update(filtered_match_params)
       @tournament_data = SeasonTeams::TournamentDataService.new(@season_team, nil, nil).data
+      StandingCalculatorService.new(@match.tournament, @match.stage).calculate
       respond_to do |format|
         format.turbo_stream
       end
