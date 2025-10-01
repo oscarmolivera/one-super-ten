@@ -58,7 +58,7 @@ class StandingCalculatorService
       end
 
       # Process external matches
-      completed_external_matches = external_matches.where(status: :played) # Assume similar enum
+      completed_external_matches = external_matches.where(status: :completed)
       completed_external_matches.each do |match|
         home = match.home_rival
         away = match.away_rival

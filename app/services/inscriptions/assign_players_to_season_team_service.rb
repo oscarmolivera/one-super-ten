@@ -119,8 +119,8 @@ module Inscriptions
       Standing.create!(
         tenant_id: ActsAsTenant.current_tenant.id,
         tournament_id: @season_team.tournament.id,
-        stage_id: Stage.where(season_team: @season_team)&.last.id,
-        standable_type: 'season_team',
+        stage_id: Stage.where(season_team_id: @season_team)&.last.id,
+        standable_type: 'SeasonTeam',
         standable_id: @season_team.id,
         position: 1,
         points: 0,
