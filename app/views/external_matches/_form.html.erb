@@ -1,5 +1,4 @@
-<!-- app/views/external_matches/_form.html.erb -->
-<%= form_with model: external_match, url: cup_tournament_external_matches_path(tournament.cup, tournament), method: :post, data: { turbo: true }, class: "row g-3" do |form| %>
+<%= form_with model: external_match, url: external_matches_path(season_team), method: :post, data: { turbo: true, turbo_frame: "new_external_match_form" }, class: "row g-3" do |form| %>
   <%= form.hidden_field :tournament_id, value: tournament.id %>
   
   <div class="col-md-6">
