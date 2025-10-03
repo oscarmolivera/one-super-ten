@@ -117,7 +117,7 @@ module Inscriptions
 
     def create_standing_record
       Standing.create!(
-        tenant_id: ActsAsTenant.current_tenant.id,
+        tenant_id: @season_team.tenant.id,
         tournament_id: @season_team.tournament.id,
         stage_id: Stage.where(season_team_id: @season_team)&.last.id,
         standable_type: 'SeasonTeam',

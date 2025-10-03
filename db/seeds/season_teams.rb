@@ -15,7 +15,7 @@ academia_coaches = User.where(tenant: academia).select {|u| u.has_role?(:coach, 
 user = User.find(2)
 logos_id = %W[1 2 3 4 5 6 7 8]
 @positions = %W[ portero defensa defensa defensa defensa mediocampo mediocampo mediocampo mediocampo mediocampo lateral lateral lateral lateral delantero delantero delantero]
-number_teams = [3, 5, 7, 9, 11]
+number_teams = [1,2,3]
 
 def player_hash(season_team)
   jersey_numbers = {}
@@ -32,7 +32,7 @@ end
 
 tenant_all_tournaments.each do |tournament|
   category_list = tournament.categories.pluck(:id)
-  3.times do |i|
+  category_list.count.times do |i|
     category = Category.find(category_list.first)
     category_list.shift(1)
     coach = academia_coaches.sample
@@ -75,6 +75,23 @@ tenant_all_tournaments.each do |tournament|
         tenant: academia,
         season_team_id: season_team.id,
         rival_id: rival.id
+      )
+      position = Standing.where(stage_id: season_team.stages.last.id).count
+      Standing.create!(
+        tenant_id: academia.id,
+        tournament_id: season_team.tournament.id,
+        stage_id: season_team.stages.last.id,
+        standable_type: 'Rival',
+        standable_id: rival.id,
+        position: position + 1,
+        points: 0,
+        played: 0,
+        wins: 0,
+        draws: 0,
+        losses: 0,
+        goals_for: 0,
+        goals_against: 0,
+        goal_difference: 0
       )
     end
   end
