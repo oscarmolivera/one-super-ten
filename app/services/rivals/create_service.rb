@@ -13,33 +13,18 @@ module Rivals
                  Rival.new(@rival_params.merge(tenant: ActsAsTenant.current_tenant))
                end
 
-      if @rival.save
-        @season_team.rivals << @rival unless @season_team.rivals.exists?(@rival.id)
-        set_rival_standing_record
-        ServiceResponse.success(rival: @rival)
-      else
-        ServiceResponse.error(rival: @rival)
-      end
+    if @rival.save
+      @season_team.rivals << @rival unless @season_team.rivals.exists?(@rival.id)
+      recalculate_standings
+      ServiceResponse.success(rival: @rival)
+    else
+      ServiceResponse.error(rival: @rival)
+    end
     end
 
-    def set_rival_standing_record
-
-      Standing.create(
-        tenant_id: ActsAsTenant.current_tenant.id,
-        tournament_id: @season_team.tournament.id,
-        stage_id: Stage.where(season_team: @season_team)&.last.id,
-        standable_type: 'Rival',
-        standable_id: @rival.id,
-        position: @season_team.standings.count + 1,
-        points: 0,
-        played: 0,
-        wins: 0,
-        draws: 0,
-        losses: 0,
-        goals_for: 0,
-        goals_against: 0,
-        goal_difference: 0
-      )      
+    def recalculate_standings
+      # Recalculate standings for the season team and all its rivals
+      StandingCalculatorService.new(@season_team.tournament).recalculate_for_season_team(@season_team)
     end
   end
 end

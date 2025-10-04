@@ -83,15 +83,21 @@ class SeasonTeams::RivalsController < ApplicationController
 
   def destroy
     @season_team.rivals.delete(@rival)
+    
+    # Recalculate standings after removing rival
+    StandingCalculatorService.new(@season_team.tournament).recalculate_for_season_team(@season_team)
+    
     respond_to do |format|
       format.turbo_stream do
+        @tournament_data = SeasonTeams::TournamentDataService.new(@season_team, nil, nil).data
         streams = [
           turbo_stream.replace(
             "rival_flash",
             partial: "shared/flash_stream",
             locals: { message: "Rival eliminado", kind: :success }
           ),
-          turbo_stream.remove(dom_id(@rival))
+          turbo_stream.remove(dom_id(@rival)),
+          turbo_stream.replace("standings_#{@season_team.tournament_id}", partial: "season_teams/standings/standings_table", locals: { tournament_data: @tournament_data, season_team: @season_team })
         ]
 
         render turbo_stream: streams

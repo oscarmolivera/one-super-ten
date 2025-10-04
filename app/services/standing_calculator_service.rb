@@ -14,6 +14,12 @@ class StandingCalculatorService
       end
     end
   end
+
+  # Recalculate standings for a specific season team and its rivals
+  def recalculate_for_season_team(season_team, stage = nil)
+    stage ||= season_team.current_stage
+    calculate_for_season_team(season_team, stage)
+  end
   
   private
   
