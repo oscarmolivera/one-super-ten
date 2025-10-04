@@ -42,6 +42,10 @@ class SeasonTeam < ApplicationRecord
     current_stage.stage_closable?
   end
 
+  def active_rivals
+    rivals.select { |r| r.active }  
+  end
+
   def standings_for_tournament(tournament)
     standings.where(tournament_id: tournament.id)
   end

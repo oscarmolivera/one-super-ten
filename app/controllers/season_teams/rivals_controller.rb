@@ -82,10 +82,8 @@ class SeasonTeams::RivalsController < ApplicationController
   end
 
   def destroy
-    @season_team.rivals.delete(@rival)
-    
-    # Recalculate standings after removing rival
-    StandingCalculatorService.new(@season_team.tournament).recalculate_for_season_team(@season_team)
+    # Set rival as inactive instead of removing from tournament
+    @rival.update!(active: false)
     
     respond_to do |format|
       format.turbo_stream do
@@ -94,16 +92,16 @@ class SeasonTeams::RivalsController < ApplicationController
           turbo_stream.replace(
             "rival_flash",
             partial: "shared/flash_stream",
-            locals: { message: "Rival eliminado", kind: :success }
+            locals: { message: "Rival marcado como inactivo", kind: :success }
           ),
-          turbo_stream.remove(dom_id(@rival)),
+          turbo_stream.replace(dom_id(@rival), partial: "season_teams/rivals/rival", locals: { rival: @rival }),
           turbo_stream.replace("standings_#{@season_team.tournament_id}", partial: "season_teams/standings/standings_table", locals: { tournament_data: @tournament_data, season_team: @season_team })
         ]
 
         render turbo_stream: streams
       end
 
-      format.html { redirect_to tournament_data_season_team_path(@season_team), notice: "Rival eliminado." }
+      format.html { redirect_to tournament_data_season_team_path(@season_team), notice: "Rival marcado como inactivo." }
     end
   end
 

@@ -30,7 +30,7 @@ class StandingCalculatorService
       scope = scope.where(standable: [season_team] + season_team.rivals) if stage # Further scope to avoid deleting unrelated
       scope.destroy_all
 
-      # Gather teams: this SeasonTeam + its specific Rivals
+      # Gather teams: this SeasonTeam + its specific Rivals (including inactive ones for historical standings)
       associated_rivals = season_team.rivals.uniq
 
       # Matches: scoped to stage if provided, and involving this season_team

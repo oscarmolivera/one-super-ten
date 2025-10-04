@@ -10,7 +10,7 @@ module Rivals
       @rival = if @existing_rival_id.present?
                  Rival.find(@existing_rival_id)
                else
-                 Rival.new(@rival_params.merge(tenant: ActsAsTenant.current_tenant))
+                 Rival.new(@rival_params.merge(tenant: ActsAsTenant.current_tenant, active: true))
                end
 
     if @rival.save

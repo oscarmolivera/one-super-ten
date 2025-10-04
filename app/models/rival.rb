@@ -15,4 +15,6 @@ class Rival < ApplicationRecord
   scope :common,  -> { where(tenant_id: nil) }
   scope :tenant_favorites, -> { where(is_favorite: true).where(tenant_id: ActsAsTenant.current_tenant.id) }
   scope :for_tenant, ->(tenant) { where(tenant_id: tenant.id).or(common) }
+  scope :active, -> { where(active: true) }
+  scope :inactive, -> { where(active: false) }
 end

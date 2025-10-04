@@ -4,7 +4,7 @@
   <div class="col-md-6">
     <%= form.label :home_rival_id, "Equipo Local", class: "form-label" %>
     <%= form.select :home_rival_id, 
-                    season_team.rivals.map { |r| [r.name, r.id] },
+                    season_team.active_rivals.map { |r| [r.name, r.id] },
                     { include_blank: "Selecciona un equipo" }, 
                     class: "form-select", required: true %>
   </div>
@@ -12,7 +12,7 @@
   <div class="col-md-6">
     <%= form.label :away_rival_id, "Equipo Visitante", class: "form-label" %>
     <%= form.select :away_rival_id, 
-                    season_team.rivals.map { |r| [r.name, r.id] }, 
+                    season_team.active_rivals.map { |r| [r.name, r.id] }, 
                     { include_blank: "Selecciona un equipo" }, 
                     class: "form-select", required: true %>
   </div>

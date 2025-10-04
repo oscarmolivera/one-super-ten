@@ -33,9 +33,15 @@
                     <tbody>
                       <% if tournament_data[:standings].present? %>
                         <% tournament_data[:standings].each do |standing| %>
-                          <tr>
+                          <% is_inactive_rival = standing.standable.is_a?(Rival) && !standing.standable.active? %>
+                          <tr class="<%= 'inactive-rival' if is_inactive_rival %>">
                             <th scope="row"><%= standing.position %></th>
-                            <td class="text-nowrap w-55"><%= standing.standable.name %></td>  <%# Prevent wrapping in team name %>
+                            <td class="text-nowrap w-55">
+                              <%= standing.standable.name %>
+                              <% if is_inactive_rival %>
+                                <span class="badge bg-secondary ms-2">Inactivo</span>
+                              <% end %>
+                            </td>  <%# Prevent wrapping in team name %>
                             <td><%= standing.points %></td>
                             <td><%= standing.played %></td>
                             <td><%= standing.wins %></td>
@@ -181,5 +187,27 @@
   .table tbody tr:nth-child(-n+3) {
     background-color: #e3f2fd; // Light blue for top 3
     font-weight: 500;
+  }
+
+  // Styling for inactive rivals
+  .table tbody tr.inactive-rival {
+    filter: grayscale(100%);
+    opacity: 0.7;
+    background-color: #f8f9fa;
+  }
+
+  .table tbody tr.inactive-rival:hover {
+    filter: grayscale(80%);
+    opacity: 0.8;
+  }
+
+  .table tbody tr.inactive-rival td,
+  .table tbody tr.inactive-rival th {
+    color: #6c757d;
+  }
+
+  .badge.bg-secondary {
+    font-size: 0.7em;
+    padding: 0.25em 0.5em;
   }
 </style>
