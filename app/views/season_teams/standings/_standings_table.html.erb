@@ -62,7 +62,7 @@
                   <h2 class="mb-0">Resultados de Otros Partidos</h2>
                   <button type="button" class="btn btn-primary" 
                     data-controller="modal-loader"
-                    data-modal-loader-url-value="<%=new_external_match_path%>"
+                    data-modal-loader-url-value="<%= new_external_match_path(@season_team) %>"
                     data-modal-loader-target-frame-value="#external-match-modal-frame"
                     data-action="click->modal-loader#load">
                     Agregar Resultado

@@ -22,6 +22,7 @@ class SeasonTeams::RivalsController < ApplicationController
     ).call
   
     @rival = service.data[:rival]
+    @tournament_data = SeasonTeams::TournamentDataService.new(@season_team, nil, nil).data
   
     if service.success?
       respond_to do |format|
@@ -52,7 +53,8 @@ class SeasonTeams::RivalsController < ApplicationController
 
   def update
     service = Rivals::UpdateService.new(rival: @rival, params: rival_params).call
-  
+    @tournament_data = SeasonTeams::TournamentDataService.new(@season_team, nil, nil).data
+
     if service.success?
       respond_to do |format|
         format.turbo_stream do
@@ -65,6 +67,7 @@ class SeasonTeams::RivalsController < ApplicationController
               locals: { modal_id: "editRivalModalContent-#{@rival.id}", 
               frame_id: "edit_rival_modal_#{@rival.id}" }
             ),
+            turbo_stream.replace("standings_#{@season_team.tournament_id}", partial: "season_teams/standings/standings_table", locals: { tournament_data: @tournament_data, season_team: @season_team })
           ]
         end
         format.html { redirect_to tournament_data_season_team_path(@season_team), notice: "Rival actualizado." }
