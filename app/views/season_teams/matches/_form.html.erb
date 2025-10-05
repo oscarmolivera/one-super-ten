@@ -36,7 +36,7 @@
         <div class="col-md-6">
           <%= f.label :rival_id, "Equipo Rival", class: "form-label fw-bold" %>
           <%= f.collection_select :rival_id,
-                                  season_team.rivals, :id, :name,
+                                  season_team.active_rivals, :id, :name,
                                   { prompt: 'Seleccione Rival' },
                                   class: 'form-select', required: true %>
         </div>

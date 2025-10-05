@@ -11,6 +11,13 @@ class ExternalMatch < ApplicationRecord
 
   after_save :update_standings
 
+  scope :involving_rivals, ->(rivals) {
+    rival_ids = rivals.respond_to?(:pluck) ? rivals.pluck(:id) : Array(rivals).map(&:id)
+    where(home_rival_id: rival_ids).or(where(away_rival_id: rival_ids))
+  }
+
+  scope :recent, -> { order(match_date: :desc, match_time: :desc) }
+
   private
 
   def different_rivals

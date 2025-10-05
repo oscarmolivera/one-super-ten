@@ -49,4 +49,11 @@ class SeasonTeam < ApplicationRecord
   def standings_for_tournament(tournament)
     standings.where(tournament_id: tournament.id)
   end
+
+  def external_matches
+    tournament.external_matches
+      .involving_rivals(rivals)
+      .includes(:home_rival, :away_rival, :stage)
+      .recent
+  end
 end

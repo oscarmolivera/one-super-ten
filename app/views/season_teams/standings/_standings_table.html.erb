@@ -75,7 +75,11 @@
                   </button>
                 </div>
               </div>
-              <turbo-frame id="external-match-modal-frame"></turbo-frame>
+              <turbo-frame id="external-match-modal-frame">
+              </turbo-frame>  
+              <turbo-frame id="external-match-details-frame">
+                <%= render "external_matches/list", external_match: tournament_data[:external_matches] %>
+              </turbo-frame>
             </div>            
 					</div>
           <div class="tab-pane" id="cup">
