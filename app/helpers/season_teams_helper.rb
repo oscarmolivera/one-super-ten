@@ -569,4 +569,57 @@ module SeasonTeamsHelper
       " Cerrar Fase Actual"
     end
   end
+
+  ## -------------------------------
+  ##  Player Statistics Helpers
+  ## -------------------------------
+
+  def player_statistics_origin(stat, season_team)
+    return :external if stat[:performer_type] == 'ExternalPlayer'
+    
+    # Get the season_team_player record to determine origin for regular players
+    season_team_player = nil
+    if stat[:performer_type] == 'Player'
+      season_team_player = stat[:performer].season_team_players.find_by(season_team: season_team)
+    end
+    
+    # Determine origin based on season_team_player origin
+    if season_team_player && ['below_category', 'above_category'].include?(season_team_player.origin)
+      :other_category
+    else
+      :same_category
+    end
+  end
+
+  def player_statistics_list_item_class(origin)
+    "list-group-item #{row_class_for(origin)}"
+  end
+
+  def player_statistics_icon_class(origin)
+    icon_for(origin)
+  end
+
+  def player_statistics_has_performance?(stat)
+    stat[:goals] > 0 || stat[:assists] > 0 || stat[:yellow_cards] > 0 || stat[:keeper_blocks] > 0
+  end
+
+  def player_statistics_goals_badge_class(goals)
+    base_class = "badge text-dark px-3 py-2"
+    goals > 0 ? "#{base_class} fw-bold bg-success" : base_class
+  end
+
+  def player_statistics_assists_badge_class(assists)
+    base_class = "badge text-dark px-3 py-2"
+    assists > 0 ? "#{base_class} fw-bold bg-primary" : base_class
+  end
+
+  def player_statistics_yellow_cards_badge_class(yellow_cards)
+    base_class = "badge text-dark px-3 py-2"
+    yellow_cards > 0 ? "#{base_class} fw-bold bg-warning" : base_class
+  end
+
+  def player_statistics_keeper_blocks_badge_class(keeper_blocks)
+    base_class = "badge text-dark px-3 py-2"
+    keeper_blocks > 0 ? "#{base_class} fw-bold bg-info" : base_class
+  end
 end

@@ -1,4 +1,6 @@
 class SeasonTeam < ApplicationRecord
+  acts_as_tenant :tenant
+
   belongs_to :tenant
   belongs_to :category
   belongs_to :tournament
@@ -7,7 +9,7 @@ class SeasonTeam < ApplicationRecord
   belongs_to :assistant_coach, class_name: 'User', optional: true
   belongs_to :team_assistant, class_name: 'User', optional: true
 
-  has_many :stages
+  has_many :stages, dependent: :destroy
 
   has_many :season_team_players, dependent: :destroy
   has_many :players, through: :season_team_players
@@ -26,7 +28,7 @@ class SeasonTeam < ApplicationRecord
   has_one :inscription
 
   validates :name, presence: true
-  validates :category_id, uniqueness: { scope: :tournament_id }
+  validates :category_id, uniqueness: { scope: [:tournament_id, :tenant_id] }  
 
   def all_players_for_call_up
     season_team_players.includes(:player)
@@ -55,5 +57,9 @@ class SeasonTeam < ApplicationRecord
       .involving_rivals(rivals)
       .includes(:home_rival, :away_rival, :stage)
       .recent
+  end
+
+  def players_with_performances(tournament)
+    players.joins(:match_performances).where(match_performances: { tournament: tournament })
   end
 end
