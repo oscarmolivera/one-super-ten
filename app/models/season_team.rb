@@ -45,9 +45,9 @@ class SeasonTeam < ApplicationRecord
   end
 
   def active_rivals
-    rivals.select { |r| r.active }  
+    season_team_rivals.select { |r| r.active?}.map(&:rival)
   end
-
+  
   def standings_for_tournament(tournament)
     standings.where(tournament_id: tournament.id)
   end

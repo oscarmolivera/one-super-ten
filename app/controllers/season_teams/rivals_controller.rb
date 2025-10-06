@@ -82,8 +82,8 @@ class SeasonTeams::RivalsController < ApplicationController
   end
 
   def destroy
-    # Set rival as inactive instead of removing from tournament
-    @rival.update!(active: false)
+    season_team_rival = SeasonTeamRival.where(season_team: @season_team, rival_id: params[:id])
+    season_team_rival.update!(active: false)
     
     respond_to do |format|
       format.turbo_stream do

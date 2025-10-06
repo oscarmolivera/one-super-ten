@@ -11,4 +11,5 @@ module TournamentHelper
         "Finalizado"
     end
   end
+  
 end

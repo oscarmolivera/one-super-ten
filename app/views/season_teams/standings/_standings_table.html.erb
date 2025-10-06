@@ -33,7 +33,7 @@
                     <tbody>
                       <% if tournament_data[:standings].present? %>
                         <% tournament_data[:standings].each do |standing| %>
-                          <% is_inactive_rival = standing.standable.is_a?(Rival) && !standing.standable.active? %>
+                          <% is_inactive_rival = standing.standable.is_a?(Rival) && !is_rival_active?(standing) %>
                           <tr class="<%= 'inactive-rival' if is_inactive_rival %>">
                             <th scope="row"><%= standing.position %></th>
                             <td class="text-nowrap w-55">
