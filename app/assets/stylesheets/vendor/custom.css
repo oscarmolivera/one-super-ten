@@ -586,6 +586,169 @@
 		background-color: transparent;
 	}
 
+	.standings-header {
+		background-color: #343a40 !important;
+		border-bottom: 2px solid #17a2b8;
+	}
+
+	.badge.bg-primary {
+		background-color: #17a2b8 !important;
+	}
+
+	.table {
+		--bs-table-bg: #f8f9fa;
+		--bs-table-striped-bg: #e9ecef;
+		--bs-table-striped-color: #212529;
+		--bs-table-hover-bg: #dee2e6; 
+	}
+
+	.table-dark {
+		background-color: #343a40;
+		color: #fff;
+	}
+
+	.table td,
+	.table th {
+		vertical-align: middle;
+	}
+
+	.text-success {
+		color: #28a745 !important;
+	}
+
+	.text-danger {
+		color: #dc3545 !important;
+	}
+
+	.table tbody tr:nth-child(-n+3) {
+		background-color: #e3f2fd;
+		font-weight: 500;
+	}
+
+	.table tbody tr.inactive-rival {
+		filter: grayscale(100%);
+		opacity: 0.7;
+		background-color: #f8f9fa;
+	}
+
+	.table tbody tr.inactive-rival:hover {
+		filter: grayscale(80%);
+		opacity: 0.8;
+	}
+
+	.table tbody tr.inactive-rival td,
+	.table tbody tr.inactive-rival th {
+		color: #6c757d;
+	}
+
+	.badge.bg-secondary {
+		font-size: 0.7em;
+		padding: 0.25em 0.5em;
+	}
+
+	/* Player statistics styling - List Group Layout */
+	.list-group-item {
+		border: none;
+		border-bottom: 1px solid #dee2e6;
+	}
+
+	.list-group-item:last-child {
+		border-bottom: none;
+	}
+
+	.list-group-item-warning {
+		background-color: #fff3cd !important;
+		border-color: #ffeaa7;
+	}
+
+	.list-group-item-info {
+		background-color: #d1ecf1 !important;
+		border-color: #bee5eb;
+	}
+
+	/* Badge styling to match the example */
+	.badge {
+		font-size: 0.875em;
+		border-radius: 0.375rem;
+	}
+
+	.badge.text-dark {
+		background-color: #f8f9fa;
+		border: 1px solid #dee2e6;
+	}
+
+	.badge.bg-success {
+		background-color: #28a745 !important;
+		color: white !important;
+	}
+
+	.badge.bg-primary {
+		background-color: #007bff !important;
+		color: white !important;
+	}
+
+	.badge.bg-warning {
+		background-color: #ffc107 !important;
+		color: #212529 !important;
+	}
+
+	.badge.bg-info {
+		background-color: #17a2b8 !important;
+		color: white !important;
+	}
+
+	.badge.bg-secondary {
+		background-color: #6c757d !important;
+		color: white !important;
+	}
+
+	/* Icon styling */
+	.fa-solid.fa-user-plus {
+		color: #856404;
+	}
+
+	.fa-solid.fa-arrows-turn-to-dots {
+		color: #0c5460;
+	}
+
+	.inactive-rival-card {
+		filter: grayscale(100%);
+		opacity: 0.7;
+		background-color: #f8f9fa;
+		border-color: #dee2e6 !important;
+	}
+
+	.inactive-rival-card:hover {
+		filter: grayscale(80%);
+		opacity: 0.8;
+	}
+
+	.inactive-rival-card .fw-semibold,
+	.inactive-rival-card .text-muted {
+		color: #6c757d !important;
+	}
+
+	.inactive-rival-card .badge.bg-secondary {
+		font-size: 0.7em;
+		padding: 0.25em 0.5em;
+	}
+
+	/* Styling for tournament-specific inactive */
+	.tournament-inactive-card {
+		border-left: 4px solid #ffc107 !important;
+		/* Yellow accent for tournament inactive */
+		opacity: 0.85;
+	}
+
+	.tournament-inactive-card:hover {
+		opacity: 0.95;
+	}
+
+	.tournament-inactive-card .badge.bg-warning {
+		font-size: 0.7em;
+		padding: 0.25em 0.5em;
+	}
+
 	.badge-school-0 { background-color: #ffc107; } /* yellow */
 	.badge-school-1 { background-color: #20c997; } /* teal */
 	.badge-school-2 { background-color: #d63384; } /* pink */

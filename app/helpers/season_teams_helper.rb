@@ -130,7 +130,6 @@ module SeasonTeamsHelper
   ## -------------------------------
   ##  Logo and Badge Helpers
   ## -------------------------------
-
   def display_team_logo_and_name(team, fallback_name = nil, placeholder_logo = "placeholder-logo.png", winner: false)
     content_tag :div, class: "mb-3 text-center" do
       logo_div = content_tag(:div, class: "team-logo mb-2 mx-auto d-flex align-items-center justify-content-center") do
