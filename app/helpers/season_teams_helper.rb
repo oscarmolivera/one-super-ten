@@ -96,7 +96,6 @@ module SeasonTeamsHelper
 
   def display_match_result(match)
     data = team_score_data(match)
-
     if data[:your_score] > data[:opponent_score]
       home_class = "fs-42 text-navy-blue text-glow"
       away_class = "fs-42 text-wine"
@@ -104,7 +103,7 @@ module SeasonTeamsHelper
       home_class = "fs-42 text-wine"
       away_class = "fs-42 text-navy-blue text-glow"
     else
-      if match.status == "played"
+      if match.status == 2
         home_class = "fs-42 text-dark text-glow-tied"
         away_class = "fs-42 text-dark text-glow-tied"
       else
@@ -166,7 +165,7 @@ module SeasonTeamsHelper
       html = display_team_logo_and_name(rival, nil, winner: winner)
     end
 
-    if show_highlights && match.status == "played" && match.plays_as == "home"
+    if show_highlights && match.status == 2 && match.plays_as == "home"
       html += render("season_teams/matches/highlights",
                     match: match,
                     season_team: season_team || match.team_of_interest)
@@ -194,7 +193,7 @@ module SeasonTeamsHelper
       end
 
     # Optionally append highlights when your season team is the away side and the match is played
-    if show_highlights && match.status == "played" && match.plays_as == "away"
+    if show_highlights && match.status == 2 && match.plays_as == "away"
       html += render(
         "season_teams/matches/highlights",
         match: match,
@@ -305,9 +304,9 @@ module SeasonTeamsHelper
 
   def display_status_badge(status)
     case status
-    when 'created'   then content_tag(:div, 'Sin Fecha', class: "badge bg-instagram")
-    when 'scheduled' then content_tag(:div, 'Agendado', class: "badge bg-github")
-    when 'played'    then content_tag(:div, 'Jugado', class: "badge badge-school-1 text-dark")
+    when 0 then content_tag(:div, 'Sin Fecha', class: "badge bg-instagram")
+    when 1 then content_tag(:div, 'Agendado', class: "badge bg-github")
+    when 2 then content_tag(:div, 'Jugado', class: "badge badge-school-1 fst-italic text-dark")
     else "alfo"
     end
   end
@@ -489,7 +488,7 @@ module SeasonTeamsHelper
   end
 
   def team_highlights_for(match, season_team)
-    return {} unless match.status == "played"
+    return {} unless match.status == 2
 
     stp = season_team.season_team_players.select(:player_id, :external_player_id)
     player_ids    = stp.map(&:player_id).compact

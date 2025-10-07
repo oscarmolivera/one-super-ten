@@ -7,7 +7,7 @@
           <!-- Bootstrap Card -->
           <div class="card shadow">
             <!-- Card Header -->
-            <div class="card-header d-flex justify-content-between align-items-center <%= 'card-header-played' if match.status == 'played' %>">
+            <div class="card-header d-flex justify-content-between align-items-center <%= 'card-header-played' if match.status == 2 %>">
               <%= display_plays_as_badge(match) %>
               <div class="d-flex align-items-center">
                 <%= image_tag 'vendor/stadium.svg', class: 'avatar-lg px-md-5', alt: '...' %>
@@ -19,7 +19,7 @@
             </div>
 
             <!-- Card Body -->
-            <div class="card-body <%= 'card-body-played' if match.status == 'played' %>">
+            <div class="card-body <%= 'card-body-played' if match.status == 2 %>">
               <div class="row text-center align-items-center">
                 <!-- Home Team -->
                 <div class="col-4">
@@ -38,9 +38,9 @@
                   </div>
                   <% if match.status != 'played' %>
                     <div class="d-flex justify-content-center gap-2 my-2">
-                      <%= edit_match_button(season_team, match, disabled: match.status == 'played') %>
-                      <%= call_up_button(match, disabled: match.status == 'played') %>
-                      <%= match_details_button(match, disabled: match.status == 'played') %>
+                      <%= edit_match_button(season_team, match, disabled: match.status == 2) %>
+                      <%= call_up_button(match, disabled: match.status == 2) %>
+                      <%= match_details_button(match, disabled: match.status == 2) %>
                     </div>
                   <% end %>
                 </div>

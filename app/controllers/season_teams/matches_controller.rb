@@ -31,6 +31,8 @@ class SeasonTeams::MatchesController < ApplicationController
         format.turbo_stream
         format.html { redirect_back fallback_location: tournament_data_season_team_path(@season_team), notice: "Partido creado." }
       else
+        Rails.logger.error "Match create errors: #{@match.errors.full_messages.join(', ')}"
+        @tournament_data = SeasonTeams::TournamentDataService.new(@season_team, nil, nil).data
         format.turbo_stream
         format.html { redirect_back fallback_location: tournament_data_season_team_path(@season_team), alert: "Error al crear partido." }
       end
@@ -41,6 +43,14 @@ class SeasonTeams::MatchesController < ApplicationController
     authorize :match, :index?
     @match = Match.find(params[:id])
     @season_team = @match.team_of_interest
+
+    # Set status_event from params for implicit triggering (gem handles firing on save)
+    if params.dig(:match, :status_event).present?
+      @match.status_event = params.dig(:match, :status_event)
+    end
+
+    # Custom validation before update to check event eligibility
+    @match.validate_state_change
 
     if @match.update(filtered_match_params)
       @tournament_data = SeasonTeams::TournamentDataService.new(@season_team, nil, nil).data

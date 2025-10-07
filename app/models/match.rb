@@ -16,7 +16,9 @@ class Match < ApplicationRecord
 
   accepts_nested_attributes_for :match_performances, allow_destroy: true
 
-  before_validation :set_match_status,  on: :create
+  before_validation :set_initial_status, on: :create
+  #before_validation :set_match_status, on: :update
+
   after_save :update_standings, if: :saved_change_to_status?
 
   validates :match_type, :plays_as, presence: true
@@ -24,25 +26,43 @@ class Match < ApplicationRecord
   enum :match_type, { friendly: 0, tournament: 1, practice: 2 }
   enum :plays_as, { home: 0, away: 1 }
   enum :location_type, {home_field: 0, away_field: 1, neutral: 2 }
-  enum :status, { created: 0, scheduled: 1, played: 2, cancelled: 3, reschedule: 4, postponed: 5 }
+
+  state_machine :status, initial: :created, namespace: :match do
+      state :created, value: 0
+      state :scheduled, value: 1
+      state :played, value: 2
+      state :cancelled, value: 3
+      state :reschedule, value: 4
+      state :postponed, value: 5
+
+      event :schedule do
+        transition :created => :scheduled, if: :scheduled_at_present?
+      end
+
+      event :play do
+        transition :scheduled => :played
+      end
+  end
 
   scope :ordered_by_status_and_schedule, -> {
-    order(Arel.sql(<<~SQL.squish))
+    sql = <<~SQL.squish
       CASE status
-        WHEN #{statuses[:created]} THEN 0
-        WHEN #{statuses[:scheduled]} THEN 1
-        WHEN #{statuses[:reschedule]} THEN 2
-        WHEN #{statuses[:postponed]} THEN 3
-        WHEN #{statuses[:played]} THEN 4
-        WHEN #{statuses[:cancelled]} THEN 5
+        WHEN #{state_machine.states[:created].value} THEN 0
+        WHEN #{state_machine.states[:scheduled].value} THEN 1
+        WHEN #{state_machine.states[:reschedule].value} THEN 2
+        WHEN #{state_machine.states[:postponed].value} THEN 3
+        WHEN #{state_machine.states[:played].value} THEN 4
+        WHEN #{state_machine.states[:cancelled].value} THEN 5
         ELSE 6
       END ASC,
       CASE
-        WHEN status = #{statuses[:played]} THEN scheduled_at
+        WHEN status = #{state_machine.states[:played].value} THEN scheduled_at
         ELSE NULL
       END DESC,
       COALESCE(scheduled_at, '9999-12-31') ASC
     SQL
+    Rails.logger.debug "Generated SQL: #{sql}"  # Remove after testing
+    order(Arel.sql(sql))
   }
 
   def opponent_name
@@ -57,13 +77,47 @@ class Match < ApplicationRecord
     plays_as == "away" ? team_of_interest.name : opponent_name
   end
 
+  def validate_state_change
+    return unless status_event.present?
+
+    case status_event.to_sym
+    when :schedule
+      unless can_schedule?
+        errors.add(:status, "Cannot schedule: scheduled_at is required.")
+      end
+    when :play
+      unless can_play?
+        errors.add(:status, "Cannot play: match must be scheduled first.")
+      end
+    else
+      errors.add(:status, "Invalid status event: #{status_event}")
+    end
+  end
+
+  # Helper methods for guards (can expand for more states later)
+  def can_schedule?
+    scheduled_at.present? && status == 'created'
+  end
+
+  def can_play?
+    status == 'scheduled'
+  end
+
   private
 
-  def set_match_status
-    scheduled_at.present? ? self.status = :scheduled : self.status = :created
+  def set_initial_status
+    return if persisted?
+
+    if scheduled_at.present?
+      schedule!
+    end
   end
 
   def update_standings
     StandingCalculatorService.new(tournament, stage).calculate if status == :played
+  end
+
+  def scheduled_at_present?
+    scheduled_at.present?
   end
 end
