@@ -495,6 +495,16 @@
 		background-size: 220px 90px, auto;
 	}
 
+	.card-header-cancelled,
+	.card-body-cancelled {
+		background:
+			/* Watermark SVG text, repeated */
+			url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='60'><text x='5' y='23' font-size='20' font-family='Arial' fill='rgba(200,200,200,0.18)' transform='rotate(-20 100 40)'>CANCELADO</text></svg>") repeat,
+			linear-gradient(90deg, #cab5b7 0%, #807879 100%);
+		border-left: 4px solid #4f3c3e;
+		background-size: 220px 90px, auto;
+	}
+
 	.text-glow-tied {
 		text-shadow: 0 0 8px #38d430, 0 0 16px #38d430, 0 0 24px #38d430;
 		background: transparent;
