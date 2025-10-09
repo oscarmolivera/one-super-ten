@@ -12,6 +12,7 @@ module Inscriptions
       update_existing_players
       add_external_players
       set_season_team_stage
+      create_standing_record
     end
 
     private
@@ -113,5 +114,24 @@ module Inscriptions
         )
       end
     end
+
+    def create_standing_record
+      Standing.create!(
+        tenant_id: @season_team.tenant.id,
+        tournament_id: @season_team.tournament.id,
+        stage_id: Stage.where(season_team_id: @season_team)&.last.id,
+        standable_type: 'SeasonTeam',
+        standable_id: @season_team.id,
+        position: 1,
+        points: 0,
+        played: 0,
+        wins: 0,
+        draws: 0,
+        losses: 0,
+        goals_for: 0,
+        goals_against: 0,
+        goal_difference: 0
+      )
+    end    
   end
 end

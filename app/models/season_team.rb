@@ -1,4 +1,6 @@
 class SeasonTeam < ApplicationRecord
+  acts_as_tenant :tenant
+
   belongs_to :tenant
   belongs_to :category
   belongs_to :tournament
@@ -7,7 +9,7 @@ class SeasonTeam < ApplicationRecord
   belongs_to :assistant_coach, class_name: 'User', optional: true
   belongs_to :team_assistant, class_name: 'User', optional: true
 
-  has_many :stages
+  has_many :stages, dependent: :destroy
 
   has_many :season_team_players, dependent: :destroy
   has_many :players, through: :season_team_players
@@ -17,6 +19,8 @@ class SeasonTeam < ApplicationRecord
 
   has_many :matches, class_name: "Match", foreign_key: :team_of_interest_id, dependent: :nullify
   has_many :as_rival_matches, class_name: 'Match', foreign_key: :rival_season_team_id, dependent: :nullify
+  
+  has_many :standings, as: :standable
 
   has_one_attached :team_logo, service: :r2_public, dependent: :destroy
   has_many_attached :regulation_files, service: :r2_private
@@ -24,7 +28,7 @@ class SeasonTeam < ApplicationRecord
   has_one :inscription
 
   validates :name, presence: true
-  validates :category_id, uniqueness: { scope: :tournament_id }
+  validates :category_id, uniqueness: { scope: [:tournament_id, :tenant_id] }  
 
   def all_players_for_call_up
     season_team_players.includes(:player)
@@ -38,5 +42,24 @@ class SeasonTeam < ApplicationRecord
     return false unless current_stage
 
     current_stage.stage_closable?
+  end
+
+  def active_rivals
+    season_team_rivals.select { |r| r.active?}.map(&:rival)
+  end
+  
+  def standings_for_tournament(tournament)
+    standings.where(tournament_id: tournament.id)
+  end
+
+  def external_matches
+    tournament.external_matches
+      .involving_rivals(rivals)
+      .includes(:home_rival, :away_rival, :stage)
+      .recent
+  end
+
+  def players_with_performances(tournament)
+    players.joins(:match_performances).where(match_performances: { tournament: tournament })
   end
 end

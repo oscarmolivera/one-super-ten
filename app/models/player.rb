@@ -11,6 +11,8 @@ class Player < ApplicationRecord
   has_many :exonerations, dependent: :destroy
   has_many :match_performances, dependent: :destroy
   has_many :guardians, dependent: :destroy
+  has_many :season_team_players, dependent: :destroy
+  has_many :season_teams, through: :season_team_players, source: :season_team
   
   has_one :player_profile, dependent: :destroy
   
@@ -28,12 +30,18 @@ class Player < ApplicationRecord
   validates :handle,
             uniqueness: { scope: :tenant_id },
             format: { with: /\A[a-z0-9\-_]+\z/i, message: "solo puede contener letras, números, guiones y guiones bajos" },
-            allow_blank: true # Only required if profile is public
+            allow_blank: true
 
   validate :limit_carousel_images_count
   validate :permited_date_of_birth_for_players
 
   after_create :assign_category_based_on_birth_year
+
+  scope :for_current_tenant, -> { where(tenant_id: ActsAsTenant.current_tenant.id) if ActsAsTenant.current_tenant.present? }
+  scope :with_season_team_in_tenant, ->(tenant) { 
+    joins(:season_team_players).joins("INNER JOIN season_teams ON season_team_players.season_team_id = season_teams.id")
+      .where(season_teams: { tenant_id: tenant.id })
+  }
 
   enum :gender, { hombre: 'hombre', mujer: 'mujer' }
   enum :dominant_side, {izquierdo: 'izquierdo', derecho: 'derecho', ambos: 'ambos'}

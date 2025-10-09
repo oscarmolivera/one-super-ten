@@ -1,10 +1,10 @@
 academia = Tenant.find_by(subdomain: "academia-margarita")
-deportivo = Tenant.find_by(subdomain: "deportivo-margarita")
-tenants = [academia, deportivo]
+# deportivo = Tenant.find_by(subdomain: "deportivo-margarita")
+tenants = [academia]
 puts "Seeding Players..."
 
-560.times do |i|
-  p '.' if i % 10 == 0
+120.times do |i|
+  p '.' if i % 20 == 0
   tenant = tenants.sample
   school = tenant.schools.sample
   nombre = Faker::Name.first_name

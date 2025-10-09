@@ -1,0 +1,6 @@
+<tr id="external_match_<%= external_match.id %>">
+  <td><%= external_match.match_date&.strftime("%d/%m/%Y") || "Sin fecha" %></td>
+  <td><%= "#{external_match.home_rival.name} vs #{external_match.away_rival.name}" %></td>
+  <td><%= "#{external_match.home_score} - #{external_match.away_score}" %></td>
+  <td><%= external_match.notes&.truncate(50) || "-" %></td>
+</tr>

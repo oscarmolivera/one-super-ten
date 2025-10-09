@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_09_10_031206) do
+ActiveRecord::Schema[8.0].define(version: 2025_10_06_003741) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -222,6 +222,27 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_10_031206) do
     t.index ["author_id"], name: "index_expenses_on_author_id"
     t.index ["expensable_type", "expensable_id"], name: "index_expenses_on_expensable"
     t.index ["tenant_id"], name: "index_expenses_on_tenant_id"
+  end
+
+  create_table "external_matches", force: :cascade do |t|
+    t.bigint "tenant_id", null: false
+    t.bigint "tournament_id", null: false
+    t.bigint "stage_id"
+    t.bigint "home_rival_id", null: false
+    t.bigint "away_rival_id", null: false
+    t.integer "home_score", default: 0
+    t.integer "away_score", default: 0
+    t.date "match_date"
+    t.time "match_time"
+    t.integer "status", default: 0
+    t.text "notes"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["away_rival_id"], name: "index_external_matches_on_away_rival_id"
+    t.index ["home_rival_id"], name: "index_external_matches_on_home_rival_id"
+    t.index ["stage_id"], name: "index_external_matches_on_stage_id"
+    t.index ["tenant_id"], name: "index_external_matches_on_tenant_id"
+    t.index ["tournament_id"], name: "index_external_matches_on_tournament_id"
   end
 
   create_table "external_players", force: :cascade do |t|
@@ -518,7 +539,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_10_031206) do
     t.bigint "rival_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "active", default: true, null: false
     t.index ["rival_id"], name: "index_season_team_rivals_on_rival_id"
+    t.index ["season_team_id", "rival_id", "active"], name: "index_season_team_rivals_on_team_rival_active_unique", unique: true
     t.index ["season_team_id"], name: "index_season_team_rivals_on_season_team_id"
     t.index ["tenant_id"], name: "index_season_team_rivals_on_tenant_id"
   end
@@ -582,6 +605,32 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_10_031206) do
     t.integer "phase"
     t.index ["season_team_id"], name: "index_stages_on_season_team_id"
     t.index ["tournament_id"], name: "index_stages_on_tournament_id"
+  end
+
+  create_table "standings", force: :cascade do |t|
+    t.bigint "tenant_id", null: false
+    t.bigint "tournament_id", null: false
+    t.bigint "stage_id"
+    t.string "standable_type", null: false
+    t.bigint "standable_id", null: false
+    t.integer "position", default: 0
+    t.integer "points", default: 0
+    t.integer "played", default: 0
+    t.integer "wins", default: 0
+    t.integer "draws", default: 0
+    t.integer "losses", default: 0
+    t.integer "goals_for", default: 0
+    t.integer "goals_against", default: 0
+    t.integer "goal_difference", default: 0
+    t.text "notes"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["stage_id"], name: "index_standings_on_stage_id"
+    t.index ["standable_type", "standable_id"], name: "index_standings_on_standable_type_and_standable_id"
+    t.index ["tenant_id", "tournament_id", "stage_id"], name: "index_standings_on_tenant_id_and_tournament_id_and_stage_id"
+    t.index ["tenant_id"], name: "index_standings_on_tenant_id"
+    t.index ["tournament_id", "stage_id", "standable_type", "standable_id"], name: "index_standings_unique_per_scope", unique: true
+    t.index ["tournament_id"], name: "index_standings_on_tournament_id"
   end
 
   create_table "tenants", force: :cascade do |t|
@@ -701,6 +750,11 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_10_031206) do
   add_foreign_key "exonerations", "tenants"
   add_foreign_key "expenses", "tenants"
   add_foreign_key "expenses", "users", column: "author_id"
+  add_foreign_key "external_matches", "rivals", column: "away_rival_id"
+  add_foreign_key "external_matches", "rivals", column: "home_rival_id"
+  add_foreign_key "external_matches", "stages"
+  add_foreign_key "external_matches", "tenants"
+  add_foreign_key "external_matches", "tournaments"
   add_foreign_key "external_players", "tenants"
   add_foreign_key "external_players", "users"
   add_foreign_key "guardians", "players"
@@ -754,6 +808,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_10_031206) do
   add_foreign_key "sites", "schools"
   add_foreign_key "stages", "season_teams"
   add_foreign_key "stages", "tournaments"
+  add_foreign_key "standings", "stages"
+  add_foreign_key "standings", "tenants"
+  add_foreign_key "standings", "tournaments"
   add_foreign_key "tenants", "tenants", column: "parent_tenant_id"
   add_foreign_key "tournament_categories", "categories"
   add_foreign_key "tournament_categories", "tournaments"

@@ -1,0 +1,161 @@
+<turbo-frame id="standings_<%= tournament_data[:tournament].id %>">
+  <div class="row">
+    <div class="col-md-6">
+      <div class="nav-tabs-custom">
+				<ul class="nav nav-pills mb-5">
+					<li class=" nav-item"> <a href="#elimination" class="nav-link active" data-bs-toggle="tab" aria-expanded="false">Eliminatorias</a> </li>
+					<li class=" nav-item"> <a href="#cup" class="nav-link" data-bs-toggle="tab" aria-expanded="false">Copa</a> </li>
+				</ul>
+
+				<div class="tab-content">
+					<div class="active tab-pane" id="elimination">
+            <div class="container mt-5">
+              <div class="card shadow-sm">
+                <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center standings-header">
+                  <h2 class="mb-0">Tabla de Clasificación</h2>
+                </div>
+                <div class="card-body">
+                  <table class="table table-striped table-hover">
+                    <thead class="table-dark">
+                      <tr>
+                        <th class="fw-light" scope="col">#</th>
+                        <th class="fw-light" scope="col" class="w-55">Equipo</th>  <%# Wider team column %>
+                        <th class="fw-light" scope="col">Pts</th>
+                        <th class="fw-light" scope="col">PJ</th>
+                        <th class="fw-light" scope="col">PG</th>
+                        <th class="fw-light" scope="col">PE</th>
+                        <th class="fw-light" scope="col">PP</th>
+                        <th class="fw-light" scope="col">GF</th>
+                        <th class="fw-light" scope="col">GC</th>
+                        <th class="fw-light" scope="col">Dif</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <% if tournament_data[:standings].present? %>
+                        <% tournament_data[:standings].each do |standing| %>
+                          <% is_inactive_rival = standing.standable.is_a?(Rival) && !is_rival_active?(standing) %>
+                          <tr class="<%= 'inactive-rival' if is_inactive_rival %>">
+                            <th scope="row"><%= standing.position %></th>
+                            <td class="text-nowrap w-55">
+                              <%= standing.standable.name %>
+                              <% if is_inactive_rival %>
+                                <span class="badge bg-secondary ms-2">Inactivo</span>
+                              <% end %>
+                            </td>  <%# Prevent wrapping in team name %>
+                            <td><%= standing.points %></td>
+                            <td><%= standing.played %></td>
+                            <td><%= standing.wins %></td>
+                            <td><%= standing.draws %></td>
+                            <td><%= standing.losses %></td>
+                            <td><%= standing.goals_for %></td>
+                            <td><%= standing.goals_against %></td>
+                            <td class="<%= standing.goal_difference >= 0 ? 'text-success' : 'text-danger' %>">
+                              <%= standing.goal_difference >= 0 ? "+#{standing.goal_difference}" : standing.goal_difference %>
+                            </td>
+                          </tr>
+                        <% end %>
+                      <% else %>
+                        <tr>
+                          <td colspan="10" class="text-center">No standings available.</td>  <%# Updated colspan to 10 %>
+                        </tr>
+                      <% end %>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              <div class="card shadow-sm mt-3">
+                <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
+                  <h2 class="mb-0">Resultados de Otros Partidos</h2>
+                  <button type="button" class="btn btn-primary" 
+                    data-controller="modal-loader"
+                    data-modal-loader-url-value="<%= new_external_match_path(@season_team) %>"
+                    data-modal-loader-target-frame-value="#external-match-modal-frame"
+                    data-action="click->modal-loader#load">
+                    Agregar Resultado
+                  </button>
+                </div>
+              </div>
+              <turbo-frame id="external-match-modal-frame">
+              </turbo-frame>  
+              <turbo-frame id="external-match-details-frame">
+                <%= render "external_matches/list", external_match: tournament_data[:external_matches] %>
+              </turbo-frame>
+            </div>            
+					</div>
+          <div class="tab-pane" id="cup">
+            <div class="container mt-5">
+            </div>
+          </div>
+				</div>
+			</div>
+    </div>
+    <div class="col-md-6">
+      <div class="row">
+        <div class="container mt-1">
+            <div class="card shadow-sm">
+              <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
+                <h2 class="mb-0">Estadisticas</h2>
+              </div>
+              <div class="card-body">
+                <ul class="list-group list-group-flush">
+                  <li class="list-group-item">
+                    <div class="row text-center fw-semibold">
+                      <div class="col-3 text-start">Jugador</div>
+                      <div class="col-2">Goles</div>
+                      <div class="col-2">Asistencias</div>
+                      <div class="col-2">Tarjetas</div>
+                      <div class="col-3">Atajadas</div>
+                    </div>
+                  </li>
+                  <% if tournament_data[:player_statistics].present? && tournament_data[:player_statistics].any? %>
+                    <% tournament_data[:player_statistics].each do |stat| %>
+                      <% origin = player_statistics_origin(stat, @season_team) %>
+                      <li class="<%= player_statistics_list_item_class(origin) %>">
+                        <div class="row text-center align-items-center">
+                          <div class="col-3 text-start">
+                            <% if player_statistics_icon_class(origin) %>
+                              <i class="fa-solid <%= player_statistics_icon_class(origin) %> me-1"></i>
+                            <% end %>
+                            <%= stat[:performer].full_name %>
+                          </div>
+                          <div class="col-2">
+                            <span class="<%= player_statistics_goals_badge_class(stat[:goals]) %>">
+                              <%= stat[:goals] %>
+                            </span>
+                          </div>
+                          <div class="col-2">
+                            <span class="<%= player_statistics_assists_badge_class(stat[:assists]) %>">
+                              <%= stat[:assists] %>
+                            </span>
+                          </div>
+                          <div class="col-2">
+                            <span class="<%= player_statistics_yellow_cards_badge_class(stat[:yellow_cards]) %>">
+                              <%= stat[:yellow_cards] %>
+                            </span>
+                          </div>
+                          <div class="col-3">
+                            <span class="<%= player_statistics_keeper_blocks_badge_class(stat[:keeper_blocks]) %>">
+                              <%= stat[:keeper_blocks] %>
+                            </span>
+                          </div>
+                        </div>
+                      </li>
+                    <% end %>
+                  <% else %>
+                    <li class="list-group-item">
+                      <div class="row text-center align-items-center">
+                        <div class="col-12 text-muted py-4">
+                          <i class="ti ti-chart-bar fs-4 mb-2 d-block"></i>
+                          No hay estadísticas disponibles para este torneo
+                        </div>
+                      </div>
+                    </li>
+                  <% end %>
+                </ul>
+              </div>
+            </div>
+          </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -52,3 +52,7 @@ group :staging, :production do
 end
 
 
+
+gem "rails_state_machine", "~> 3.1"
+
+gem "state_machines-activerecord", "~> 0.100.0"

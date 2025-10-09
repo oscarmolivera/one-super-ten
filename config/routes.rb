@@ -62,6 +62,8 @@ Rails.application.routes.draw do
           get :available_stages
           post :advance_stage
           post :finish_tournament
+          get :standing
+          resources :external_matches, only: [:index, :new, :create, :edit, :update]
         end
         resources :matches, controller: "season_teams/matches", shallow: true do
           resources :call_ups, only: [:new, :create, :edit, :update], shallow: true
@@ -77,6 +79,9 @@ Rails.application.routes.draw do
       resources :cups do
         resources :tournaments do
           resources :inscriptions
+          member do
+            get :standings
+          end
         end
       end
       resources :call_ups, only: [:new, :create, :edit, :update] do

@@ -8,9 +8,7 @@ export default class extends Controller {
     finishTournament: Boolean
   }
 
-  connect() {
-    console.log('Tournament Match Stages controller connected');
-  }
+  connect() {}
 
   confirm(event) {
     const message = this.finishTournamentValue

@@ -36,7 +36,7 @@
         <div class="col-md-6">
           <%= f.label :rival_id, "Equipo Rival", class: "form-label fw-bold" %>
           <%= f.collection_select :rival_id,
-                                  season_team.rivals, :id, :name,
+                                  season_team.active_rivals, :id, :name,
                                   { prompt: 'Seleccione Rival' },
                                   class: 'form-select', required: true %>
         </div>
@@ -53,13 +53,14 @@
         <!-- Scheduled At -->
         <div class="col-md-6">
           <%= f.label :scheduled_at, "Día y Hora", class: "form-label fw-bold" %>
-          <div class="input-group">
-            <span class="input-group-text">
-              <i class="bi bi-calendar-event"></i>
-            </span>
-            <%= f.datetime_local_field :scheduled_at, class: "form-control", placeholder: "YYYY-MM-DD HH:MM" %>
+          <div class="input-group <%= 'is-invalid' if @match.errors[:scheduled_at].any? %>">
+            <span class="input-group-text"><i class="bi bi-calendar-event"></i></span>
+            <%= f.datetime_local_field :scheduled_at, class: "form-control" %>
           </div>
-          <small class="text-muted">Seleccione la fecha y hora programada.</small>
+          <% if @match.errors[:scheduled_at].any? %>
+            <div class="invalid-feedback"><%= @match.errors[:scheduled_at].join(', ') %></div>
+          <% end %>
+          <small class="text-muted">Seleccione una fecha futura.</small>
         </div>
 
         <!-- Match Type -->
@@ -96,6 +97,26 @@
         </div>
 
       </div>
+      <% if @match.persisted? %>
+        <div class="form-group mt-3">
+          <label class="form-label fw-bold">Acción de Estado (Opcional):</label>
+          <%= f.radio_button :status_event, '', class: 'form-check-input', id: 'no_action' %>
+          <label for="no_action" class="form-check-label">Sin cambio</label><br>
+          <%= f.radio_button :status_event, 'cancel', class: 'form-check-input', id: 'match_status_event_cancel' %>
+          <label for="match_status_event_cancel" class="form-check-label">Cancelar</label>
+        </div>
+      <% else %>
+        <div class="form-text text-muted">Acciones de estado disponibles después de crear.</div>
+      <% end %>
+      <% if @match.errors.any? %>
+        <div class="alert alert-danger">
+          <ul>
+            <% @match.errors.full_messages.each do |msg| %>
+              <li><%= msg %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
     </div>
 
     <!-- Card Footer -->
@@ -110,3 +131,15 @@
   </div>
 
 <% end %>
+<script>
+  document.addEventListener("turbo:load", () => {
+    if (<%= @match.persisted? %>) {
+      const delantal = document.querySelector('#no_action');
+      delantal.checked = true;
+    }
+    const group = document.querySelector('.form-group:has(input[name="match[status_event]"])');
+    if (group && !<%= @match.persisted? %>) {
+      group.classList.add('d-none');
+    }
+  });
+</script>

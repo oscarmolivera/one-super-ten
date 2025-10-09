@@ -1,0 +1,51 @@
+<%= form_with model: external_match, url: external_matches_path(season_team), method: :post, data: { turbo: true, turbo_frame: "new_external_match_form" }, class: "row g-3" do |form| %>
+  <%= form.hidden_field :tournament_id, value: tournament.id %>
+  
+  <div class="col-md-6">
+    <%= form.label :home_rival_id, "Equipo Local", class: "form-label" %>
+    <%= form.select :home_rival_id, 
+                    season_team.active_rivals.map { |r| [r.name, r.id] },
+                    { include_blank: "Selecciona un equipo" }, 
+                    class: "form-select", required: true %>
+  </div>
+  
+  <div class="col-md-6">
+    <%= form.label :away_rival_id, "Equipo Visitante", class: "form-label" %>
+    <%= form.select :away_rival_id, 
+                    season_team.active_rivals.map { |r| [r.name, r.id] }, 
+                    { include_blank: "Selecciona un equipo" }, 
+                    class: "form-select", required: true %>
+  </div>
+  
+  <div class="col-md-6">
+    <%= form.label :home_score, "Goles Local", class: "form-label" %>
+    <%= form.number_field :home_score, value: external_match.home_score || 0, min: 0, class: "form-control", required: true %>
+  </div>
+  
+  <div class="col-md-6">
+    <%= form.label :away_score, "Goles Visitante", class: "form-label" %>
+    <%= form.number_field :away_score, value: external_match.away_score || 0, min: 0, class: "form-control", required: true %>
+  </div>
+  
+  <div class="col-md-6">
+    <%= form.label :match_date, "Fecha del Partido", class: "form-label" %>
+    <%= form.date_field :match_date, value: external_match.match_date || Date.today, class: "form-control", required: true %>
+  </div>
+  
+  <div class="col-md-6">
+    <%= form.label :match_time, "Hora del Partido", class: "form-label" %>
+    <%= form.time_field :match_time, class: "form-control" %>
+  </div>
+  
+  <div class="col-12">
+    <%= form.label :notes, "Notas", class: "form-label" %>
+    <%= form.text_area :notes, class: "form-control", rows: 4 %>
+  </div>
+  
+  <div class="col-12">
+    <%= form.hidden_field :status, value: :completed %>
+    <%= form.hidden_field :stage_id, value: @season_team.stages.last.id %>
+    <%= form.submit "Guardar Resultado", class: "btn btn-primary" %>
+    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+  </div>
+<% end %>

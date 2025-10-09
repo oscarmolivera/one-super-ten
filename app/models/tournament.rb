@@ -4,13 +4,17 @@ class Tournament < ApplicationRecord
   
   has_many :inscriptions
   has_many :categories, through: :inscriptions
+  has_many :season_teams, through: :inscriptions
   
   has_many :tournament_categories, dependent: :destroy
   has_many :categories, through: :tournament_categories
   
   has_many :stages
   has_many :matches, dependent: :destroy
+  has_many :external_matches, dependent: :destroy
   has_many :sites, through: :matches
+
+  has_many :standings
 
   has_rich_text :rules
   

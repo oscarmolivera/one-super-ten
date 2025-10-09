@@ -96,7 +96,6 @@ module SeasonTeamsHelper
 
   def display_match_result(match)
     data = team_score_data(match)
-
     if data[:your_score] > data[:opponent_score]
       home_class = "fs-42 text-navy-blue text-glow"
       away_class = "fs-42 text-wine"
@@ -104,7 +103,7 @@ module SeasonTeamsHelper
       home_class = "fs-42 text-wine"
       away_class = "fs-42 text-navy-blue text-glow"
     else
-      if match.status == "played"
+      if match.status == 2
         home_class = "fs-42 text-dark text-glow-tied"
         away_class = "fs-42 text-dark text-glow-tied"
       else
@@ -127,10 +126,21 @@ module SeasonTeamsHelper
     ])
   end
 
+  def match_action_buttons(season_team, match)
+    if match.status != 2 && match.status != 3
+      content_tag(:div, class: "d-flex justify-content-center gap-2 my-2") do
+        safe_join([
+          edit_match_button(season_team, match),
+          call_up_button(match),
+          match_details_button(match)
+        ])
+      end
+    end
+  end
+
   ## -------------------------------
   ##  Logo and Badge Helpers
   ## -------------------------------
-
   def display_team_logo_and_name(team, fallback_name = nil, placeholder_logo = "placeholder-logo.png", winner: false)
     content_tag :div, class: "mb-3 text-center" do
       logo_div = content_tag(:div, class: "team-logo mb-2 mx-auto d-flex align-items-center justify-content-center") do
@@ -167,7 +177,7 @@ module SeasonTeamsHelper
       html = display_team_logo_and_name(rival, nil, winner: winner)
     end
 
-    if show_highlights && match.status == "played" && match.plays_as == "home"
+    if show_highlights && match.status == 2 && match.plays_as == "home"
       html += render("season_teams/matches/highlights",
                     match: match,
                     season_team: season_team || match.team_of_interest)
@@ -195,7 +205,7 @@ module SeasonTeamsHelper
       end
 
     # Optionally append highlights when your season team is the away side and the match is played
-    if show_highlights && match.status == "played" && match.plays_as == "away"
+    if show_highlights && match.status == 2 && match.plays_as == "away"
       html += render(
         "season_teams/matches/highlights",
         match: match,
@@ -277,6 +287,28 @@ module SeasonTeamsHelper
     end
   end
 
+  def card_header_style(match)
+    case match.status
+    when 2
+      "card-header-played"
+    when 3
+      "card-header-cancelled"
+    else
+      ""
+    end
+  end
+
+  def card_body_style(match)
+    case match.status
+    when 2
+      "card-body-played"
+    when 3
+      "card-body-cancelled"
+    else
+      ""
+    end
+  end
+
   ## -------------------------------
   ##  Other Small Helpers
   ## -------------------------------
@@ -306,23 +338,28 @@ module SeasonTeamsHelper
 
   def display_status_badge(status)
     case status
-    when 'created'   then content_tag(:div, 'Sin Fecha', class: "badge bg-instagram")
-    when 'scheduled' then content_tag(:div, 'Agendado', class: "badge bg-github")
-    when 'played'    then content_tag(:div, 'Jugado', class: "badge badge-school-1 text-dark")
-    else "alfo"
+    when 0 then content_tag(:div, 'Sin Fecha', class: "badge bg-instagram")
+    when 1 then content_tag(:div, 'Agendado', class: "badge bg-github")
+    when 2 then content_tag(:div, 'Jugado', class: "badge badge-school-1 fst-italic text-dark")
+    when 3 then content_tag(:div, 'Cancelado', class: "badge bg-opacity-15")
+    when 4 then content_tag(:div, 'Reprogramado', class: "badge bg-info-light text-dark")
+    when 5 then content_tag(:div, 'Postergado', class: "badge fst-italic bg-warning text-dark")  
+    else "Sin Estado"
     end
   end
 
   def display_match_schedule(match)
-    if match.scheduled_at.present?
+    if match.scheduled_at.present? && valid_state_to_display_schedule?(match)
       formatted_date = match.scheduled_at.strftime("%d %b %Y")
       formatted_time = match.scheduled_at.strftime("%H:%M")
       content_tag :div, class: "mb-2 text-muted small" do
         safe_join(["#{formatted_date} at ", content_tag(:strong, formatted_time)])
       end
-    else
-      content_tag(:div, "Falta por Agendar", class: "mb-2 text-muted small")
     end
+  end
+
+  def valid_state_to_display_schedule?(match)
+    ![0, 3, 5].include?(match.status) # Exclude 'created' and 'cancelled' states
   end
 
   def match_stage(stage)
@@ -337,30 +374,32 @@ module SeasonTeamsHelper
     end
   end
 
-  def edit_match_button(season_team, match, disabled: false)
-    button_tag type: "button",
-             class: "btn btn-outline-primary btn-sm#{' disabled' if disabled}",
-             disabled: disabled,
-               data: {
-                 controller: "modal-loader",
-                 action: "click->modal-loader#load",
-                 "modal-loader-url-value": edit_match_modal_season_team_path(season_team, match_id: match.id),
-                 "modal-loader-target-frame-value": "#match_modal_frame"
-               } do
-      safe_join([
-        content_tag(:i, "", class: "bi bi-pencil-fill me-1"),
-        " Editar"
-      ])
+  def edit_match_button(season_team, match)
+    if match.status == 0 || match.status == 1 || match.status == 4 || match.status == 5
+      button_tag type: "button",
+              class: "btn btn-outline-primary btn-sm",
+                data: {
+                  controller: "modal-loader",
+                  action: "click->modal-loader#load",
+                  "modal-loader-url-value": edit_match_modal_season_team_path(season_team, match_id: match.id),
+                  "modal-loader-target-frame-value": "#match_modal_frame"
+                } do
+        safe_join([
+          content_tag(:i, "", class: "bi bi-pencil-fill me-1"),
+          " Editar"
+        ])
+      end
+    else
+
     end
   end
 
-  def call_up_button(match, disabled: false)
+  def call_up_button(match)
     if match.scheduled_at.present?
       if match.call_up.present?
         button_tag type: "button",
           id: "call_up_button_#{match.id}",
-          class: "btn btn-warning btn-sm#{' disabled' if disabled}",
-          disabled: disabled,
+          class: "btn btn-warning btn-sm",
           data: {
                   controller: "call-up-loader",
                   action: "click->call-up-loader#load",
@@ -376,31 +415,24 @@ module SeasonTeamsHelper
           ])
         end
       else
-        button_tag type: "button",
-          id: "call_up_button_#{match.id}",
-          class: "btn btn-primary btn-sm",
-          data: {
-                  controller: "call-up-loader",
-                  action: "click->call-up-loader#load",
-                  "call-up-loader-url-value": edit_or_new_call_up_url(match),
-                  "call-up-loader-frame-value": "call_up_frame_#{match.id}",
-                  "call-up-loader-button-id-value": "call_up_button_#{match.id}"
-                } do
-          label = "Crear Convocatoria"
-          safe_join([
-            content_tag(:i, "", class: "bi bi-people-fill me-1"),
-            " #{label}"
-          ])
+        if match.status == 0 || match.status == 1 || match.status == 4
+          button_tag type: "button",
+            id: "call_up_button_#{match.id}",
+            class: "btn btn-primary btn-sm",
+            data: {
+                    controller: "call-up-loader",
+                    action: "click->call-up-loader#load",
+                    "call-up-loader-url-value": edit_or_new_call_up_url(match),
+                    "call-up-loader-frame-value": "call_up_frame_#{match.id}",
+                    "call-up-loader-button-id-value": "call_up_button_#{match.id}"
+                  } do
+            label = "Crear Convocatoria"
+            safe_join([
+              content_tag(:i, "", class: "bi bi-people-fill me-1"),
+              " #{label}"
+            ])
+          end
         end
-      end
-    else
-      button_tag type: "button",
-        id: "call_up_button_#{match.id}",
-        class: "btn btn-outline-secondary btn-sm disabled" do
-        safe_join([
-          content_tag(:i, "", class: "bi bi-x-octagon me-1"),
-          "Ingresar Fecha del Partido"
-        ])
       end
     end
   end
@@ -442,25 +474,29 @@ module SeasonTeamsHelper
           ])
         end
       else
-        # Disabled button if the match has started but no call_up exists
+        if match.status == 1 || match.status == 4
+          # Disabled button if the match has started but no call_up exists
+          button_tag type: "button",
+            id: "performance_button_#{match.id}",
+            class: "btn btn-outline-secondary btn-sm disabled" do
+            safe_join([
+              content_tag(:i, "", class: "bi bi-x-octagon me-1"),
+              "Crear convocatoria primero"
+            ])
+          end #--
+        end  
+      end
+    else
+      if match.status == 1 || match.status == 4
+        # Disabled button if the match hasn't started yet
         button_tag type: "button",
           id: "performance_button_#{match.id}",
           class: "btn btn-outline-secondary btn-sm disabled" do
           safe_join([
             content_tag(:i, "", class: "bi bi-x-octagon me-1"),
-            "Crear convocatoria primero"
+            "Pendiente por Jugarse"
           ])
         end
-      end
-    else
-      # Disabled button if the match hasn't started yet
-      button_tag type: "button",
-        id: "performance_button_#{match.id}",
-        class: "btn btn-outline-secondary btn-sm disabled" do
-        safe_join([
-          content_tag(:i, "", class: "bi bi-x-octagon me-1"),
-          "Pendiente por Jugarse"
-        ])
       end
     end
   end
@@ -490,7 +526,7 @@ module SeasonTeamsHelper
   end
 
   def team_highlights_for(match, season_team)
-    return {} unless match.status == "played"
+    return {} unless match.status == 2
 
     stp = season_team.season_team_players.select(:player_id, :external_player_id)
     player_ids    = stp.map(&:player_id).compact
@@ -568,5 +604,58 @@ module SeasonTeamsHelper
       content_tag(:i, "", class: "fa-solid fa-forward me-1") +
       " Cerrar Fase Actual"
     end
+  end
+
+  ## -------------------------------
+  ##  Player Statistics Helpers
+  ## -------------------------------
+
+  def player_statistics_origin(stat, season_team)
+    return :external if stat[:performer_type] == 'ExternalPlayer'
+    
+    # Get the season_team_player record to determine origin for regular players
+    season_team_player = nil
+    if stat[:performer_type] == 'Player'
+      season_team_player = stat[:performer].season_team_players.find_by(season_team: season_team)
+    end
+    
+    # Determine origin based on season_team_player origin
+    if season_team_player && ['below_category', 'above_category'].include?(season_team_player.origin)
+      :other_category
+    else
+      :same_category
+    end
+  end
+
+  def player_statistics_list_item_class(origin)
+    "list-group-item #{row_class_for(origin)}"
+  end
+
+  def player_statistics_icon_class(origin)
+    icon_for(origin)
+  end
+
+  def player_statistics_has_performance?(stat)
+    stat[:goals] > 0 || stat[:assists] > 0 || stat[:yellow_cards] > 0 || stat[:keeper_blocks] > 0
+  end
+
+  def player_statistics_goals_badge_class(goals)
+    base_class = "badge text-dark px-3 py-2"
+    goals > 0 ? "#{base_class} fw-bold bg-success" : base_class
+  end
+
+  def player_statistics_assists_badge_class(assists)
+    base_class = "badge text-dark px-3 py-2"
+    assists > 0 ? "#{base_class} fw-bold bg-primary" : base_class
+  end
+
+  def player_statistics_yellow_cards_badge_class(yellow_cards)
+    base_class = "badge text-dark px-3 py-2"
+    yellow_cards > 0 ? "#{base_class} fw-bold bg-warning" : base_class
+  end
+
+  def player_statistics_keeper_blocks_badge_class(keeper_blocks)
+    base_class = "badge text-dark px-3 py-2"
+    keeper_blocks > 0 ? "#{base_class} fw-bold bg-info" : base_class
   end
 end

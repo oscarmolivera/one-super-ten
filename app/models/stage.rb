@@ -3,6 +3,7 @@ class Stage < ApplicationRecord
   belongs_to :season_team
 
   has_many :matches, dependent: :destroy
+  has_many :standings
 
   enum :stage_type, { group_stage: 0, knockout: 1 }
   enum :phase, { 

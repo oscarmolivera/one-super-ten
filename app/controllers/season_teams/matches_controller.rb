@@ -31,8 +31,16 @@ class SeasonTeams::MatchesController < ApplicationController
         format.turbo_stream
         format.html { redirect_back fallback_location: tournament_data_season_team_path(@season_team), notice: "Partido creado." }
       else
-        format.turbo_stream
-        format.html { redirect_back fallback_location: tournament_data_season_team_path(@season_team), alert: "Error al crear partido." }
+        Rails.logger.error "Match create errors: #{@match.errors.full_messages.join(', ')}"
+        @tournament_data = SeasonTeams::TournamentDataService.new(@season_team, nil, nil).data
+        format.turbo_stream do
+          render turbo_stream: turbo_stream.replace(
+            "new_match_form",  # Your form's turbo_frame id
+            partial: "season_teams/matches/form",
+            locals: { match: @match, season_team: @season_team }
+          )
+        end
+        format.html { redirect_back fallback_location: tournament_data_season_team_path(@season_team), alert: @match.errors.full_messages.join(', ') }
       end
     end
   end
@@ -42,12 +50,19 @@ class SeasonTeams::MatchesController < ApplicationController
     @match = Match.find(params[:id])
     @season_team = @match.team_of_interest
 
+    if params.dig(:match, :status_event).present?
+      @match.status_event = params.dig(:match, :status_event)
+      Rails.logger.info "Status event set: #{@match.status_event}"
+    end
+
     if @match.update(filtered_match_params)
       @tournament_data = SeasonTeams::TournamentDataService.new(@season_team, nil, nil).data
+      StandingCalculatorService.new(@match.tournament, @match.stage).calculate
       respond_to do |format|
         format.turbo_stream
       end
     else
+      Rails.logger.error "Update errors: #{@match.errors.full_messages.join(', ')}"
       respond_to do |format|
         format.turbo_stream do
           render turbo_stream: turbo_stream.replace(
@@ -113,10 +128,10 @@ class SeasonTeams::MatchesController < ApplicationController
 
 def match_params
   params.require(:match).permit(
-    :tenant_id, :tournament_id, :team_of_interest_id, :rival_season_team_id,
-    :rival_id, :plays_as, :match_type, :location, :location_type, :status,
-    :stage_id, :referee, :scheduled_at, :team_score, :rival_score, :notes,
-    match_performances_attributes: [ :id, :performer_type, :performer_id, 
+    :tenant_id, :tournament_id, :team_of_interest_id, :rival_season_team_id, :rival_id,
+    :plays_as, :match_type, :location, :location_type, :status, :stage_id, :status_event,
+    :referee, :scheduled_at, :team_score, :rival_score, :notes, match_performances_attributes: 
+    [ :id, :performer_type, :performer_id, 
       :goals_scored, :assists, :minute_of_event, :yellow_cards, :red_cards, :notes,
       :tournament_id, :tenant_id, :_destroy
     ]
