@@ -100,15 +100,12 @@
       <% if @match.persisted? %>
         <div class="form-group mt-3">
           <label class="form-label fw-bold">Acción de Estado (Opcional):</label>
-          <%= f.radio_button :status_event, '', class: 'form-check-input', id: 'no_action' %>  <!-- Default: No change -->
+          <%= f.radio_button :status_event, '', class: 'form-check-input', id: 'no_action' %>
           <label for="no_action" class="form-check-label">Sin cambio</label><br>
-          <%= f.radio_button :status_event, 'postpone', class: 'form-check-input', id: 'match_status_event_postpone' %>  <!-- Fixed ID match -->
-          <label for="match_status_event_postpone" class="form-check-label">Postergar</label><br>
           <%= f.radio_button :status_event, 'cancel', class: 'form-check-input', id: 'match_status_event_cancel' %>
           <label for="match_status_event_cancel" class="form-check-label">Cancelar</label>
         </div>
       <% else %>
-        <%= f.hidden_field :status_event %>  <!-- No event on create -->
         <div class="form-text text-muted">Acciones de estado disponibles después de crear.</div>
       <% end %>
       <% if @match.errors.any? %>

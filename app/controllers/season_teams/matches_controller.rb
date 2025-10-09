@@ -55,8 +55,6 @@ class SeasonTeams::MatchesController < ApplicationController
       Rails.logger.info "Status event set: #{@match.status_event}"
     end
 
-    @match.validate_state_change
-
     if @match.update(filtered_match_params)
       @tournament_data = SeasonTeams::TournamentDataService.new(@season_team, nil, nil).data
       StandingCalculatorService.new(@match.tournament, @match.stage).calculate

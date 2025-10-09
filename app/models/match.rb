@@ -16,13 +16,10 @@ class Match < ApplicationRecord
 
   accepts_nested_attributes_for :match_performances, allow_destroy: true
 
-  before_validation :set_initial_status, on: :create
-
   after_save :update_standings, if: :saved_change_to_status?
-  before_save :handle_reschedule, if: -> { !new_record? && match_scheduled? }
+  around_save :handle_status_change_around_save
 
   validates :tenant, :tournament, :team_of_interest, presence: true
-
   validates :match_type, :plays_as, presence: true
 
   enum :match_type, { friendly: 0, tournament: 1, practice: 2 }
@@ -81,7 +78,7 @@ class Match < ApplicationRecord
       END DESC,
       COALESCE(scheduled_at, '9999-12-31') ASC
     SQL
-    Rails.logger.debug "Generated SQL: #{sql}"  # Remove after testing
+    # Rails.logger.debug "Generated SQL: #{sql}"  # Remove after testing
     order(Arel.sql(sql))
   }
 
@@ -133,25 +130,40 @@ class Match < ApplicationRecord
 
   private
 
-  def set_initial_status  
-    return if persisted? || !match_created?
-
-    if scheduled_at.present?
-      if schedule_match
-        Rails.logger.info "Successfully scheduled new match"
-      else
-        errors.add(:scheduled_at, "must be in the future to schedule") if !scheduled_at_future?
-      end
+  def handle_status_change_around_save
+    unless @status_handled
+      @status_handled = true
+      handle_status_change
     end
+    yield
+  ensure
+    @status_handled = false
   end
 
-  def handle_reschedule
-    if will_save_change_to_scheduled_at? && scheduled_at_future?
-      if reschedule_match
-        Rails.logger.info "Auto-rescheduled Match #{id} to #{scheduled_at}"
-      else
-        errors.add(:scheduled_at, "must be a future change to reschedule")
+  def handle_status_change
+    Rails.logger.debug "Handling status change for Match ID #{id || 'new record'} at #{Time.now.to_f}"
+
+    if status_event.present?
+      case status_event.to_sym
+      when :cancel
+        cancel_match if can_cancel?
+      when :postpone
+        postpone_match if can_postpone?
+      when :play
+        play_match if can_play?
       end
+      return
+    end
+
+    # Handle scheduling/rescheduling
+    if match_created? && scheduled_at_present? && scheduled_at_future?
+      if new_record? || !scheduled_at_was.present?
+        success = schedule_match
+        Rails.logger.debug "  schedule_match result: #{success}"
+      end
+    elsif (match_scheduled? || match_postponed?) && scheduled_at_changed? && scheduled_at_future?
+      success = reschedule_match
+      Rails.logger.debug "  reschedule_match result: #{success}"
     end
   end
 

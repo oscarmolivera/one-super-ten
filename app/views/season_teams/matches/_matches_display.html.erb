@@ -12,6 +12,7 @@
               <div class="d-flex align-items-center">
                 <%= image_tag 'vendor/stadium.svg', class: 'avatar-lg px-md-5', alt: '...' %>
                 <%= match.location %>
+                <%= "#{match.id} | #{match.stage.id}" %>
               </div>
               <div class="ms-auto">
                 <%= display_status_badge(match.status) %>
