@@ -2,7 +2,7 @@ class Match < ApplicationRecord
   acts_as_tenant(:tenant)
 
   belongs_to :tournament
-  belongs_to :stage, optional: true 
+  belongs_to :stage, optional: true
   belongs_to :team_of_interest, class_name: 'SeasonTeam'
   belongs_to :rival_season_team, class_name: 'SeasonTeam', optional: true
   belongs_to :rival, optional: true
@@ -11,12 +11,12 @@ class Match < ApplicationRecord
   has_many :line_ups, dependent: :destroy
   has_many :match_reports, dependent: :destroy
   has_many :match_performances, dependent: :destroy
-  
+
   has_one :call_up, dependent: :destroy
 
   accepts_nested_attributes_for :match_performances, allow_destroy: true
 
-  after_save :update_standings, if: :saved_change_to_status?
+  after_save :update_standings, if: :should_update_standings?
   around_save :handle_status_change_around_save
 
   validates :tenant, :tournament, :team_of_interest, presence: true
@@ -78,7 +78,7 @@ class Match < ApplicationRecord
       END DESC,
       COALESCE(scheduled_at, '9999-12-31') ASC
     SQL
-    # Rails.logger.debug "Generated SQL: #{sql}"  # Remove after testing
+    # Rails.logger.debug "Generated SQL: #{sql}" # Remove after testing
     order(Arel.sql(sql))
   }
 
@@ -142,7 +142,6 @@ class Match < ApplicationRecord
 
   def handle_status_change
     Rails.logger.debug "Handling status change for Match ID #{id || 'new record'} at #{Time.now.to_f}"
-
     if status_event.present?
       case status_event.to_sym
       when :cancel
@@ -154,21 +153,31 @@ class Match < ApplicationRecord
       end
       return
     end
-
     # Handle scheduling/rescheduling
     if match_created? && scheduled_at_present? && scheduled_at_future?
       if new_record? || !scheduled_at_was.present?
         success = schedule_match
-        Rails.logger.debug "  schedule_match result: #{success}"
+        Rails.logger.debug " schedule_match result: #{success}"
       end
     elsif (match_scheduled? || match_postponed?) && scheduled_at_changed? && scheduled_at_future?
       success = reschedule_match
-      Rails.logger.debug "  reschedule_match result: #{success}"
+      Rails.logger.debug " reschedule_match result: #{success}"
     end
   end
 
+  def should_update_standings?
+    match_played? && (saved_change_to_status? || saved_change_to_team_score? || saved_change_to_rival_score?)
+  end
+
   def update_standings
-    StandingCalculatorService.new(tournament, stage).calculate if status == :played
+    season_team = team_of_interest
+    current_stage = season_team.current_stage
+    return unless current_stage
+
+    current_phase_value = Stage.phases[current_stage.phase] || 0
+    if [0, 1].include?(current_phase_value)
+      StandingCalculatorService.new(tournament, stage).calculate
+    end
   end
 
   def scheduled_at_present?

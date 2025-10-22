@@ -2,17 +2,21 @@
   <div class="row">
     <div class="col-md-6">
       <div class="nav-tabs-custom">
-				<ul class="nav nav-pills mb-5">
-					<li class=" nav-item"> <a href="#elimination" class="nav-link active" data-bs-toggle="tab" aria-expanded="false">Eliminatorias</a> </li>
-					<li class=" nav-item"> <a href="#cup" class="nav-link" data-bs-toggle="tab" aria-expanded="false">Copa</a> </li>
-				</ul>
+        <ul class="nav nav-pills mb-5">
+          <li class="nav-item">
+            <a href="#elimination" class="nav-link <%= 'active' if active_standings_tab(@season_team) == 'elimination' %>" data-bs-toggle="tab" aria-expanded="false">Eliminatorias</a>
+          </li>
+          <li class="nav-item">
+            <a href="#cup" class="nav-link <%= 'active' if active_standings_tab(@season_team) == 'cup' %>" data-bs-toggle="tab" aria-expanded="false">Copa</a>
+          </li>
+        </ul>
 
-				<div class="tab-content">
-					<div class="active tab-pane" id="elimination">
+        <div class="tab-content">
+          <div class="<%= 'active' if active_standings_tab(@season_team) == 'elimination' %> tab-pane" id="elimination">
             <div class="container mt-5">
               <div class="card shadow-sm">
                 <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center standings-header">
-                  <h2 class="mb-0">Tabla de Clasificación</h2>
+                  <h2 class="mb-0">Tabla de Clasificación</h2><%= @season_team.stages.last %>
                 </div>
                 <div class="card-body">
                   <table class="table table-striped table-hover">
@@ -81,13 +85,13 @@
                 <%= render "external_matches/list", external_match: tournament_data[:external_matches] %>
               </turbo-frame>
             </div>            
-					</div>
-          <div class="tab-pane" id="cup">
+          </div>
+          <div class="<%= 'active' if active_standings_tab(@season_team) == 'cup' %> tab-pane" id="cup">
             <div class="container mt-5">
             </div>
           </div>
-				</div>
-			</div>
+        </div>
+      </div>
     </div>
     <div class="col-md-6">
       <div class="row">

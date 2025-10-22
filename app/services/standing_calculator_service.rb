@@ -54,7 +54,7 @@ class StandingCalculatorService
       end
 
       # Process regular matches (only played ones)
-      completed_regular_matches = regular_matches.where(status: :played) # Fixed from :completed
+      completed_regular_matches = regular_matches.where(status: 2)
       completed_regular_matches.each do |match|
         toi = match.team_of_interest
         rival = match.rival_season_team || match.rival

@@ -31,6 +31,15 @@ module StagesHelper
     end
   end
 
+  def active_standings_tab(season_team)
+    current_phase_value = Stage.phases[season_team.current_stage&.phase] || 0
+    if [0, 1].include?(current_phase_value)
+      'elimination'
+    else
+      'cup'
+    end
+  end
+
   private
 
   def render_nav_pills
