@@ -4,15 +4,15 @@
       <div class="nav-tabs-custom">
         <ul class="nav nav-pills mb-5">
           <li class="nav-item">
-            <a href="#elimination" class="nav-link <%= 'active' if active_standings_tab(@season_team) == 'elimination' %>" data-bs-toggle="tab" aria-expanded="false">Eliminatorias</a>
+            <a href="#group_stage" class="nav-link <%= active_standings_tab(@season_team, 'group_stage')  %>" data-bs-toggle="tab" aria-expanded="false">Eliminatorias</a>
           </li>
           <li class="nav-item">
-            <a href="#cup" class="nav-link <%= 'active' if active_standings_tab(@season_team) == 'cup' %>" data-bs-toggle="tab" aria-expanded="false">Copa</a>
+            <a href="#knockout" class="nav-link <%= active_standings_tab(@season_team, 'knockout') %>" data-bs-toggle="tab" aria-expanded="false">Copa</a>
           </li>
         </ul>
 
         <div class="tab-content">
-          <div class="<%= 'active' if active_standings_tab(@season_team) == 'elimination' %> tab-pane" id="elimination">
+          <div class="<%= active_standings_tab(@season_team, 'group_stage')  %> tab-pane" id="group_stage">
             <div class="container mt-5">
               <div class="card shadow-sm">
                 <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center standings-header">
@@ -87,8 +87,25 @@
               </turbo-frame>
             </div>            
           </div>
-          <div class="<%= 'active' if active_standings_tab(@season_team) == 'cup' %> tab-pane" id="cup">
+          <div class="<%= active_standings_tab(@season_team, 'knockout')  %> tab-pane" id="knockout">
             <div class="container mt-5">
+              <% if tournament_data[:knockout_journey].present? %>
+                <%= render "season_teams/standings/knockout_journey", knockout_journey: tournament_data[:knockout_journey] %>
+              <% else %>
+                <div class="card shadow-sm">
+                  <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
+                    <h2 class="mb-0">Copa</h2>
+                  </div>
+                  <div class="card-body">
+                    <div class="row text-center align-items-center">
+                      <div class="col-12 text-muted py-4">
+                        <i class="ti ti-bracket fs-4 mb-2 d-block"></i>
+                        No hay datos de copa disponibles para este torneo
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              <% end %>
             </div>
           </div>
         </div>

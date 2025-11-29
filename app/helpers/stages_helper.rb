@@ -31,13 +31,10 @@ module StagesHelper
     end
   end
 
-  def active_standings_tab(season_team)
-    current_phase_value = Stage.phases[season_team.current_stage&.phase] || 0
-    if [0, 1].include?(current_phase_value)
-      'elimination'
-    else
-      'cup'
-    end
+  def active_standings_tab(season_team, stage_type = nil)
+    current_stage_type = season_team.current_stage&.stage_type
+
+    "active" if current_stage_type == stage_type 
   end
 
   private

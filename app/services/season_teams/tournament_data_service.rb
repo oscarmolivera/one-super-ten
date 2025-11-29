@@ -1,6 +1,6 @@
 module SeasonTeams
   class TournamentDataService
-    require 'ostruct'  # For creating in-memory Standing-like objects
+    require 'ostruct'
 
     def initialize(season_team, pagy, pagy_rivals)
       @season_team = season_team
@@ -28,7 +28,8 @@ module SeasonTeams
         rivals: @rivals,
         standings: combined_group_standings,
         external_matches: @season_team.external_matches,
-        player_statistics: SeasonTeams::PlayerStatisticsService.new(@season_team, @season_team.tournament).player_statistics
+        player_statistics: SeasonTeams::PlayerStatisticsService.new(@season_team, @season_team.tournament).player_statistics,
+        knockout_journey: KnockoutJourneyPresenter.new(@season_team).call
       }
     end
 

@@ -62,4 +62,8 @@ class SeasonTeam < ApplicationRecord
   def players_with_performances(tournament)
     players.joins(:match_performances).where(match_performances: { tournament: tournament })
   end
+
+  def eliminated?
+    !self.active
+  end
 end
