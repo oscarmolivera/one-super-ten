@@ -56,6 +56,7 @@ class SeasonTeam < ApplicationRecord
     tournament.external_matches
       .involving_rivals(rivals)
       .includes(:home_rival, :away_rival, :stage)
+      .where(stage_id: stages.select(:id))
       .recent
   end
 
