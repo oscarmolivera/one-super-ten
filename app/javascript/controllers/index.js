@@ -85,8 +85,11 @@ application.register("school-toggles", SchoolTogglesController)
 import ScoreController from "./score_controller"
 application.register("score", ScoreController)
 
+import StandingsUpdateController from "./standings_update_controller"
+application.register("standings-update", StandingsUpdateController)
+
 import TabRedirectController from "./tab_redirect_controller"
 application.register("tab-redirect", TabRedirectController)
 
-import TournamentNextStageController from "./tournament_match_stages_controller"
-application.register("tournament-match-stages", TournamentNextStageController)
+import TournamentMatchStagesController from "./tournament_match_stages_controller"
+application.register("tournament-match-stages", TournamentMatchStagesController)
