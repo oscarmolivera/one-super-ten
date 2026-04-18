@@ -44,3 +44,5 @@
 !.keep
 
 /config/credentials/**
+
+/config/credentials/production.key
